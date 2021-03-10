@@ -39,4 +39,45 @@ export default [
       else next({ name: 'error-404' })
     },
   },
+
+  // *===============================================---*
+  // *--------- TRAINING & IT'S FILTERS N TAGS ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/office/training',
+    name: 'office-training',
+    component: () => import('@/views/office/training/Todo.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'todo-application',
+    },
+  },
+  {
+    path: '/office/training/:filter',
+    name: 'office-training-filter',
+    component: () => import('@/views/office/training/Todo.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'todo-application',
+      navActiveLink: 'office-training',
+    },
+    beforeEnter(to, _, next) {
+      if (['important', 'completed', 'deleted'].includes(to.params.filter)) next()
+      else next({ name: 'error-404' })
+    },
+  },
+  {
+    path: '/office/training/tag/:tag',
+    name: 'office-training-tag',
+    component: () => import('@/views/office/training/Todo.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'todo-application',
+      navActiveLink: 'office-training',
+    },
+    beforeEnter(to, _, next) {
+      if (['team', 'low', 'medium', 'high', 'update'].includes(to.params.tag)) next()
+      else next({ name: 'error-404' })
+    },
+  },
 ]
