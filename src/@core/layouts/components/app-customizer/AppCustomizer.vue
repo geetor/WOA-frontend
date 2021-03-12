@@ -49,16 +49,6 @@
           />
         </b-form-group>
 
-        <!-- Skin -->
-        <b-form-group label="内容宽度">
-          <b-form-radio-group
-            id="content-width-radio-group"
-            v-model="contentWidth"
-            name="content-width"
-            :options="contentWidthOptions"
-          />
-        </b-form-group>
-
         <!-- RTL -->
         <b-form-group
           label="从右到左"
@@ -109,7 +99,7 @@
           v-if="layoutType === 'vertical'"
           class="d-flex justify-content-between align-items-center mt-2"
         >
-          <span class="font-weight-bold">Menu Collapsed</span>
+          <span class="font-weight-bold">收缩菜单</span>
           <b-form-checkbox
             v-model="isVerticalMenuCollapsed"
             name="is-vertical-menu-collapsed"
@@ -139,7 +129,7 @@
         <!-- Navbar Color -->
         <b-form-group
           v-show="layoutType === 'vertical'"
-          label="Navbar Color"
+          label="顶栏颜色"
         >
           <div
             v-for="(color, index) in navbarColors"
@@ -151,7 +141,7 @@
         </b-form-group>
 
         <!-- Navbar Type -->
-        <b-form-group :label="layoutType === 'vertical' ? 'Navbar Type' : '菜单类型'">
+        <b-form-group :label="layoutType === 'vertical' ? '顶栏类型' : '菜单类型'">
           <b-form-radio-group
             v-model="navbarType"
             name="navbar-type"
@@ -195,7 +185,6 @@ export default {
     // 3rd party
     vSelect,
     VuePerfectScrollbar,
-
   },
   setup() {
     const {
@@ -208,10 +197,6 @@ export default {
       // Skin
       skin,
       skinOptions,
-
-      // Content Width
-      contentWidth,
-      contentWidthOptions,
 
       // RTL
       isRTL,
@@ -264,10 +249,6 @@ export default {
       // Skin
       skin,
       skinOptions,
-
-      // Content Width
-      contentWidth,
-      contentWidthOptions,
 
       // RTL
       isRTL,

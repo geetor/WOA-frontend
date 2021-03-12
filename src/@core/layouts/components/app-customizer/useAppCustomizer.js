@@ -7,32 +7,26 @@ export default function useAppCustomizer() {
 
   // Skin
   const skinOptions = [
-    { text: '亮', value: 'light' },
-    { text: 'Bordered', value: 'bordered' },
-    { text: '暗', value: 'dark' },
-    { text: 'Semi Dark', value: 'semi-dark' },
-  ]
-
-  // Content Width Options
-  const contentWidthOptions = [
-    { text: 'Full  Width', value: 'full' },
-    { text: 'Boxed', value: 'boxed' },
+    { text: '浅色', value: 'light' },
+    { text: '扁平', value: 'bordered' },
+    { text: '暗黑', value: 'dark' },
+    { text: '微暗', value: 'semi-dark' },
   ]
 
   // Router Transition
   const routerTransitionOptions = [
-    { title: 'Zoom Fade', value: 'zoom-fade' },
-    { title: 'Fade', value: 'fade' },
-    { title: 'Fade Bottom', value: 'fade-bottom' },
-    { title: 'Slide Fade', value: 'slide-fade' },
-    { title: 'Zoom Out', value: 'zoom-out' },
-    { title: 'None', value: 'none' },
+    { title: '平滑', value: 'zoom-fade' },
+    { title: '淡入', value: 'fade' },
+    { title: '上下', value: 'fade-bottom' },
+    { title: '左右', value: 'slide-fade' },
+    { title: '飞出', value: 'zoom-out' },
+    { title: '无', value: 'none' },
   ]
 
   // Router Transition
   const layoutTypeOptions = [
-    { text: 'Vertical', value: 'vertical' },
-    { text: 'Horizontal', value: 'horizontal' },
+    { text: '侧栏', value: 'vertical' },
+    { text: '顶栏', value: 'horizontal' },
   ]
 
   // Navbar
@@ -40,24 +34,23 @@ export default function useAppCustomizer() {
 
   // Navbar Types
   const navbarTypes = [
-    { text: 'Floating', value: 'floating' },
-    { text: 'Sticky', value: 'sticky' },
-    { text: 'Static', value: 'static' },
-    { text: 'Hidden', value: 'hidden' },
+    { text: '漂浮', value: 'floating' },
+    { text: '固定', value: 'sticky' },
+    { text: '静态', value: 'static' },
+    { text: '隐藏', value: 'hidden' },
   ]
 
   // Footer Types
   const footerTypes = [
-    { text: 'Sticky', value: 'sticky' },
-    { text: 'Static', value: 'static' },
-    { text: 'Hidden', value: 'hidden' },
+    { text: '固定', value: 'sticky' },
+    { text: '静态', value: 'static' },
+    { text: '隐藏', value: 'hidden' },
   ]
 
   // eslint-disable-next-line object-curly-newline
   const {
     isRTL,
     skin,
-    contentWidth,
     routerTransition,
     layoutType,
     isNavMenuHidden,
@@ -77,10 +70,6 @@ export default function useAppCustomizer() {
     // Skin
     skin,
     skinOptions,
-
-    // Content Width
-    contentWidth,
-    contentWidthOptions,
 
     // RTL
     isRTL,

@@ -72,16 +72,6 @@ export default function usAppConfig() {
   })
 
   // ------------------------------------------------
-  // Content Width (Full/Boxed)
-  // ------------------------------------------------
-  const contentWidth = computed({
-    get: () => store.state.appConfig.layout.contentWidth,
-    set: val => {
-      store.commit('appConfig/UPDATE_CONTENT_WIDTH', val)
-    },
-  })
-
-  // ------------------------------------------------
   // isNavMenuHidden
   // ------------------------------------------------
   const isNavMenuHidden = computed({
@@ -136,7 +126,6 @@ export default function usAppConfig() {
 
     // Layout
     layoutType,
-    contentWidth,
     isNavMenuHidden,
   }
 }
