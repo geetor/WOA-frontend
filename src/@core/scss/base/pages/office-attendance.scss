@@ -1,9 +1,9 @@
 @import '../bootstrap-extended/include'; // Bootstrap includes
 @import '../components/include'; // Components includes
 
-$email_read: $body-bg;
-$email_selected_border: #e4e1e8;
-$email_details_header_height: 5rem;
+$attendance_read: $body-bg;
+$attendance_selected_border: #e4e1e8;
+$attendance_details_header_height: 5rem;
 
 .attendance-application {
   .content-area-wrapper {
@@ -141,13 +141,13 @@ $email_details_header_height: 5rem;
 
           // read email
           &.attendance-read {
-            background-color: $email_read;
+            background-color: $attendance_read;
           }
           // selected email
           &.selected-row-bg {
             background-color: rgba($primary, 0.06);
             &:not(:first-child) {
-              border-color: $email_selected_border;
+              border-color: $attendance_selected_border;
             }
           }
           &:not(:first-child) {
@@ -249,7 +249,7 @@ $email_details_header_height: 5rem;
       position: relative;
       padding: 0.5rem 2rem;
       background-color: $white;
-      height: $email_details_header_height;
+      height: $attendance_details_header_height;
     }
     .attendance-header-left {
       .attendance-subject {
@@ -269,7 +269,7 @@ $email_details_header_height: 5rem;
     .attendance-scroll-area {
       padding: 0 2rem;
       position: relative;
-      height: calc(100% - #{$email_details_header_height});
+      height: calc(100% - #{$attendance_details_header_height});
 
       .attendance-detail-head {
         border-bottom: 1px solid $border-color;
@@ -393,34 +393,34 @@ $email_details_header_height: 5rem;
 
 // Extra small devices (portrait phones, less than 576px)
 @include media-breakpoint-down(xs) {
-  .email-application {
-    .email-detail-head .mail-meta-item {
+  .attendance-application {
+    .attendance-detail-head .attendance-meta-item {
       display: flex;
       justify-content: space-between;
       margin-left: 4rem; // Spacing from left according to avatar image
-      .mail-date,
-      .mail-time {
+      .attendance-date,
+      .attendance-time {
         margin: 1rem 0.75rem 0 0;
       }
     }
     .content-area-wrapper {
       .content-right .email-app-details {
-        .email-scroll-area {
+        .attendance-scroll-area {
           padding: 0 1rem;
         }
 
-        .email-detail-header {
+        .attendance-detail-header {
           padding: 0.5rem 1rem;
         }
       }
-      .email-user-list {
-        .email-media-list li .mail-details {
+      .attendance-user-list {
+        .attendance-media-list li .attendance-details {
           display: block;
-          .mail-items {
+          .attendance-items {
             width: 70%;
             display: inline-grid;
           }
-          .mail-meta-item {
+          .attendance-meta-item {
             width: 15%;
             position: absolute;
             right: 1rem;
@@ -438,10 +438,10 @@ $email_details_header_height: 5rem;
 }
 
 @media (max-width: 359.98px) {
-  .email-application .content-area-wrapper .sidebar .email-app-sidebar {
+  .attendance-application .content-area-wrapper .sidebar .attendance-sidebar {
     width: 230px;
   }
-  .email-application .email-app-details .email-detail-header {
+  .attendance-application .attendance-details .attendance-detail-header {
     padding: 0 0.5rem;
   }
 }
@@ -463,10 +463,10 @@ $email_details_header_height: 5rem;
 
 // RTL Style
 html[data-textdirection='rtl'] {
-  .email-application {
-    .email-app-details {
-      .email-prev,
-      .email-next {
+  .attendance-application {
+    .attendance-details {
+      .attendance-prev,
+      .attendance-next {
         .action-icon i,
         .action-icon svg {
           transform: rotate(180deg);
