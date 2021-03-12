@@ -1,12 +1,3 @@
-// ================================================================================================
-// 	File Name: app-email.scss
-// 	Description: SCC file for email application page.
-// 	----------------------------------------------------------------------------------------------
-// 	Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-// 	Author: PIXINVENT
-// 	Author URL: http://www.themeforest.net/user/pixinvent
-// ================================================================================================
-
 @import '../bootstrap-extended/include'; // Bootstrap includes
 @import '../components/include'; // Components includes
 
@@ -14,13 +5,13 @@ $email_read: $body-bg;
 $email_selected_border: #e4e1e8;
 $email_details_header_height: 5rem;
 
-.email-application {
+.attendance-application {
   .content-area-wrapper {
     border: 1px solid $border-color;
     border-radius: $card-border-radius;
     // Sidebar area starts
     .sidebar {
-      .email-app-sidebar {
+      .attendance-sidebar {
         width: $menu-expanded-width;
         height: inherit;
         background-color: $white;
@@ -28,7 +19,7 @@ $email_details_header_height: 5rem;
         border-bottom-left-radius: $card-border-radius;
         transition: all 0.3s ease, background 0s;
         z-index: 210;
-        .email-app-menu {
+        .attendance-menu {
           width: 100%;
           height: 100%;
           z-index: 3;
@@ -68,7 +59,7 @@ $email_details_header_height: 5rem;
     .content-right {
       width: calc(100% - #{$menu-expanded-width});
       border-left: 1px solid $border-color;
-      .email-app-list {
+      .attendance-list {
         height: inherit;
       }
       .app-fixed-search {
@@ -100,13 +91,13 @@ $email_details_header_height: 5rem;
       cursor: pointer;
     }
 
-    // Email user list area
-    .email-user-list {
+    // Attendance user list area
+    .attendance-user-list {
       position: relative;
       height: calc(
         100% - calc(3.49rem + 3.32rem)
       ); // ? search box height (3.49rem) + select all section height (3.32rem)
-      .email-media-list {
+      .attendance-media-list {
         padding: 0;
         margin: 0;
         // Set delay per List Item
@@ -138,7 +129,7 @@ $email_details_header_height: 5rem;
               overflow: hidden;
             }
           }
-          // Email avatar style
+          // Attendance avatar style
           .avatar {
             margin-bottom: 0.65rem;
           }
@@ -149,7 +140,7 @@ $email_details_header_height: 5rem;
           }
 
           // read email
-          &.mail-read {
+          &.attendance-read {
             background-color: $email_read;
           }
           // selected email
@@ -162,16 +153,16 @@ $email_details_header_height: 5rem;
           &:not(:first-child) {
             border-top: 1px solid $border-color;
           }
-          .mail-details {
+          .attendance-details {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.55rem;
           }
-          .mail-date {
+          .attendance-date {
             color: $text-muted;
             font-size: 0.857rem;
           }
-          .mail-message {
+          .attendance-message {
             p {
               color: $text-muted;
             }
@@ -179,7 +170,7 @@ $email_details_header_height: 5rem;
         }
         .user-action {
           display: flex;
-          .email-favorite {
+          .attendance-favorite {
             i,
             svg {
               height: 1.25rem;
@@ -208,7 +199,7 @@ $email_details_header_height: 5rem;
       }
     }
   }
-  // Action area of email list section
+  // Action area of attendance list section
   .app-action {
     padding: 0.9rem ($spacer + 0.5);
     display: flex;
@@ -230,9 +221,9 @@ $email_details_header_height: 5rem;
       }
     }
   }
-  // On click of mail Details section slide in from right
-  // Email details section starts
-  .email-app-details {
+  // On click of Attendance Details section slide in from right
+  // Attendance details section starts
+  .attendance-details {
     position: absolute;
     display: block;
     z-index: 2;
@@ -248,7 +239,7 @@ $email_details_header_height: 5rem;
       transition: all 0.25s ease, color 0s;
       transform: translateX(0%);
     }
-    .email-detail-header {
+    .attendance-detail-header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -260,38 +251,38 @@ $email_details_header_height: 5rem;
       background-color: $white;
       height: $email_details_header_height;
     }
-    .email-header-left {
-      .email-subject {
+    .attendance-header-left {
+      .attendance-subject {
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
     }
-    .email-header-right {
+    .attendance-header-right {
       .dropdown-toggle,
       .action-icon {
         color: $body-color;
       }
     }
-    // Email detail scroll area
-    .email-scroll-area {
+    // Attendance detail scroll area
+    .attendance-scroll-area {
       padding: 0 2rem;
       position: relative;
       height: calc(100% - #{$email_details_header_height});
 
-      .email-detail-head {
+      .attendance-detail-head {
         border-bottom: 1px solid $border-color;
-        .mail-meta-item {
+        .attendance-meta-item {
           .dropdown {
             line-height: 0;
           }
         }
       }
-      .email-label {
+      .attendance-label {
         margin: 2rem 0;
       }
-      .email-info-dropup {
+      .attendance-info-dropup {
         .dropdown-toggle::after {
           left: -2px;
           margin: 0;
@@ -305,8 +296,8 @@ $email_details_header_height: 5rem;
     }
   }
 
-  #compose-mail {
-    .compose-mail-form-field {
+  #compose-attendance {
+    .compose-attendance-form-field {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -360,11 +351,11 @@ $email_details_header_height: 5rem;
   }
 }
 @include media-breakpoint-down(md) {
-  .email-application {
+  .attendance-application {
     .content-area-wrapper {
       .sidebar-left {
         position: relative;
-        .email-app-sidebar {
+        .attendance-sidebar {
           transform: translateX(-110%);
           transition: all 0.3s ease-in-out;
           position: absolute;
@@ -373,7 +364,7 @@ $email_details_header_height: 5rem;
           border-bottom-left-radius: $border-radius-sm;
         }
         &.show {
-          .email-app-sidebar {
+          .attendance-sidebar {
             transform: translateX(0%);
             transition: all 0.3s ease;
           }
@@ -385,7 +376,7 @@ $email_details_header_height: 5rem;
         .app-fixed-search {
           border-top-left-radius: $border-radius;
         }
-        .email-app-details {
+        .attendance-details {
           width: 100%;
           border-radius: $border-radius;
         }

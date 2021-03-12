@@ -1,42 +1,101 @@
 export default [
+  {
+    path: '/office/calendar',
+    name: 'office-calendar',
+    component: () => import('@/views/office/calendar/Calendar.vue'),
+  },
+
   // *===============================================---*
   // *--------- ATTENDANCE & IT'S FILTERS N LABELS -------------------------------*
   // *===============================================---*
   {
     path: '/office/attendance',
     name: 'office-attendance',
-    component: () => import('@/views/office/attendance/Email.vue'),
+    component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
+      contentClass: 'attendance-application',
     },
   },
   {
     path: '/office/attendance/:folder',
     name: 'office-attendance-folder',
-    component: () => import('@/views/office/attendance/Email.vue'),
+    component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
+      contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
     },
     beforeEnter(to, _, next) {
-      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) next()
-      else next({ name: 'error-404' })
+      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     },
   },
   {
     path: '/office/attendance/label/:label',
     name: 'office-attendance-label',
-    component: () => import('@/views/office/attendance/Email.vue'),
+    component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
+      contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
     },
     beforeEnter(to, _, next) {
-      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) next()
-      else next({ name: 'error-404' })
+      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
+    },
+  },
+
+  // *===============================================---*
+  // *--------- EMAIL & IT'S FILTERS N LABELS -------------------------------*
+  // *===============================================---*
+  {
+    path: '/office/email',
+    name: 'office-email',
+    component: () => import('@/views/office/email/Email.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'email-application',
+    },
+  },
+  {
+    path: '/office/email/:folder',
+    name: 'office-email-folder',
+    component: () => import('@/views/office/email/Email.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'email-application',
+      navActiveLink: 'office-email',
+    },
+    beforeEnter(to, _, next) {
+      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
+    },
+  },
+  {
+    path: '/office/email/label/:label',
+    name: 'office-email-label',
+    component: () => import('@/views/office/email/Email.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'email-application',
+      navActiveLink: 'office-email',
+    },
+    beforeEnter(to, _, next) {
+      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     },
   },
 
@@ -62,8 +121,11 @@ export default [
       navActiveLink: 'office-training',
     },
     beforeEnter(to, _, next) {
-      if (['important', 'completed', 'deleted'].includes(to.params.filter)) next()
-      else next({ name: 'error-404' })
+      if (['important', 'completed', 'deleted'].includes(to.params.filter)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     },
   },
   {
@@ -76,8 +138,11 @@ export default [
       navActiveLink: 'office-training',
     },
     beforeEnter(to, _, next) {
-      if (['team', 'low', 'medium', 'high', 'update'].includes(to.params.tag)) next()
-      else next({ name: 'error-404' })
+      if (['team', 'low', 'medium', 'high', 'update'].includes(to.params.tag)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     },
   },
 ]

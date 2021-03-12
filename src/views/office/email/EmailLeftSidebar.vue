@@ -10,7 +10,7 @@
               block
               @click="$emit('update:shall-show-email-compose-modal', true); $emit('close-left-sidebar')"
             >
-              Compose
+              签到
             </b-button>
           </div>
           <vue-perfect-scrollbar

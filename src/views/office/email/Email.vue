@@ -1,5 +1,4 @@
 <template>
-  <!-- Need to add height inherit because Vue 2 don't support multiple root ele -->
   <div style="height: inherit">
     <div
       class="body-content-overlay"
@@ -547,5 +546,5 @@ export default {
 </style>
 
 <style lang="scss">
-@import "~@core/scss/base/pages/office-attendance.scss";
+@import "~@core/scss/base/pages/app-email.scss";
 </style>

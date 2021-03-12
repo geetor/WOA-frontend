@@ -32,11 +32,11 @@ tagVariant
 */
 import dashboard from './dashboard'
 import appsAndPages from './apps-and-pages'
-import attendance from './office'
+import office from './office'
 import others from './others'
 import chartsAndMaps from './charts-and-maps'
 import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 
 // Array of sections
-export default [...dashboard, ...appsAndPages, ...attendance, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others]
+export default [...dashboard, ...appsAndPages, ...office, ...uiElements, ...formAndTable, ...chartsAndMaps, ...others]

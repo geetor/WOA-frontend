@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Apps',
+    header: '应用',
     icon: 'PackageIcon',
     children: [
       {

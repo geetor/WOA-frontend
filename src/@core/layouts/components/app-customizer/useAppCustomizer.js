@@ -7,9 +7,9 @@ export default function useAppCustomizer() {
 
   // Skin
   const skinOptions = [
-    { text: 'Light', value: 'light' },
+    { text: '亮', value: 'light' },
     { text: 'Bordered', value: 'bordered' },
-    { text: 'Dark', value: 'dark' },
+    { text: '暗', value: 'dark' },
     { text: 'Semi Dark', value: 'semi-dark' },
   ]
 

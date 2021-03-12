@@ -5,7 +5,7 @@
     :class="{'sidebar-group-active active': isActive}"
   >
     <b-link
-      class="nav-link"
+      class="nav-link align-items-center"
       :to="{ name: item.route }"
     >
       <feather-icon

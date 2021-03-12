@@ -20,9 +20,8 @@
     <div class="customizer-section d-flex justify-content-between align-items-center">
       <div>
         <h4 class="text-uppercase mb-0">
-          Theme Customizer
+          个性化
         </h4>
-        <small>Customize &amp; Preview in Real Time</small>
       </div>
       <feather-icon
         icon="XIcon"
@@ -41,7 +40,7 @@
       <div class="customizer-section">
 
         <!-- Skin -->
-        <b-form-group label="Skin">
+        <b-form-group label="主题">
           <b-form-radio-group
             id="skin-radio-group"
             v-model="skin"
@@ -51,7 +50,7 @@
         </b-form-group>
 
         <!-- Skin -->
-        <b-form-group label="Content Width">
+        <b-form-group label="内容宽度">
           <b-form-radio-group
             id="content-width-radio-group"
             v-model="contentWidth"
@@ -62,7 +61,7 @@
 
         <!-- RTL -->
         <b-form-group
-          label="RTL"
+          label="从右到左"
           label-cols="10"
         >
           <b-form-checkbox
@@ -76,7 +75,7 @@
 
         <!-- Router Transition -->
         <b-form-group
-          label="Router Transition"
+          label="切换效果"
           label-cols="6"
         >
           <v-select
@@ -96,7 +95,7 @@
 
         <!-- Layout Type -->
         <b-form-group
-          label="Menu Layout"
+          label="菜单布局"
         >
           <b-form-radio-group
             v-model="layoutType"
@@ -122,7 +121,7 @@
 
         <!-- Menu Visiblity -->
         <div class="d-flex justify-content-between align-items-center mt-2">
-          <span class="font-weight-bold">Menu Hidden</span>
+          <span class="font-weight-bold">隐藏菜单</span>
           <b-form-checkbox
             v-model="isNavMenuHidden"
             name="is-menu-visible"
@@ -152,7 +151,7 @@
         </b-form-group>
 
         <!-- Navbar Type -->
-        <b-form-group :label="layoutType === 'vertical' ? 'Navbar Type' : 'Menu Type'">
+        <b-form-group :label="layoutType === 'vertical' ? 'Navbar Type' : '菜单类型'">
           <b-form-radio-group
             v-model="navbarType"
             name="navbar-type"
@@ -165,7 +164,7 @@
       <div class="customizer-section">
 
         <!-- Footer Type -->
-        <b-form-group label="Footer Type">
+        <b-form-group label="页脚类型">
           <b-form-radio-group
             v-model="footerType"
             name="footer-type"
