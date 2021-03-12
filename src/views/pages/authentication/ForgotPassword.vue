@@ -6,8 +6,8 @@
       <b-link class="brand-logo">
         <vuexy-logo />
 
-        <h2 class="brand-text text-primary ml-1">
-          Vuexy
+        <h2 class="brand-text text-primary">
+          舰队 OA 系统
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -39,7 +39,7 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Forgot Password? 🔒
+            忘记密码? 🔒
           </b-card-title>
           <b-card-text class="mb-2">
             Enter your email and we'll send you instructions to reset your password

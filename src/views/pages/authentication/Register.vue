@@ -6,8 +6,8 @@
       <b-link class="brand-logo">
         <vuexy-logo />
 
-        <h2 class="brand-text text-primary ml-1">
-          Vuexy
+        <h2 class="brand-text text-primary">
+          舰队 OA 系统
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -39,11 +39,8 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Adventure starts here 🚀
+            加入海军 逐梦深蓝 🚀
           </b-card-title>
-          <b-card-text class="mb-2">
-            Make your app management easy and fun!
-          </b-card-text>
 
           <!-- form -->
           <validation-observer
@@ -134,68 +131,24 @@
                 </validation-provider>
               </b-form-group>
 
-              <b-form-group>
-                <b-form-checkbox
-                  id="register-privacy-policy"
-                  v-model="status"
-                  name="checkbox-1"
-                >
-                  I agree to
-                  <b-link>privacy policy & terms</b-link>
-                </b-form-checkbox>
-              </b-form-group>
-
               <b-button
                 variant="primary"
                 block
                 type="submit"
                 :disabled="invalid"
               >
-                Sign up
+                注册
               </b-button>
             </b-form>
           </validation-observer>
 
           <p class="text-center mt-2">
-            <span>Already have an account?</span>
+            <span>已有帐号?</span>
             <b-link :to="{name:'auth-login'}">
-              <span>&nbsp;Sign in instead</span>
+              <span>&nbsp;立即登录</span>
             </b-link>
           </p>
 
-          <!-- divider -->
-          <div class="divider my-2">
-            <div class="divider-text">
-              or
-            </div>
-          </div>
-
-          <div class="auth-footer-btn d-flex justify-content-center">
-            <b-button
-              variant="facebook"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="FacebookIcon" />
-            </b-button>
-            <b-button
-              variant="twitter"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="TwitterIcon" />
-            </b-button>
-            <b-button
-              variant="google"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="MailIcon" />
-            </b-button>
-            <b-button
-              variant="github"
-              href="javascript:void(0)"
-            >
-              <feather-icon icon="GithubIcon" />
-            </b-button>
-          </div>
         </b-col>
       </b-col>
     <!-- /Register-->
@@ -208,7 +161,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BButton, BForm, BFormCheckbox, BFormGroup, BFormInput, BInputGroup, BInputGroupAppend, BImg, BCardTitle, BCardText,
+  BRow, BCol, BLink, BButton, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupAppend, BImg, BCardTitle,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
@@ -224,9 +177,7 @@ export default {
     BLink,
     BButton,
     BForm,
-    BCardText,
     BCardTitle,
-    BFormCheckbox,
     BFormGroup,
     BFormInput,
     BInputGroup,
