@@ -8,7 +8,7 @@
               v-ripple.400="'rgba(255, 255, 255, 0.15)'"
               variant="primary"
               block
-              @click="$emit('update:shall-show-attendance-compose-modal', true); $emit('close-left-sidebar')"
+              @click="console.log('test')"
             >
               签到
             </b-button>
@@ -20,7 +20,7 @@
             <!-- Filters -->
             <b-list-group class="list-group-messages">
               <b-list-group-item
-                v-for="filter in attendanceFilters"
+                v-for="filter in departments"
                 :key="filter.title + $route.path"
                 :to="filter.route"
                 :active="isDynamicRouteActive(filter.route)"
@@ -50,7 +50,7 @@
 
             <b-list-group class="list-group-labels">
               <b-list-group-item
-                v-for="label in attendanceLabel"
+                v-for="label in ranks"
                 :key="label.title + $route.path"
                 :to="label.route"
                 :active="isDynamicRouteActive(label.route)"
@@ -109,7 +109,7 @@ export default {
       maxScrollbarLength: 60,
     }
 
-    const attendanceFilters = [
+    const departments = [
       { title: 'Inbox', icon: 'MailIcon', route: { name: 'apps-email' } },
       { title: 'Sent', icon: 'SendIcon', route: { name: 'apps-email-folder', params: { folder: 'sent' } } },
       { title: 'Draft', icon: 'Edit2Icon', route: { name: 'apps-email-folder', params: { folder: 'draft' } } },
@@ -118,28 +118,21 @@ export default {
       { title: 'Trash', icon: 'TrashIcon', route: { name: 'apps-email-folder', params: { folder: 'trash' } } },
     ]
 
-    const attendanceLabel = [
+    const ranks = [
       { title: 'Personal', color: 'success', route: { name: 'apps-email-label', params: { label: 'personal' } } },
       { title: 'Company', color: 'primary', route: { name: 'apps-email-label', params: { label: 'company' } } },
       { title: 'Important', color: 'warning', route: { name: 'apps-email-label', params: { label: 'important' } } },
       { title: 'Private', color: 'danger', route: { name: 'apps-email-label', params: { label: 'private' } } },
     ]
 
-    const resolveFilterBadgeColor = filter => {
-      if (filter === 'Draft') return 'light-warning'
-      if (filter === 'Spam') return 'light-danger'
-      return 'light-primary'
-    }
-
     return {
       // UI
       perfectScrollbarSettings,
       isDynamicRouteActive,
-      resolveFilterBadgeColor,
 
-      // Filter & Labels
-      attendanceFilters,
-      attendanceLabel,
+      // Departments & Labels
+      departments,
+      ranks,
     }
   },
 }

@@ -10,13 +10,12 @@
     <portal to="content-renderer-sidebar-left">
       <attendance-left-sidebar
         :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
+        :attendances-meta="attendancesMeta"
         :class="{'show': mqShallShowLeftSidebar}"
         @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
 
-    <!-- Compose Email Modal -->
-    <attendance-compose v-model="shallShowAttendanceComposeModal" />
   </div>
 </template>
 
@@ -30,11 +29,13 @@ import {
 import { filterTags, formatDateToMonthShort } from '@core/utils/filter'
 import { useRouter } from '@core/utils/utils'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
+import AttendanceLeftSidebar from './AttendanceLeftSidebar.vue'
 import useAttendance from './useAttendance'
 
 export default {
   components: {
-
+    // App SFC
+    AttendanceLeftSidebar,
   },
   setup() {
     const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
@@ -52,6 +53,10 @@ export default {
     const { route, router } = useRouter()
     const { resolveLabelColor } = useAttendance()
 
+    // Attendances & AttendancesMeta
+    const attendances = ref([])
+    const attendancesMeta = ref({})
+
     // Compose
     const shallShowAttendanceComposeModal = ref(false)
 
@@ -59,6 +64,10 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
 
     return {
+
+      // Attendances & AttendancesMeta
+      attendances,
+      attendancesMeta,
 
       // UI Filters
       filterTags,

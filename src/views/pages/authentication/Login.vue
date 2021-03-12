@@ -132,6 +132,8 @@
                 </validation-provider>
               </b-form-group>
 
+              <br>
+
               <!-- submit buttons -->
               <b-button
                 type="submit"

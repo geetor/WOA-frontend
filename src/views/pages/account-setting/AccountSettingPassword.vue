@@ -6,7 +6,7 @@
         <!-- old password -->
         <b-col md="6">
           <b-form-group
-            label="Old Password"
+            label="旧密码"
             label-for="account-old-password"
           >
             <b-input-group class="input-group-merge">
@@ -15,7 +15,7 @@
                 v-model="passwordValueOld"
                 name="old-password"
                 :type="passwordFieldTypeOld"
-                placeholder="Old Password"
+                placeholder="旧密码"
               />
               <b-input-group-append is-text>
                 <feather-icon
@@ -34,7 +34,7 @@
         <b-col md="6">
           <b-form-group
             label-for="account-new-password"
-            label="New Password"
+            label="新密码"
           >
             <b-input-group class="input-group-merge">
               <b-form-input
@@ -42,7 +42,7 @@
                 v-model="newPasswordValue"
                 :type="passwordFieldTypeNew"
                 name="new-password"
-                placeholder="New Password"
+                placeholder="新密码"
               />
               <b-input-group-append is-text>
                 <feather-icon
@@ -60,7 +60,7 @@
         <b-col md="6">
           <b-form-group
             label-for="account-retype-new-password"
-            label="Retype New Password"
+            label="请确认您的新密码"
           >
             <b-input-group class="input-group-merge">
               <b-form-input
@@ -68,7 +68,7 @@
                 v-model="RetypePassword"
                 :type="passwordFieldTypeRetype"
                 name="retype-password"
-                placeholder="New Password"
+                placeholder="新密码"
               />
               <b-input-group-append is-text>
                 <feather-icon
