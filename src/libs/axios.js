@@ -4,11 +4,9 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const axiosIns = axios.create({
-  // You can add your headers here
-  // ================================
-  // baseURL: 'https://some-domain.com/api/',
-  // timeout: 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
+  baseURL: 'http://49.235.232.63:3180',
+  timeout: 3000,
+  headers: { 'X-Custom-Header': 'foobar' },
 })
 
 Vue.prototype.$http = axiosIns

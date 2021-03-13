@@ -32,14 +32,6 @@
                   class="mr-75"
                 />
                 <span class="align-text-bottom line-height-1">{{ filter.title }}</span>
-                <b-badge
-                  v-if="attendancesMeta[filter.title.toLowerCase()]"
-                  pill
-                  :variant="resolveFilterBadgeColor(filter.title)"
-                  class="float-right"
-                >
-                  {{ attendancesMeta[filter.title.toLowerCase()] }}
-                </b-badge>
               </b-list-group-item>
             </b-list-group>
 
@@ -89,6 +81,7 @@ export default {
     BButton,
     BListGroup,
     BListGroupItem,
+    // eslint-disable-next-line vue/no-unused-components
     BBadge,
 
     // 3rd Party

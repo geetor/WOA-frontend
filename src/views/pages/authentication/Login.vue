@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <vuexy-logo/>
         <h2 class="brand-text text-primary">
           舰队 OA 系统
         </h2>
@@ -13,14 +13,14 @@
 
       <!-- Left Text-->
       <b-col
-        lg="8"
-        class="d-none d-lg-flex align-items-center p-5"
+          lg="8"
+          class="d-none d-lg-flex align-items-center p-5"
       >
         <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
           <b-img
-            fluid
-            :src="imgUrl"
-            alt="Login V2"
+              fluid
+              :src="imgUrl"
+              alt="Login V2"
           />
         </div>
       </b-col>
@@ -28,69 +28,69 @@
 
       <!-- Login-->
       <b-col
-        lg="4"
-        class="d-flex align-items-center auth-bg px-2 p-lg-5"
+          lg="4"
+          class="d-flex align-items-center auth-bg px-2 p-lg-5"
       >
         <b-col
-          sm="8"
-          md="6"
-          lg="12"
-          class="px-xl-2 mx-auto"
+            sm="8"
+            md="6"
+            lg="12"
+            class="px-xl-2 mx-auto"
         >
           <b-card-title
-            class="mb-1 font-weight-bold"
-            title-tag="h2"
+              class="mb-1 font-weight-bold"
+              title-tag="h2"
           >
             XX 舰欢迎您! 👋
           </b-card-title>
 
           <b-alert
-            variant="primary"
-            show
+              variant="primary"
+              show
           >
             <div class="alert-body font-small-2">
               <p>
-                <small class="mr-50"><span class="font-weight-bold">管理: </span>admin@demo.com | admin</small>
+                <small class="mr-50"><span class="font-weight-bold">管理: </span>15695293608 | admin</small>
               </p>
               <p>
-                <small class="mr-50"><span class="font-weight-bold">用户: </span>client@demo.com | client</small>
+                <small class="mr-50"><span class="font-weight-bold">用户: </span>15651008277 | user</small>
               </p>
             </div>
             <feather-icon
-              v-b-tooltip.hover.left="'测试账号'"
-              icon="HelpCircleIcon"
-              size="18"
-              class="position-absolute"
-              style="top: 10; right: 10;"
+                v-b-tooltip.hover.left="'测试账号'"
+                icon="HelpCircleIcon"
+                size="18"
+                class="position-absolute"
+                style="top: 10; right: 10;"
             />
           </b-alert>
 
           <!-- form -->
           <validation-observer
-            ref="loginForm"
-            #default="{invalid}"
+              ref="loginForm"
+              #default="{invalid}"
           >
             <b-form
-              class="auth-login-form mt-2"
-              @submit.prevent="login"
+                class="auth-login-form mt-2"
+                @submit.prevent="login"
             >
               <!-- Phone -->
               <b-form-group
-                label="手机"
-                label-for="login-email"
+                  label="手机"
+                  label-for="login-phone"
               >
                 <validation-provider
-                  #default="{ errors }"
-                  name="Email"
-                  vid="email"
-                  rules="required|email"
+                    #default="{ errors }"
+                    name="Phone"
+                    vid="phone"
+                    rules="required|phone"
                 >
                   <b-form-input
-                    id="login-email"
-                    v-model="userEmail"
-                    :state="errors.length > 0 ? false:null"
-                    name="login-email"
-                    placeholder="john@example.com"
+                      id="login-phone"
+                      v-model="userPhone"
+                      :state="errors.length > 0 ? false:null"
+                      name="login-phone"
+                      placeholder="请输入您的手机号码"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -102,29 +102,29 @@
                   <label for="login-password">密码</label>
                 </div>
                 <validation-provider
-                  #default="{ errors }"
-                  name="Password"
-                  vid="password"
-                  rules="required"
+                    #default="{ errors }"
+                    name="Password"
+                    vid="password"
+                    rules="required"
                 >
                   <b-input-group
-                    class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid':null"
+                      class="input-group-merge"
+                      :class="errors.length > 0 ? 'is-invalid':null"
                   >
                     <b-form-input
-                      id="login-password"
-                      v-model="password"
-                      :state="errors.length > 0 ? false:null"
-                      class="form-control-merge"
-                      :type="passwordFieldType"
-                      name="login-password"
-                      placeholder="Password"
+                        id="login-password"
+                        v-model="userPassword"
+                        :state="errors.length > 0 ? false:null"
+                        class="form-control-merge"
+                        :type="passwordFieldType"
+                        name="login-password"
+                        placeholder="请输入您的登录密码"
                     />
                     <b-input-group-append is-text>
                       <feather-icon
-                        class="cursor-pointer"
-                        :icon="passwordToggleIcon"
-                        @click="togglePasswordVisibility"
+                          class="cursor-pointer"
+                          :icon="passwordToggleIcon"
+                          @click="togglePasswordVisibility"
                       />
                     </b-input-group-append>
                   </b-input-group>
@@ -136,10 +136,10 @@
 
               <!-- submit buttons -->
               <b-button
-                type="submit"
-                variant="primary"
-                block
-                :disabled="invalid"
+                  type="submit"
+                  variant="primary"
+                  block
+                  :disabled="invalid"
               >
                 登 录
               </b-button>
@@ -148,7 +148,7 @@
 
         </b-col>
       </b-col>
-    <!-- /Login-->
+      <!-- /Login-->
     </b-row>
   </div>
 </template>
@@ -158,10 +158,22 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
-  BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip,
+  BRow,
+  BCol,
+  BLink,
+  BFormGroup,
+  BFormInput,
+  BInputGroupAppend,
+  BInputGroup,
+  BCardTitle,
+  BImg,
+  BForm,
+  BButton,
+  BAlert,
+  VBTooltip,
 } from 'bootstrap-vue'
-import useJwt from '@/auth/jwt/useJwt'
-import { required, email } from '@validations'
+import axiosIns from '@/libs/axios'
+import { required, phone } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import { getHomeRouteForLoggedInUser } from '@/auth/utils'
@@ -190,23 +202,25 @@ export default {
     ValidationObserver,
   },
   mixins: [togglePasswordVisibility],
-  data() {
+  data () {
     return {
       status: '',
-      password: 'admin',
-      userEmail: 'admin@demo.com',
+      userPhone: '15695293608',
+      userPassword: 'admin',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
 
       // validation rules
       required,
-      email,
+      phone,
+
+      axiosIns,
     }
   },
   computed: {
-    passwordToggleIcon() {
+    passwordToggleIcon () {
       return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
-    imgUrl() {
+    imgUrl () {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
@@ -216,42 +230,52 @@ export default {
     },
   },
   methods: {
-    login() {
-      this.$refs.loginForm.validate().then(success => {
+    login () {
+      const that = this
+      this.$refs.loginForm.validate()
+      .then(success => {
         if (success) {
-          useJwt.login({
-            email: this.userEmail,
-            password: this.password,
+          that.axiosIns.post('/user/login', {
+            userPhone: that.userPhone,
+            userPassword: that.userPassword,
           })
-            .then(response => {
-              const { userData } = response.data
-              useJwt.setToken(response.data.accessToken)
-              useJwt.setRefreshToken(response.data.refreshToken)
+          .then(res => {
+            const statusCode = res.data.status.code
+
+            if (statusCode === '0000') {
+              const userData = res.data.data
+
               localStorage.setItem('userData', JSON.stringify(userData))
-              this.$ability.update(userData.ability)
 
-              // ? This is just for demo purpose as well.
-              // ? Because we are showing eCommerce app's cart items count in navbar
-              this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
-
-              // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
-              this.$router.replace(getHomeRouteForLoggedInUser(userData.role))
-                .then(() => {
-                  this.$toast({
-                    component: ToastificationContent,
-                    position: 'top-right',
-                    props: {
-                      title: `Welcome ${userData.fullName || userData.username}`,
-                      icon: 'CoffeeIcon',
-                      variant: 'success',
-                      text: `You have successfully logged in as ${userData.role}. Now you can start to explore!`,
-                    },
-                  })
+              that.$router.replace(getHomeRouteForLoggedInUser(userData.userRole))
+              .then(() => {
+                that.$toast({
+                  component: ToastificationContent,
+                  position: 'top-right',
+                  props: {
+                    title: `欢迎 ${userData.userName}`,
+                    icon: 'CoffeeIcon',
+                    variant: 'success',
+                    text: `${userData.userRole} 登录成功!`,
+                  }
                 })
-                .catch(error => {
-                  this.$refs.loginForm.setErrors(error.response.data.error)
-                })
-            })
+              })
+            } else {
+              that.$toast({
+                component: ToastificationContent,
+                position: 'bottom-right',
+                props: {
+                  title: '错误',
+                  icon: 'DeleteIcon',
+                  variant: 'danger',
+                  text: res.data.status.msg
+                }
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
         }
       })
     },

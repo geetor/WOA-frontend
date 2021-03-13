@@ -1,4 +1,4 @@
-import { extend, localize } from 'vee-validate'
+import { extend } from 'vee-validate'
 import {
   required as rule_required,
   email as rule_email,
@@ -13,11 +13,9 @@ import {
   alpha_num as rule_alpha_num,
   length as rule_length,
 } from 'vee-validate/dist/rules'
-import ar from 'vee-validate/dist/locale/ar.json'
-import en from 'vee-validate/dist/locale/en.json'
 
 // eslint-disable-next-line object-curly-newline
-import { validatorPositive, validatorUrlValidator, validatorPassword, validatorCreditCard } from './validators'
+import { validatorPositive, validatorUrlValidator, validatorPhone, validatorPassword, validatorCreditCard } from './validators'
 
 // ////////////////////////////////////////////////////////
 // General
@@ -57,9 +55,14 @@ export const credit = extend('credit-card', {
   message: 'It is not valid credit card!',
 })
 
+export const phone = extend('phone', {
+  validate: validatorPhone,
+  message: '手机号码格式错误',
+})
+
 export const password = extend('password', {
   validate: validatorPassword,
-  message: 'Your {_field_} must contain at least one uppercase, one lowercase, one special character and one digit',
+  message: '密码字段要求大写字母、小写字母、特殊字符和数字至少各一',
 })
 
 export const url = extend('url', {
@@ -67,33 +70,6 @@ export const url = extend('url', {
   message: 'URL is invalid',
 })
 
-// Install English and Arabic localizations.
-localize({
-  en: {
-    messages: en.messages,
-    names: {
-      email: 'Email',
-      password: 'Password',
-    },
-    fields: {
-      password: {
-        min: '{_field_} is too short, you want to get hacked?',
-      },
-    },
-  },
-  ar: {
-    messages: ar.messages,
-    names: {
-      email: 'البريد الإلكتروني',
-      password: 'كلمة السر',
-    },
-    fields: {
-      password: {
-        min: 'كلمة السر قصيرة جداً سيتم اختراقك',
-      },
-    },
-  },
-})
 // ////////////////////////////////////////////////////////
 // NOTE:
 // Quasar validation for reference only

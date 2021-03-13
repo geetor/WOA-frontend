@@ -9,17 +9,15 @@
     @mouseleave="updateMouseHovered(false)"
   >
     <!-- main menu header-->
-    <div class="navbar-header expanded">
+    <div class="navbar-header expanded mb-1">
       <slot
         name="header"
-        :toggleVerticalMenuActive="toggleVerticalMenuActive"
-        :toggleCollapsed="toggleCollapsed"
         :collapseTogglerIcon="collapseTogglerIcon"
       >
         <ul class="nav navbar-nav flex-row">
 
           <!-- Logo & Text -->
-          <li class="nav-item mr-auto">
+          <li class="nav-item ml-auto mr-auto">
             <b-link
               class="navbar-brand"
               to="/"
@@ -36,23 +34,6 @@
             </b-link>
           </li>
 
-          <!-- Toggler Button -->
-          <li class="nav-item nav-toggle">
-            <b-link class="nav-link modern-nav-toggle">
-              <feather-icon
-                icon="XIcon"
-                size="20"
-                class="d-block d-xl-none"
-                @click="toggleVerticalMenuActive"
-              />
-              <feather-icon
-                :icon="collapseTogglerIconFeather"
-                size="20"
-                class="d-none d-xl-block collapse-toggle-icon"
-                @click="toggleCollapsed"
-              />
-            </b-link>
-          </li>
         </ul>
       </slot>
     </div>
@@ -102,17 +83,12 @@ export default {
       type: Boolean,
       required: true,
     },
-    toggleVerticalMenuActive: {
-      type: Function,
-      required: true,
-    },
   },
   setup(props) {
     const {
       isMouseHovered,
       isVerticalMenuCollapsed,
       collapseTogglerIcon,
-      toggleCollapsed,
       updateMouseHovered,
     } = useVerticalNavMenu(props)
 
@@ -131,14 +107,16 @@ export default {
     const collapseTogglerIconFeather = computed(() => (collapseTogglerIcon.value === 'unpinned' ? 'CircleIcon' : 'DiscIcon'))
 
     // App Name
-    const { appName, appLogoImage } = $themeConfig.app
+    const {
+      appName,
+      appLogoImage,
+    } = $themeConfig.app
 
     return {
       navMenuItems,
       perfectScrollbarSettings,
       isVerticalMenuCollapsed,
       collapseTogglerIcon,
-      toggleCollapsed,
       isMouseHovered,
       updateMouseHovered,
       collapseTogglerIconFeather,
