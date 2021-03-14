@@ -27,7 +27,7 @@
             v-else
             class="mb-0"
           >
-            Add Task
+            发布训练任务
           </h5>
           <div>
             <feather-icon

@@ -59,20 +59,20 @@ export default function useTaskHandler(props, emit) {
   /* eslint-enable global-require */
 
   const resolveAvatarVariant = tags => {
-    if (tags.includes('high')) return 'primary'
-    if (tags.includes('medium')) return 'warning'
-    if (tags.includes('low')) return 'success'
-    if (tags.includes('update')) return 'danger'
-    if (tags.includes('team')) return 'info'
+    if (tags.includes('跑步')) return 'primary'
+    if (tags.includes('越野')) return 'warning'
+    if (tags.includes('试飞')) return 'success'
+    if (tags.includes('体锻')) return 'danger'
+    if (tags.includes('演习')) return 'info'
     return 'primary'
   }
 
   const tagOptions = [
-    { label: 'Team', value: 'team' },
-    { label: 'Low', value: 'low' },
-    { label: 'Medium', value: 'medium' },
-    { label: 'High', value: 'high' },
-    { label: 'Update', value: 'update' },
+    { label: '跑步', value: '跑步' },
+    { label: '越野', value: '越野' },
+    { label: '试飞', value: '试飞' },
+    { label: '体锻', value: '体锻' },
+    { label: '演习', value: '演习' },
   ]
 
   return {

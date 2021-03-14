@@ -10,7 +10,7 @@
               block
               @click="$emit('update:is-task-handler-sidebar-active', true); $emit('close-left-sidebar')"
             >
-              Add Task
+              发布训练任务
             </b-button>
           </div>
           <vue-perfect-scrollbar
@@ -38,7 +38,7 @@
             <!-- Tags -->
             <div class="mt-3 px-2 d-flex justify-content-between">
               <h6 class="section-label mb-1">
-                Tags
+                标签
               </h6>
               <feather-icon icon="PlusIcon" />
             </div>
@@ -94,10 +94,10 @@ export default {
     }
 
     const taskFilters = [
-      { title: 'My Task', icon: 'MailIcon', route: { name: 'apps-todo' } },
-      { title: 'Important', icon: 'StarIcon', route: { name: 'apps-todo-filter', params: { filter: 'important' } } },
-      { title: 'Completed', icon: 'CheckIcon', route: { name: 'apps-todo-filter', params: { filter: 'completed' } } },
-      { title: 'Deleted', icon: 'TrashIcon', route: { name: 'apps-todo-filter', params: { filter: 'deleted' } } },
+      { title: '我的', icon: 'MailIcon', route: { name: 'office-training' } },
+      { title: '重要', icon: 'StarIcon', route: { name: 'office-training-filter', params: { filter: 'important' } } },
+      { title: '已完成', icon: 'CheckIcon', route: { name: 'office-training-filter', params: { filter: 'completed' } } },
+      { title: '已删除', icon: 'TrashIcon', route: { name: 'office-training-filter', params: { filter: 'deleted' } } },
     ]
 
     return {

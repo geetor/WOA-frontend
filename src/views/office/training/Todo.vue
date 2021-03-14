@@ -32,7 +32,7 @@
             </b-input-group-prepend>
             <b-form-input
               :value="searchQuery"
-              placeholder="搜索人员"
+              placeholder="搜索训练任务"
               @input="updateRouteQuery"
             />
           </b-input-group>
@@ -230,10 +230,10 @@ export default {
 
     const sortOptions = [
       'latest',
-      'title-asc',
-      'title-desc',
-      'assignee',
-      'due-date',
+      'rank-asc',
+      'rank-desc',
+      'name-asc',
+      'name-desc',
     ]
     const sortBy = ref(routeSortBy.value)
     watch(routeSortBy, val => {
@@ -293,28 +293,28 @@ export default {
     const isTaskHandlerSidebarActive = ref(false)
 
     const taskTags = [
-      { title: 'Team', color: 'primary', route: { name: 'apps-todo-tag', params: { tag: 'team' } } },
-      { title: 'Low', color: 'success', route: { name: 'apps-todo-tag', params: { tag: 'low' } } },
-      { title: 'Medium', color: 'warning', route: { name: 'apps-todo-tag', params: { tag: 'medium' } } },
-      { title: 'High', color: 'danger', route: { name: 'apps-todo-tag', params: { tag: 'high' } } },
-      { title: 'Update', color: 'info', route: { name: 'apps-todo-tag', params: { tag: 'update' } } },
+      { title: '跑步', color: 'primary', route: { name: 'office-training-tag', params: { tag: 'running' } } },
+      { title: '越野', color: 'success', route: { name: 'office-training-tag', params: { tag: 'cross' } } },
+      { title: '试飞', color: 'warning', route: { name: 'office-training-tag', params: { tag: 'flying' } } },
+      { title: '体锻', color: 'danger', route: { name: 'office-training-tag', params: { tag: 'exercise' } } },
+      { title: '演习', color: 'info', route: { name: 'office-training-tag', params: { tag: 'test' } } },
     ]
 
     const resolveTagVariant = tag => {
-      if (tag === 'team') return 'primary'
-      if (tag === 'low') return 'success'
-      if (tag === 'medium') return 'warning'
-      if (tag === 'high') return 'danger'
-      if (tag === 'update') return 'info'
+      if (tag === '跑步') return 'primary'
+      if (tag === '越野') return 'success'
+      if (tag === '试飞') return 'warning'
+      if (tag === '体锻') return 'danger'
+      if (tag === '演习') return 'info'
       return 'primary'
     }
 
     const resolveAvatarVariant = tags => {
-      if (tags.includes('high')) return 'primary'
-      if (tags.includes('medium')) return 'warning'
-      if (tags.includes('low')) return 'success'
-      if (tags.includes('update')) return 'danger'
-      if (tags.includes('team')) return 'info'
+      if (tags.includes('跑步')) return 'primary'
+      if (tags.includes('越野')) return 'warning'
+      if (tags.includes('试飞')) return 'success'
+      if (tags.includes('体锻')) return 'danger'
+      if (tags.includes('演习')) return 'info'
       return 'primary'
     }
 

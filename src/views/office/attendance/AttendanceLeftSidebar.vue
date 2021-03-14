@@ -103,19 +103,17 @@ export default {
     }
 
     const departments = [
-      { title: 'Inbox', icon: 'MailIcon', route: { name: 'apps-email' } },
-      { title: 'Sent', icon: 'SendIcon', route: { name: 'apps-email-folder', params: { folder: 'sent' } } },
-      { title: 'Draft', icon: 'Edit2Icon', route: { name: 'apps-email-folder', params: { folder: 'draft' } } },
-      { title: 'Starred', icon: 'StarIcon', route: { name: 'apps-email-folder', params: { folder: 'starred' } } },
-      { title: 'Spam', icon: 'InfoIcon', route: { name: 'apps-email-folder', params: { folder: 'spam' } } },
-      { title: 'Trash', icon: 'TrashIcon', route: { name: 'apps-email-folder', params: { folder: 'trash' } } },
+      { title: '人事部门', icon: 'MailIcon', route: { name: 'office-attendance' } },
+      { title: '动力部门', icon: 'SendIcon', route: { name: 'office-attendance-folder', params: { folder: 'sent' } } },
+      { title: '后勤部门', icon: 'Edit2Icon', route: { name: 'office-attendance-folder', params: { folder: 'draft' } } },
+      { title: '武装部门', icon: 'StarIcon', route: { name: 'office-attendance-folder', params: { folder: 'starred' } } },
     ]
 
     const ranks = [
-      { title: 'Personal', color: 'success', route: { name: 'apps-email-label', params: { label: 'personal' } } },
-      { title: 'Company', color: 'primary', route: { name: 'apps-email-label', params: { label: 'company' } } },
-      { title: 'Important', color: 'warning', route: { name: 'apps-email-label', params: { label: 'important' } } },
-      { title: 'Private', color: 'danger', route: { name: 'apps-email-label', params: { label: 'private' } } },
+      { title: '6级', color: 'success', route: { name: 'office-attendance-label', params: { label: 'personal' } } },
+      { title: '5级', color: 'primary', route: { name: 'office-attendance-label', params: { label: 'company' } } },
+      { title: '4级', color: 'warning', route: { name: 'office-attendance-label', params: { label: 'important' } } },
+      { title: '3级及以下', color: 'danger', route: { name: 'office-attendance-label', params: { label: 'private' } } },
     ]
 
     return {

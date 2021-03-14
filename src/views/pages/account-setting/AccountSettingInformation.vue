@@ -117,7 +117,6 @@ import flatPickr from 'vue-flatpickr-component'
 import Ripple from 'vue-ripple-directive'
 import Cleave from 'vue-cleave-component'
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'cleave.js/dist/addons/cleave-phone.us'
 
 export default {

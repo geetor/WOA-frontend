@@ -138,7 +138,7 @@ export default [
       navActiveLink: 'office-training',
     },
     beforeEnter(to, _, next) {
-      if (['team', 'low', 'medium', 'high', 'update'].includes(to.params.tag)) {
+      if (['running', 'cross', 'flying', 'exercise', 'test'].includes(to.params.tag)) {
         next()
       } else {
         next({ name: 'error-404' })

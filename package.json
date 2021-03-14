@@ -13,7 +13,9 @@
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "new": "plop"
+    "new": "plop",
+    "upload": "node upload.js",
+    "deploy": "npm run build && npm run upload"
   },
   "dependencies": {
     "@casl/ability": "4.1.6",
@@ -80,11 +82,14 @@
     "@vue/eslint-config-airbnb": "^5.3.0",
     "@vuepress/plugin-medium-zoom": "^1.7.1",
     "babel-eslint": "^10.0.3",
+    "chalk": "^4.1.0",
     "eslint": "6.8.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "6.2.2",
+    "ora": "^5.3.0",
     "sass": "^1.30.0",
     "sass-loader": "^10.1.0",
+    "scp2": "^0.5.0",
     "vue-template-compiler": "^2.6.11"
   }
 }

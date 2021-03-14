@@ -26,7 +26,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: { name: 'apps-email' }
+      redirect: { name: 'office-attendance' }
     },
     ...apps,
     ...office,

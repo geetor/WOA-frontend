@@ -44,4 +44,8 @@ module.exports = {
       })
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
+  devServer: {
+    host: '127.0.0.1',
+    port: 8888
+  },
 }

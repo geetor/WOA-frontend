@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo/>
+        <vuexy-logo />
         <h2 class="brand-text text-primary">
           舰队 OA 系统
         </h2>
@@ -251,7 +251,6 @@ export default {
               .then(() => {
                 that.$toast({
                   component: ToastificationContent,
-                  position: 'top-right',
                   props: {
                     title: `欢迎 ${userData.userName}`,
                     icon: 'CoffeeIcon',
@@ -262,19 +261,28 @@ export default {
               })
             } else {
               that.$toast({
-                component: ToastificationContent,
-                position: 'bottom-right',
-                props: {
-                  title: '错误',
-                  icon: 'DeleteIcon',
-                  variant: 'danger',
-                  text: res.data.status.msg
-                }
-              })
+                    component: ToastificationContent,
+                    props: {
+                      title: res.data.status.msg,
+                      icon: 'DeleteIcon',
+                      variant: 'warning',
+                    }
+                  },
+                  { position: 'bottom-right' }
+              )
             }
           })
           .catch(err => {
-            console.log(err)
+            that.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: '错误',
+                    icon: 'DeleteIcon',
+                    variant: 'danger',
+                  }
+                },
+                { position: 'bottom-right' }
+            )
           })
         }
       })
