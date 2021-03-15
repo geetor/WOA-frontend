@@ -42,17 +42,17 @@
 
             <b-list-group class="list-group-labels">
               <b-list-group-item
-                  v-for="label in ranks"
-                  :key="label.title + $route.path"
-                  :to="label.route"
-                  :active="isDynamicRouteActive(label.route)"
+                  v-for="rank in ranks"
+                  :key="rank.title + $route.path"
+                  :to="rank.route"
+                  :active="isDynamicRouteActive(rank.route)"
                   @click="$emit('close-left-sidebar')"
               >
                 <span
                     class="bullet bullet-sm mr-1"
-                    :class="`bullet-${label.color}`"
+                    :class="`bullet-${rank.color}`"
                 />
-                <span>{{ label.title }}</span>
+                <span>{{ rank.title }}</span>
               </b-list-group-item>
             </b-list-group>
 
@@ -172,6 +172,7 @@ export default {
           const departments = res.data.data
 
           departments.forEach(department => {
+            console.log(department)
             const newDepartment = {
               title: department.deptName,
               route: {
@@ -179,7 +180,6 @@ export default {
                 params: { folder: `${department.deptName}` }
               }
             }
-
             that.departments.push(newDepartment)
           })
         } else {
