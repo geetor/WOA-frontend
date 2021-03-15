@@ -18,16 +18,16 @@ export default [
     },
   },
   {
-    path: '/office/attendance/:folder',
-    name: 'office-attendance-folder',
+    path: '/office/attendance/:department',
+    name: 'office-attendance-department',
     component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
     },
-    beforeEnter(to, _, next) {
-      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
+    beforeEnter (to, _, next) {
+      if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
         next()
       } else {
         next({ name: 'error-404' })
@@ -35,16 +35,16 @@ export default [
     },
   },
   {
-    path: '/office/attendance/label/:label',
-    name: 'office-attendance-label',
+    path: '/office/attendance/rank/:rank',
+    name: 'office-attendance-rank',
     component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
     },
-    beforeEnter(to, _, next) {
-      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
+    beforeEnter (to, _, next) {
+      if ([6, 5, 4, 3].includes(to.params.rank)) {
         next()
       } else {
         next({ name: 'error-404' })
@@ -73,7 +73,7 @@ export default [
       contentClass: 'email-application',
       navActiveLink: 'office-email',
     },
-    beforeEnter(to, _, next) {
+    beforeEnter (to, _, next) {
       if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
         next()
       } else {
@@ -90,7 +90,7 @@ export default [
       contentClass: 'email-application',
       navActiveLink: 'office-email',
     },
-    beforeEnter(to, _, next) {
+    beforeEnter (to, _, next) {
       if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
         next()
       } else {
@@ -120,7 +120,7 @@ export default [
       contentClass: 'todo-application',
       navActiveLink: 'office-training',
     },
-    beforeEnter(to, _, next) {
+    beforeEnter (to, _, next) {
       if (['important', 'completed', 'deleted'].includes(to.params.filter)) {
         next()
       } else {
@@ -137,7 +137,7 @@ export default [
       contentClass: 'todo-application',
       navActiveLink: 'office-training',
     },
-    beforeEnter(to, _, next) {
+    beforeEnter (to, _, next) {
       if (['running', 'cross', 'flying', 'exercise', 'test'].includes(to.params.tag)) {
         next()
       } else {

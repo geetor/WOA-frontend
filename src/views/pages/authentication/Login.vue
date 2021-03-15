@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <vuexy-logo/>
         <h2 class="brand-text text-primary">
           舰队 OA 系统
         </h2>
@@ -172,7 +172,6 @@ import {
   BAlert,
   VBTooltip,
 } from 'bootstrap-vue'
-import axiosIns from '@/libs/axios'
 import { required, phone } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
@@ -199,7 +198,7 @@ export default {
     BAlert,
     VuexyLogo,
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   mixins: [togglePasswordVisibility],
   data () {
@@ -211,9 +210,7 @@ export default {
 
       // validation rules
       required,
-      phone,
-
-      axiosIns,
+      phone
     }
   },
   computed: {

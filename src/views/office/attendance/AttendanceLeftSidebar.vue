@@ -5,52 +5,52 @@
         <div class="attendance-menu">
           <div class="form-group-compose text-center compose-btn">
             <b-button
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-              variant="primary"
-              block
-              @click="console.log('test')"
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="primary"
+                block
+                @click="console.log('test')"
             >
               签到
             </b-button>
           </div>
           <vue-perfect-scrollbar
-            :settings="perfectScrollbarSettings"
-            class="sidebar-attendance-list scroll-area"
+              :settings="perfectScrollbarSettings"
+              class="sidebar-attendance-list scroll-area"
           >
-            <!-- Filters -->
+            <!-- Departments -->
             <b-list-group class="list-group-messages">
               <b-list-group-item
-                v-for="filter in departments"
-                :key="filter.title + $route.path"
-                :to="filter.route"
-                :active="isDynamicRouteActive(filter.route)"
-                @click="$emit('close-left-sidebar')"
+                  v-for="department in departments"
+                  :key="department.title + $route.path"
+                  :to="department.route"
+                  :active="isDynamicRouteActive(department.route)"
+                  @click="$emit('close-left-sidebar')"
               >
                 <feather-icon
-                  :icon="filter.icon"
-                  size="18"
-                  class="mr-75"
+                    :icon="'AnchorIcon'"
+                    size="18"
+                    class="mr-75"
                 />
-                <span class="align-text-bottom line-height-1">{{ filter.title }}</span>
+                <span class="align-text-bottom line-height-1">{{ department.title }}</span>
               </b-list-group-item>
             </b-list-group>
 
-            <!-- Labels -->
+            <!-- Ranks -->
             <h6 class="section-label mt-3 mb-1 px-2">
-              标签
+              等级
             </h6>
 
             <b-list-group class="list-group-labels">
               <b-list-group-item
-                v-for="label in ranks"
-                :key="label.title + $route.path"
-                :to="label.route"
-                :active="isDynamicRouteActive(label.route)"
-                @click="$emit('close-left-sidebar')"
+                  v-for="label in ranks"
+                  :key="label.title + $route.path"
+                  :to="label.route"
+                  :active="isDynamicRouteActive(label.route)"
+                  @click="$emit('close-left-sidebar')"
               >
                 <span
-                  class="bullet bullet-sm mr-1"
-                  :class="`bullet-${label.color}`"
+                    class="bullet bullet-sm mr-1"
+                    :class="`bullet-${label.color}`"
                 />
                 <span>{{ label.title }}</span>
               </b-list-group-item>
@@ -70,13 +70,13 @@ import {
 } from 'bootstrap-vue'
 import { isDynamicRouteActive } from '@core/utils/utils'
 import Ripple from 'vue-ripple-directive'
+import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
   directives: {
     Ripple,
   },
   components: {
-
     // BSV
     BButton,
     BListGroup,
@@ -97,23 +97,52 @@ export default {
       required: true,
     },
   },
-  setup() {
+  data () {
+    return {
+      departments: [],
+      ranks: []
+    }
+  },
+  setup () {
     const perfectScrollbarSettings = {
       maxScrollbarLength: 60,
     }
 
-    const departments = [
-      { title: '人事部门', icon: 'MailIcon', route: { name: 'office-attendance' } },
-      { title: '动力部门', icon: 'SendIcon', route: { name: 'office-attendance-folder', params: { folder: 'sent' } } },
-      { title: '后勤部门', icon: 'Edit2Icon', route: { name: 'office-attendance-folder', params: { folder: 'draft' } } },
-      { title: '武装部门', icon: 'StarIcon', route: { name: 'office-attendance-folder', params: { folder: 'starred' } } },
-    ]
+    const departments = []
 
     const ranks = [
-      { title: '6级', color: 'success', route: { name: 'office-attendance-label', params: { label: 'personal' } } },
-      { title: '5级', color: 'primary', route: { name: 'office-attendance-label', params: { label: 'company' } } },
-      { title: '4级', color: 'warning', route: { name: 'office-attendance-label', params: { label: 'important' } } },
-      { title: '3级及以下', color: 'danger', route: { name: 'office-attendance-label', params: { label: 'private' } } },
+      {
+        title: '6级',
+        color: 'success',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 6 }
+        }
+      },
+      {
+        title: '5级',
+        color: 'primary',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 5 }
+        }
+      },
+      {
+        title: '4级',
+        color: 'warning',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 4 }
+        }
+      },
+      {
+        title: '3级及以下',
+        color: 'danger',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 3 }
+        }
+      },
     ]
 
     return {
@@ -123,9 +152,63 @@ export default {
 
       // Departments & Labels
       departments,
-      ranks,
+      ranks
     }
   },
+  mounted () {
+    this.getDeptsAndUsers()
+  },
+  methods: {
+    getDeptsAndUsers () {
+      const that = this
+      this.axiosIns.get('/user/getLowerUsers', {
+        params: {
+          userId: JSON.parse(localStorage.getItem('userData')).userId
+        }
+      })
+      .then(res => {
+        const statusCode = res.data.status.code
+        if (statusCode === '0000') {
+          const departments = res.data.data
+
+          departments.forEach(department => {
+            const newDepartment = {
+              title: department.deptName,
+              route: {
+                name: 'office-attendance-department',
+                params: { folder: `${department.deptName}` }
+              }
+            }
+
+            that.departments.push(newDepartment)
+          })
+        } else {
+          that.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: res.data.status.msg,
+                  icon: 'DeleteIcon',
+                  variant: 'warning',
+                }
+              },
+              { position: 'bottom-right' }
+          )
+        }
+      })
+      .catch(err => {
+        that.$toast({
+              component: ToastificationContent,
+              props: {
+                title: '错误',
+                icon: 'DeleteIcon',
+                variant: 'warning',
+              }
+            },
+            { position: 'bottom-right' }
+        )
+      })
+    }
+  }
 }
 </script>
 
