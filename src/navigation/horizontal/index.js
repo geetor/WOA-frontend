@@ -32,6 +32,7 @@ import chartsAndMaps from './charts-and-maps'
 import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 import others from './others'
+import docCenter from './doc-center'
 
 // Array of sections
-export default [...dashboard, ...apps, ...attendance, ...training, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
+export default [...dashboard, ...apps, ...attendance, ...training, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others,...docCenter]
