@@ -262,7 +262,7 @@ export default [
   {
     path: '/pages/blog/list',
     name: 'pages-blog-list',
-    component: () => import('@/views/pages/blog/BlogList.vue'),
+    component: () => import('@/views/doc-center/BlogList.vue'),
     meta: {
       pageTitle: 'Blog List',
       breadcrumb: [
@@ -282,7 +282,7 @@ export default [
   {
     path: '/pages/blog/:id',
     name: 'pages-blog-detail',
-    component: () => import('@/views/pages/blog/BlogDetail.vue'),
+    component: () => import('@/views/doc-center/BlogDetail.vue'),
     meta: {
       pageTitle: 'Blog Detail',
       breadcrumb: [
@@ -302,7 +302,7 @@ export default [
   {
     path: '/pages/blog/edit/:id',
     name: 'pages-blog-edit',
-    component: () => import('@/views/pages/blog/BlogEdit.vue'),
+    component: () => import('@/views/doc-center/BlogEdit.vue'),
     meta: {
       pageTitle: 'Blog Edit',
       breadcrumb: [
