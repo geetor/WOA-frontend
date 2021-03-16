@@ -5,13 +5,17 @@
       <!-- blogs -->
       <b-row class="blog-list-wrapper">
 
-        <b-col class="col-9">
+        <b-col class="col-7 offset-2 blog-list" >
+          <div class="news-title">通知公告</div>
+
+
           <!--document list-->
           <ul>
             <li v-for="(blog,index) in blogList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+index">
                 >>> {{ blog.title }}
               </b-link>
+              <span class="news-date">{{blog.blogPosted}}</span>
             </li>
           </ul>
           <!--/document list-->
@@ -44,7 +48,7 @@
           </div>
         </b-col>
 
-        <b-col cols class="r-side">
+        <b-col cols class="r-side news-list">
           <h2>近期动态</h2>
           <ol>
             <li v-for="news in newsList">
@@ -122,8 +126,9 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/pages/page-blog.scss';
 
+
 a{
-  color: #1b2337;
+  color: #333;
   font-weight: bold;
   size: 16px;
 }
@@ -132,14 +137,16 @@ a{
   list-style: none;
   //background-color: lightpink;
   padding: 10px 0;
+  border-bottom: solid 1px darkgray;
 }
 
 .doc-item:hover{
-  background-color: #d0d2d6;
+  background-color: #D3D3D3;
 }
 
 .r-side{
   border-left: #82868b 1px solid;
+  padding-left: 20px;
 }
 
 .r-side h2{
@@ -156,5 +163,26 @@ a{
 .r-side ol>li{
   padding: 5px 0;
 }
+
+.news-title{
+  color: #1b2337;
+  font-weight: bold;
+  font-size: 24px;
+  border-left: 5px solid #ddd;
+  padding: 2px 8px;
+  margin:8px 0;
+}
+
+.news-date{
+  font-family: 'sans-serif';
+  display:block;
+  text-align: right;
+  padding-top: 5px;
+}
+
+.news-list{
+
+}
+
 
 </style>

@@ -9,10 +9,10 @@
             <!-- blogs -->
             <b-col cols="12">
               <b-card
-                  :img-src="blogDetail.blog.img"
+                  :img-src="docDetail.img"
                   img-top
                   img-alt="Blog Detail Pic"
-                  :title="blogDetail.blog.title"
+                  :title="docDetail.title"
               >
                 <b-media no-body>
                   <b-media-aside
@@ -22,13 +22,13 @@
                     <b-avatar
                         href="javascript:void(0)"
                         size="24"
-                        :src="blogDetail.blog.avatar"
+                        :src="docDetail.avatar"
                     />
                   </b-media-aside>
                   <b-media-body>
                     <small class="text-muted mr-50">by</small>
                     <small>
-                      <b-link class="text-body">{{ blogDetail.blog.userFullName + 'ZZZZZZZZJY' }}</b-link>
+                      <b-link class="text-body">{{ docDetail.userFullName}}</b-link>
                     </small>
                     <span class="text-muted ml-75 mr-50">|</span>
                     <small class="text-muted">{{ getFormattedDate }}</small>
@@ -38,7 +38,7 @@
                 <!-- eslint-disable vue/no-v-html -->
                 <div
                     class="blog-content"
-                    v-html="blogDetail.blog.content"
+                    v-html="docDetail.content"
                 />
 
 
@@ -91,7 +91,7 @@
                 Comment
               </h6>
               <b-card
-                  v-for="(comment,index) in blogDetail.comments"
+                  v-for="(comment,index) in docDetail.UserComment"
                   :key="index"
               >
                 <b-media no-body>
@@ -103,11 +103,11 @@
                   </b-media-aside>
                   <b-media-body>
                     <h6 class="font-weight-bolder mb-25">
-                      {{ comment.userFullName }}
+                      {{ comment.fullName }}
                     </h6>
                     <b-card-text>{{ comment.commentedAt }}</b-card-text>
                     <b-card-text>
-                      {{ comment.commentText }}
+                      {{ comment.comment }}
                     </b-card-text>
                     <b-link>
                       <div class="d-inline-flex align-items-center">
@@ -175,7 +175,8 @@ export default {
     return {
       search_query: '',
       commentCheckmark: '',
-      blogDetail: [],
+      docDetail: {},
+      docList:[],
       blogSidebar: {},
       socialShareIcons: [
         'GithubIcon',
@@ -189,13 +190,12 @@ export default {
   created() {
     this.$http.get('/blog/list/data/detail')
         .then(res => {
-          this.blogDetail = res.data
+          this.docList = res.data
+          this.docDetail = this.docList[0]
         })
-    this.$http.get('/blog/list/data/sidebar')
-        .then(res => {
-          this.blogSidebar = res.data
-        })
+
   },
+
   methods: {
     kFormatter,
     tagsColor(tag) {
