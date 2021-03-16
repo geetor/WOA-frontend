@@ -9,7 +9,6 @@
             <!-- blogs -->
             <b-col cols="12">
               <b-card
-                  :img-src="docDetail.img"
                   img-top
                   img-alt="Blog Detail Pic"
                   :title="docDetail.title"
@@ -26,7 +25,7 @@
                     />
                   </b-media-aside>
                   <b-media-body>
-                    <small class="text-muted mr-50">by</small>
+                    <small class="text-muted mr-50">来源: </small>
                     <small>
                       <b-link class="text-body">{{ docDetail.userFullName}}</b-link>
                     </small>
@@ -45,37 +44,8 @@
                 <!-- eslint-enable -->
                 <hr class="my-2">
 
-                <div class="d-flex align-items-center justify-content-between">
-
-
-                  <!-- dropdown -->
-                  <div class="blog-detail-share" v-if="false">
-                    <b-dropdown
-                        variant="link"
-                        toggle-class="p-0"
-                        no-caret
-                        right
-                    >
-                      <template #button-content>
-                        <feather-icon
-                            size="21"
-                            icon="Share2Icon"
-                            class="text-body"
-                        />
-                      </template>
-                      <b-dropdown-item
-                          v-for="icon in socialShareIcons"
-                          :key="icon"
-                          href="#"
-                      >
-                        <feather-icon
-                            :icon="icon"
-                            size="18"
-                        />
-                      </b-dropdown-item>
-                    </b-dropdown>
-                  </div>
-                  <!--/ dropdown -->
+                <div>
+                  <span class="viewed-number">浏览量: {{docDetail.comments}}</span>
                 </div>
               </b-card>
             </b-col>
@@ -88,7 +58,7 @@
                 class="mt-2"
             >
               <h6 class="section-label">
-                Comment
+                热评
               </h6>
               <b-card
                   v-for="(comment,index) in docDetail.UserComment"
@@ -191,7 +161,10 @@ export default {
     this.$http.get('/blog/list/data/detail')
         .then(res => {
           this.docList = res.data
-          this.docDetail = this.docList[0]
+          let id = Number(this.$route.params.id);
+          if ( id > 1 ) { id = 0 }
+          this.docDetail = this.docList[id]
+          console.log(this.docList[id])
         })
 
   },
@@ -230,5 +203,15 @@ export default {
   padding: 5px 20px;
 }
 
+.blog-content{
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.viewed-number{
+  text-align: right;
+  display: block;
+  font-size: 10px;
+}
 
 </style>
