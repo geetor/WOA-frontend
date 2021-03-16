@@ -6,18 +6,18 @@ const data = {
     {
       id: 1,
       img: require('@/assets/images/slider/02.jpg'),
-      title: 'The Best Features Coming to iOS and Web design',
+      title: '奋力实现“十四五”时期国防和军队建设良好开局',
       avatar: require('@/assets/images/portrait/small/avatar-s-7.jpg'),
-      userFullName: 'Ghani Pradita',
+      userFullName: '乌铭琪',
       blogPosted: 'Jan 10, 2020',
-      tags: ['Quote', 'Fashion'],
+      tags: ['Guard', 'Military'],
       excerpt: 'Donut fruitcake soufflé apple pie candy canes jujubes croissant chocolate bar ice cream.',
       comment: 76,
     },
     {
       id: 2,
       img: require('@/assets/images/slider/06.jpg'),
-      title: 'Latest Quirky Opening Sentence or Paragraph',
+      title: '中央军委办公厅发出通知要求解放军和武警部队 传达学习十三届全国人大四次会议精神',
       avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
       userFullName: 'Jorge Griffin',
       blogPosted: 'Jan 10, 2020',
@@ -28,7 +28,7 @@ const data = {
     {
       id: 3,
       img: require('@/assets/images/slider/04.jpg'),
-      title: 'Share an Amazing and Shocking Fact or Statistic',
+      title: '中央军委办公厅印发《关于新时代军队弘扬优良传统厉行节约反对浪费的意见》',
       avatar: require('@/assets/images/portrait/small/avatar-s-3.jpg'),
       userFullName: 'Claudia Neal',
       blogPosted: 'Jan 10, 2020',
@@ -39,7 +39,7 @@ const data = {
     {
       id: 4,
       img: require('@/assets/images/slider/03.jpg'),
-      title: 'Withhold a Compelling Piece of Information',
+      title: '中央军委办公厅印发《军队领导干部经济责任审计规定》',
       avatar: require('@/assets/images/portrait/small/avatar-s-14.jpg'),
       userFullName: 'Fred Boone',
       blogPosted: 'Jan 10, 2020',
@@ -50,7 +50,7 @@ const data = {
     {
       id: 5,
       img: require('@/assets/images/slider/09.jpg'),
-      title: 'Unadvertised Bonus Opening: Share a Quote',
+      title: '中央军委办公厅印发《关于军队开展巡察工作的意见》',
       avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
       userFullName: 'Billy French',
       blogPosted: 'Jan 10, 2020',
@@ -61,7 +61,62 @@ const data = {
     {
       id: 6,
       img: require('@/assets/images/slider/10.jpg'),
-      title: 'Ships at a distance have Every Man’s Wish on Board',
+      title: '《关于加快推动军队资源配置标准化工作的意见》印发',
+      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      userFullName: 'Helena Hunt',
+      blogPosted: 'Jan 10, 2020',
+      tags: ['Fashion', 'Video'],
+      excerpt: 'A little personality goes a long way, especially on a business blog. So don’t be afraid to let loose.',
+      comment: 1500,
+    },
+    {
+      id: 7,
+      img: require('@/assets/images/slider/10.jpg'),
+      title: '军办要求传达学习十三届全国人大二次会议精神',
+      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      userFullName: 'Helena Hunt',
+      blogPosted: 'Jan 10, 2020',
+      tags: ['Fashion', 'Video'],
+      excerpt: 'A little personality goes a long way, especially on a business blog. So don’t be afraid to let loose.',
+      comment: 1500,
+    },
+    {
+      id: 8,
+      img: require('@/assets/images/slider/10.jpg'),
+      title: '中央军委办公厅印发《新时代军史场馆体系建设规划》',
+      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      userFullName: 'Helena Hunt',
+      blogPosted: 'Jan 10, 2020',
+      tags: ['Fashion', 'Video'],
+      excerpt: 'A little personality goes a long way, especially on a business blog. So don’t be afraid to let loose.',
+      comment: 1500,
+    },
+    {
+      id: 9,
+      img: require('@/assets/images/slider/10.jpg'),
+      title: '激励全军干部新时代新担当新作为实施意见印发',
+      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      userFullName: 'Helena Hunt',
+      blogPosted: 'Jan 10, 2020',
+      tags: ['Fashion', 'Video'],
+      excerpt: 'A little personality goes a long way, especially on a business blog. So don’t be afraid to let loose.',
+      comment: 1500,
+    },
+    {
+      id: 10,
+      img: require('@/assets/images/slider/10.jpg'),
+      title: '《关于进一步激励全军广大干部新时代新担当新作为的实施意见》印发',
+      avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
+      userFullName: 'Helena Hunt',
+      blogPosted: 'Jan 10, 2020',
+      tags: ['Fashion', 'Video'],
+      excerpt: 'A little personality goes a long way, especially on a business blog. So don’t be afraid to let loose.',
+      comment: 1500,
+    },
+    {
+      id: 11,
+      img: require('@/assets/images/slider/10.jpg'),
+      title: '军委办公厅某中心：把战斗队思想刻进心坎',
       avatar: require('@/assets/images/portrait/small/avatar-s-13.jpg'),
       userFullName: 'Helena Hunt',
       blogPosted: 'Jan 10, 2020',
@@ -114,7 +169,7 @@ const data = {
       img: require('@/assets/images/doc-center/troop.jpg'),
       title: ' ',
       avatar: require('@/assets/images/portrait/small/avatar-s-7.jpg'),
-      userFullName: 'Ghani Pradita',
+      userFullName: '新华社',
       createdTime: 'Jan 10, 2020',
       tags: ['Gaming', 'Video'],
       content:
@@ -165,9 +220,54 @@ const data = {
       '<p>Cupcake ipsum dolor sit. Amet dessert donut candy chocolate bar cotton dessert candy chocolate. Candy muffin danish. Macaroon brownie jelly beans marzipan cheesecake oat cake. Carrot cake macaroon chocolate cake. Jelly brownie jelly. Marzipan pie sweet roll.</p><p><br></p><p>Liquorice dragée cake chupa chups pie cotton candy jujubes bear claw sesame snaps. Fruitcake chupa chups chocolate bonbon lemon drops croissant caramels lemon drops. Candy jelly cake marshmallow jelly beans dragée macaroon. Gummies sugar plum fruitcake. Candy canes candy cupcake caramels cotton candy jujubes fruitcake.</p>',
     featuredImage: require('@/assets/images/slider/03.jpg'),
   },
+
+  blogNews:[
+    {
+      id:1,
+      title:'全国政协举行新年茶话会 习近平发表重要讲话',
+      reporter:'李晶',
+      content:
+        `
+          <p>新华社北京12月31日电 中国人民政治协商会议全国委员会12月31日上午在全国政协礼堂举行新年茶话会。党和国家领导人习近平、李克强、栗战书、汪洋、王沪宁、赵乐际、韩正、王岐山等同各民主党派中央、全国工商联负责人和无党派人士代表、中央和国家机关有关方面负责人以及首都各族各界人士代表欢聚一堂，共迎2021年元旦。</p>
+          <p>中共中央总书记、国家主席、中央军委主席习近平在茶话会上发表重要讲话。他强调，即将到来的2021年，我们将隆重庆祝中国共产党成立100周年，制定和实施“十四五”规划，开启全面建设社会主义现代化国家新征程。我们要深刻铭记中国人民和中华民族为实现民族独立、人民解放和国家富强、人民幸福而奋斗的百年艰辛历程，发扬为民服务孺子牛、创新发展拓荒牛、艰苦奋斗老黄牛的精神，永远保持慎终如始、戒骄戒躁的清醒头脑，永远保持不畏艰险、锐意进取的奋斗韧劲，在全面建设社会主义现代化国家新征程上奋勇前进，以优异成绩庆祝中国共产党成立100周年。</p>
+          <p>习近平代表中共中央、国务院和中央军委，向各民主党派、工商联和无党派人士、各人民团体，向全国广大工人、农民、知识分子、干部和各界人士，向人民解放军指战员、武警官兵、公安干警和消防救援队伍指战员，向香港特别行政区同胞、澳门特别行政区同胞、台湾同胞和海外侨胞，向关心和支持中国现代化建设的各国朋友，致以节日的问候和诚挚的祝福，祝大家新年好。</p>
+          <p>习近平指出，2020年，面对错综复杂的国际国内形势，我们统筹中华民族伟大复兴战略全局和世界百年未有之大变局，团结带领全党全军全国各族人民披荆斩棘、攻坚克难，取得了新冠肺炎疫情防控重大战略成果，战胜了严重洪涝灾害，实现了经济增长由负转正，完成了新时代脱贫攻坚目标任务、“十三五”时期目标任务，重大科技项目、重大工程建设捷报频传，全面建成小康社会取得伟大历史成果，中华民族伟大复兴向前迈出了新的一大步。</p>
+        `,
+      link:'http://www.mod.gov.cn/leaders/2020-12/31/content_4876318.htm'
+    },
+    {
+      id:2,
+      title: '中俄两国元首互致新年贺电',
+      reporter: '新华社',
+      content: '敬请期待',
+      link:'http://www.mod.gov.cn/leaders/2020-12/31/content_4876317.htm'
+    },
+    {
+      id:3,
+      title: '国家主席习近平发表二〇二一年新年贺词',
+      reporter: '新华社',
+      content: '敬请期待',
+      link:'http://www.mod.gov.cn/leaders/2020-12/31/content_4876316.htm'
+    },
+    {
+      id:4,
+      title: '习近平：坚持把解决好“三农”问题作为全党工作重中之重',
+      reporter: '新华社',
+      content: '敬请期待',
+      link:'http://www.mod.gov.cn/leaders/2020-12/29/content_4876148.htm'
+    },
+    {
+      id:5,
+      title: '习近平同俄罗斯总统普京通电话',
+      reporter: '新华社',
+      content: '敬请期待',
+      link:'http://www.mod.gov.cn/leaders/2020-12/28/content_4876142.htm'
+    }
+  ]
 }
 /* eslint-disable global-require */
 mock.onGet('/blog/list/data').reply(() => [200, data.blogList])
 mock.onGet('/blog/list/data/sidebar').reply(() => [200, data.blogSidebar])
 mock.onGet('/blog/list/data/detail').reply(() => [200, data.blogDetail])
 mock.onGet('/blog/list/data/edit').reply(() => [200, data.blogEdit])
+mock.onGet('blog/list/data/news').reply(()=>[200,data.blogNews])

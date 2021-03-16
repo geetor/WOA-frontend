@@ -3,8 +3,7 @@
 
     <!-- content -->
     <b-row>
-      <b-col cols="1"/>
-      <b-col cols="10">
+      <b-col class="offset-2" cols="8">
         <div class="blog-detail-wrapper">
           <b-row>
             <!-- blogs -->
@@ -33,6 +32,7 @@
                     </small>
                     <span class="text-muted ml-75 mr-50">|</span>
                     <small class="text-muted">{{ getFormattedDate }}</small>
+
                   </b-media-body>
                 </b-media>
                 <!-- eslint-disable vue/no-v-html -->
@@ -46,36 +46,7 @@
                 <hr class="my-2">
 
                 <div class="d-flex align-items-center justify-content-between">
-                  <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center mr-1">
-                      <b-link class="mr-50">
-                        <feather-icon
-                            icon="MessageSquareIcon"
-                            size="21"
-                            class="text-body"
-                        />
-                      </b-link>
-                      <b-link>
-                        <div class="text-body">
-                          {{ kFormatter(blogDetail.blog.comments) }}
-                        </div>
-                      </b-link>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <b-link class="mr-50">
-                        <feather-icon
-                            size="21"
-                            icon="BookmarkIcon"
-                            class="text-body"
-                        />
-                      </b-link>
-                      <b-link>
-                        <div class="text-body">
-                          {{ kFormatter(blogDetail.blog.bookmarked) }}
-                        </div>
-                      </b-link>
-                    </div>
-                  </div>
+
 
                   <!-- dropdown -->
                   <div class="blog-detail-share" v-if="false">

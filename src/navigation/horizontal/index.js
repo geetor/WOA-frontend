@@ -35,4 +35,4 @@ import others from './others'
 import docCenter from './doc-center'
 
 // Array of sections
-export default [...dashboard, ...apps, ...attendance, ...training, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others,...docCenter]
+export default [...dashboard, ...apps, ...attendance, ...training,...docCenter, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
