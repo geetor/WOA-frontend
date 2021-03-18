@@ -1,13 +1,14 @@
 <template>
   <div style="height: inherit">
     <div
-      class="body-content-overlay"
-      :class="{'show': mqShallShowLeftSidebar}"
-      @click="mqShallShowLeftSidebar = false"
+        class="body-content-overlay"
+        :class="{'show': mqShallShowLeftSidebar}"
+        @click="mqShallShowLeftSidebar = false"
     />
 
-    <!-- Attendance List -->
+    <!-- User List -->
     <div class="attendance-list">
+
       <!-- App Searchbar Header -->
       <div class="app-fixed-search d-flex align-items-center">
 
@@ -31,62 +32,18 @@
               />
             </b-input-group-prepend>
             <b-form-input
-                :value="searchQuery"
-                placeholder="搜索部门人员"
+                :data="searchQuery"
+                placeholder="搜索部门成员"
                 @input="updateRouteQuery"
             />
           </b-input-group>
         </div>
       </div>
 
-      <!-- App Action Bar -->
-      <div class="app-action">
-        <div class="action-left">
-          <b-form-checkbox
-              :checked="selectAllDeptUsers"
-              :indeterminate="isSelectAllDeptUsersIndeterminate"
-              @change="selectAllDeptUsersUpdate"
-          >
-            全选
-          </b-form-checkbox>
-        </div>
-        <div
-            v-show="selectedUsers.length"
-            class="align-items-center"
-            :class="{'d-flex': selectedUsers.length}"
-        >
-
-          <!-- Update Dept Dropdown -->
-          <b-dropdown
-              variant="link"
-              no-caret
-              toggle-class="p-0"
-              right
-          >
-            <template #button-content>
-              <feather-icon
-                  icon="FolderIcon"
-                  size="17"
-                  class="align-middle text-body"
-              />
-            </template>
-
-            <b-dropdown-item
-                v-for="department in departments"
-                :key="department.title + $route.path"
-                @click="moveSelectedUsersToDept(department.title)">
-              <feather-icon icon="AnchorIcon" />
-              <span class="align-middle ml-50">{{department.title}}</span>
-            </b-dropdown-item>
-          </b-dropdown>
-
-        </div>
-      </div>
-
-      <!-- Users List -->
+      <!-- User List -->
       <vue-perfect-scrollbar
           :settings="perfectScrollbarSettings"
-          class="email-user-list scroll-area"
+          class="attendance-user-list scroll-area"
       >
         <ul class="attendance-media-list">
           <b-media
@@ -96,28 +53,34 @@
               no-body
           >
 
+            <b-media-aside class="media-left mr-0">
+              <b-avatar
+                  class="avatar"
+                  size="35"
+                  variant="primary"
+                  :src="user.userPhoto"
+              />
+            </b-media-aside>
+
             <b-media-body>
-              <div class="attendance-details">
-                <div class="attendance-items">
+              <div class="user-details align-items-center">
+                <div class="user-items ml-1">
                   <h5 class="mb-25">
                     {{ user.userName }}
                   </h5>
-                  <span class="text-truncate">{{ user.userRank }}</span>
+                  <span class="text-truncate">{{ user.userPhone }}</span>
                 </div>
-                <div class="mail-meta-item">
-                  <span
-                      v-for="rank in user.userRank"
-                      :key="rank"
-                      class="mx-50 bullet bullet-sm"
-                      :class="`bullet-${resolveLabelColor(rank)}`"
-                  />
+                <div class="todo-item-action">
+                  <div class="badge-wrapper mr-1">
+                    <b-badge
+                        pill
+                        :variant="`light-${resolveRankColor(user.userRank)}`"
+                        class="text-capitalize"
+                    >
+                      {{ user.userRank }}级
+                    </b-badge>
+                  </div>
                 </div>
-              </div>
-
-              <div class="mail-message">
-                <p class="text-truncate mb-0">
-                  {{ filterTags(email.message) }}
-                </p>
               </div>
             </b-media-body>
           </b-media>
@@ -129,15 +92,16 @@
           <h5>No Items Found</h5>
         </div>
       </vue-perfect-scrollbar>
+
     </div>
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <attendance-left-sidebar
-        :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
-        :attendances-meta="attendancesMeta"
-        :class="{'show': mqShallShowLeftSidebar}"
-        @close-left-sidebar="mqShallShowLeftSidebar = false"
+          :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
+          :departments="departments"
+          :class="{'show': mqShallShowLeftSidebar}"
+          @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
 
@@ -145,42 +109,176 @@
 </template>
 
 <script>
-import store from '@/store'
-import {
-  ref, onUnmounted,
-  // ref, watch, computed, onUnmounted,
-} from '@vue/composition-api'
+import { computed, ref, watch } from '@vue/composition-api'
 
-import { filterTags, formatDateToMonthShort } from '@core/utils/filter'
 import { useRouter } from '@core/utils/utils'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import AttendanceLeftSidebar from './AttendanceLeftSidebar.vue'
 import useAttendance from './useAttendance'
+import {
+  BDropdown,
+  BDropdownItem,
+  BFormCheckbox,
+  BFormInput,
+  BInputGroup,
+  BInputGroupPrepend,
+  BMedia,
+  BMediaAside,
+  BMediaBody,
+  BBadge,
+  BAvatar
+} from 'bootstrap-vue'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import axiosIns from '@/libs/axios'
 
 export default {
   components: {
+    BFormInput,
+    BInputGroup,
+    BInputGroupPrepend,
+    BDropdown,
+    BDropdownItem,
+    BFormCheckbox,
+    BMedia,
+    BMediaAside,
+    BMediaBody,
+    BBadge,
+    BAvatar,
+
+    // 3rd Party
+    VuePerfectScrollbar,
+
     // App SFC
     AttendanceLeftSidebar,
   },
-  setup() {
-    const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
+  setup () {
+    const {
+      route,
+      router
+    } = useRouter()
+    const { resolveRankColor } = useAttendance()
 
-    // Register module
-    // eslint-disable-next-line no-undef
-    if (!store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.registerModule(ATTENDANCE_STORE_MODULE_NAME, attendanceStoreModule)
-
-    // UnRegister on leave
-    onUnmounted(() => {
-      if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
+    // Route Params
+    const routeParams = computed(() => route.value.params)
+    watch(routeParams, () => {
+      fetchUsers()
     })
 
-    // eslint-disable-next-line no-unused-vars
-    const { route, router } = useRouter()
-    const { resolveLabelColor } = useAttendance()
+    // Departments && Users
+    const departments = ref(
+        [{
+          name: '所有部门',
+          route: {
+            name: 'office-attendance'
+          },
+          users: []
+        }]
+    )
+    let users = ref([])
+    let allUsers = []
 
-    // Attendances & AttendancesMeta
-    const attendances = ref([])
-    const attendancesMeta = ref({})
+    const fetchDepartments = () => {
+      axiosIns.get('/user/getLowerUsers', {
+        params: {
+          userId: JSON.parse(localStorage.getItem('userData')).userId
+        }
+      })
+      .then(response => {
+        const statusCode = response.data.status.code
+
+        if (statusCode === '0000') {
+          const vo = response.data.data
+
+          allUsers = []
+          vo.forEach(department => {
+            departments.value.push({
+              name: department.deptName,
+              route: {
+                name: 'office-attendance-department',
+                params: { department: department.deptName }
+              },
+              users: department.simpleUserVOS
+            })
+
+            allUsers = allUsers.concat(department.simpleUserVOS)
+          })
+
+          let hash = {}
+          allUsers = allUsers.reduce(function (item, next) {
+            hash[next.userName] ? '' : hash[next.userName] = true && item.push(next)
+            return item
+          }, [])
+
+          allUsers = allUsers.sort((user1, user2) => {
+            return user2.userRank - user1.userRank
+          })
+
+          departments.value[0].users = allUsers
+          users.value = JSON.parse(JSON.stringify(allUsers))
+        }
+      })
+    }
+
+    fetchDepartments()
+
+    const perfectScrollbarSettings = {
+      maxScrollbarLength: 150,
+    }
+
+    // Search Query
+    const routeQuery = computed(() => route.value.query.q)
+    const searchQuery = ref(routeQuery.value)
+    watch(routeQuery, val => {
+      searchQuery.value = val
+    })
+    watch(searchQuery, () => fetchUsers())
+    const updateRouteQuery = val => {
+      const currentRouteQuery = JSON.parse(JSON.stringify(route.value.query))
+
+      if (val) {
+        currentRouteQuery.q = val
+      } else {
+        delete currentRouteQuery.q
+      }
+
+      router.replace({
+        name: route.name,
+        query: currentRouteQuery
+      })
+    }
+
+    const fetchUsers = () => {
+      const departmentName = router.currentRoute.params.department || '所有部门'
+      const rank = router.currentRoute.params.rank
+      const searchContent = searchQuery.value
+
+      if (departmentName !== '所有部门') {
+        const department = departments.value.find(department => department.name === departmentName)
+        if (typeof department != 'undefined') {
+          users.value = department.users
+        }
+      } else {
+        users.value = allUsers
+      }
+
+      if (typeof rank != 'undefined') {
+        users.value = []
+        if (rank < 6) {
+          users.value = users.value.concat(allUsers.filter(user => user.userRank === rank))
+        } else {
+          users.value = users.value.concat(allUsers.filter(user => user.userRank >= rank))
+        }
+      }
+
+      if (typeof searchContent == 'string') {
+        const searchFilterFunction = user => user.userName.includes(searchContent)
+        users.value = JSON.parse(JSON.stringify(computed(() => users.value.filter(searchFilterFunction))))
+        console.log(users.value)
+        console.log(typeof users.value)
+      }
+    }
+
+    fetchUsers()
 
     // Compose
     const shallShowAttendanceComposeModal = ref(false)
@@ -189,17 +287,19 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
 
     return {
+      // UI
+      perfectScrollbarSettings,
 
-      // Attendances & AttendancesMeta
-      attendances,
-      attendancesMeta,
+      // Departments && Users
+      departments,
+      users,
 
-      // UI Filters
-      filterTags,
-      formatDateToMonthShort,
+      // Search Query
+      searchQuery,
+      updateRouteQuery,
 
       // useAttendance
-      resolveLabelColor,
+      resolveRankColor,
 
       // Compose
       shallShowAttendanceComposeModal,
@@ -207,7 +307,7 @@ export default {
       // Left Sidebar Responsiveness
       mqShallShowLeftSidebar,
     }
-  },
+  }
 }
 </script>
 
