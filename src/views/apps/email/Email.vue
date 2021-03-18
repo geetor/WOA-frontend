@@ -2,9 +2,9 @@
   <!-- Need to add height inherit because Vue 2 don't support multiple root ele -->
   <div style="height: inherit">
     <div
-      class="body-content-overlay"
-      :class="{'show': mqShallShowLeftSidebar}"
-      @click="mqShallShowLeftSidebar = false"
+        class="body-content-overlay"
+        :class="{'show': mqShallShowLeftSidebar}"
+        @click="mqShallShowLeftSidebar = false"
     />
 
     <!-- Email List -->
@@ -16,10 +16,10 @@
         <!-- Toggler -->
         <div class="sidebar-toggle d-block d-lg-none ml-1">
           <feather-icon
-            icon="MenuIcon"
-            size="21"
-            class="cursor-pointer"
-            @click="mqShallShowLeftSidebar = true"
+              icon="MenuIcon"
+              size="21"
+              class="cursor-pointer"
+              @click="mqShallShowLeftSidebar = true"
           />
         </div>
 
@@ -28,14 +28,14 @@
           <b-input-group class="input-group-merge">
             <b-input-group-prepend is-text>
               <feather-icon
-                icon="SearchIcon"
-                class="text-muted"
+                  icon="SearchIcon"
+                  class="text-muted"
               />
             </b-input-group-prepend>
             <b-form-input
-              :value="searchQuery"
-              placeholder="Search email"
-              @input="updateRouteQuery"
+                :value="searchQuery"
+                placeholder="Search email"
+                @input="updateRouteQuery"
             />
           </b-input-group>
         </div>
@@ -45,99 +45,99 @@
       <div class="app-action">
         <div class="action-left">
           <b-form-checkbox
-            :checked="selectAllEmailCheckbox"
-            :indeterminate="isSelectAllEmailCheckboxIndeterminate"
-            @change="selectAllCheckboxUpdate"
+              :checked="selectAllEmailCheckbox"
+              :indeterminate="isSelectAllEmailCheckboxIndeterminate"
+              @change="selectAllCheckboxUpdate"
           >
             Select All
           </b-form-checkbox>
         </div>
         <div
-          v-show="selectedEmails.length"
-          class="align-items-center"
-          :class="{'d-flex': selectedEmails.length}"
+            v-show="selectedEmails.length"
+            class="align-items-center"
+            :class="{'d-flex': selectedEmails.length}"
         >
 
           <!-- Update Mail Folder Dropdown -->
           <b-dropdown
-            variant="link"
-            no-caret
-            toggle-class="p-0"
-            right
+              variant="link"
+              no-caret
+              toggle-class="p-0"
+              right
           >
             <template #button-content>
               <feather-icon
-                icon="FolderIcon"
-                size="17"
-                class="align-middle text-body"
+                  icon="FolderIcon"
+                  size="17"
+                  class="align-middle text-body"
               />
             </template>
 
             <b-dropdown-item @click="moveSelectedEmailsToFolder('draft')">
-              <feather-icon icon="Edit2Icon" />
+              <feather-icon icon="Edit2Icon"/>
               <span class="align-middle ml-50">Draft</span>
             </b-dropdown-item>
 
             <b-dropdown-item @click="moveSelectedEmailsToFolder('spam')">
-              <feather-icon icon="InfoIcon" />
+              <feather-icon icon="InfoIcon"/>
               <span class="align-middle ml-50">Spam</span>
             </b-dropdown-item>
 
             <b-dropdown-item
-              v-show="$route.params.folder !== 'trash'"
-              @click="moveSelectedEmailsToFolder('trash')"
+                v-show="$route.params.folder !== 'trash'"
+                @click="moveSelectedEmailsToFolder('trash')"
             >
-              <feather-icon icon="TrashIcon" />
+              <feather-icon icon="TrashIcon"/>
               <span class="align-middle ml-50">Trash</span>
             </b-dropdown-item>
           </b-dropdown>
 
           <!-- Update Mail Folder Dropdown -->
           <b-dropdown
-            variant="link"
-            no-caret
-            toggle-class="p-0"
-            class="ml-1"
-            right
+              variant="link"
+              no-caret
+              toggle-class="p-0"
+              class="ml-1"
+              right
           >
             <template #button-content>
               <feather-icon
-                icon="TagIcon"
-                size="17"
-                class="align-middle text-body"
+                  icon="TagIcon"
+                  size="17"
+                  class="align-middle text-body"
               />
             </template>
             <b-dropdown-item @click="updateSelectedEmailsLabel('personal')">
-              <span class="mr-50 bullet bullet-success bullet-sm" />
+              <span class="mr-50 bullet bullet-success bullet-sm"/>
               <span>Personal</span>
             </b-dropdown-item>
             <b-dropdown-item @click="updateSelectedEmailsLabel('company')">
-              <span class="mr-50 bullet bullet-primary bullet-sm" />
+              <span class="mr-50 bullet bullet-primary bullet-sm"/>
               <span>Company</span>
             </b-dropdown-item>
             <b-dropdown-item @click="updateSelectedEmailsLabel('important')">
-              <span class="mr-50 bullet bullet-warning bullet-sm" />
+              <span class="mr-50 bullet bullet-warning bullet-sm"/>
               <span>Important</span>
             </b-dropdown-item>
             <b-dropdown-item @click="updateSelectedEmailsLabel('private')">
-              <span class="mr-50 bullet bullet-danger bullet-sm" />
+              <span class="mr-50 bullet bullet-danger bullet-sm"/>
               <span>Private</span>
             </b-dropdown-item>
           </b-dropdown>
 
           <feather-icon
-            icon="MailIcon"
-            size="17"
-            class="cursor-pointer ml-1"
-            @click="markSelectedEmailsAsUnread"
+              icon="MailIcon"
+              size="17"
+              class="cursor-pointer ml-1"
+              @click="markSelectedEmailsAsUnread"
           />
 
           <feather-icon
-            v-show="$route.params.folder !== 'trash'"
-            icon="TrashIcon"
-            size="17"
-            class="cursor-pointer ml-1"
-            @click="moveSelectedEmailsToFolder('trash')"
+              v-show="$route.params.folder !== 'trash'"
+              icon="TrashIcon"
+              size="17"
+              class="cursor-pointer ml-1"
+              @click="moveSelectedEmailsToFolder('trash')"
           />
 
         </div>
@@ -145,38 +145,38 @@
 
       <!-- Emails List -->
       <vue-perfect-scrollbar
-        :settings="perfectScrollbarSettings"
-        class="email-user-list scroll-area"
+          :settings="perfectScrollbarSettings"
+          class="email-user-list scroll-area"
       >
         <ul class="email-media-list">
           <b-media
-            v-for="email in emails"
-            :key="email.id"
-            tag="li"
-            no-body
-            :class="{ 'mail-read': email.isRead }"
-            @click="updateEmailViewData(email)"
+              v-for="email in emails"
+              :key="email.id"
+              tag="li"
+              no-body
+              :class="{ 'mail-read': email.isRead }"
+              @click="updateEmailViewData(email)"
           >
 
             <b-media-aside class="media-left mr-50">
               <b-avatar
-                class="avatar"
-                size="40"
-                variant="primary"
-                :src="email.from.avatar"
+                  class="avatar"
+                  size="40"
+                  variant="primary"
+                  :src="email.from.avatar"
               />
               <div class="user-action">
                 <b-form-checkbox
-                  :checked="selectedEmails.includes(email.id)"
-                  @change="toggleSelectedMail(email.id)"
-                  @click.native.stop
+                    :checked="selectedEmails.includes(email.id)"
+                    @change="toggleSelectedMail(email.id)"
+                    @click.native.stop
                 />
                 <div class="email-favorite">
                   <feather-icon
-                    icon="StarIcon"
-                    size="17"
-                    :class="{ 'text-warning fill-current': email.isStarred }"
-                    @click.stop="toggleStarred(email)"
+                      icon="StarIcon"
+                      size="17"
+                      :class="{ 'text-warning fill-current': email.isStarred }"
+                      @click.stop="toggleStarred(email)"
                   />
                 </div>
               </div>
@@ -192,16 +192,21 @@
                 </div>
                 <div class="mail-meta-item">
                   <feather-icon
-                    v-if="email.attachments.length"
-                    icon="PaperclipIcon"
+                      v-if="email.attachments.length"
+                      icon="PaperclipIcon"
                   />
                   <span
-                    v-for="label in email.labels"
-                    :key="label"
-                    class="mx-50 bullet bullet-sm"
-                    :class="`bullet-${resolveLabelColor(label)}`"
+                      v-for="label in email.labels"
+                      :key="label"
+                      class="mx-50 bullet bullet-sm"
+                      :class="`bullet-${resolveLabelColor(label)}`"
                   />
-                  <span class="mail-date">{{ formatDateToMonthShort(email.time, { hour: 'numeric', minute: 'numeric', }) }}</span>
+                  <span class="mail-date">{{
+                      formatDateToMonthShort(email.time, {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })
+                    }}</span>
                 </div>
               </div>
 
@@ -214,8 +219,8 @@
           </b-media>
         </ul>
         <div
-          class="no-results"
-          :class="{'show': !emails.length}"
+            class="no-results"
+            :class="{'show': !emails.length}"
         >
           <h5>No Items Found</h5>
         </div>
@@ -224,29 +229,29 @@
 
     <!-- Email View/Detail -->
     <email-view
-      :class="{'show': showEmailDetails}"
-      :email-view-data="emailViewData"
-      :opended-email-meta="opendedEmailMeta"
-      @close-email-view="showEmailDetails = false"
-      @move-email-to-folder="moveOpenEmailToFolder"
-      @toggle-email-starred="toggleStarred(emailViewData)"
-      @update-email-label="updateOpenEmailLabel"
-      @mark-email-unread="markOpenEmailAsUnread"
-      @change-opened-email="changeOpenedEmail"
+        :class="{'show': showEmailDetails}"
+        :email-view-data="emailViewData"
+        :opended-email-meta="opendedEmailMeta"
+        @close-email-view="showEmailDetails = false"
+        @move-email-to-folder="moveOpenEmailToFolder"
+        @toggle-email-starred="toggleStarred(emailViewData)"
+        @update-email-label="updateOpenEmailLabel"
+        @mark-email-unread="markOpenEmailAsUnread"
+        @change-opened-email="changeOpenedEmail"
     />
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <email-left-sidebar
-        :shall-show-email-compose-modal.sync="shallShowEmailComposeModal"
-        :emails-meta="emailsMeta"
-        :class="{'show': mqShallShowLeftSidebar}"
-        @close-left-sidebar="mqShallShowLeftSidebar = false"
+          :shall-show-email-compose-modal.sync="shallShowEmailComposeModal"
+          :emails-meta="emailsMeta"
+          :class="{'show': mqShallShowLeftSidebar}"
+          @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
 
     <!-- Compose Email Modal -->
-    <email-compose v-model="shallShowEmailComposeModal" />
+    <email-compose v-model="shallShowEmailComposeModal"/>
   </div>
 </template>
 
@@ -254,7 +259,6 @@
 import store from '@/store'
 import {
   ref, onUnmounted, computed, watch,
-  // ref, watch, computed, onUnmounted,
 } from '@vue/composition-api'
 import {
   BFormInput, BInputGroup, BInputGroupPrepend, BDropdown, BDropdownItem,
@@ -291,7 +295,7 @@ export default {
     EmailView,
     EmailCompose,
   },
-  setup() {
+  setup () {
     const EMAIL_APP_STORE_MODULE_NAME = 'app-email'
 
     // Register module
@@ -302,7 +306,10 @@ export default {
       if (store.hasModule(EMAIL_APP_STORE_MODULE_NAME)) store.unregisterModule(EMAIL_APP_STORE_MODULE_NAME)
     })
 
-    const { route, router } = useRouter()
+    const {
+      route,
+      router
+    } = useRouter()
     const { resolveLabelColor } = useEmail()
 
     // Route Params
@@ -331,10 +338,16 @@ export default {
     const updateRouteQuery = val => {
       const currentRouteQuery = JSON.parse(JSON.stringify(route.value.query))
 
-      if (val) currentRouteQuery.q = val
-      else delete currentRouteQuery.q
+      if (val) {
+        currentRouteQuery.q = val
+      } else {
+        delete currentRouteQuery.q
+      }
 
-      router.replace({ name: route.name, query: currentRouteQuery })
+      router.replace({
+        name: route.name,
+        query: currentRouteQuery
+      })
     }
 
     const fetchEmails = () => {
@@ -343,10 +356,10 @@ export default {
         folder: router.currentRoute.params.folder || 'inbox',
         label: router.currentRoute.params.label,
       })
-        .then(response => {
-          emails.value = response.data.emails
-          emailsMeta.value = response.data.emailsMeta
-        })
+      .then(response => {
+        emails.value = response.data.emails
+        emailsMeta.value = response.data.emailsMeta
+      })
     }
 
     fetchEmails()
@@ -358,8 +371,11 @@ export default {
     const toggleSelectedMail = mailId => {
       const mailIndex = selectedEmails.value.indexOf(mailId)
 
-      if (mailIndex === -1) selectedEmails.value.push(mailId)
-      else selectedEmails.value.splice(mailIndex, 1)
+      if (mailIndex === -1) {
+        selectedEmails.value.push(mailId)
+      } else {
+        selectedEmails.value.splice(mailIndex, 1)
+      }
     }
     const selectAllEmailCheckbox = computed(() => emails.value.length && (emails.value.length === selectedEmails.value.length))
     const isSelectAllEmailCheckboxIndeterminate = computed(() => Boolean(selectedEmails.value.length) && emails.value.length !== selectedEmails.value.length)
@@ -375,7 +391,8 @@ export default {
       store.dispatch('app-email/updateEmail', {
         emailIds: [email.id],
         dataToUpdate: { isStarred: !email.isStarred },
-      }).then(() => {
+      })
+      .then(() => {
         // eslint-disable-next-line no-param-reassign
         email.isStarred = !email.isStarred
       })
@@ -386,8 +403,12 @@ export default {
         emailIds: selectedEmails.value,
         dataToUpdate: { folder },
       })
-        .then(() => { fetchEmails() })
-        .finally(() => { selectedEmails.value = [] })
+      .then(() => {
+        fetchEmails()
+      })
+      .finally(() => {
+        selectedEmails.value = []
+      })
     }
 
     const updateSelectedEmailsLabel = label => {
@@ -395,8 +416,12 @@ export default {
         emailIds: selectedEmails.value,
         label,
       })
-        .then(() => { fetchEmails() })
-        .finally(() => { selectedEmails.value = [] })
+      .then(() => {
+        fetchEmails()
+      })
+      .finally(() => {
+        selectedEmails.value = []
+      })
     }
 
     const markSelectedEmailsAsUnread = () => {
@@ -404,8 +429,12 @@ export default {
         emailIds: selectedEmails.value,
         dataToUpdate: { isRead: false },
       })
-        .then(() => { fetchEmails() })
-        .finally(() => { selectedEmails.value = [] })
+      .then(() => {
+        fetchEmails()
+      })
+      .finally(() => {
+        selectedEmails.value = []
+      })
     }
 
     // ------------------------------------------------
@@ -426,19 +455,19 @@ export default {
         emailIds: [email.id],
         dataToUpdate: { isRead: true },
       })
-        .then(() => {
-          // If opened email is unread then decrease badge count for email meta based on email folder
-          if (!email.isRead && (email.folder === 'inbox' || email.folder === 'spam')) {
-            emailsMeta.value[email.folder] -= 1
-          }
+      .then(() => {
+        // If opened email is unread then decrease badge count for email meta based on email folder
+        if (!email.isRead && (email.folder === 'inbox' || email.folder === 'spam')) {
+          emailsMeta.value[email.folder] -= 1
+        }
 
-          // eslint-disable-next-line no-param-reassign
-          email.isRead = true
-        })
-        .finally(() => {
-          emailViewData.value = email
-          showEmailDetails.value = true
-        })
+        // eslint-disable-next-line no-param-reassign
+        email.isRead = true
+      })
+      .finally(() => {
+        emailViewData.value = email
+        showEmailDetails.value = true
+      })
     }
     const moveOpenEmailToFolder = folder => {
       selectedEmails.value = [emailViewData.value.id]
@@ -452,8 +481,11 @@ export default {
 
       // Update label in opened email
       const labelIndex = emailViewData.value.labels.indexOf(label)
-      if (labelIndex === -1) emailViewData.value.labels.push(label)
-      else emailViewData.value.labels.splice(labelIndex, 1)
+      if (labelIndex === -1) {
+        emailViewData.value.labels.push(label)
+      } else {
+        emailViewData.value.labels.splice(labelIndex, 1)
+      }
 
       selectedEmails.value = []
     }
@@ -538,7 +570,7 @@ export default {
       // Left Sidebar Responsiveness
       mqShallShowLeftSidebar,
     }
-  },
+  }
 }
 </script>
 

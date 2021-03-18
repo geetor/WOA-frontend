@@ -8,9 +8,9 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
                 block
-                @click="console.log('test')"
+                @click="check"
             >
-              签到
+              考勤
             </b-button>
           </div>
           <vue-perfect-scrollbar
@@ -21,7 +21,7 @@
             <b-list-group class="list-group-messages">
               <b-list-group-item
                   v-for="department in departments"
-                  :key="department.title + $route.path"
+                  :key="department.name + $route.path"
                   :to="department.route"
                   :active="isDynamicRouteActive(department.route)"
                   @click="$emit('close-left-sidebar')"
@@ -31,7 +31,15 @@
                     size="18"
                     class="mr-75"
                 />
-                <span class="align-text-bottom line-height-1">{{ department.title }}</span>
+                <span class="align-text-bottom line-height-1">{{ department.name }}</span>
+                <b-badge
+                    v-if="department.users.length"
+                    pill
+                    :variant="resolveDepartmentBadgeColor(department.name)"
+                    class="float-right"
+                >
+                  {{ department.users.length }}
+                </b-badge>
               </b-list-group-item>
             </b-list-group>
 
@@ -90,17 +98,11 @@ export default {
   props: {
     shallShowAttendanceComposeModal: {
       type: Boolean,
-      required: true,
+      required: true
     },
-    attendancesMeta: {
-      type: Object,
-      required: true,
-    },
-  },
-  data () {
-    return {
-      departments: [],
-      ranks: []
+    departments: {
+      type: Array,
+      required: true
     }
   },
   setup () {
@@ -108,11 +110,9 @@ export default {
       maxScrollbarLength: 60,
     }
 
-    const departments = []
-
     const ranks = [
       {
-        title: '6级',
+        title: '6级+',
         color: 'success',
         route: {
           name: 'office-attendance-rank',
@@ -121,7 +121,7 @@ export default {
       },
       {
         title: '5级',
-        color: 'primary',
+        color: 'secondary',
         route: {
           name: 'office-attendance-rank',
           params: { rank: 5 }
@@ -129,58 +129,74 @@ export default {
       },
       {
         title: '4级',
-        color: 'warning',
+        color: 'primary',
         route: {
           name: 'office-attendance-rank',
           params: { rank: 4 }
         }
       },
       {
-        title: '3级及以下',
-        color: 'danger',
+        title: '3级',
+        color: 'warning',
         route: {
           name: 'office-attendance-rank',
           params: { rank: 3 }
         }
       },
+      {
+        title: '2级',
+        color: 'danger',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 2 }
+        }
+      },
+      {
+        title: '1级',
+        color: 'info',
+        route: {
+          name: 'office-attendance-rank',
+          params: { rank: 1 }
+        }
+      },
     ]
+
+    const resolveDepartmentBadgeColor = department => {
+      if (department === '人事部门') return 'light-warning'
+      if (department === '武装部门') return 'light-danger'
+      return 'light-primary'
+    }
 
     return {
       // UI
       perfectScrollbarSettings,
       isDynamicRouteActive,
+      resolveDepartmentBadgeColor,
 
-      // Departments & Labels
-      departments,
+      // Ranks
       ranks
     }
   },
-  mounted () {
-    this.getDeptsAndUsers()
-  },
   methods: {
-    getDeptsAndUsers () {
+    check () {
       const that = this
-      this.axiosIns.get('/user/getLowerUsers', {
+      that.axiosIns.get('/attendance/checkIn', {
         params: {
           userId: JSON.parse(localStorage.getItem('userData')).userId
         }
       })
       .then(res => {
         const statusCode = res.data.status.code
-        if (statusCode === '0000') {
-          const departments = res.data.data
 
-          departments.forEach(department => {
-            console.log(department)
-            const newDepartment = {
-              title: department.deptName,
-              route: {
-                name: 'office-attendance-department',
-                params: { folder: `${department.deptName}` }
-              }
+        if (statusCode === '0000') {
+          that.$toast({
+            component: ToastificationContent,
+            props: {
+              title: `签到成功!`,
+              icon: 'CoffeeIcon',
+              variant: 'success',
+              text: '请勿重复点击，以免误签!'
             }
-            that.departments.push(newDepartment)
           })
         } else {
           that.$toast({
@@ -189,6 +205,7 @@ export default {
                   title: res.data.status.msg,
                   icon: 'DeleteIcon',
                   variant: 'warning',
+                  text: '请勿重复点击，以免误签!'
                 }
               },
               { position: 'bottom-right' }
@@ -201,7 +218,7 @@ export default {
               props: {
                 title: '错误',
                 icon: 'DeleteIcon',
-                variant: 'warning',
+                variant: 'danger',
               }
             },
             { position: 'bottom-right' }
@@ -209,6 +226,7 @@ export default {
       })
     }
   }
+
 }
 </script>
 

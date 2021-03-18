@@ -57,7 +57,7 @@ $attendance_details_header_height: 5rem;
 
     // Right content area common css starts
     .content-right {
-      width: calc(100% - #{$menu-expanded-width});
+      width: calc(55% - #{$menu-expanded-width});
       border-left: 1px solid $border-color;
       .attendance-list {
         height: inherit;
@@ -95,8 +95,8 @@ $attendance_details_header_height: 5rem;
     .attendance-user-list {
       position: relative;
       height: calc(
-        100% - calc(3.49rem + 3.32rem)
-      ); // ? search box height (3.49rem) + select all section height (3.32rem)
+        100% - calc(3.49rem)
+      ); // ? search box height (3.49rem)
       .attendance-media-list {
         padding: 0;
         margin: 0;
@@ -153,10 +153,10 @@ $attendance_details_header_height: 5rem;
           &:not(:first-child) {
             border-top: 1px solid $border-color;
           }
-          .attendance-details {
+          .user-details {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.55rem;
+
           }
           .attendance-date {
             color: $text-muted;
@@ -190,6 +190,7 @@ $attendance_details_header_height: 5rem;
         display: none;
         padding: 1.5rem;
         text-align: center;
+        height: 100%;
         &.show {
           display: block;
         }
@@ -414,13 +415,13 @@ $attendance_details_header_height: 5rem;
         }
       }
       .attendance-user-list {
-        .attendance-media-list li .attendance-details {
+        .attendance-media-list li .user-details {
           display: block;
-          .attendance-items {
+          .user-items {
             width: 70%;
             display: inline-grid;
           }
-          .attendance-meta-item {
+          .user-meta-item {
             width: 15%;
             position: absolute;
             right: 1rem;

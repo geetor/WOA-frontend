@@ -1708,6 +1708,108 @@
     }
   }
 
+  // attendance application
+  .attendance-application {
+    .content-area-wrapper {
+      // Attendance list
+      .attendance-list {
+        .app-action {
+          border-color: $theme-dark-border-color;
+          background-color: $theme-dark-card-bg;
+          .action-right {
+            .list-inline-item {
+              .dropdown-toggle {
+                color: $theme-dark-body-color;
+              }
+            }
+          }
+        }
+
+        .attendance-user-list {
+          .media {
+            border-color: $theme-dark-border-color;
+            background-color: $theme-dark-card-bg;
+
+            &:hover {
+              box-shadow: 0 3px 10px 0 $theme-dark-card-bg;
+            }
+
+            &.selected-row-bg {
+              background-color: rgba($primary, 0.06);
+              border-color: $theme-dark-border-color;
+            }
+          }
+
+          .media {
+            .user-details,
+            .attendance-message {
+              p,
+              .attendance-date {
+                color: $theme-dark-text-muted-color;
+              }
+            }
+          }
+
+          .mail-read {
+            background-color: $theme-dark-table-hover-bg;
+          }
+        }
+      }
+
+      // attendance details
+      .attendance-details {
+        border-color: $theme-dark-border-color;
+        .attendance-scroll-area {
+          background-color: $theme-dark-body-bg;
+        }
+
+        .attendance-detail-header {
+          background-color: $theme-dark-card-bg;
+          border-color: $theme-dark-border-color;
+
+          .attendance-header-right {
+            .list-inline-item {
+              .dropdown-toggle,
+              .action-icon {
+                color: $theme-dark-body-color;
+              }
+            }
+          }
+        }
+        .attendance-info-dropup {
+          .dropdown-toggle::after {
+            background-image: url(str-replace(
+                            str-replace($chevron-down, 'currentColor', $theme-dark-text-muted-color),
+                            '#',
+                            '%23'
+            ));
+          }
+        }
+
+        .attendance-message-wrapper,
+        .attendance-detail-head {
+          border-color: $theme-dark-border-color !important;
+        }
+      }
+
+      // Compose attendance
+      #compose-attendance {
+        .compose-attendance-form-field,
+        .ql-toolbar,
+        .ql-container {
+          border-color: $theme-dark-border-color;
+        }
+        label {
+          color: $theme-dark-body-color;
+        }
+        .modal-body {
+          border-bottom-left-radius: $modal-content-border-radius;
+          border-bottom-right-radius: $modal-content-border-radius;
+        }
+      }
+    }
+  }
+
   // chat application
   .chat-application {
     .content-area-wrapper {
