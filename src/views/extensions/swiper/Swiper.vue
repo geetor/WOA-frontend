@@ -46,7 +46,6 @@ export default {
   components: {
     BRow,
     BCol,
-
     SwiperDefault,
     SwiperNavigation,
     SwiperPagination,

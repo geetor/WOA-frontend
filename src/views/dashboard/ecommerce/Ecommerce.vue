@@ -86,8 +86,6 @@
 
       <!-- Transaction Card -->
       <b-col
-        lg="4"
-        md="6"
       >
         <ecommerce-transactions :data="data.transactionData" />
       </b-col>
