@@ -1,5 +1,6 @@
 <template>
   <div style="height: inherit">
+
     <div
         class="body-content-overlay"
         :class="{'show': mqShallShowLeftSidebar}"
@@ -8,7 +9,6 @@
 
     <!-- User List -->
     <div class="attendance-list">
-
       <!-- App Searchbar Header -->
       <div class="app-fixed-search d-flex align-items-center">
 
@@ -92,7 +92,6 @@
           <h5>No Items Found</h5>
         </div>
       </vue-perfect-scrollbar>
-
     </div>
 
     <!-- Sidebar -->
@@ -272,9 +271,8 @@ export default {
 
       if (typeof searchContent == 'string') {
         const searchFilterFunction = user => user.userName.includes(searchContent)
-        users.value = JSON.parse(JSON.stringify(computed(() => users.value.filter(searchFilterFunction))))
-        console.log(users.value)
-        console.log(typeof users.value)
+        const searchResult = computed(() => users.value.filter(searchFilterFunction))
+        users.value = searchResult.value
       }
     }
 

@@ -89,7 +89,6 @@ export default {
     BButton,
     BListGroup,
     BListGroupItem,
-    // eslint-disable-next-line vue/no-unused-components
     BBadge,
 
     // 3rd Party
