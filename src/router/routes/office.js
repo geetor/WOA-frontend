@@ -30,7 +30,7 @@ export default [
       navActiveLink: 'office-attendance',
     },
     beforeEnter (to, _, next) {
-      if (typeof to.params.userId == 'number') {
+      if (!isNaN(Number(to.params.userId))) {
         next()
       } else {
         next({ name: 'error-404' })

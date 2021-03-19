@@ -178,6 +178,7 @@ export default {
     // Route Params
     const routeParams = computed(() => route.value.params)
     watch(routeParams, () => {
+      fetchDepartments()
       fetchUsers()
     })
 

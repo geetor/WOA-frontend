@@ -255,6 +255,7 @@ export default function userCalendar() {
       end: 'dayGridMonth,listMonth',
     },
     events: fetchEvents,
+    locale: 'zh-cn',
 
     /*
       Enable dragging and resizing event
