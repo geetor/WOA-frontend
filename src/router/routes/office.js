@@ -44,7 +44,7 @@ export default [
       navActiveLink: 'office-attendance',
     },
     beforeEnter (to, _, next) {
-      if ([6, 5, 4, 3].includes(to.params.rank)) {
+      if ([6, 5, 4, 3, 2, 1].includes(to.params.rank)) {
         next()
       } else {
         next({ name: 'error-404' })

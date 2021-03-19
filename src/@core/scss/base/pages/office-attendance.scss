@@ -57,7 +57,7 @@ $attendance_details_header_height: 5rem;
 
     // Right content area common css starts
     .content-right {
-      width: calc(55% - #{$menu-expanded-width});
+      width: calc(100% - #{$menu-expanded-width});
       border-left: 1px solid $border-color;
       .attendance-list {
         height: inherit;
@@ -94,9 +94,7 @@ $attendance_details_header_height: 5rem;
     // Attendance user list area
     .attendance-user-list {
       position: relative;
-      height: calc(
-        100% - calc(3.49rem)
-      ); // ? search box height (3.49rem)
+      height: 100%;
       .attendance-media-list {
         padding: 0;
         margin: 0;

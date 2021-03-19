@@ -8,90 +8,104 @@
     />
 
     <!-- User List -->
+    <!--    <div class="attendance-list">-->
+    <!--      &lt;!&ndash; App Searchbar Header &ndash;&gt;-->
+    <!--      <div class="app-fixed-search d-flex align-items-center">-->
+
+    <!--        &lt;!&ndash; Toggler &ndash;&gt;-->
+    <!--        <div class="sidebar-toggle d-block d-lg-none ml-1">-->
+    <!--          <feather-icon-->
+    <!--              icon="MenuIcon"-->
+    <!--              size="21"-->
+    <!--              class="cursor-pointer"-->
+    <!--              @click="mqShallShowLeftSidebar = true"-->
+    <!--          />-->
+    <!--        </div>-->
+
+    <!--        &lt;!&ndash; Searchbar &ndash;&gt;-->
+    <!--        <div class="d-flex align-content-center justify-content-between w-100">-->
+    <!--          <b-input-group class="input-group-merge">-->
+    <!--            <b-input-group-prepend is-text>-->
+    <!--              <feather-icon-->
+    <!--                  icon="SearchIcon"-->
+    <!--                  class="text-muted"-->
+    <!--              />-->
+    <!--            </b-input-group-prepend>-->
+    <!--            <b-form-input-->
+    <!--                :data="searchQuery"-->
+    <!--                placeholder="搜索部门成员"-->
+    <!--                @input="updateRouteQuery"-->
+    <!--            />-->
+    <!--          </b-input-group>-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      &lt;!&ndash; User List &ndash;&gt;-->
+    <!--      <vue-perfect-scrollbar-->
+    <!--          :settings="perfectScrollbarSettings"-->
+    <!--          class="attendance-user-list scroll-area"-->
+    <!--      >-->
+    <!--        <ul class="attendance-media-list">-->
+    <!--          <b-media-->
+    <!--              v-for="user in users"-->
+    <!--              :key="user.userId"-->
+    <!--              tag="li"-->
+    <!--              no-body-->
+    <!--          >-->
+
+    <!--            <b-media-aside class="media-left mr-0">-->
+    <!--              <b-avatar-->
+    <!--                  class="avatar"-->
+    <!--                  size="35"-->
+    <!--                  variant="primary"-->
+    <!--                  :src="user.userPhoto"-->
+    <!--              />-->
+    <!--            </b-media-aside>-->
+
+    <!--            <b-media-body>-->
+    <!--              <div class="user-details align-items-center">-->
+    <!--                <div class="user-items ml-1">-->
+    <!--                  <h5 class="mb-25">-->
+    <!--                    {{ user.userName }}-->
+    <!--                  </h5>-->
+    <!--                  <span class="text-truncate">{{ user.userPhone }}</span>-->
+    <!--                </div>-->
+    <!--                <div class="todo-item-action">-->
+    <!--                  <div class="badge-wrapper mr-1">-->
+    <!--                    <b-badge-->
+    <!--                        pill-->
+    <!--                        :variant="`light-${resolveRankColor(user.userRank)}`"-->
+    <!--                        class="text-capitalize"-->
+    <!--                    >-->
+    <!--                      {{ user.userRank }}级-->
+    <!--                    </b-badge>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </b-media-body>-->
+    <!--          </b-media>-->
+    <!--        </ul>-->
+    <!--        <div-->
+    <!--            class="no-results"-->
+    <!--            :class="{'show': !users.length}"-->
+    <!--        >-->
+    <!--        </div>-->
+    <!--      </vue-perfect-scrollbar>-->
+    <!--    </div>-->
+
+    <!-- User List -->
     <div class="attendance-list">
-      <!-- App Searchbar Header -->
-      <div class="app-fixed-search d-flex align-items-center">
-
-        <!-- Toggler -->
-        <div class="sidebar-toggle d-block d-lg-none ml-1">
-          <feather-icon
-              icon="MenuIcon"
-              size="21"
-              class="cursor-pointer"
-              @click="mqShallShowLeftSidebar = true"
-          />
-        </div>
-
-        <!-- Searchbar -->
-        <div class="d-flex align-content-center justify-content-between w-100">
-          <b-input-group class="input-group-merge">
-            <b-input-group-prepend is-text>
-              <feather-icon
-                  icon="SearchIcon"
-                  class="text-muted"
-              />
-            </b-input-group-prepend>
-            <b-form-input
-                :data="searchQuery"
-                placeholder="搜索部门成员"
-                @input="updateRouteQuery"
-            />
-          </b-input-group>
-        </div>
-      </div>
-
-      <!-- User List -->
       <vue-perfect-scrollbar
           :settings="perfectScrollbarSettings"
           class="attendance-user-list scroll-area"
       >
-        <ul class="attendance-media-list">
-          <b-media
-              v-for="user in users"
-              :key="user.userId"
-              tag="li"
-              no-body
-          >
-
-            <b-media-aside class="media-left mr-0">
-              <b-avatar
-                  class="avatar"
-                  size="35"
-                  variant="primary"
-                  :src="user.userPhoto"
-              />
-            </b-media-aside>
-
-            <b-media-body>
-              <div class="user-details align-items-center">
-                <div class="user-items ml-1">
-                  <h5 class="mb-25">
-                    {{ user.userName }}
-                  </h5>
-                  <span class="text-truncate">{{ user.userPhone }}</span>
-                </div>
-                <div class="todo-item-action">
-                  <div class="badge-wrapper mr-1">
-                    <b-badge
-                        pill
-                        :variant="`light-${resolveRankColor(user.userRank)}`"
-                        class="text-capitalize"
-                    >
-                      {{ user.userRank }}级
-                    </b-badge>
-                  </div>
-                </div>
-              </div>
-            </b-media-body>
-          </b-media>
-        </ul>
-        <div
-            class="no-results"
-            :class="{'show': !users.length}"
+        <user-list
+            :departments="departments"
+            :users="users"
         >
-          <h5>No Items Found</h5>
-        </div>
+        </user-list>
       </vue-perfect-scrollbar>
+
     </div>
 
     <!-- Sidebar -->
@@ -113,6 +127,7 @@ import { computed, ref, watch } from '@vue/composition-api'
 import { useRouter } from '@core/utils/utils'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import AttendanceLeftSidebar from './AttendanceLeftSidebar.vue'
+import UserList from './user-list/UserList'
 import useAttendance from './useAttendance'
 import {
   BDropdown,
@@ -149,6 +164,7 @@ export default {
 
     // App SFC
     AttendanceLeftSidebar,
+    UserList
   },
   setup () {
     const {
@@ -177,7 +193,7 @@ export default {
     let allUsers = []
 
     const fetchDepartments = () => {
-      axiosIns.get('/user/getLowerUsers', {
+      axiosIns.get('/attendance/getLowerUsersAttendance', {
         params: {
           userId: JSON.parse(localStorage.getItem('userData')).userId
         }
@@ -196,10 +212,10 @@ export default {
                 name: 'office-attendance-department',
                 params: { department: department.deptName }
               },
-              users: department.simpleUserVOS
+              users: department.userAttendances
             })
 
-            allUsers = allUsers.concat(department.simpleUserVOS)
+            allUsers = allUsers.concat(department.userAttendances)
           })
 
           let hash = {}
@@ -230,21 +246,9 @@ export default {
     watch(routeQuery, val => {
       searchQuery.value = val
     })
-    watch(searchQuery, () => fetchUsers())
-    const updateRouteQuery = val => {
-      const currentRouteQuery = JSON.parse(JSON.stringify(route.value.query))
-
-      if (val) {
-        currentRouteQuery.q = val
-      } else {
-        delete currentRouteQuery.q
-      }
-
-      router.replace({
-        name: route.name,
-        query: currentRouteQuery
-      })
-    }
+    watch(searchQuery, () => {
+      fetchUsers()
+    })
 
     const fetchUsers = () => {
       const departmentName = router.currentRoute.params.department || '所有部门'
@@ -271,8 +275,7 @@ export default {
 
       if (typeof searchContent == 'string') {
         const searchFilterFunction = user => user.userName.includes(searchContent)
-        const searchResult = computed(() => users.value.filter(searchFilterFunction))
-        users.value = searchResult.value
+        users.value = computed(() => users.value.filter(searchFilterFunction)).value
       }
     }
 
@@ -294,7 +297,6 @@ export default {
 
       // Search Query
       searchQuery,
-      updateRouteQuery,
 
       // useAttendance
       resolveRankColor,

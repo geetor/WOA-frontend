@@ -42,28 +42,6 @@
                 </b-badge>
               </b-list-group-item>
             </b-list-group>
-
-            <!-- Ranks -->
-            <h6 class="section-label mt-3 mb-1 px-2">
-              等级
-            </h6>
-
-            <b-list-group class="list-group-labels">
-              <b-list-group-item
-                  v-for="rank in ranks"
-                  :key="rank.title + $route.path"
-                  :to="rank.route"
-                  :active="isDynamicRouteActive(rank.route)"
-                  @click="$emit('close-left-sidebar')"
-              >
-                <span
-                    class="bullet bullet-sm mr-1"
-                    :class="`bullet-${rank.color}`"
-                />
-                <span>{{ rank.title }}</span>
-              </b-list-group-item>
-            </b-list-group>
-
           </vue-perfect-scrollbar>
         </div>
       </div>
@@ -109,57 +87,6 @@ export default {
       maxScrollbarLength: 60,
     }
 
-    const ranks = [
-      {
-        title: '6级+',
-        color: 'success',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 6 }
-        }
-      },
-      {
-        title: '5级',
-        color: 'secondary',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 5 }
-        }
-      },
-      {
-        title: '4级',
-        color: 'primary',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 4 }
-        }
-      },
-      {
-        title: '3级',
-        color: 'warning',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 3 }
-        }
-      },
-      {
-        title: '2级',
-        color: 'danger',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 2 }
-        }
-      },
-      {
-        title: '1级',
-        color: 'info',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 1 }
-        }
-      },
-    ]
-
     const resolveDepartmentBadgeColor = department => {
       if (department === '人事部门') return 'light-warning'
       if (department === '武装部门') return 'light-danger'
@@ -171,9 +98,6 @@ export default {
       perfectScrollbarSettings,
       isDynamicRouteActive,
       resolveDepartmentBadgeColor,
-
-      // Ranks
-      ranks
     }
   },
   methods: {
