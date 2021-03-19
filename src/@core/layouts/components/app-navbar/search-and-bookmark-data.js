@@ -4,8 +4,10 @@ export default {
   pages: {
     key: 'title',
     data: [
+      { title: '主页', route: { name: 'home-homepage' }, icon: 'HomeIcon', isBookmarked: true },
       { title: '考勤系统', route: { name: 'office-attendance' }, icon: 'CheckSquareIcon', isBookmarked: true },
       { title: '训练中心', route: { name: 'office-training' }, icon: 'LifeBuoyIcon', isBookmarked: true },
+      { title: '文档中心', route: { name: 'doc-center-list' }, icon: 'FileTextIcon', isBookmarked: true },
       { title: 'Access Control', route: { name: 'access-control' }, icon: 'ShieldIcon', isBookmarked: false },
       { title: 'Account Settings', route: { name: 'pages-account-setting' }, icon: 'SettingsIcon', isBookmarked: false },
       { title: 'Advance Card', route: { name: 'card-advance' }, icon: 'CreditCardIcon', isBookmarked: false },

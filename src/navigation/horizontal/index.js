@@ -35,4 +35,4 @@ import docCenter from './doc-center'
 import home from './home'
 
 // Array of sections
-export default [...home, ...apps, ...attendance, ...training, ...docCenter, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others, ...docCenter]
+export default [...home, ...docCenter, ...attendance, ...training, ...apps, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
