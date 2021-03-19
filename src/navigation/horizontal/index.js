@@ -23,7 +23,6 @@ title
 route: [route_obj/route_name] (I have to resolve name somehow from the route obj)
 
 */
-import dashboard from './dashboard'
 import apps from './apps'
 import attendance from './attendance'
 import training from './training'
@@ -33,6 +32,7 @@ import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 import others from './others'
 import docCenter from './doc-center'
+import home from './home'
 
 // Array of sections
-export default [...dashboard, ...apps, ...attendance, ...training,...docCenter, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others]
+export default [...home, ...apps, ...attendance, ...training, ...docCenter, ...uiElements, ...formAndTable, ...pages, ...chartsAndMaps, ...others, ...docCenter]

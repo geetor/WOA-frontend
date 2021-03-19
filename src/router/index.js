@@ -12,6 +12,7 @@ import chartsMaps from './routes/charts-maps'
 import formsTable from './routes/forms-tables'
 import others from './routes/others'
 import docCenter from './routes/doc-center'
+import home from './routes/home'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: { name: 'dashboard-analytics' }
+      redirect: { name: 'home-homepage' }
     },
     ...apps,
     ...office,
@@ -38,6 +39,7 @@ const router = new VueRouter({
     ...uiElements,
     ...others,
     ...docCenter,
+    ...home,
     {
       path: '*',
       redirect: 'error-404',
