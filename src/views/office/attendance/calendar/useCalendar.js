@@ -251,11 +251,16 @@ export default function userCalendar() {
     plugins: [dayGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     headerToolbar: {
-      start: 'sidebarToggle, prev,next, title',
+      start: 'sidebarToggle, prev, title, next',
       end: 'dayGridMonth,listMonth',
+    },
+    buttonText: {
+      month: '考勤月历',
+      list: '考勤列表'
     },
     events: fetchEvents,
     locale: 'zh-cn',
+    firstDay: 1,
 
     /*
       Enable dragging and resizing event

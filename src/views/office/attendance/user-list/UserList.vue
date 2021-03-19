@@ -66,10 +66,9 @@
         responsive
         hover
         :fields="tableColumns"
-        primary-key="id"
         :sort-by.sync="sortBy"
         show-empty
-        empty-text=""
+        empty-text="无对应用户"
         :sort-desc.sync="isSortDirDesc"
         class="position-relative"
     >
@@ -318,7 +317,6 @@ export default {
         }
       }
     ]
-
     const rankOptions = [
       '1级',
       '2级',
@@ -327,6 +325,8 @@ export default {
       '5级',
       '6级+'
     ]
+    const sortBy = ref('userRank')
+    const isSortDirDesc = ref(true)
 
     const rankFilter = ref('')
     const updateRankQuery = () => {
@@ -336,7 +336,6 @@ export default {
         params: to.route.params
       })
     }
-
 
     // Search Query
     const routeQuery = computed(() => route.value.query.q)
@@ -367,8 +366,8 @@ export default {
       totalInvoices,
       dataMeta,
       perPageOptions,
-      sortBy,
-      isSortDirDesc,
+      // sortBy,
+      // isSortDirDesc,
       refUserListTable,
 
       refetchData,

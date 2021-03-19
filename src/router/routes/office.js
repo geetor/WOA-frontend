@@ -1,13 +1,4 @@
 export default [
-  {
-    path: '/office/attendance',
-    name: 'office-attendance',
-    component: () => import('@/views/office/attendance/Attendance.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'attendance-application',
-    },
-  },
 
   // *===============================================---*
   // *--------- ATTENDANCE & IT'S FILTERS N LABELS -------------------------------*
@@ -19,22 +10,6 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'attendance-application',
-    },
-  },
-  {
-    path: '/office/attendance/calendar/:userId',
-    name: 'office-attendance-calendar',
-    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
-    meta: {
-      contentClass: 'attendance-application',
-      navActiveLink: 'office-attendance',
-    },
-    beforeEnter (to, _, next) {
-      if (!isNaN(Number(to.params.userId))) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
     },
   },
   {
@@ -65,6 +40,22 @@ export default [
     },
     beforeEnter (to, _, next) {
       if ([6, 5, 4, 3, 2, 1].includes(to.params.rank)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
+    },
+  },
+  {
+    path: '/office/attendance/calendar/:userId',
+    name: 'office-attendance-calendar',
+    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
+    meta: {
+      contentClass: 'attendance-application',
+      navActiveLink: 'office-attendance',
+    },
+    beforeEnter (to, _, next) {
+      if (!isNaN(Number(to.params.userId))) {
         next()
       } else {
         next({ name: 'error-404' })
