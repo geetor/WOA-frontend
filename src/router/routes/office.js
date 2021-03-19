@@ -1,8 +1,12 @@
 export default [
   {
-    path: '/office/calendar',
-    name: 'office-calendar',
-    component: () => import('@/views/office/calendar/Calendar.vue'),
+    path: '/office/attendance',
+    name: 'office-attendance',
+    component: () => import('@/views/office/attendance/Attendance.vue'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'attendance-application',
+    },
   },
 
   // *===============================================---*
@@ -15,6 +19,22 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'attendance-application',
+    },
+  },
+  {
+    path: '/office/attendance/calendar/:userId',
+    name: 'office-attendance-calendar',
+    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
+    meta: {
+      contentClass: 'attendance-application',
+      navActiveLink: 'office-attendance',
+    },
+    beforeEnter (to, _, next) {
+      if (typeof to.params.userId == 'number') {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     },
   },
   {

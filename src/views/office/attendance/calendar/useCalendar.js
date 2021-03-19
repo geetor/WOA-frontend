@@ -1,8 +1,6 @@
 // Full Calendar Plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
-import interactionPlugin from '@fullcalendar/interaction'
 
 // Notification
 import { useToast } from 'vue-toastification/composition'
@@ -250,11 +248,11 @@ export default function userCalendar() {
   // * This isn't considered in UI because this is the core of calendar app
   // ------------------------------------------------------------------------
   const calendarOptions = ref({
-    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
+    plugins: [dayGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'dayGridMonth,listMonth',
     },
     events: fetchEvents,
 

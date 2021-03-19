@@ -3,6 +3,7 @@
   <!-- Table Container Card -->
   <b-card
       no-body
+      class="mb-0"
   >
 
     <div class="m-2">
@@ -145,34 +146,23 @@
 
         <div class="text-nowrap">
           <feather-icon
-              :id="`invoice-row-${data.item.id}-send-icon`"
+              :id="`attendance-row-${data.item.id}-calendar-icon`"
               icon="CalendarIcon"
               class="cursor-pointer"
               size="16"
+              @click="$router.push({ name: 'office-attendance-calendar', params: { userId: data.item.userId }})"
           />
           <b-tooltip
               title="考勤日历"
               class="cursor-pointer"
-              :target="`invoice-row-${data.item.id}-send-icon`"
-          />
-
-          <feather-icon
-              :id="`invoice-row-${data.item.id}-preview-icon`"
-              icon="EyeIcon"
-              size="16"
-              class="mx-1"
-              @click="$router.push({ name: 'apps-invoice-preview', params: { id: data.item.id }})"
-          />
-          <b-tooltip
-              title="考勤信息"
-              :target="`invoice-row-${data.item.id}-preview-icon`"
+              :target="`attendance-row-${data.item.id}-calendar-icon`"
           />
 
           <feather-icon
               :id="`invoice-row-${data.item.id}-edit-icon`"
               icon="AlertOctagonIcon"
               size="16"
-              class="cursor-pointer"
+              class="mx-1"
               @click="$router.push({ name: 'apps-invoice-edit', params: { id: data.item.id }})"
           />
           <b-tooltip
