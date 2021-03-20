@@ -16,19 +16,19 @@
       </b-media-aside>
       <b-media-body>
         <h6 class="mb-25">
-          {{ blogEdit.userFullName }}
+          {{ userData.userName }}
         </h6>
-        <b-card-text>{{ blogEdit.createdTime }}</b-card-text>
+        <b-card-text>{{ getCurrentTime }}</b-card-text>
       </b-media-body>
     </b-media>
     <!--/ media -->
 
     <!-- form -->
-    <b-form class="mt-2">
+    <b-form class="mt-2 my-b-form">
       <b-row>
         <b-col md="6">
           <b-form-group
-            label="Title"
+            label="标题"
             label-for="blog-edit-title"
             class="mb-2"
           >
@@ -38,44 +38,19 @@
             />
           </b-form-group>
         </b-col>
+
         <b-col md="6">
           <b-form-group
-            label="Category"
+            label="设置查看权限"
             label-for="blog-edit-category"
             class="mb-2"
+            @focus="pInput()"
           >
             <v-select
               id="blog-edit-category"
-              v-model="blogEdit.blogCategories"
+              v-model="blogEdit.rank"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              multiple
-              :options="categoryOption"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group
-            label="Slug"
-            label-for="blog-edit-slug"
-            class="mb-2"
-          >
-            <b-form-input
-              id="blog-edit-slug"
-              v-model="blogEdit.slug"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col md="6">
-          <b-form-group
-            label="Status"
-            label-for="blog-edit-category"
-            class="mb-2"
-          >
-            <v-select
-              id="blog-edit-category"
-              v-model="blogEdit.status"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="statusOption"
+              :options="rankOption"
             />
           </b-form-group>
         </b-col>
@@ -96,43 +71,7 @@
           cols="12"
           class="mb-2"
         >
-          <div class="border rounded p-2">
-            <h4 class="mb-1">
-              Featured Image
-            </h4>
-            <b-media
-              no-body
-              vertical-align="center"
-              class="flex-column flex-md-row"
-            >
-              <b-media-aside>
-                <b-img
-                  ref="refPreviewEl"
-                  :src="blogEdit.featuredImage"
-                  height="110"
-                  width="170"
-                  class="rounded mr-2 mb-1 mb-md-0"
-                />
-              </b-media-aside>
-              <b-media-body>
-                <small class="text-muted">Required image resolution 800x400, image size 10mb.</small>
-                <b-card-text class="my-50">
-                  <b-link id="blog-image-text">
-                    C:\fakepath\{{ blogFile ? blogFile.name : 'banner.jpg' }}
-                  </b-link>
-                </b-card-text>
-                <div class="d-inline-block">
-                  <b-form-file
-                    ref="refInputEl"
-                    v-model="blogFile"
-                    accept=".jpg, .png, .gif"
-                    placeholder="Choose file"
-                    @input="inputImageRenderer"
-                  />
-                </div>
-              </b-media-body>
-            </b-media>
-          </div>
+
         </b-col>
         <b-col
           cols="12"
@@ -141,21 +80,23 @@
           <b-button
             v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="primary"
-            class="mr-1"
+            class="mr-1 sub-btn"
+            @click="publishBlog($event)"
           >
-            Save Changes
+            发布
           </b-button>
-          <b-button
-            v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-            variant="outline-secondary"
-          >
-            Cancel
-          </b-button>
+<!--          <b-button-->
+<!--            v-ripple.400="'rgba(186, 191, 199, 0.15)'"-->
+<!--            variant="outline-secondary"-->
+<!--          >-->
+<!--            取消-->
+<!--          </b-button>-->
         </b-col>
       </b-row>
     </b-form>
     <!--/ form -->
   </b-card>
+
 </template>
 
 <script>
@@ -167,6 +108,7 @@ import { quillEditor } from 'vue-quill-editor'
 import Ripple from 'vue-ripple-directive'
 import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
 import { ref } from '@vue/composition-api'
+import axios from '@/libs/axios'
 
 export default {
   components: {
@@ -195,15 +137,18 @@ export default {
     return {
       blogEdit: {},
       blogFile: null,
-      categoryOption: ['Fashion', 'Food', 'Gaming', 'Quote', 'Video'],
-      statusOption: ['Published', 'Pending', 'Draft'],
+      categoryOption: ['同志', 'Food', 'Gaming', 'Quote', 'Video'],
+      rankOption: [6,5,4,3,2,1],
       snowOption: {
         theme: 'snow',
       },
+      userData:{}
     }
   },
   created() {
     this.$http.get('/blog/list/data/edit').then(res => { this.blogEdit = res.data })
+    this.userData = JSON.parse(localStorage.getItem('userData'))
+
   },
   setup() {
     const refInputEl = ref(null)
@@ -217,6 +162,46 @@ export default {
       inputImageRenderer,
     }
   },
+  methods:{
+    publishBlog(){
+      let richText = this.blogEdit.excerpt;
+      let postBody = {
+        open:true,
+        documentType:"Test Document",
+        documentRank:this.blogEdit.rank,
+        documentSubject:"Test",
+        documentTitle:this.blogEdit.blogTitle,
+        issuingTime:this.getCurrentTime,
+        modifiedTime:this.getCurrentTime,
+        documentContent:richText,
+        authors:[7],
+        depts:[1]
+      };
+      axios.post('/document/addDocument', postBody)
+      .then(res=>{
+        if(res.data.status.code='0000'){
+          alert('发布成功！');
+          this.$router.push('/doc-center/list')
+        }
+      })
+    },
+    pInput(){
+      console.log('Hello world!')
+    }
+  },
+  computed:{
+    getCurrentTime(){
+      let myDate = new Date();
+      let year = myDate.getFullYear();
+      let month = myDate.getMonth();
+      let day = myDate.getDate();
+      let Hour = myDate.getHours();
+      let Minute = myDate.getMinutes();
+      let Second = myDate.getSeconds();
+      return year+"-"+month+"-"+day+" "+Hour+":"+Minute+":"+Second;
+
+    }
+  }
 }
 </script>
 
@@ -224,4 +209,8 @@ export default {
 @import '@core/scss/vue/libs/vue-select.scss';
 @import '@core/scss/vue/libs/quill.scss';
 @import '@core/scss/vue/pages/page-blog.scss';
+
+.sub-btn{
+  float: right;
+}
 </style>

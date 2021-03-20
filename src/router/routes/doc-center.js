@@ -10,7 +10,7 @@ export default [
     component:()=>import('@/views/doc-center/BlogEdit.vue')
   },
   {
-    path: '/doc-center/detail/:id',
+    path: '/doc-center/detail/:docId',
     name:'doc-center-detail',
     component:()=>import('@/views/doc-center/BlogDetail.vue')
   }

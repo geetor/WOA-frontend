@@ -241,14 +241,18 @@ const data = {
   // edit
   blogEdit: {
     avatar: require('@/assets/images/portrait/small/avatar-s-9.jpg'),
-    userFullName: 'Chad Alexander',
+    userFullName: '管理员 刘涛',
     createdTime: 'May 24, 2020',
-    blogTitle: 'The Best Features Coming to iOS and Web design',
+    blogTitle: '',
     blogCategories: ['Fashion', 'Gaming'],
     slug: 'the-best-features-coming-to-ios-and-web-design',
-    status: 'Published',
-    excerpt:
-      '<p>Cupcake ipsum dolor sit. Amet dessert donut candy chocolate bar cotton dessert candy chocolate. Candy muffin danish. Macaroon brownie jelly beans marzipan cheesecake oat cake. Carrot cake macaroon chocolate cake. Jelly brownie jelly. Marzipan pie sweet roll.</p><p><br></p><p>Liquorice dragée cake chupa chups pie cotton candy jujubes bear claw sesame snaps. Fruitcake chupa chups chocolate bonbon lemon drops croissant caramels lemon drops. Candy jelly cake marshmallow jelly beans dragée macaroon. Gummies sugar plum fruitcake. Candy canes candy cupcake caramels cotton candy jujubes fruitcake.</p>',
+    rank: '6',
+    excerpt:`
+    
+    
+    
+    
+    `,
     featuredImage: require('@/assets/images/slider/03.jpg'),
   },
 

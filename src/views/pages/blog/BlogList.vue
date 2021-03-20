@@ -224,6 +224,7 @@ import {
 } from 'bootstrap-vue'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
+import axios from '@/libs/axios'
 
 export default {
   components: {
@@ -260,6 +261,8 @@ export default {
   created() {
     this.$http.get('/blog/list/data').then(res => { this.blogList = res.data })
     this.$http.get('/blog/list/data/sidebar').then(res => { this.blogSidebar = res.data })
+
+
   },
   methods: {
     kFormatter,

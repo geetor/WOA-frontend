@@ -8,11 +8,8 @@
           <b-row>
             <!-- blogs -->
             <b-col cols="12">
-              <b-card
-                  img-top
-                  img-alt="Blog Detail Pic"
-                  :title="docDetail.title"
-              >
+                <b-card>
+                  <h2 class="doc-title">{{docDetail.documentTitle}}</h2>
                 <b-media no-body>
                   <b-media-aside
                       vertical-align="center"
@@ -27,17 +24,17 @@
                   <b-media-body>
                     <small class="text-muted mr-50">来源: </small>
                     <small>
-                      <b-link class="text-body">{{ docDetail.userFullName}}</b-link>
+                      <span class="text-body">{{ getAuthorNames }}</span>
                     </small>
                     <span class="text-muted ml-75 mr-50">|</span>
-                    <small class="text-muted">{{ getFormattedDate }}</small>
+                    <small class="text-muted">{{ docDetail.issuingTime }}</small>
 
                   </b-media-body>
                 </b-media>
                 <!-- eslint-disable vue/no-v-html -->
                 <div
                     class="blog-content"
-                    v-html="docDetail.content"
+                    v-html="docDetail.documentContent"
                 />
 
 
@@ -45,54 +42,54 @@
                 <hr class="my-2">
 
                 <div>
-                  <span class="viewed-number">浏览量: {{docDetail.comments}}</span>
+                  <span class="viewed-number">浏览量: 1234</span>
                 </div>
               </b-card>
             </b-col>
             <!--/ blogs -->
 
             <!-- blog comment -->
-            <b-col
-                id="blogComment"
-                cols="12"
-                class="mt-2"
-            >
-              <h6 class="section-label">
-                热评
-              </h6>
-              <b-card
-                  v-for="(comment,index) in docDetail.UserComment"
-                  :key="index"
-              >
-                <b-media no-body>
-                  <b-media-aside class="mr-75">
-                    <b-avatar
-                        :src="comment.avatar"
-                        size="38"
-                    />
-                  </b-media-aside>
-                  <b-media-body>
-                    <h6 class="font-weight-bolder mb-25">
-                      {{ comment.fullName }}
-                    </h6>
-                    <b-card-text>{{ comment.commentedAt }}</b-card-text>
-                    <b-card-text>
-                      {{ comment.comment }}
-                    </b-card-text>
-                    <b-link>
-                      <div class="d-inline-flex align-items-center">
-                        <feather-icon
-                            icon="CornerUpLeftIcon"
-                            size="18"
-                            class="mr-50"
-                        />
-                        <span>Reply</span>
-                      </div>
-                    </b-link>
-                  </b-media-body>
-                </b-media>
-              </b-card>
-            </b-col>
+<!--            <b-col-->
+<!--                id="blogComment"-->
+<!--                cols="12"-->
+<!--                class="mt-2"-->
+<!--            >-->
+<!--              <h6 class="section-label">-->
+<!--                热评-->
+<!--              </h6>-->
+<!--              <b-card-->
+<!--                  v-for="(comment,index) in docDetail.UserComment"-->
+<!--                  :key="index"-->
+<!--              >-->
+<!--                <b-media no-body>-->
+<!--                  <b-media-aside class="mr-75">-->
+<!--                    <b-avatar-->
+<!--                        :src="comment.avatar"-->
+<!--                        size="38"-->
+<!--                    />-->
+<!--                  </b-media-aside>-->
+<!--                  <b-media-body>-->
+<!--                    <h6 class="font-weight-bolder mb-25">-->
+<!--                      {{ comment.fullName }}-->
+<!--                    </h6>-->
+<!--                    <b-card-text>{{ comment.commentedAt }}</b-card-text>-->
+<!--                    <b-card-text>-->
+<!--                      {{ comment.comment }}-->
+<!--                    </b-card-text>-->
+<!--                    <b-link>-->
+<!--                      <div class="d-inline-flex align-items-center">-->
+<!--                        <feather-icon-->
+<!--                            icon="CornerUpLeftIcon"-->
+<!--                            size="18"-->
+<!--                            class="mr-50"-->
+<!--                        />-->
+<!--                        <span>Reply</span>-->
+<!--                      </div>-->
+<!--                    </b-link>-->
+<!--                  </b-media-body>-->
+<!--                </b-media>-->
+<!--              </b-card>-->
+<!--            </b-col>-->
             <!--/ blog comment -->
           </b-row>
         </div>
@@ -107,11 +104,12 @@
 <script>
 import {
   BFormInput, BMedia, BAvatar, BMediaAside, BMediaBody, BImg, BLink, BFormGroup, BInputGroup, BInputGroupAppend,
-  BCard, BRow, BCol, BBadge, BCardText, BDropdown, BDropdownItem, BForm, BFormTextarea, BFormCheckbox, BButton,
+  BCard, BRow, BCol, BBadge, BCardText, BDropdown, BDropdownItem, BForm, BFormTextarea, BFormCheckbox, BButton,BCardTitle
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
+import axios from '@/libs/axios'
 
 export default {
   components: {
@@ -136,6 +134,7 @@ export default {
     BFormTextarea,
     BFormCheckbox,
     BButton,
+    BCardTitle,
     ContentWithSidebar,
   },
   directives: {
@@ -155,6 +154,7 @@ export default {
         'TwitterIcon',
         'LinkedinIcon',
       ],
+      userData:{}
     }
   },
   created() {
@@ -164,8 +164,15 @@ export default {
           let id = Number(this.$route.params.id);
           if ( id > 1 ) { id = 0 }
           this.docDetail = this.docList[id]
-          console.log(this.docList[id])
         })
+    this.userData = JSON.parse(localStorage.getItem('userData'));
+    let docId = this.$route.params.docId
+    axios.get('/document/getDocumentById?userId='+this.userData.userId+"&documentId="+docId)
+      .then(res => {
+        let status = res.data.status
+        this.docDetail = res.data.data
+        console.log(this.docDetail)
+    })
 
   },
 
@@ -184,6 +191,10 @@ export default {
     getFormattedDate() {
       let myDate = new Date()
       return myDate.getFullYear() + '.' + myDate.getMonth() + '.' + myDate.getDate()
+    },
+    getAuthorNames(){
+      let authorList = this.docDetail.authors;
+      return authorList.join("  ");
     }
   },
 }

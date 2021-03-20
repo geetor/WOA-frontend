@@ -1,67 +1,76 @@
 <template>
-  <content-with-sidebar class="blog-wrapper">
+  <div class="container-fluid">
 
 <!--    <b-container>-->
       <!-- blogs -->
       <b-row class="blog-list-wrapper">
 
-        <b-col class="col-7 offset-2 blog-list" >
-          <div class="news-title">通知公告</div>
+        <b-col class="col-5 offset-1 blog-list" >
+          <div class="news-title">
+            <span>公共文档</span>
+            <a class="query-more">更多+</a>
+          </div>
 
 
           <!--document list-->
           <ul>
             <li v-for="(blog,index) in blogList" :key="index" class="doc-item">
-              <b-link :to="'/doc-center/detail/'+index">
-                >>> {{ blog.title }}
+              <b-link :to="'/doc-center/detail/'+blog.documentId">
+                >>> {{ blog.documentTitle }}
               </b-link>
-              <span class="news-date">{{blog.blogPosted}}</span>
+              <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
           </ul>
           <!--/document list-->
 
           <!-- pagination -->
-          <div class="my-2">
-            <b-pagination
-                v-model="currentPage"
-                align="center"
-                :total-rows="rows"
-                first-number
-                last-number
-                prev-class="prev-item"
-                next-class="next-item"
-            >
-              <template #prev-text>
-                <feather-icon
-                    icon="ChevronLeftIcon"
-                    size="18"
-                />
-              </template>
-              <template #next-text>
-                <feather-icon
-                    icon="ChevronRightIcon"
-                    size="18"
-                />
-              </template>
-            </b-pagination>
-            <!--/ pagination -->
-          </div>
+<!--          <div class="my-2">-->
+<!--            <b-pagination-->
+<!--                v-model="currentPage"-->
+<!--                align="center"-->
+<!--                :total-rows="rows"-->
+<!--                first-number-->
+<!--                last-number-->
+<!--                prev-class="prev-item"-->
+<!--                next-class="next-item"-->
+<!--            >-->
+<!--              <template #prev-text>-->
+<!--                <feather-icon-->
+<!--                    icon="ChevronLeftIcon"-->
+<!--                    size="18"-->
+<!--                />-->
+<!--              </template>-->
+<!--              <template #next-text>-->
+<!--                <feather-icon-->
+<!--                    icon="ChevronRightIcon"-->
+<!--                    size="18"-->
+<!--                />-->
+<!--              </template>-->
+<!--            </b-pagination>-->
+<!--            &lt;!&ndash;/ pagination &ndash;&gt;-->
+<!--          </div>-->
         </b-col>
 
-        <b-col cols class="r-side news-list">
-          <h2>近期动态</h2>
-          <ol>
-            <li v-for="news in newsList">
-              <a :href="news.link">{{news.title}}</a>
+        <b-col cols class="r-side blog-list col-5">
+          <div class="news-title">
+            <span>部门文档</span>
+            <a class="query-more">更多+</a>
+          </div>
+          <ul>
+            <li v-for="(blog,index) in blogList" :key="index" class="doc-item">
+              <b-link :to="'/doc-center/detail/'+blog.documentId">
+                >>> {{ blog.documentTitle }}
+              </b-link>
+              <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
-          </ol>
+          </ul>
         </b-col>
 
       </b-row>
 <!--    </b-container>-->
     <!--/ blogs -->
 
-  </content-with-sidebar>
+  </div>
 </template>
 
 <script>
@@ -70,6 +79,7 @@ import {
 } from 'bootstrap-vue'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
+import axios from '@/libs/axios'
 
 export default {
   components: {
@@ -102,12 +112,24 @@ export default {
       perPage: 1,
       rows: 21,
       newsList:[],
+      userData:{},
+      showItemNumber:7,
     }
   },
   created() {
     this.$http.get('/blog/list/data').then(res => { this.blogList = res.data })
     this.$http.get('/blog/list/data/sidebar').then(res => { this.blogSidebar = res.data })
     this.$http.get('/blog/list/data/news').then(res=>{this.newsList = res.data; this.rows = this.newsList.length})
+    this.userData = JSON.parse(localStorage.getItem('userData'))
+    axios.get('/document/getPublicDocuments?userId='+this.userData.userId)
+        .then(res=>{
+          this.blogList = res.data.data
+          if(this.blogList.length > this.showItemNumber){
+            this.blogList = this.blogList.slice(0,this.showItemNumber);
+          }
+          console.log(this.blogList)
+        })
+
   },
   methods: {
     kFormatter,
@@ -120,6 +142,12 @@ export default {
       return 'light-primary'
     },
   },
+  computed: {
+    getFormattedDate() {
+      let myDate = new Date()
+      return myDate.getFullYear() + '.' + myDate.getMonth() + '.' + myDate.getDate()
+    }
+  },
 }
 </script>
 
@@ -127,7 +155,7 @@ export default {
 @import '@core/scss/vue/pages/page-blog.scss';
 
 
-a{
+.doc-item a,.news-list a{
   color: #333;
   font-weight: bold;
   size: 16px;
@@ -149,20 +177,13 @@ a{
   padding-left: 20px;
 }
 
-.r-side h2{
-  border-left: 5px solid #ddd;
-  padding: 2px 8px;
-  margin:8px 0;
-}
 
-.r-side ol{
+.r-side ul{
   margin: 0;
   padding-left: 14px;
 }
 
-.r-side ol>li{
-  padding: 5px 0;
-}
+
 
 .news-title{
   color: #1b2337;
@@ -180,9 +201,11 @@ a{
   padding-top: 5px;
 }
 
-.news-list{
-
+.query-more{
+  float: right;
+  font-size: 16px;
+  font-weight: normal;
+  color:#999;
 }
-
 
 </style>
