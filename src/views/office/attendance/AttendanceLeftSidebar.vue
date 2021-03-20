@@ -10,7 +10,7 @@
                 block
                 @click="check"
             >
-              考勤
+              考 勤
             </b-button>
           </div>
           <vue-perfect-scrollbar

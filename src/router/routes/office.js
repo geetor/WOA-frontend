@@ -1,9 +1,4 @@
 export default [
-  {
-    path: '/office/calendar',
-    name: 'office-calendar',
-    component: () => import('@/views/office/calendar/Calendar.vue'),
-  },
 
   // *===============================================---*
   // *--------- ATTENDANCE & IT'S FILTERS N LABELS -------------------------------*
@@ -45,6 +40,22 @@ export default [
     },
     beforeEnter (to, _, next) {
       if ([6, 5, 4, 3, 2, 1].includes(to.params.rank)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
+    },
+  },
+  {
+    path: '/office/attendance/calendar/:userId',
+    name: 'office-attendance-calendar',
+    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
+    meta: {
+      contentClass: 'attendance-application',
+      navActiveLink: 'office-attendance',
+    },
+    beforeEnter (to, _, next) {
+      if (!isNaN(Number(to.params.userId))) {
         next()
       } else {
         next({ name: 'error-404' })

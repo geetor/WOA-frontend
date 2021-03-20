@@ -3,18 +3,13 @@ export default [
     header: '办公',
   },
   {
-    title: '邮件',
-    route: 'office-email',
+    title: '考勤',
+    route: 'office-attendance',
     icon: 'CheckSquareIcon',
   },
   {
     title: '训练',
     route: 'office-training',
     icon: 'LifeBuoyIcon',
-  },
-  {
-    title: '日历',
-    route: 'office-calendar',
-    icon: 'CalendarIcon',
-  },
+  }
 ]

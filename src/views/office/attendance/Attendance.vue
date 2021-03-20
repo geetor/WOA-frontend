@@ -99,11 +99,13 @@
           :settings="perfectScrollbarSettings"
           class="attendance-user-list scroll-area"
       >
-        <user-list
-            :departments="departments"
-            :users="users"
-        >
-        </user-list>
+        <ul class="attendance-media-list">
+          <user-list
+              :departments="departments"
+              :users="users"
+          >
+          </user-list>
+        </ul>
       </vue-perfect-scrollbar>
 
     </div>
@@ -176,6 +178,7 @@ export default {
     // Route Params
     const routeParams = computed(() => route.value.params)
     watch(routeParams, () => {
+      fetchDepartments()
       fetchUsers()
     })
 
