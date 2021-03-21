@@ -14,7 +14,7 @@
         size="14"
         :icon="item.icon"
       />
-      <span>{{ t(item.header) }}</span>
+      <span>{{ item.header }}</span>
     </b-link>
     <ul class="dropdown-menu">
       <component
@@ -31,7 +31,6 @@
 import { BLink } from 'bootstrap-vue'
 import { resolveHorizontalNavMenuItemComponent } from '@core/layouts/utils'
 import { useUtils as useAclUtils } from '@core/libs/acl'
-import { useUtils as useI18nUtils } from '@core/libs/i18n'
 import useHorizontalNavMenuHeaderGroup from './useHorizontalNavMenuHeaderGroup'
 import mixinHorizontalNavMenuHeaderGroup from './mixinHorizontalNavMenuHeaderGroup'
 
@@ -59,7 +58,6 @@ export default {
       updateGroupOpen,
     } = useHorizontalNavMenuHeaderGroup(props.item)
 
-    const { t } = useI18nUtils()
     const { canViewHorizontalNavMenuHeaderGroup } = useAclUtils()
 
     return {
@@ -70,10 +68,7 @@ export default {
       resolveHorizontalNavMenuItemComponent,
 
       // ACL
-      canViewHorizontalNavMenuHeaderGroup,
-
-      // i18n
-      t,
+      canViewHorizontalNavMenuHeaderGroup
     }
   },
 }
