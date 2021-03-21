@@ -6,7 +6,7 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchDepartments() {
+    fetchDepartments () {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios
@@ -16,15 +16,15 @@ export default {
         }, 650)
       })
     },
-    fetchUsers(ctx, queryParams) {
+    fetchUsers (ctx, queryParams) {
       return new Promise((resolve, reject) => {
-        setTimeout(()=> {
+        setTimeout(() => {
           axios
           .get('/office/attendance/users', { params: queryParams })
           .then(response => resolve(response))
           .catch(error => reject(error))
         }, 650)
       })
-    },
+    }
   },
 }

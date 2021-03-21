@@ -13,7 +13,7 @@ export default [
     },
   },
   {
-    path: '/office/attendance/department/:department',
+    path: '/office/attendance/:department',
     name: 'office-attendance-department',
     component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
@@ -44,53 +44,6 @@ export default [
         next({ name: 'error-404' })
       }
     }
-  },
-
-  // *===============================================---*
-  // *--------- EMAIL & IT'S FILTERS N LABELS -------------------------------*
-  // *===============================================---*
-  {
-    path: '/office/email',
-    name: 'office-email',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-    },
-  },
-  {
-    path: '/office/email/:folder',
-    name: 'office-email-folder',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-      navActiveLink: 'office-email',
-    },
-    beforeEnter (to, _, next) {
-      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
-  },
-  {
-    path: '/office/email/label/:label',
-    name: 'office-email-label',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-      navActiveLink: 'office-email',
-    },
-    beforeEnter (to, _, next) {
-      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
   },
 
   // *===============================================---*
