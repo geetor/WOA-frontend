@@ -3,7 +3,7 @@
   <!-- Table Container Card -->
   <b-card
       no-body
-      class="mb-0"
+      class="mb-0 rounded-0"
   >
 
     <div class="m-2">
@@ -33,23 +33,19 @@
         >
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
+                v-model="searchQuery"
                 class="d-inline-block mr-1"
-                :data="searchQuery"
-                placeholder="搜索部门成员"
-                @input="updateRouteQuery"
+                placeholder="搜索部门成员..."
             />
             <v-select
                 v-model="rankFilter"
-                @input="updateRankQuery"
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                 :options="rankOptions"
-                class="invoice-filter-select"
+                class="user-rank-select"
                 placeholder="用户等级"
             >
               <template #selected-option="{ label }">
-                <span
-                    class="text-truncate overflow-hidden"
-                >
+                <span class="text-truncate overflow-hidden">
                   {{ label }}
                 </span>
               </template>
@@ -62,13 +58,13 @@
 
     <b-table
         ref="refUserListTable"
-        :items="users"
+        :items="fetchUsers"
         responsive
         hover
         :fields="tableColumns"
         :sort-by.sync="sortBy"
         show-empty
-        empty-text="无对应用户"
+        empty-text="无对应成员"
         :sort-desc.sync="isSortDirDesc"
         class="position-relative"
     >
@@ -174,23 +170,24 @@
     </b-table>
     <div class="mx-2 mb-2">
       <b-row>
+
         <b-col
             cols="12"
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
+          <span class="text-muted">从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共 {{ dataMeta.of }} 名成员</span>
         </b-col>
-
         <!-- Pagination -->
         <b-col
-            cols="24"
+            cols="12"
             sm="6"
             class="d-flex align-items-center justify-content-center justify-content-sm-end"
         >
 
           <b-pagination
               v-model="currentPage"
-              :total-rows="totalInvoices"
+              :total-rows="totalUsers"
               :per-page="perPage"
               first-number
               last-number
@@ -228,9 +225,12 @@ import {
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { computed, onUnmounted, ref, watch } from '@vue/composition-api'
-import useUserList from './useUserList'
+import store from '@/store'
+
+import attendanceStoreModule from './attendanceStoreModule'
+import { useToast } from 'vue-toastification/composition'
+import ToastificationContent from '@core/components/toastification/ToastificationContent'
 import { useRouter } from '@core/utils/utils'
-import axiosIns from '@/libs/axios'
 
 export default {
   components: {
@@ -251,152 +251,164 @@ export default {
 
     vSelect,
   },
-  props: {
-    departments: {
-      type: Array,
-      required: true
-    },
-    users: {
-      type: Array,
-      required: true
-    }
-  },
   setup () {
-    const {
-      route,
-      router
-    } = useRouter()
+    const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
 
-    const ranks = [
-      {
-        title: '1级',
-        color: 'info',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 1 }
-        }
-      },
-      {
-        title: '2级',
-        color: 'danger',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 2 }
-        }
-      },
-      {
-        title: '3级',
-        color: 'warning',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 3 }
-        }
-      },
-      {
-        title: '4级',
-        color: 'primary',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 4 }
-        }
-      },
-      {
-        title: '5级',
-        color: 'secondary',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 5 }
-        }
-      },
-      {
-        title: '6级+',
-        color: 'success',
-        route: {
-          name: 'office-attendance-rank',
-          params: { rank: 6 }
-        }
-      }
-    ]
+    // Register module
+    if (!store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.registerModule(ATTENDANCE_STORE_MODULE_NAME, attendanceStoreModule)
+
+    // UnRegister on leave
+    onUnmounted(() => {
+      if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
+    })
+
     const rankOptions = [
       '1级',
       '2级',
       '3级',
       '4级',
       '5级',
-      '6级+'
+      '6级',
+      '7级',
+      '8级',
+      '9级',
+      '10级'
     ]
-    const sortBy = ref('userRank')
-    const isSortDirDesc = ref(true)
-
-    const rankFilter = ref('')
-    const updateRankQuery = () => {
-      const to = ranks.find(rank => rank.title === rankFilter.value)
-      router.replace({
-        name: to.route.name,
-        params: to.route.params
-      })
-    }
-
-    // Search Query
-    const routeQuery = computed(() => route.value.query.q)
-    const searchQuery = ref(routeQuery.value)
-    watch(routeQuery, val => {
-      searchQuery.value = val
-    })
-    const updateRouteQuery = val => {
-      const currentRouteQuery = JSON.parse(JSON.stringify(route.value.query))
-
-      if (val) {
-        currentRouteQuery.q = val
-      } else {
-        delete currentRouteQuery.q
-      }
-
-      router.replace({
-        name: route.name,
-        query: currentRouteQuery
-      })
-    }
 
     const {
-      fetchInvoices,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalInvoices,
-      dataMeta,
-      perPageOptions,
-      // sortBy,
-      // isSortDirDesc,
-      refUserListTable,
+      route,
+      router
+    } = useRouter()
 
-      refetchData,
+    // Route Params
+    const routeParams = computed(() => route.value.params)
 
-      resolveRankColor,
-    } = useUserList()
+    const toast = useToast()
+    const refUserListTable = ref(null)
+
+    // Table Handlers
+    const tableColumns = [
+      {
+        key: '用户',
+        sortable: true
+      },
+      {
+        key: '等级',
+        sortable: true
+      },
+      {
+        key: '出勤次数',
+        sortable: true
+      },
+      {
+        key: '异常次数',
+        sortable: true
+      },
+      {
+        key: '病假次数',
+        sortable: true
+      },
+      {
+        key: '事假次数',
+        sortable: true
+      },
+      {
+        key: '年假次数',
+        sortable: true
+      },
+      {
+        key: '调休次数',
+        sortable: true
+      },
+      { key: '操作' },
+    ]
+    const perPage = ref(10)
+    const totalUsers = ref(0)
+    const currentPage = ref(1)
+    const perPageOptions = [10, 25, 50, 100]
+    const searchQuery = ref('')
+    const sortBy = ref('等级')
+    const isSortDirDesc = ref(true)
+    const rankFilter = ref(null)
+
+    const dataMeta = computed(() => {
+      const localItemsCount = refUserListTable.value ? refUserListTable.value.localItems.length : 0
+      return {
+        from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
+        to: perPage.value * (currentPage.value - 1) + localItemsCount,
+        of: totalUsers.value,
+      }
+    })
+
+    const refetchData = () => {
+      refUserListTable.value.refresh()
+    }
+
+    watch([routeParams, currentPage, perPage, searchQuery, rankFilter], () => {
+      refetchData()
+    })
+
+    const fetchUsers = (ctx, callback) => {
+      store
+      .dispatch('office-attendance/fetchUsers', {
+        department: router.currentRoute.params.department || '所有部门',
+        q: searchQuery.value,
+        perPage: perPage.value,
+        page: currentPage.value,
+        sortBy: sortBy.value,
+        sortDesc: isSortDirDesc.value,
+        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+      })
+      .then(response => {
+        const {
+          users,
+          total
+        } = response.data
+
+        callback(users)
+        totalUsers.value = total
+      })
+      .catch(error => {
+        console.log(error)
+        toast({
+              component: ToastificationContent,
+              props: {
+                title: '错误',
+                icon: 'AlertTriangleIcon',
+                variant: 'danger',
+              },
+            },
+            { position: 'bottom-right' })
+      })
+    }
+
+    const resolveRankColor = rank => {
+      if (rank === 5) return 'secondary'
+      if (rank === 4) return 'primary'
+      if (rank === 3) return 'warning'
+      if (rank === 2) return 'danger'
+      if (rank === 1) return 'info'
+      return 'success'
+    }
 
     return {
-      fetchInvoices,
+      fetchUsers,
       tableColumns,
       perPage,
       currentPage,
-      totalInvoices,
+      totalUsers,
       dataMeta,
       perPageOptions,
+      searchQuery,
       sortBy,
       isSortDirDesc,
       refUserListTable,
 
+      rankFilter,
+
       refetchData,
 
-      // Search Query
-      searchQuery,
-      updateRouteQuery,
-
-      // Rank
       rankOptions,
-      rankFilter,
-      updateRankQuery,
 
       avatarText,
       resolveRankColor
@@ -410,7 +422,7 @@ export default {
   width: 90px;
 }
 
-.invoice-filter-select {
+.user-rank-select {
   min-width: 190px;
 
   ::v-deep .vs__selected-options {

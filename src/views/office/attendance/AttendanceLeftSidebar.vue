@@ -33,12 +33,12 @@
                 />
                 <span class="align-text-bottom line-height-1">{{ department.name }}</span>
                 <b-badge
-                    v-if="department.users.length"
+                    v-if="usersMeta[department.name]"
                     pill
                     :variant="resolveDepartmentBadgeColor(department.name)"
                     class="float-right"
                 >
-                  {{ department.users.length }}
+                  {{ usersMeta[department.name] }}
                 </b-badge>
               </b-list-group-item>
             </b-list-group>
@@ -79,7 +79,11 @@ export default {
     },
     departments: {
       type: Array,
-      required: true
+      required: true,
+    },
+    usersMeta: {
+      type: Object,
+      required: true,
     }
   },
   setup () {
@@ -97,13 +101,13 @@ export default {
       // UI
       perfectScrollbarSettings,
       isDynamicRouteActive,
-      resolveDepartmentBadgeColor,
+      resolveDepartmentBadgeColor
     }
   },
   methods: {
     check () {
       const that = this
-      that.axiosIns.get('/attendance/checkIn', {
+      that.axiosIns.get('/attendance/check', {
         params: {
           userId: JSON.parse(localStorage.getItem('userData')).userId
         }
@@ -115,7 +119,7 @@ export default {
           that.$toast({
             component: ToastificationContent,
             props: {
-              title: `签到成功!`,
+              title: `考勤成功!`,
               icon: 'CoffeeIcon',
               variant: 'success',
               text: '请勿重复点击，以免误签!'

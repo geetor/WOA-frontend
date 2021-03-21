@@ -13,7 +13,7 @@ export default [
     },
   },
   {
-    path: '/office/attendance/:department',
+    path: '/office/attendance/department/:department',
     name: 'office-attendance-department',
     component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
@@ -27,24 +27,7 @@ export default [
       } else {
         next({ name: 'error-404' })
       }
-    },
-  },
-  {
-    path: '/office/attendance/rank/:rank',
-    name: 'office-attendance-rank',
-    component: () => import('@/views/office/attendance/Attendance.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'attendance-application',
-      navActiveLink: 'office-attendance',
-    },
-    beforeEnter (to, _, next) {
-      if ([6, 5, 4, 3, 2, 1].includes(to.params.rank)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
+    }
   },
   {
     path: '/office/attendance/calendar/:userId',
@@ -60,7 +43,7 @@ export default [
       } else {
         next({ name: 'error-404' })
       }
-    },
+    }
   },
 
   // *===============================================---*
