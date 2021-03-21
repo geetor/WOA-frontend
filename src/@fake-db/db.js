@@ -18,7 +18,7 @@ import './data/apps/todo'
 import './data/apps/chat'
 
 // Office
-import './data/office/attendance'
+import './data/office/users'
 
 // dashboard
 import './data/dashboard/analytics'
