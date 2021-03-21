@@ -290,7 +290,7 @@ export default {
     const tableColumns = [
       {
         key: '用户',
-        sortable: true
+        sortable: false
       },
       {
         key: '等级',

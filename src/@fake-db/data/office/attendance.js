@@ -106,10 +106,6 @@ mock.onGet('/office/attendance/users')
 
   const sortKeys = [
     {
-      name: '用户',
-      key: 'userName'
-    },
-    {
       name: '等级',
       key: 'userRank'
     },

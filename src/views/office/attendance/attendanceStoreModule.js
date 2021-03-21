@@ -13,7 +13,7 @@ export default {
           .get('/office/attendance/departments')
           .then(response => resolve(response))
           .catch(error => reject(error))
-        }, 600)
+        }, 650)
       })
     },
     fetchUsers(ctx, queryParams) {
@@ -23,7 +23,7 @@ export default {
           .get('/office/attendance/users', { params: queryParams })
           .then(response => resolve(response))
           .catch(error => reject(error))
-        }, 600)
+        }, 650)
       })
     },
   },
