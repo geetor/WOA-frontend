@@ -52,44 +52,43 @@ export default [
   {
     path: '/office/training',
     name: 'office-training',
-    component: () => import('@/views/office/training/Todo.vue'),
+    component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
+      contentClass: 'training-application',
     },
   },
   {
-    path: '/office/training/:filter',
-    name: 'office-training-filter',
-    component: () => import('@/views/office/training/Todo.vue'),
+    path: '/office/training/:department',
+    name: 'office-training-department',
+    component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
+      contentClass: 'training-application',
       navActiveLink: 'office-training',
     },
     beforeEnter (to, _, next) {
-      if (['important', 'completed', 'deleted'].includes(to.params.filter)) {
+      if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
         next()
       } else {
         next({ name: 'error-404' })
       }
-    },
+    }
   },
   {
-    path: '/office/training/tag/:tag',
-    name: 'office-training-tag',
-    component: () => import('@/views/office/training/Todo.vue'),
+    path: '/office/training/calendar/:userId',
+    name: 'office-training-calendar',
+    component: () => import('@/views/office/training/calendar/TrainingCalendar'),
     meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
+      contentClass: 'training-application',
       navActiveLink: 'office-training',
     },
     beforeEnter (to, _, next) {
-      if (['running', 'cross', 'flying', 'exercise', 'test'].includes(to.params.tag)) {
+      if (!isNaN(Number(to.params.userId))) {
         next()
       } else {
         next({ name: 'error-404' })
       }
-    },
+    }
   },
 ]

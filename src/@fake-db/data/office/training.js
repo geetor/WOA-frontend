@@ -1,6 +1,7 @@
 import axiosIns from '@/libs/axios'
 import mock from '@/@fake-db/mock'
 import { paginateArray, sortCompare } from '@/@fake-db/utils'
+import { isUserLoggedIn } from '@/auth/utils'
 
 const data = {}
 
@@ -44,19 +45,23 @@ const fetchData = () => {
   })
 }
 
-fetchData()
+const isLoggedIn = isUserLoggedIn()
+
+if (isLoggedIn) {
+  fetchData()
+}
 
 // ------------------------------------------------
 // GET: Return Departments
 // ------------------------------------------------
-mock.onGet('/office/attendance/departments')
+mock.onGet('/office/training/departments')
 .reply(config => {
   let departments = []
   data.departments.forEach(department => {
     const departmentRoute = {
       name: department,
       route: {
-        name: 'office-attendance-department',
+        name: 'office-training-department',
         params: {
           department: department
         }
@@ -65,7 +70,7 @@ mock.onGet('/office/attendance/departments')
     departments.push(departmentRoute)
   })
   departments[0].route = {
-    name: 'office-attendance'
+    name: 'office-training'
   }
 
   const usersMeta = {}
@@ -85,7 +90,7 @@ mock.onGet('/office/attendance/departments')
 // ------------------------------------------------
 // GET: Return Users
 // ------------------------------------------------
-mock.onGet('/office/attendance/users')
+mock.onGet('/office/training/users')
 .reply(config => {
   const {
     department = '所有部门',
