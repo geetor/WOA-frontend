@@ -75,7 +75,6 @@
           <template #aside>
             <b-avatar
                 size="32"
-                :src="data.item.userPhoto"
                 :text="avatarText(data.item.userName)"
                 :variant="`light-${resolveRankColor(data.item.userRank)}`"
             />
@@ -289,8 +288,7 @@ export default {
     // Table Handlers
     const tableColumns = [
       {
-        key: '用户',
-        sortable: false
+        key: '用户'
       },
       {
         key: '等级',
@@ -320,7 +318,7 @@ export default {
         key: '调休次数',
         sortable: true
       },
-      { key: '操作' },
+      { key: '操作' }
     ]
     const perPage = ref(10)
     const totalUsers = ref(0)
@@ -369,7 +367,6 @@ export default {
         totalUsers.value = total
       })
       .catch(error => {
-        console.log(error)
         toast({
               component: ToastificationContent,
               props: {

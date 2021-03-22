@@ -1,12 +1,11 @@
 import axiosIns from '@/libs/axios'
 import mock from '@/@fake-db/mock'
 import { paginateArray, sortCompare } from '@/@fake-db/utils'
-import { isUserLoggedIn } from '@/auth/utils'
 
-const data = {}
+const fetchData = async () => {
+  const data = {}
 
-const fetchData = () => {
-  axiosIns.get('/attendance/getLowerUsersAttendance', {
+  return await axiosIns.get('/attendance/getLowerUsersAttendance', {
     params: {
       userId: JSON.parse(localStorage.getItem('userData')).userId
     }
@@ -41,14 +40,10 @@ const fetchData = () => {
 
       data.users = users
       data.departments = departments
+
+      return data
     }
   })
-}
-
-const isLoggedIn = isUserLoggedIn()
-
-if (isLoggedIn) {
-  fetchData()
 }
 
 // ------------------------------------------------
@@ -56,35 +51,38 @@ if (isLoggedIn) {
 // ------------------------------------------------
 mock.onGet('/office/training/departments')
 .reply(config => {
-  let departments = []
-  data.departments.forEach(department => {
-    const departmentRoute = {
-      name: department,
-      route: {
-        name: 'office-training-department',
-        params: {
-          department: department
+  return fetchData()
+  .then(data => {
+    let departments = []
+    data.departments.forEach(department => {
+      const departmentRoute = {
+        name: department,
+        route: {
+          name: 'office-training-department',
+          params: {
+            department: department
+          }
         }
       }
+      departments.push(departmentRoute)
+    })
+    departments[0].route = {
+      name: 'office-training'
     }
-    departments.push(departmentRoute)
-  })
-  departments[0].route = {
-    name: 'office-training'
-  }
 
-  const usersMeta = {}
-  data.departments.forEach(department => {
-    usersMeta[department] = data.users.filter(user => user.department === department).length
-  })
+    const usersMeta = {}
+    data.departments.forEach(department => {
+      usersMeta[department] = data.users.filter(user => user.department === department).length
+    })
 
-  return [
-    200,
-    {
-      departments,
-      usersMeta
-    },
-  ]
+    return [
+      200,
+      {
+        departments,
+        usersMeta
+      },
+    ]
+  })
 })
 
 // ------------------------------------------------
@@ -92,61 +90,64 @@ mock.onGet('/office/training/departments')
 // ------------------------------------------------
 mock.onGet('/office/training/users')
 .reply(config => {
-  const {
-    department = '所有部门',
-    q = '',
-    perPage = 10,
-    page = 1,
-    sortBy = '等级',
-    sortDesc = false,
-    rank
-  } = config.params
+  return fetchData()
+  .then(data => {
+    const {
+      department = '所有部门',
+      q = '',
+      perPage = 10,
+      page = 1,
+      sortBy = '等级',
+      sortDesc = false,
+      rank
+    } = config.params
 
-  const filteredData = data.users.filter(
-    user =>
-      (user.department === department) &&
-      (user.userPhone.includes(q) || user.userName.includes(q)) &&
-      (rank ? user.userRank === Number(rank) : true),
-  )
+    const filteredData = data.users.filter(
+      user =>
+        (user.department === department) &&
+        (user.userPhone.includes(q) || user.userName.includes(q)) &&
+        (rank ? user.userRank === Number(rank) : true),
+    )
 
-  const sortKeys = [
-    {
-      name: '等级',
-      key: 'userRank'
-    },
-    {
-      name: '出勤次数',
-      key: 'countOfAttendance'
-    },
-    {
-      name: '异常次数',
-      key: 'countOfAbnormal'
-    },
-    {
-      name: '病假次数',
-      key: 'countOfSick'
-    },
-    {
-      name: '事假次数',
-      key: 'countOfUnpaid'
-    },
-    {
-      name: '年假次数',
-      key: 'countOfAnnual'
-    },
-    {
-      name: '调休次数',
-      key: 'countOfAdjustment'
-    }
-  ]
-  const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
-  if (sortDesc) sortedData.reverse()
+    const sortKeys = [
+      {
+        name: '等级',
+        key: 'userRank'
+      },
+      {
+        name: '出勤次数',
+        key: 'countOfAttendance'
+      },
+      {
+        name: '异常次数',
+        key: 'countOfAbnormal'
+      },
+      {
+        name: '病假次数',
+        key: 'countOfSick'
+      },
+      {
+        name: '事假次数',
+        key: 'countOfUnpaid'
+      },
+      {
+        name: '年假次数',
+        key: 'countOfAnnual'
+      },
+      {
+        name: '调休次数',
+        key: 'countOfAdjustment'
+      }
+    ]
+    const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
+    if (sortDesc) sortedData.reverse()
 
-  return [
-    200,
-    {
-      users: paginateArray(sortedData, perPage, page),
-      total: filteredData.length,
-    },
-  ]
+    return [
+      200,
+      {
+        users: paginateArray(sortedData, perPage, page),
+        total: filteredData.length,
+      },
+    ]
+  })
 })
