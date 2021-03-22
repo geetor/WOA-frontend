@@ -1,4 +1,7 @@
 import mock from '@/@fake-db/mock'
+import axiosIns from '@/libs/axios'
+import router from '@/router'
+import attendance from '@/navigation/horizontal/attendance'
 
 const date = new Date()
 const nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
@@ -45,7 +48,7 @@ const data = {
     {
       id: 4,
       url: '',
-      title: "Doctor's Appointment",
+      title: 'Doctor\'s Appointment',
       start: new Date(date.getFullYear(), date.getMonth() + 1, -11),
       end: new Date(date.getFullYear(), date.getMonth() + 1, -10),
       allDay: true,
@@ -122,12 +125,66 @@ const data = {
   ],
 }
 
-// ------------------------------------------------
-// GET: Return calendar events
-// ------------------------------------------------
-mock.onGet('/office/attendance/calendar').reply(config => {
-  // Get requested calendars as Array
-  const calendars = config.params.calendars.split(',')
+const fetchAttendances = async (userId, year, month) => {
+  const data = {}
 
-  return [200, data.events.filter(event => calendars.includes(event.extendedProps.calendar))]
+  return await axiosIns.get('attendance/getAttendanceCalendar', {
+    params: {
+      userId: userId,
+      year: year,
+      month: month
+    }
+  })
+  .then(response => {
+    if (response.data.status.code === '0000') {
+      const vo = response.data.data
+
+      let attendanceTypes = ['所有类型']
+      let attendances = []
+
+      vo.forEach(date => {
+        const attendancesOfDate = date.attendanceInfo
+        attendancesOfDate.forEach(attendance => {
+            const calendarItem = {
+              title: attendance.attendanceType,
+              start: attendance.attendanceTime,
+              end: attendance.attendanceTime,
+              allDay: false,
+              extendedProps: {
+                type: attendance.attendanceType
+              }
+            }
+            attendances.push(calendarItem)
+            attendanceTypes.push(attendance.attendanceType)
+          }
+        )
+      })
+
+      attendanceTypes = Array.from(new Set(attendanceTypes))
+
+      data.attendances = attendances
+      data.attendanceTypes = attendanceTypes
+
+      return data
+    }
+  })
+}
+
+// ------------------------------------------------
+// GET: Return attendances
+// ------------------------------------------------
+mock.onGet('/office/attendance/attendances')
+.reply(config => {
+  let {
+    userId,
+    year = date.getFullYear(),
+    month = date.getMonth(),
+    types
+  } = config.params
+  types = types.split(',')
+
+  return fetchAttendances(year, year, month)
+  .then(data => {
+    return [200, data.attendances.filter(attendance => types.include(attendance.extendedProps.type))]
+  })
 })

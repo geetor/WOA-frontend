@@ -144,7 +144,7 @@
               icon="CalendarIcon"
               class="cursor-pointer"
               size="16"
-              @click="$router.push({ name: 'office-attendance-calendar', params: { userId: data.item.userId }})"
+              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
           />
           <b-tooltip
               title="考勤日历"

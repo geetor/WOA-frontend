@@ -86,7 +86,7 @@
                 <v-select
                   v-model="eventLocal.extendedProps.calendar"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  :options="calendarOptions"
+                  :options="attendanceTypes"
                   label="label"
                   :reduce="calendar => calendar.label"
                   input-id="calendar"
@@ -101,7 +101,7 @@
                     <span> {{ label }}</span>
                   </template>
 
-                  <template #selected-option="{ color, label }">
+                  <template #selected-types="{ color, label }">
                     <div
                       class="rounded-circle d-inline-block mr-50"
                       :class="`bg-${color}`"
@@ -223,7 +223,7 @@
                   <span class="ml-50 align-middle"> {{ name }}</span>
                 </template>
 
-                <template #selected-option="{ avatar, name }">
+                <template #selected-types="{ avatar, name }">
                   <b-avatar
                     size="sm"
                     class="border border-white"
@@ -359,7 +359,7 @@ export default {
     const {
       eventLocal,
       resetEventLocal,
-      calendarOptions,
+      attendanceTypes,
 
       // UI
       onSubmit,
@@ -378,7 +378,7 @@ export default {
     return {
       // Add New Event
       eventLocal,
-      calendarOptions,
+      attendanceTypes,
       onSubmit,
       guestsOptions,
 

@@ -19,7 +19,7 @@
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
-      <attendance-left-sidebar
+      <department-list
           :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
           :departments="departments"
           :users-meta="usersMeta"
@@ -35,7 +35,7 @@
 import { onUnmounted, ref } from '@vue/composition-api'
 
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
-import AttendanceLeftSidebar from './AttendanceLeftSidebar.vue'
+import DepartmentList from './DepartmentList.vue'
 import UserList from './UserList'
 import {
   BDropdown,
@@ -72,7 +72,7 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    AttendanceLeftSidebar,
+    DepartmentList,
     UserList
   },
   setup () {

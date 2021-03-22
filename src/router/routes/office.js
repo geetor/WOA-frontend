@@ -32,7 +32,7 @@ export default [
   {
     path: '/office/attendance/calendar/:userId',
     name: 'office-attendance-calendar',
-    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
+    component: () => import('@/views/office/attendance/calendar/Calendar.vue'),
     meta: {
       contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
@@ -78,7 +78,7 @@ export default [
   {
     path: '/office/training/calendar/:userId',
     name: 'office-training-calendar',
-    component: () => import('@/views/office/training/calendar/TrainingCalendar'),
+    component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
       navActiveLink: 'office-training',

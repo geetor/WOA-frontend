@@ -32,6 +32,9 @@
         v-model="isEventHandlerSidebarActive"
         :event="event"
         :clear-event-data="clearEventData"
+        @remove-event="removeEvent"
+        @add-event="addEvent"
+        @update-event="updateEvent"
       />
     </div>
   </div>
@@ -68,6 +71,9 @@ export default {
       isCalendarOverlaySidebarActive,
       event,
       clearEventData,
+      addEvent,
+      updateEvent,
+      removeEvent,
       fetchEvents,
       refetchEvents,
       calendarOptions,
@@ -83,6 +89,9 @@ export default {
       isCalendarOverlaySidebarActive,
       event,
       clearEventData,
+      addEvent,
+      updateEvent,
+      removeEvent,
       refetchEvents,
       calendarOptions,
 

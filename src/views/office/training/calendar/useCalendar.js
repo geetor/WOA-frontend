@@ -1,6 +1,8 @@
 // Full Calendar Plugins
 import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
+import interactionPlugin from '@fullcalendar/interaction'
 
 // Notification
 import { useToast } from 'vue-toastification/composition'
@@ -165,6 +167,39 @@ export default function userCalendar() {
     }
   }
 
+  // ------------------------------------------------
+  // addEvent
+  // ------------------------------------------------
+  const addEvent = eventData => {
+    store.dispatch('calendar/addEvent', { event: eventData }).then(() => {
+      // eslint-disable-next-line no-use-before-define
+      refetchEvents()
+    })
+  }
+
+  // ------------------------------------------------
+  // updateEvent
+  // ------------------------------------------------
+  const updateEvent = eventData => {
+    store.dispatch('calendar/updateEvent', { event: eventData }).then(response => {
+      const updatedEvent = response.data.event
+
+      const propsToUpdate = ['id', 'title', 'url']
+      const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
+
+      updateEventInCalendar(updatedEvent, propsToUpdate, extendedPropsToUpdate)
+    })
+  }
+
+  // ------------------------------------------------
+  // removeEvent
+  // ------------------------------------------------
+  const removeEvent = () => {
+    const eventId = event.value.id
+    store.dispatch('calendar/removeEvent', { id: eventId }).then(() => {
+      removeEventInCalendar(eventId)
+    })
+  }
 
   // ------------------------------------------------
   // refetchEvents
@@ -215,10 +250,10 @@ export default function userCalendar() {
   // * This isn't considered in UI because this is the core of calendar app
   // ------------------------------------------------------------------------
   const calendarOptions = ref({
-    plugins: [dayGridPlugin, listPlugin],
+    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     headerToolbar: {
-      start: 'sidebarToggle, prev, title, next',
+      start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,listMonth',
     },
     buttonText: {
@@ -231,30 +266,36 @@ export default function userCalendar() {
 
     /*
       Enable dragging and resizing event
+      ? Docs: https://fullcalendar.io/docs/editable
     */
     editable: true,
 
     /*
       Enable resizing event from start
+      ? Docs: https://fullcalendar.io/docs/eventResizableFromStart
     */
     eventResizableFromStart: true,
 
     /*
       Automatically scroll the scroll-containers during event drag-and-drop and date selecting
+      ? Docs: https://fullcalendar.io/docs/dragScroll
     */
     dragScroll: true,
 
     /*
       Max number of events within a given day
+      ? Docs: https://fullcalendar.io/docs/dayMaxEvents
     */
     dayMaxEvents: 2,
 
     /*
       Determines if day names and week names are clickable
+      ? Docs: https://fullcalendar.io/docs/navLinks
     */
     navLinks: true,
 
     eventClassNames({ event: calendarEvent }) {
+      // eslint-disable-next-line no-underscore-dangle
       const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
 
       return [
@@ -333,6 +374,9 @@ export default function userCalendar() {
     calendarOptions,
     event,
     clearEventData,
+    addEvent,
+    updateEvent,
+    removeEvent,
     refetchEvents,
     fetchEvents,
 
