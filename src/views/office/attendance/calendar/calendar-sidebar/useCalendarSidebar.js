@@ -14,7 +14,7 @@ export default function useCalendarSidebar() {
   const selectedTypes = computed({
     get: () => store.state.calendar.selectedTypes,
     set: val => {
-      store.commit('calendar/SET_SELECTED_EVENTS', val)
+      store.commit('calendar/SET_SELECTED_TYPES', val)
     },
   })
 

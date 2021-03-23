@@ -6,7 +6,7 @@
         class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
         :class="{'show': isCalendarOverlaySidebarActive}"
       >
-        <calendar-sidebar :is-event-handler-sidebar-active.sync="isEventHandlerSidebarActive" />
+        <calendar-sidebar />
       </div>
 
       <!-- Calendar -->
@@ -28,14 +28,6 @@
         :class="{'show': isCalendarOverlaySidebarActive}"
         @click="isCalendarOverlaySidebarActive = false"
       />
-      <calendar-event-handler
-        v-model="isEventHandlerSidebarActive"
-        :event="event"
-        :clear-event-data="clearEventData"
-        @remove-event="removeEvent"
-        @add-event="addEvent"
-        @update-event="updateEvent"
-      />
     </div>
   </div>
 </template>
@@ -46,14 +38,12 @@ import store from '@/store'
 import { onUnmounted } from '@vue/composition-api'
 import calendarStoreModule from './calendarStoreModule'
 import CalendarSidebar from './calendar-sidebar/CalendarSidebar.vue'
-import CalendarEventHandler from './calendar-event-handler/CalendarEventHandler.vue'
 import useCalendar from './useCalendar'
 
 export default {
   components: {
-    FullCalendar, // make the <FullCalendar> tag available
-    CalendarSidebar,
-    CalendarEventHandler,
+    FullCalendar,
+    CalendarSidebar
   },
   setup() {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
@@ -69,34 +59,18 @@ export default {
     const {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
-      fetchEvents,
+      fetchAttendances,
       refetchEvents,
-      calendarOptions,
-
-      // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      calendarOptions
     } = useCalendar()
 
-    fetchEvents()
+    fetchAttendances()
 
     return {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
       refetchEvents,
-      calendarOptions,
-
-      // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      calendarOptions
     }
   },
 }
