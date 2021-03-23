@@ -339,6 +339,7 @@ export default {
     })
 
     const refetchData = () => {
+      console.log(123)
       refUserListTable.value.refresh()
     }
 

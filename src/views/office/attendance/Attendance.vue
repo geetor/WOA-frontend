@@ -12,15 +12,24 @@
           :settings="perfectScrollbarSettings"
           class="attendance-user-list scroll-area"
       >
-          <user-list></user-list>
+        <user-list />
       </vue-perfect-scrollbar>
 
     </div>
+
+    <!-- Task Handler -->
+    <leave-handler-sidebar
+        v-model="isLeaveHandlerSidebarActive"
+        :leave="leave"
+        :clear-leave-data="clearLeaveData"
+        @ask-for-leave="askForLeave"
+    />
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <department-list
           :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
+          :is-leave-handler-sidebar-active.sync="isLeaveHandlerSidebarActive"
           :departments="departments"
           :users-meta="usersMeta"
           :class="{'show': mqShallShowLeftSidebar}"
@@ -53,9 +62,13 @@ import {
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import attendanceStoreModule from '@/views/office/attendance/attendanceStoreModule'
+import LeaveHandlerSidebar from '@/views/office/attendance/LeaveHandlerSidebar'
+import { useToast } from 'vue-toastification/composition'
+import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
   components: {
+    LeaveHandlerSidebar,
     BFormInput,
     BInputGroup,
     BInputGroupPrepend,
@@ -86,6 +99,47 @@ export default {
       if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
     })
 
+    const isLeaveHandlerSidebarActive = ref(false)
+    const toast = useToast()
+
+    const blankLeave = {
+      leaveType: '',
+      startTime: new Date(),
+      dueTime: new Date(),
+      reason: ''
+    }
+    const leave = ref(JSON.parse(JSON.stringify(blankLeave)))
+    const clearLeaveData = () => {
+      leave.value = JSON.parse(JSON.stringify(blankLeave))
+    }
+
+    const askForLeave = val => {
+      store.dispatch('office-attendance/askForLeave', val)
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `请假成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          location.reload()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger',
+                },
+              },
+              { position: 'bottom-right' })
+        }
+      })
+    }
+
     // Departments & UsersMeta
     const departments = ref([])
     const usersMeta = ref({})
@@ -110,8 +164,13 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
 
     return {
+      leave,
+      askForLeave,
+      clearLeaveData,
+
       // UI
       perfectScrollbarSettings,
+      isLeaveHandlerSidebarActive,
 
       // Departments & UsersMeta
       departments,

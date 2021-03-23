@@ -8,9 +8,19 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
                 block
+                class="mt-1"
                 @click="check"
             >
               考 勤
+            </b-button>
+            <b-button
+                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                variant="warning"
+                block
+                class="mt-2 mb-1"
+                @click="$emit('update:is-leave-handler-sidebar-active', true); $emit('close-left-sidebar')"
+            >
+              请假
             </b-button>
           </div>
           <vue-perfect-scrollbar

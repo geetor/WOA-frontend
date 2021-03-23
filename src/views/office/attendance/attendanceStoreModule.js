@@ -21,6 +21,14 @@ export default {
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
+    },
+    askForLeave (ctx, leaveData) {
+      return new Promise((resolve, reject) => {
+        axios
+        .post('/office/attendance/askForLeave', { leave: leaveData })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
     }
-  },
+  }
 }

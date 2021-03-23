@@ -45,6 +45,16 @@ const fetchData = async () => {
   })
 }
 
+const askForLeave = async (leaveData) => {
+  return await axiosIns.post('/attendance/askForLeave', {
+    userId: JSON.parse(localStorage.getItem('userData')).userId,
+    leaveType: leaveData.leaveType,
+    leaveStartTime: new Date(Date.parse(leaveData.startTime)).toJSON().substr(0, 19).replace('T', ' '),
+    leaveEndTime: new Date(Date.parse(leaveData.dueTime)).toJSON().substr(0, 19).replace('T', ' '),
+    leaveReason: leaveData.reason
+  })
+}
+
 // ------------------------------------------------
 // GET: Return Departments
 // ------------------------------------------------
@@ -150,4 +160,20 @@ mock.onGet('/office/attendance/users')
       },
     ]
   })
+})
+
+// ------------------------------------------------
+// POST: Add new task
+// ------------------------------------------------
+mock.onPost('/office/attendance/askForLeave')
+.reply(config => {
+
+  const { leave } = JSON.parse(config.data)
+
+  return askForLeave(leave)
+  .then(() => {
+      return [201, { leave }]
+    }
+  )
+
 })
