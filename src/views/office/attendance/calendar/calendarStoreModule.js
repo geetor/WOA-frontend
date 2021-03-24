@@ -6,26 +6,26 @@ export default {
     attendanceTypes: [
       {
         color: 'danger',
-        label: '签到',
-      },
-      {
-        color: 'primary',
-        label: '迟到',
-      },
-      {
-        color: 'warning',
-        label: '签退',
-      },
-      {
-        color: 'success',
-        label: '早退',
+        label: '签到'
       },
       {
         color: 'info',
-        label: '请假',
+        label: '迟到'
       },
+      {
+        color: 'danger',
+        label: '签退'
+      },
+      {
+        color: 'success',
+        label: '早退'
+      },
+      {
+        color: 'warning',
+        label: '请假'
+      }
     ],
-    selectedTypes: ['签到', '迟到', '签退', '早退', '请假'],
+    selectedTypes: ['签到', '迟到', '签退', '早退', '请假']
   },
   getters: {},
   mutations: {

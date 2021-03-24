@@ -37,10 +37,10 @@ export default function userCalendar () {
   // ------------------------------------------------
   const refAttendancesColor = attendanceType => {
     if (attendanceType === '签到') return 'danger'
-    if (attendanceType === '迟到') return 'primary'
-    if (attendanceType === '签退') return 'warning'
+    if (attendanceType === '迟到') return 'info'
+    if (attendanceType === '签退') return 'danger'
     if (attendanceType === '早退') return 'success'
-    if (attendanceType === '请假') return 'info'
+    if (attendanceType === '请假') return 'warning'
   }
 
   // *===========================================================================---*

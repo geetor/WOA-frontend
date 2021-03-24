@@ -50,8 +50,8 @@ export default [
   // *--------- TRAINING & IT'S FILTERS N TAGS ---------------------------------------*
   // *===============================================---*
   {
-    path: '/office/training',
-    name: 'office-training',
+    path: '/office/training/list',
+    name: 'office-training-list',
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
@@ -59,8 +59,8 @@ export default [
     },
   },
   {
-    path: '/office/training/:department',
-    name: 'office-training-department',
+    path: '/office/training/list/:department',
+    name: 'office-training-list-department',
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
@@ -76,19 +76,12 @@ export default [
     }
   },
   {
-    path: '/office/training/calendar/:userId',
+    path: '/office/training/calendar',
     name: 'office-training-calendar',
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
       navActiveLink: 'office-training',
-    },
-    beforeEnter (to, _, next) {
-      if (!isNaN(Number(to.params.userId))) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
     }
   },
 ]

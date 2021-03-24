@@ -151,18 +151,6 @@
               class="cursor-pointer"
               :target="`attendance-row-${data.item.id}-calendar-icon`"
           />
-
-          <feather-icon
-              :id="`invoice-row-${data.item.id}-edit-icon`"
-              icon="AlertOctagonIcon"
-              size="16"
-              class="mx-1"
-              @click="$router.push({ name: 'apps-invoice-edit', params: { id: data.item.id }})"
-          />
-          <b-tooltip
-              title="请假信息"
-              :target="`invoice-row-${data.item.id}-edit-icon`"
-          />
         </div>
       </template>
 
@@ -339,7 +327,6 @@ export default {
     })
 
     const refetchData = () => {
-      console.log(123)
       refUserListTable.value.refresh()
     }
 

@@ -204,7 +204,7 @@ export default {
     clearLeaveData: {
       type: Function,
       required: true,
-    },
+    }
   },
   data () {
     return {

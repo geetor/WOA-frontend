@@ -17,10 +17,10 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="warning"
                 block
-                class="mt-2 mb-1"
+                class="my-1"
                 @click="$emit('update:is-leave-handler-sidebar-active', true); $emit('close-left-sidebar')"
             >
-              请假
+              请 假
             </b-button>
           </div>
           <vue-perfect-scrollbar
@@ -94,9 +94,13 @@ export default {
     usersMeta: {
       type: Object,
       required: true,
+    },
+    refetchUserList: {
+      type: Function,
+      required: true,
     }
   },
-  setup () {
+  setup (props) {
     const perfectScrollbarSettings = {
       maxScrollbarLength: 60,
     }
@@ -148,6 +152,8 @@ export default {
               { position: 'bottom-right' }
           )
         }
+
+        that.refetchUserList()
       })
       .catch(err => {
         that.$toast({

@@ -12,12 +12,14 @@
           :settings="perfectScrollbarSettings"
           class="attendance-user-list scroll-area"
       >
-        <user-list />
+        <user-list
+            ref="refUserList"
+        />
       </vue-perfect-scrollbar>
 
     </div>
 
-    <!-- Task Handler -->
+    <!-- Leave Handler -->
     <leave-handler-sidebar
         v-model="isLeaveHandlerSidebarActive"
         :leave="leave"
@@ -33,6 +35,7 @@
           :departments="departments"
           :users-meta="usersMeta"
           :class="{'show': mqShallShowLeftSidebar}"
+          :refetch-user-list="refetchUserList"
           @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
@@ -101,6 +104,10 @@ export default {
 
     const isLeaveHandlerSidebarActive = ref(false)
     const toast = useToast()
+    const refUserList = ref(null)
+    const refetchUserList = () => {
+      refUserList.value.refetchData()
+    }
 
     const blankLeave = {
       leaveType: '',
@@ -125,7 +132,7 @@ export default {
               variant: 'success'
             }
           })
-          location.reload()
+          refetchUserList()
         } else {
           toast({
                 component: ToastificationContent,
@@ -167,6 +174,9 @@ export default {
       leave,
       askForLeave,
       clearLeaveData,
+
+      refUserList,
+      refetchUserList,
 
       // UI
       perfectScrollbarSettings,

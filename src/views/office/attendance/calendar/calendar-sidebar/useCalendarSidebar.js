@@ -29,7 +29,7 @@ export default function useCalendarSidebar() {
       } else if (selectedTypes.value.length === attendanceTypes.value.length) {
         selectedTypes.value = []
       }
-    },
+    }
   })
 
   return {

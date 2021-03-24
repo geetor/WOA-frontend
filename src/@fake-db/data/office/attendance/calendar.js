@@ -18,21 +18,17 @@ const fetchAttendances = async (userId, year, month) => {
 
       let attendances = []
 
-      vo.forEach(date => {
-        const attendancesOfDate = date.attendanceInfos
-        attendancesOfDate.forEach(attendance => {
-            const calendarItem = {
-              title: attendance.attendanceType,
-              start: attendance.attendanceTime || attendance.leaveStartTime,
-              end: attendance.attendanceTime || attendance.leaveEndTime,
-              allDay: false,
-              extendedProps: {
-                type: attendance.attendanceTime ? attendance.attendanceType : '请假'
-              }
-            }
-            attendances.push(calendarItem)
+      vo.forEach(attendance => {
+        const calendarItem = {
+          title: attendance.attendanceType,
+          start: attendance.attendanceTime || attendance.leaveStartTime,
+          end: attendance.attendanceTime || attendance.leaveEndTime,
+          allDay: false,
+          extendedProps: {
+            type: attendance.attendanceTime ? attendance.attendanceType : '请假'
           }
-        )
+        }
+        attendances.push(calendarItem)
       })
 
       return attendances
