@@ -276,7 +276,8 @@ export default {
     // Table Handlers
     const tableColumns = [
       {
-        key: '用户'
+        key: '用户',
+        sortable: false
       },
       {
         key: '等级',
@@ -306,7 +307,10 @@ export default {
         key: '调休次数',
         sortable: true
       },
-      { key: '操作' }
+      {
+        key: '操作',
+        sortable: false
+      }
     ]
     const perPage = ref(10)
     const totalUsers = ref(0)

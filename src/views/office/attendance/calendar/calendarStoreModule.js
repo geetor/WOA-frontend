@@ -5,23 +5,23 @@ export default {
   state: {
     attendanceTypes: [
       {
-        color: 'danger',
+        color: 'success',
         label: '签到'
       },
       {
-        color: 'info',
+        color: 'danger',
         label: '迟到'
       },
       {
-        color: 'danger',
+        color: 'success',
         label: '签退'
       },
       {
-        color: 'success',
+        color: 'danger',
         label: '早退'
       },
       {
-        color: 'warning',
+        color: 'info',
         label: '请假'
       }
     ],

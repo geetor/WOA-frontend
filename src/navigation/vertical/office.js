@@ -4,17 +4,8 @@ export default [
   },
   {
     title: '军事训练',
-    icon: 'TargetIcon',
-    children: [
-      {
-        title: '训练清单',
-        route: 'office-training-list'
-      },
-      {
-        title: '训练日历',
-        route: 'office-training-calendar'
-      }
-    ]
+    route: 'office-training-list',
+    icon: 'CrosshairIcon'
   },
   {
     title: '考勤系统',

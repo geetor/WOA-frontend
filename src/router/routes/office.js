@@ -91,7 +91,7 @@ export default [
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
-      navActiveLink: 'office-training-list',
+      navActiveLink: 'office-training-calendar',
     }
   },
 ]

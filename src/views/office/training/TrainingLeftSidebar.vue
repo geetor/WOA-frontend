@@ -8,9 +8,10 @@
                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                 variant="primary"
                 block
+                class="my-1"
                 @click="console.log(123)"
             >
-              发布训练任务
+              训练安排
             </b-button>
           </div>
           <vue-perfect-scrollbar
@@ -40,27 +41,6 @@
                 >
                   {{ usersMeta[department.name] }}
                 </b-badge>
-              </b-list-group-item>
-            </b-list-group>
-
-            <!-- 训练状态 -->
-            <h6 class="section-label mt-3 mb-1 px-2">
-              训练状态
-            </h6>
-
-            <b-list-group class="list-group-labels">
-              <b-list-group-item
-                  v-for="status in trainingStatuses"
-                  :key="status.title + $route.path"
-                  :to="status.route"
-                  :active="isDynamicRouteActive(status.route)"
-                  @click="$emit('close-left-sidebar')"
-              >
-                <span
-                    class="bullet bullet-sm mr-1"
-                    :class="`bullet-${status.color}`"
-                />
-                <span>{{ status.title }}</span>
               </b-list-group-item>
             </b-list-group>
           </vue-perfect-scrollbar>
@@ -111,33 +91,6 @@ export default {
       maxScrollbarLength: 60,
     }
 
-    const trainingStatuses = [
-      {
-        title: '未开始',
-        color: 'success',
-        route: {
-          name: 'office-training-list-status',
-          params: { status: '未开始' }
-        }
-      },
-      {
-        title: '进行中',
-        color: 'primary',
-        route: {
-          name: 'office-training-list-status',
-          params: { status: '进行中' }
-        }
-      },
-      {
-        title: '已结束',
-        color: 'warning',
-        route: {
-          name: 'office-training-list-status',
-          params: { status: '已结束' }
-        }
-      }
-    ]
-
     const resolveDepartmentBadgeColor = department => {
       if (department === '人事部门') return 'light-warning'
       if (department === '武装部门') return 'light-danger'
@@ -148,10 +101,7 @@ export default {
       // UI
       perfectScrollbarSettings,
       isDynamicRouteActive,
-      resolveDepartmentBadgeColor,
-
-      // Statuses
-      trainingStatuses
+      resolveDepartmentBadgeColor
     }
   }
 }

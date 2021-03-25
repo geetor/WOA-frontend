@@ -93,77 +93,93 @@
         </span>
       </template>
 
-      <!-- Column: 	出勤次数 -->
-      <template #cell(出勤次数)="data">
+      <!-- Column: 训练小时数 -->
+      <template #cell(训练小时数)="data">
         <span class="text-nowrap">
-          {{ data.item.countOfAttendance }}
+          {{ data.item.totalTrainingHours }}
         </span>
       </template>
 
-      <!-- Column: 异常次数 -->
-      <template #cell(异常次数)="data">
+      <!-- Column: 最近常练 -->
+      <template #cell(最近常练)="data">
         <span class="text-nowrap">
-          {{ data.item.countOfAbnormal }}
+          {{ data.item.mostTraining }}
         </span>
       </template>
 
-      <!-- Column: 病假次数 -->
-      <template #cell(病假次数)="data">
+      <!-- Column: 最近疏练 -->
+      <template #cell(最近疏练)="data">
         <span class="text-nowrap">
-          {{ data.item.countOfSick }}
+          {{ data.item.leastTraining }}
         </span>
       </template>
 
-      <!-- Column: 事假次数 -->
-      <template #cell(事假次数)="data">
-        <span class="text-nowrap">
-          {{ data.item.countOfUnpaid }}
-        </span>
-      </template>
-
-      <!-- Column: 年假次数 -->
-      <template #cell(年假次数)="data">
-        <span class="text-nowrap">
-          {{ data.item.countOfAnnual }}
-        </span>
-      </template>
-
-      <!-- Column: 调休次数 -->
-      <template #cell(调休次数)="data">
-        <span class="text-nowrap">
-          {{ data.item.countOfAdjustment }}
-        </span>
+      <!-- Column: 今日是否待训 -->
+      <template #cell(今日是否待训)="data">
+        <template v-if="data.item.hasTraining">
+          <b-badge
+              pill
+              variant="light-success"
+          >
+            是
+          </b-badge>
+        </template>
+        <template v-else>
+          <b-badge
+              pill
+              variant="light-danger"
+          >
+            否
+          </b-badge>
+        </template>
       </template>
 
       <!-- Column: 操作 -->
       <template #cell(操作)="data">
 
         <div class="text-nowrap">
+
           <feather-icon
-              :id="`attendance-row-${data.item.id}-calendar-icon`"
-              icon="CalendarIcon"
+              :id="`training-row-${data.item.id}-add-icon`"
+              icon="EditIcon"
               class="cursor-pointer"
               size="16"
               @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
           />
           <b-tooltip
-              title="考勤日历"
+              title="发布训练"
+              class="cursor-pointer"
+              :target="`attendance-row-${data.item.id}-add-icon`"
+          />
+
+          <feather-icon
+              :id="`training-row-${data.item.id}-calendar-icon`"
+              icon="CalendarIcon"
+              class="cursor-pointer mx-1"
+              size="16"
+              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
+          />
+          <b-tooltip
+              title="训练安排"
               class="cursor-pointer"
               :target="`attendance-row-${data.item.id}-calendar-icon`"
           />
 
           <feather-icon
-              :id="`invoice-row-${data.item.id}-edit-icon`"
-              icon="AlertOctagonIcon"
+              :id="`training-row-${data.item.id}-delete-icon`"
+              icon="TrashIcon"
+              class="cursor-pointer"
               size="16"
-              class="mx-1"
-              @click="$router.push({ name: 'apps-invoice-edit', params: { id: data.item.id }})"
+              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
           />
           <b-tooltip
-              title="请假信息"
-              :target="`invoice-row-${data.item.id}-edit-icon`"
+              title="删除训练"
+              class="cursor-pointer"
+              :target="`attendance-row-${data.item.id}-delete-icon`"
           />
+
         </div>
+
       </template>
 
     </b-table>
@@ -288,37 +304,33 @@ export default {
     // Table Handlers
     const tableColumns = [
       {
-        key: '用户'
+        key: '用户',
+        sortable: false
       },
       {
         key: '等级',
         sortable: true
       },
       {
-        key: '出勤次数',
+        key: '训练小时数',
         sortable: true
       },
       {
-        key: '异常次数',
-        sortable: true
+        key: '最近常练',
+        sortable: false
       },
       {
-        key: '病假次数',
-        sortable: true
+        key: '最近疏练',
+        sortable: false
       },
       {
-        key: '事假次数',
-        sortable: true
+        key: '今日是否待训',
+        sortable: false
       },
       {
-        key: '年假次数',
-        sortable: true
-      },
-      {
-        key: '调休次数',
-        sortable: true
-      },
-      { key: '操作' }
+        key: '操作',
+        sortable: false
+      }
     ]
     const perPage = ref(10)
     const totalUsers = ref(0)
@@ -355,7 +367,7 @@ export default {
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
       })
       .then(response => {
         const {

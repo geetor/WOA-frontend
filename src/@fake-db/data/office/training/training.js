@@ -5,7 +5,7 @@ import { paginateArray, sortCompare } from '@/@fake-db/utils'
 const fetchData = async () => {
   const data = {}
 
-  return await axiosIns.get('/attendance/getLowerUsersAttendance', {
+  return await axiosIns.get('/training/getLowerUsersTraining', {
     params: {
       userId: JSON.parse(localStorage.getItem('userData')).userId
     }
@@ -18,12 +18,12 @@ const fetchData = async () => {
       const departments = ['所有部门']
       let users = []
 
-      vo.forEach(departmentAttendance => {
-        const departmentName = departmentAttendance.deptName
-        const userAttendances = departmentAttendance.userAttendances
+      vo.forEach(departmentTraining => {
+        const departmentName = departmentTraining.deptName
+        const userTrainings = departmentTraining.userTrainings
         departments.push(departmentName)
-        userAttendances.forEach(userAttendance => {
-            users.push(userAttendance)
+        userTrainings.forEach(userTraining => {
+            users.push(userTraining)
             users[users.length - 1].department = departmentName
           }
         )
@@ -115,28 +115,8 @@ mock.onGet('/office/training/users')
         key: 'userRank'
       },
       {
-        name: '出勤次数',
-        key: 'countOfAttendance'
-      },
-      {
-        name: '异常次数',
-        key: 'countOfAbnormal'
-      },
-      {
-        name: '病假次数',
-        key: 'countOfSick'
-      },
-      {
-        name: '事假次数',
-        key: 'countOfUnpaid'
-      },
-      {
-        name: '年假次数',
-        key: 'countOfAnnual'
-      },
-      {
-        name: '调休次数',
-        key: 'countOfAdjustment'
+        name: '训练小时数',
+        key: 'totalTrainingHours'
       }
     ]
     const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
