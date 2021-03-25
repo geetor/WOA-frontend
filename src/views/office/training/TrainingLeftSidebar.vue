@@ -116,24 +116,24 @@ export default {
         title: '未开始',
         color: 'success',
         route: {
-          name: 'office-training-label',
-          params: { label: '未开始' }
+          name: 'office-training-list-status',
+          params: { status: '未开始' }
         }
       },
       {
         title: '进行中',
         color: 'primary',
         route: {
-          name: 'office-training-label',
-          params: { label: '进行中' }
+          name: 'office-training-list-status',
+          params: { status: '进行中' }
         }
       },
       {
         title: '已结束',
         color: 'warning',
         route: {
-          name: 'office-training-label',
-          params: { label: '已结束' }
+          name: 'office-training-list-status',
+          params: { status: '已结束' }
         }
       }
     ]

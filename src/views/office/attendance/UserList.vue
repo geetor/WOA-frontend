@@ -147,7 +147,7 @@
               @click="$router.push({ name: 'office-attendance-calendar', params: { userId: data.item.userId }})"
           />
           <b-tooltip
-              title="考勤日历"
+              title="考勤详情"
               class="cursor-pointer"
               :target="`attendance-row-${data.item.id}-calendar-icon`"
           />

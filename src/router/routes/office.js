@@ -67,8 +67,18 @@ export default [
       contentClass: 'training-application',
       navActiveLink: 'office-training-list',
     },
+  },
+  {
+    path: '/office/training/list/:status',
+    name: 'office-training-list-status',
+    component: () => import('@/views/office/training/Training'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-list',
+    },
     beforeEnter (to, _, next) {
-      if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
+      if (['未开始', '进行中', '已结束'].includes(to.params.status)) {
         next()
       } else {
         next({ name: 'error-404' })

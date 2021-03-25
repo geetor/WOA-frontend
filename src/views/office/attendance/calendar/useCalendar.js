@@ -103,11 +103,13 @@ export default function userCalendar () {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev, title, next',
-      end: 'dayGridMonth,listMonth',
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     buttonText: {
-      month: '考勤月历',
-      list: '考勤列表'
+      month: '月历',
+      week: '周历',
+      day: '日历',
+      list: '列表'
     },
     events: fetchAttendances,
     locale: 'zh-cn',
