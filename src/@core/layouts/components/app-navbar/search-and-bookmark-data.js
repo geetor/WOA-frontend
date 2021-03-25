@@ -12,7 +12,7 @@ export default {
       },
       {
         title: '训练中心',
-        route: { name: 'office-training' },
+        route: { name: 'office-training-list' },
         icon: 'LifeBuoyIcon',
         isBookmarked: true
       },
