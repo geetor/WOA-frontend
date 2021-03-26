@@ -76,7 +76,7 @@ export default {
     UserList
   },
   setup () {
-    const TRAINING_STORE_MODULE_NAME = 'office-training-list'
+    const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
 
     // Register module
     if (!store.hasModule(TRAINING_STORE_MODULE_NAME)) store.registerModule(TRAINING_STORE_MODULE_NAME, trainingStoreModule)
@@ -95,7 +95,7 @@ export default {
     }
 
     const fetchDepartments = () => {
-      store.dispatch('office-training-list/fetchDepartments')
+      store.dispatch('office-training-statistic/fetchDepartments')
       .then(response => {
         departments.value = response.data.departments
         usersMeta.value = response.data.usersMeta

@@ -58,7 +58,7 @@ mock.onGet('/office/training/departments')
       const departmentRoute = {
         name: department,
         route: {
-          name: 'office-training-list-department',
+          name: 'office-training-statistic-department',
           params: {
             department: department
           }
@@ -67,7 +67,7 @@ mock.onGet('/office/training/departments')
       departments.push(departmentRoute)
     })
     departments[0].route = {
-      name: 'office-training-list'
+      name: 'office-training-statistic'
     }
 
     const usersMeta = {}

@@ -50,8 +50,8 @@ export default [
   // *--------- TRAINING & IT'S FILTERS N TAGS ---------------------------------------*
   // *===============================================---*
   {
-    path: '/office/training/list',
-    name: 'office-training-list',
+    path: '/office/training/statistic',
+    name: 'office-training-statistic',
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
@@ -59,23 +59,23 @@ export default [
     },
   },
   {
-    path: '/office/training/list/:department',
-    name: 'office-training-list-department',
+    path: '/office/training/statistic/:department',
+    name: 'office-training-statistic-department',
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application',
-      navActiveLink: 'office-training-list',
+      navActiveLink: 'office-training-statistic',
     },
   },
   {
-    path: '/office/training/list/:status',
-    name: 'office-training-list-status',
+    path: '/office/training/statistic/:status',
+    name: 'office-training-statistic-status',
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application',
-      navActiveLink: 'office-training-list',
+      navActiveLink: 'office-training-statistic',
     },
     beforeEnter (to, _, next) {
       if (['未开始', '进行中', '已结束'].includes(to.params.status)) {
@@ -91,7 +91,7 @@ export default [
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
-      navActiveLink: 'office-training-calendar',
+      navActiveLink: 'office-training-statistic',
     }
   },
 ]

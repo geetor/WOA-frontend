@@ -11,9 +11,9 @@ export default {
         isBookmarked: true
       },
       {
-        title: '训练中心',
-        route: { name: 'office-training-list' },
-        icon: 'LifeBuoyIcon',
+        title: '军事训练',
+        route: { name: 'office-training-statistic' },
+        icon: 'CrosshairIcon',
         isBookmarked: true
       },
       {

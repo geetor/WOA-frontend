@@ -267,7 +267,7 @@ export default {
     vSelect,
   },
   setup () {
-    const TRAINING_STORE_MODULE_NAME = 'office-training-list'
+    const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
 
     // Register module
     if (!store.hasModule(TRAINING_STORE_MODULE_NAME)) store.registerModule(TRAINING_STORE_MODULE_NAME, trainingStoreModule)
@@ -360,7 +360,7 @@ export default {
 
     const fetchUsers = (ctx, callback) => {
       store
-      .dispatch('office-training-list/fetchUsers', {
+      .dispatch('office-training-statistic/fetchUsers', {
         department: router.currentRoute.params.department || '所有部门',
         q: searchQuery.value,
         perPage: perPage.value,
