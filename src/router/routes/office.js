@@ -27,29 +27,12 @@ export default [
       } else {
         next({ name: 'error-404' })
       }
-    },
-  },
-  {
-    path: '/office/attendance/rank/:rank',
-    name: 'office-attendance-rank',
-    component: () => import('@/views/office/attendance/Attendance.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'attendance-application',
-      navActiveLink: 'office-attendance',
-    },
-    beforeEnter (to, _, next) {
-      if ([6, 5, 4, 3, 2, 1].includes(to.params.rank)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
+    }
   },
   {
     path: '/office/attendance/calendar/:userId',
     name: 'office-attendance-calendar',
-    component: () => import('@/views/office/attendance/calendar/AttendanceCalendar.vue'),
+    component: () => import('@/views/office/attendance/calendar/Calendar.vue'),
     meta: {
       contentClass: 'attendance-application',
       navActiveLink: 'office-attendance',
@@ -60,100 +43,55 @@ export default [
       } else {
         next({ name: 'error-404' })
       }
-    },
-  },
-
-  // *===============================================---*
-  // *--------- EMAIL & IT'S FILTERS N LABELS -------------------------------*
-  // *===============================================---*
-  {
-    path: '/office/email',
-    name: 'office-email',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-    },
-  },
-  {
-    path: '/office/email/:folder',
-    name: 'office-email-folder',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-      navActiveLink: 'office-email',
-    },
-    beforeEnter (to, _, next) {
-      if (['sent', 'draft', 'starred', 'spam', 'trash'].includes(to.params.folder)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
-  },
-  {
-    path: '/office/email/label/:label',
-    name: 'office-email-label',
-    component: () => import('@/views/office/email/Email.vue'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'email-application',
-      navActiveLink: 'office-email',
-    },
-    beforeEnter (to, _, next) {
-      if (['personal', 'company', 'important', 'private'].includes(to.params.label)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
+    }
   },
 
   // *===============================================---*
   // *--------- TRAINING & IT'S FILTERS N TAGS ---------------------------------------*
   // *===============================================---*
   {
-    path: '/office/training',
-    name: 'office-training',
-    component: () => import('@/views/office/training/Todo.vue'),
+    path: '/office/training/statistic',
+    name: 'office-training-statistic',
+    component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
+      contentClass: 'training-application',
     },
   },
   {
-    path: '/office/training/:filter',
-    name: 'office-training-filter',
-    component: () => import('@/views/office/training/Todo.vue'),
+    path: '/office/training/statistic/:department',
+    name: 'office-training-statistic-department',
+    component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
-      navActiveLink: 'office-training',
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-statistic',
+    },
+  },
+  {
+    path: '/office/training/statistic/:status',
+    name: 'office-training-statistic-status',
+    component: () => import('@/views/office/training/Training'),
+    meta: {
+      contentRenderer: 'sidebar-left',
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-statistic',
     },
     beforeEnter (to, _, next) {
-      if (['important', 'completed', 'deleted'].includes(to.params.filter)) {
+      if (['未开始', '进行中', '已结束'].includes(to.params.status)) {
         next()
       } else {
         next({ name: 'error-404' })
       }
-    },
+    }
   },
   {
-    path: '/office/training/tag/:tag',
-    name: 'office-training-tag',
-    component: () => import('@/views/office/training/Todo.vue'),
+    path: '/office/training/calendar',
+    name: 'office-training-calendar',
+    component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'todo-application',
-      navActiveLink: 'office-training',
-    },
-    beforeEnter (to, _, next) {
-      if (['running', 'cross', 'flying', 'exercise', 'test'].includes(to.params.tag)) {
-        next()
-      } else {
-        next({ name: 'error-404' })
-      }
-    },
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-statistic',
+    }
   },
 ]

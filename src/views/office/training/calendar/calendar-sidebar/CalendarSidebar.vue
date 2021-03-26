@@ -1,26 +1,36 @@
 <template>
   <div class="sidebar-wrapper d-flex justify-content-between flex-column flex-grow-1">
     <div class="p-2">
-      <div class="mt-1">
+      <b-button
+        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+        aria-controls="sidebar-add-new-event"
+        :aria-expanded="String(isEventHandlerSidebarActive)"
+        variant="primary"
+        block
+        @click="$emit('update:isEventHandlerSidebarActive', true)"
+      >
+        Add Event
+      </b-button>
+      <div class="mt-3">
         <h5 class="app-label section-label mb-1">
-          <span class="align-middle">考勤类型</span>
+          <span class="align-middle">Calendars</span>
         </h5>
         <b-form-checkbox
           v-model="checkAll"
           class="mb-1"
         >
-          全部
+          View All
         </b-form-checkbox>
         <b-form-group>
           <b-form-checkbox-group
-            v-model="selectedTypes"
-            name="type-filter"
+            v-model="selectedCalendars"
+            name="event-filter"
             stacked
           >
             <b-form-checkbox
-              v-for="item in attendanceTypes"
+              v-for="item in calendarOptions"
               :key="item.label"
-              name="type-filter"
+              name="event-filter"
               :value="item.label"
               class="mb-1"
               :class="`custom-control-${item.color}`"
@@ -52,16 +62,22 @@ export default {
     BFormGroup,
     BFormCheckboxGroup,
   },
+  props: {
+    isEventHandlerSidebarActive: {
+      type: Boolean,
+      require: true,
+    },
+  },
   setup() {
     const {
-      attendanceTypes,
-      selectedTypes,
+      calendarOptions,
+      selectedCalendars,
       checkAll,
     } = useCalendarSidebar()
 
     return {
-      attendanceTypes,
-      selectedTypes,
+      calendarOptions,
+      selectedCalendars,
       checkAll,
     }
   },

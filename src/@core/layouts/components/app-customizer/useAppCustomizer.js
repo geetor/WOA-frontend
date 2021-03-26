@@ -10,7 +10,7 @@ export default function useAppCustomizer() {
     { text: '浅色', value: 'light' },
     { text: '扁平', value: 'bordered' },
     { text: '暗黑', value: 'dark' },
-    { text: '微暗', value: 'semi-dark' },
+    { text: '半黑', value: 'semi-dark' },
   ]
 
   // Router Transition

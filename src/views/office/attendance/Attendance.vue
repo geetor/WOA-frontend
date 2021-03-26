@@ -7,115 +7,35 @@
         @click="mqShallShowLeftSidebar = false"
     />
 
-    <!-- User List -->
-    <!--    <div class="attendance-list">-->
-    <!--      &lt;!&ndash; App Searchbar Header &ndash;&gt;-->
-    <!--      <div class="app-fixed-search d-flex align-items-center">-->
-
-    <!--        &lt;!&ndash; Toggler &ndash;&gt;-->
-    <!--        <div class="sidebar-toggle d-block d-lg-none ml-1">-->
-    <!--          <feather-icon-->
-    <!--              icon="MenuIcon"-->
-    <!--              size="21"-->
-    <!--              class="cursor-pointer"-->
-    <!--              @click="mqShallShowLeftSidebar = true"-->
-    <!--          />-->
-    <!--        </div>-->
-
-    <!--        &lt;!&ndash; Searchbar &ndash;&gt;-->
-    <!--        <div class="d-flex align-content-center justify-content-between w-100">-->
-    <!--          <b-input-group class="input-group-merge">-->
-    <!--            <b-input-group-prepend is-text>-->
-    <!--              <feather-icon-->
-    <!--                  icon="SearchIcon"-->
-    <!--                  class="text-muted"-->
-    <!--              />-->
-    <!--            </b-input-group-prepend>-->
-    <!--            <b-form-input-->
-    <!--                :data="searchQuery"-->
-    <!--                placeholder="搜索部门成员"-->
-    <!--                @input="updateRouteQuery"-->
-    <!--            />-->
-    <!--          </b-input-group>-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      &lt;!&ndash; User List &ndash;&gt;-->
-    <!--      <vue-perfect-scrollbar-->
-    <!--          :settings="perfectScrollbarSettings"-->
-    <!--          class="attendance-user-list scroll-area"-->
-    <!--      >-->
-    <!--        <ul class="attendance-media-list">-->
-    <!--          <b-media-->
-    <!--              v-for="user in users"-->
-    <!--              :key="user.userId"-->
-    <!--              tag="li"-->
-    <!--              no-body-->
-    <!--          >-->
-
-    <!--            <b-media-aside class="media-left mr-0">-->
-    <!--              <b-avatar-->
-    <!--                  class="avatar"-->
-    <!--                  size="35"-->
-    <!--                  variant="primary"-->
-    <!--                  :src="user.userPhoto"-->
-    <!--              />-->
-    <!--            </b-media-aside>-->
-
-    <!--            <b-media-body>-->
-    <!--              <div class="user-details align-items-center">-->
-    <!--                <div class="user-items ml-1">-->
-    <!--                  <h5 class="mb-25">-->
-    <!--                    {{ user.userName }}-->
-    <!--                  </h5>-->
-    <!--                  <span class="text-truncate">{{ user.userPhone }}</span>-->
-    <!--                </div>-->
-    <!--                <div class="todo-item-action">-->
-    <!--                  <div class="badge-wrapper mr-1">-->
-    <!--                    <b-badge-->
-    <!--                        pill-->
-    <!--                        :variant="`light-${resolveRankColor(user.userRank)}`"-->
-    <!--                        class="text-capitalize"-->
-    <!--                    >-->
-    <!--                      {{ user.userRank }}级-->
-    <!--                    </b-badge>-->
-    <!--                  </div>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </b-media-body>-->
-    <!--          </b-media>-->
-    <!--        </ul>-->
-    <!--        <div-->
-    <!--            class="no-results"-->
-    <!--            :class="{'show': !users.length}"-->
-    <!--        >-->
-    <!--        </div>-->
-    <!--      </vue-perfect-scrollbar>-->
-    <!--    </div>-->
-
-    <!-- User List -->
     <div class="attendance-list">
       <vue-perfect-scrollbar
           :settings="perfectScrollbarSettings"
           class="attendance-user-list scroll-area"
       >
-        <ul class="attendance-media-list">
-          <user-list
-              :departments="departments"
-              :users="users"
-          >
-          </user-list>
-        </ul>
+        <user-list
+            ref="refUserList"
+        />
       </vue-perfect-scrollbar>
 
     </div>
 
+    <!-- Leave Handler -->
+    <leave-handler-sidebar
+        v-model="isLeaveHandlerSidebarActive"
+        :leave="leave"
+        :clear-leave-data="clearLeaveData"
+        @ask-for-leave="askForLeave"
+    />
+
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
-      <attendance-left-sidebar
+      <department-list
           :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
+          :is-leave-handler-sidebar-active.sync="isLeaveHandlerSidebarActive"
           :departments="departments"
+          :users-meta="usersMeta"
           :class="{'show': mqShallShowLeftSidebar}"
+          :refetch-user-list="refetchUserList"
           @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
@@ -124,13 +44,11 @@
 </template>
 
 <script>
-import { computed, ref, watch } from '@vue/composition-api'
+import { onUnmounted, ref } from '@vue/composition-api'
 
-import { useRouter } from '@core/utils/utils'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
-import AttendanceLeftSidebar from './AttendanceLeftSidebar.vue'
-import UserList from './user-list/UserList'
-import useAttendance from './useAttendance'
+import DepartmentList from './DepartmentList.vue'
+import UserList from './UserList'
 import {
   BDropdown,
   BDropdownItem,
@@ -145,10 +63,15 @@ import {
   BAvatar
 } from 'bootstrap-vue'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import axiosIns from '@/libs/axios'
+import store from '@/store'
+import attendanceStoreModule from '@/views/office/attendance/attendanceStoreModule'
+import LeaveHandlerSidebar from '@/views/office/attendance/LeaveHandlerSidebar'
+import { useToast } from 'vue-toastification/composition'
+import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
   components: {
+    LeaveHandlerSidebar,
     BFormInput,
     BInputGroup,
     BInputGroupPrepend,
@@ -165,124 +88,81 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    AttendanceLeftSidebar,
+    DepartmentList,
     UserList
   },
   setup () {
-    const {
-      route,
-      router
-    } = useRouter()
-    const { resolveRankColor } = useAttendance()
+    const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
 
-    // Route Params
-    const routeParams = computed(() => route.value.params)
-    watch(routeParams, () => {
-      fetchDepartments()
-      fetchUsers()
+    // Register module
+    if (!store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.registerModule(ATTENDANCE_STORE_MODULE_NAME, attendanceStoreModule)
+
+    // UnRegister on leave
+    onUnmounted(() => {
+      if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
     })
 
-    // Departments && Users
-    const departments = ref(
-        [{
-          name: '所有部门',
-          route: {
-            name: 'office-attendance'
-          },
-          users: []
-        }]
-    )
-    let users = ref([])
-    let allUsers = []
+    const isLeaveHandlerSidebarActive = ref(false)
+    const toast = useToast()
+    const refUserList = ref(null)
+    const refetchUserList = () => {
+      refUserList.value.refetchData()
+    }
 
-    const fetchDepartments = () => {
-      axiosIns.get('/attendance/getLowerUsersAttendance', {
-        params: {
-          userId: JSON.parse(localStorage.getItem('userData')).userId
-        }
-      })
-      .then(response => {
-        const statusCode = response.data.status.code
+    const blankLeave = {
+      leaveType: '',
+      startTime: new Date(),
+      dueTime: new Date(),
+      reason: ''
+    }
+    const leave = ref(JSON.parse(JSON.stringify(blankLeave)))
+    const clearLeaveData = () => {
+      leave.value = JSON.parse(JSON.stringify(blankLeave))
+    }
 
-        if (statusCode === '0000') {
-          const vo = response.data.data
-
-          allUsers = []
-          vo.forEach(department => {
-            departments.value.push({
-              name: department.deptName,
-              route: {
-                name: 'office-attendance-department',
-                params: { department: department.deptName }
+    const askForLeave = val => {
+      store.dispatch('office-attendance/askForLeave', val)
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `请假成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchUserList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger',
+                },
               },
-              users: department.userAttendances
-            })
-
-            allUsers = allUsers.concat(department.userAttendances)
-          })
-
-          let hash = {}
-          allUsers = allUsers.reduce(function (item, next) {
-            hash[next.userName] ? '' : hash[next.userName] = true && item.push(next)
-            return item
-          }, [])
-
-          allUsers = allUsers.sort((user1, user2) => {
-            return user2.userRank - user1.userRank
-          })
-
-          departments.value[0].users = allUsers
-          users.value = JSON.parse(JSON.stringify(allUsers))
+              { position: 'bottom-right' })
         }
       })
     }
 
-    fetchDepartments()
+    // Departments & UsersMeta
+    const departments = ref([])
+    const usersMeta = ref({})
 
     const perfectScrollbarSettings = {
       maxScrollbarLength: 150,
     }
 
-    // Search Query
-    const routeQuery = computed(() => route.value.query.q)
-    const searchQuery = ref(routeQuery.value)
-    watch(routeQuery, val => {
-      searchQuery.value = val
-    })
-    watch(searchQuery, () => {
-      fetchUsers()
-    })
-
-    const fetchUsers = () => {
-      const departmentName = router.currentRoute.params.department || '所有部门'
-      const rank = router.currentRoute.params.rank
-      const searchContent = searchQuery.value
-
-      if (departmentName !== '所有部门') {
-        const department = departments.value.find(department => department.name === departmentName)
-        if (typeof department != 'undefined') {
-          users.value = department.users
-        }
-      } else {
-        users.value = allUsers
-      }
-
-      if (typeof rank != 'undefined') {
-        users.value = []
-        if (rank < 6) {
-          users.value = users.value.concat(allUsers.filter(user => user.userRank === rank))
-        } else {
-          users.value = users.value.concat(allUsers.filter(user => user.userRank >= rank))
-        }
-      }
-
-      if (typeof searchContent == 'string') {
-        const searchFilterFunction = user => user.userName.includes(searchContent)
-        users.value = computed(() => users.value.filter(searchFilterFunction)).value
-      }
+    const fetchDepartments = () => {
+      store.dispatch('office-attendance/fetchDepartments')
+      .then(response => {
+        departments.value = response.data.departments
+        usersMeta.value = response.data.usersMeta
+      })
     }
-
-    fetchUsers()
+    fetchDepartments()
 
     // Compose
     const shallShowAttendanceComposeModal = ref(false)
@@ -291,18 +171,20 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
 
     return {
+      leave,
+      askForLeave,
+      clearLeaveData,
+
+      refUserList,
+      refetchUserList,
+
       // UI
       perfectScrollbarSettings,
+      isLeaveHandlerSidebarActive,
 
-      // Departments && Users
+      // Departments & UsersMeta
       departments,
-      users,
-
-      // Search Query
-      searchQuery,
-
-      // useAttendance
-      resolveRankColor,
+      usersMeta,
 
       // Compose
       shallShowAttendanceComposeModal,

@@ -1,7 +1,7 @@
 export default [
   {
-    title: '训练中心',
-    route: 'office-training',
-    icon: 'LifeBuoyIcon',
-  },
+    title: '军事训练',
+    route: 'office-training-statistic',
+    icon: 'CrosshairIcon'
+  }
 ]
