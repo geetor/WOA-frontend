@@ -86,7 +86,7 @@
                 <v-select
                   v-model="eventLocal.extendedProps.calendar"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  :options="calendarOptions"
+                  :options="statusOptions"
                   label="label"
                   :reduce="calendar => calendar.label"
                   input-id="calendar"
@@ -359,7 +359,7 @@ export default {
     const {
       eventLocal,
       resetEventLocal,
-      calendarOptions,
+      statusOptions,
 
       // UI
       onSubmit,
@@ -378,7 +378,7 @@ export default {
     return {
       // Add New Event
       eventLocal,
-      calendarOptions,
+      statusOptions,
       onSubmit,
       guestsOptions,
 

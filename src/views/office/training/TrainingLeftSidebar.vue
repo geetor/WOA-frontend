@@ -9,7 +9,7 @@
                 variant="primary"
                 block
                 class="my-1"
-                @click="console.log(123)"
+                :to="{ name: 'office-training-calendar'}"
             >
               训练安排
             </b-button>

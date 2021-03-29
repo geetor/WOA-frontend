@@ -11,6 +11,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 // eslint-disable-next-line object-curly-newline
 import { ref, computed, watch, onMounted } from '@vue/composition-api'
 import store from '@/store'
+import { useRouter } from '@core/utils/utils'
 
 export default function userCalendar() {
   // Use toast
@@ -19,6 +20,10 @@ export default function userCalendar() {
   // refCalendar
   // ------------------------------------------------
   const refCalendar = ref(null)
+
+  const {
+    router
+  } = useRouter()
 
   // ------------------------------------------------
   // calendarApi
@@ -29,14 +34,12 @@ export default function userCalendar() {
   })
 
   // ------------------------------------------------
-  // calendars
+  // refStatusesColor
   // ------------------------------------------------
-  const calendarsColor = {
-    Business: 'primary',
-    Holiday: 'success',
-    Personal: 'danger',
-    Family: 'warning',
-    ETC: 'info',
+  const refStatusesColor = trainingStatus => {
+    if (trainingStatus === '待训') return 'danger'
+    if (trainingStatus === '在训') return 'success'
+    if (trainingStatus === '结束') return 'warning'
   }
 
   // ------------------------------------------------
@@ -47,12 +50,11 @@ export default function userCalendar() {
     start: '',
     end: '',
     allDay: false,
-    url: '',
     extendedProps: {
-      calendar: '',
-      guests: [],
-      location: '',
-      description: '',
+      type: '',
+      place: '',
+      status: '',
+      heads: []
     },
   }
   const event = ref(JSON.parse(JSON.stringify(blankEvent)))
@@ -209,11 +211,11 @@ export default function userCalendar() {
   }
 
   // ------------------------------------------------
-  // selectedCalendars
+  // selectedStatuses
   // ------------------------------------------------
-  const selectedCalendars = computed(() => store.state.calendar.selectedCalendars)
+  const selectedStatuses = computed(() => store.state.calendar.selectedStatuses)
 
-  watch(selectedCalendars, () => {
+  watch(selectedStatuses, () => {
     refetchEvents()
   })
 
@@ -221,14 +223,15 @@ export default function userCalendar() {
   // AXIOS: fetchEvents
   // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
   // --------------------------------------------------------------------------------------------------
-  const fetchEvents = (info, successCallback) => {
+  const fetchUserTrainings = (info, successCallback) => {
     // If there's no info => Don't make useless API call
     if (!info) return
 
     // Fetch Events from API endpoint
     store
-      .dispatch('calendar/fetchEvents', {
-        calendars: selectedCalendars.value,
+      .dispatch('calendar/fetchUserTrainings', {
+        userId: router.currentRoute.params.userId,
+        statuses: selectedStatuses.value,
       })
       .then(response => {
         successCallback(response.data)
@@ -237,7 +240,7 @@ export default function userCalendar() {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching calendar events',
+            title: '错误',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -253,7 +256,7 @@ export default function userCalendar() {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     headerToolbar: {
-      start: 'sidebarToggle, prev,next, title',
+      start: 'sidebarToggle, prev, title, next',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     buttonText: {
@@ -262,7 +265,7 @@ export default function userCalendar() {
       day: '日历',
       list: '列表'
     },
-    events: fetchEvents,
+    events: fetchUserTrainings,
     locale: 'zh-cn',
     firstDay: 1,
 
@@ -298,7 +301,7 @@ export default function userCalendar() {
 
     eventClassNames({ event: calendarEvent }) {
       // eslint-disable-next-line no-underscore-dangle
-      const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
+      const colorName = refStatusesColor(calendarEvent._def.extendedProps.status)
 
       return [
         // Background Color
@@ -380,7 +383,7 @@ export default function userCalendar() {
     updateEvent,
     removeEvent,
     refetchEvents,
-    fetchEvents,
+    fetchUserTrainings,
 
     // ----- UI ----- //
     isEventHandlerSidebarActive,

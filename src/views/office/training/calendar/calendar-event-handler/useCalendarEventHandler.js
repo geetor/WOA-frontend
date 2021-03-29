@@ -26,9 +26,9 @@ export default function useCalendarEventHandler(props, clearForm, emit) {
     }
   })
   // ------------------------------------------------
-  // calendarOptions
+  // statusOptions
   // ------------------------------------------------
-  const calendarOptions = computed(() => store.state.calendar.calendarOptions)
+  const statusOptions = computed(() => store.state.calendar.statusOptions)
 
   const onSubmit = () => {
     const eventData = JSON.parse(JSON.stringify(eventLocal))
@@ -64,7 +64,7 @@ export default function useCalendarEventHandler(props, clearForm, emit) {
   return {
     eventLocal,
     resetEventLocal,
-    calendarOptions,
+    statusOptions,
 
     // UI
     guestsOptions,

@@ -21,6 +21,7 @@ import './data/apps/chat'
 import './data/office/attendance/attendance'
 import './data/office/attendance/calendar'
 import './data/office/training/training'
+import './data/office/training/calendar'
 
 // dashboard
 import './data/dashboard/analytics'

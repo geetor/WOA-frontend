@@ -56,7 +56,7 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application',
-    },
+    }
   },
   {
     path: '/office/training/statistic/:department',
@@ -67,18 +67,8 @@ export default [
       contentClass: 'training-application',
       navActiveLink: 'office-training-statistic',
     },
-  },
-  {
-    path: '/office/training/statistic/:status',
-    name: 'office-training-statistic-status',
-    component: () => import('@/views/office/training/Training'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
-    },
     beforeEnter (to, _, next) {
-      if (['未开始', '进行中', '已结束'].includes(to.params.status)) {
+      if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
         next()
       } else {
         next({ name: 'error-404' })
@@ -92,6 +82,23 @@ export default [
     meta: {
       contentClass: 'training-application',
       navActiveLink: 'office-training-statistic',
+    },
+    children: [
+      {
+        path: '/office/training/calendar'
+      },
+      {
+        path: '/office/training/calendar/:userId',
+        name: 'office-training-calendar'
+      }
+    ],
+    beforeEnter (to, _, next) {
+      if (!Object.keys(to.params).length || !isNaN(Number(to.params.userId))) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     }
-  },
+  }
+
 ]

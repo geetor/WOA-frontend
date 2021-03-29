@@ -9,33 +9,33 @@
         block
         @click="$emit('update:isEventHandlerSidebarActive', true)"
       >
-        Add Event
+        发布训练任务
       </b-button>
       <div class="mt-3">
         <h5 class="app-label section-label mb-1">
-          <span class="align-middle">Calendars</span>
+          <span class="align-middle">训练状态</span>
         </h5>
         <b-form-checkbox
           v-model="checkAll"
           class="mb-1"
         >
-          View All
+          全部
         </b-form-checkbox>
         <b-form-group>
           <b-form-checkbox-group
-            v-model="selectedCalendars"
+            v-model="selectedStatuses"
             name="event-filter"
             stacked
           >
             <b-form-checkbox
-              v-for="item in calendarOptions"
-              :key="item.label"
+              v-for="status in statusOptions"
+              :key="status.label"
               name="event-filter"
-              :value="item.label"
+              :value="status.label"
               class="mb-1"
-              :class="`custom-control-${item.color}`"
+              :class="`custom-control-${status.color}`"
             >
-              {{ item.label }}
+              {{ status.label }}
             </b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
@@ -70,14 +70,14 @@ export default {
   },
   setup() {
     const {
-      calendarOptions,
-      selectedCalendars,
+      statusOptions,
+      selectedStatuses,
       checkAll,
     } = useCalendarSidebar()
 
     return {
-      calendarOptions,
-      selectedCalendars,
+      statusOptions,
+      selectedStatuses,
       checkAll,
     }
   },

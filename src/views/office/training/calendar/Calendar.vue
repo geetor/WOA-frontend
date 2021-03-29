@@ -74,7 +74,7 @@ export default {
       addEvent,
       updateEvent,
       removeEvent,
-      fetchEvents,
+      fetchUserTrainings,
       refetchEvents,
       calendarOptions,
 
@@ -82,7 +82,7 @@ export default {
       isEventHandlerSidebarActive,
     } = useCalendar()
 
-    fetchEvents()
+    fetchUserTrainings()
 
     return {
       refCalendar,
