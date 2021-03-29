@@ -49,9 +49,9 @@ export default function userCalendar () {
   // *===========================================================================---*
 
   // ------------------------------------------------
-  // refetchEvents
+  // refetchAttendances
   // ------------------------------------------------
-  const refetchEvents = () => {
+  const refetchAttendances = () => {
     calendarApi.refetchEvents()
   }
 
@@ -61,7 +61,7 @@ export default function userCalendar () {
   const selectedTypes = computed(() => store.state.calendar.selectedTypes)
 
   watch(selectedTypes, () => {
-    refetchEvents()
+    refetchAttendances()
   })
 
   // --------------------------------------------------------------------------------------------------
@@ -172,7 +172,7 @@ export default function userCalendar () {
     refCalendar,
     isCalendarOverlaySidebarActive,
     calendarOptions,
-    refetchEvents,
+    refetchAttendances,
     fetchAttendances
   }
 }

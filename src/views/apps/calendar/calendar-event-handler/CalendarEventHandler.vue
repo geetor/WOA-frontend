@@ -294,7 +294,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required, email, url } from '@validations'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { ref, toRefs } from '@vue/composition-api'
-import useCalendarEventHandler from './useCalendarEventHandler'
+import useCalendarTrainingHandler from './useCalendarEventHandler'
 
 export default {
   components: {
@@ -346,13 +346,13 @@ export default {
      ? If we don't handle it the way it is being handled then either of two composition function used by this SFC get undefined as one of it's argument.
      * The Trick:
 
-     * We created reactive property `clearFormData` and set to null so we can get `resetEventLocal` from `useCalendarEventHandler` composition function.
+     * We created reactive property `clearFormData` and set to null so we can get `resetEventLocal` from `useCalendarTrainingHandler` composition function.
      * Once we get `resetEventLocal` function which is required by `useFormValidation` we will pass it to `useFormValidation` and in return we will get `clearForm` function which shall be original value of `clearFormData`.
      * Later we just assign `clearForm` to `clearFormData` and can resolve the deadlock. 😎
 
      ? Behind The Scene
-     ? When we passed it to `useCalendarEventHandler` for first time it will be null but right after it we are getting correct value (which is `clearForm`) and assigning that correct value.
-     ? As `clearFormData` is reactive it is being changed from `null` to corrent value and thanks to reactivity it is also update in `useCalendarEventHandler` composition function and it is getting correct value in second time and can work w/o any issues.
+     ? When we passed it to `useCalendarTrainingHandler` for first time it will be null but right after it we are getting correct value (which is `clearForm`) and assigning that correct value.
+     ? As `clearFormData` is reactive it is being changed from `null` to corrent value and thanks to reactivity it is also update in `useCalendarTrainingHandler` composition function and it is getting correct value in second time and can work w/o any issues.
     */
     const clearFormData = ref(null)
 

@@ -6,7 +6,7 @@
         class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
         :class="{'show': isCalendarOverlaySidebarActive}"
       >
-        <calendar-sidebar :is-event-handler-sidebar-active.sync="isEventHandlerSidebarActive" />
+        <calendar-sidebar :is-training-handler-sidebar-active.sync="isTrainingHandlerSidebarActive" />
       </div>
 
       <!-- Calendar -->
@@ -28,13 +28,13 @@
         :class="{'show': isCalendarOverlaySidebarActive}"
         @click="isCalendarOverlaySidebarActive = false"
       />
-      <calendar-event-handler
-        v-model="isEventHandlerSidebarActive"
-        :event="event"
-        :clear-event-data="clearEventData"
-        @remove-event="removeEvent"
-        @add-event="addEvent"
-        @update-event="updateEvent"
+      <calendar-training-handler
+        v-model="isTrainingHandlerSidebarActive"
+        :training="training"
+        :clear-training-data="clearTrainingData"
+        @remove-training="removeTraining"
+        @add-training="addTraining"
+        @update-training="updateTraining"
       />
     </div>
   </div>
@@ -46,14 +46,14 @@ import store from '@/store'
 import { onUnmounted } from '@vue/composition-api'
 import calendarStoreModule from './calendarStoreModule'
 import CalendarSidebar from './calendar-sidebar/CalendarSidebar.vue'
-import CalendarEventHandler from './calendar-event-handler/CalendarEventHandler.vue'
+import CalendarTrainingHandler from './calendar-training-handler/CalendarTrainingHandler.vue'
 import useCalendar from './useCalendar'
 
 export default {
   components: {
-    FullCalendar, // make the <FullCalendar> tag available
+    FullCalendar,
     CalendarSidebar,
-    CalendarEventHandler,
+    CalendarTrainingHandler,
   },
   setup() {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
@@ -69,17 +69,17 @@ export default {
     const {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
+      training,
+      clearTrainingData,
+      addTraining,
+      updateTraining,
+      removeTraining,
       fetchUserTrainings,
-      refetchEvents,
+      refetchTrainings,
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isTrainingHandlerSidebarActive,
     } = useCalendar()
 
     fetchUserTrainings()
@@ -87,16 +87,16 @@ export default {
     return {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
-      refetchEvents,
+      training,
+      clearTrainingData,
+      addTraining,
+      updateTraining,
+      removeTraining,
+      refetchTrainings,
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isTrainingHandlerSidebarActive,
     }
   },
 }

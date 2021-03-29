@@ -20,6 +20,7 @@ const fetchUserTrainings = async (userId, year, month) => {
 
       vo.forEach(training => {
         const calendarItem = {
+          id: training.trainingId,
           title: training.trainingContent,
           start: training.trainingStartTime,
           end: training.trainingEndTime,

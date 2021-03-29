@@ -3,11 +3,12 @@
     <div class="p-2">
       <b-button
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-        aria-controls="sidebar-add-new-event"
-        :aria-expanded="String(isEventHandlerSidebarActive)"
+        aria-controls="sidebar-add-new-training"
+        :aria-expanded="String(isTrainingHandlerSidebarActive)"
         variant="primary"
         block
-        @click="$emit('update:isEventHandlerSidebarActive', true)"
+        class="my-1"
+        @click="$emit('update:isTrainingHandlerSidebarActive', true)"
       >
         发布训练任务
       </b-button>
@@ -63,7 +64,7 @@ export default {
     BFormCheckboxGroup,
   },
   props: {
-    isEventHandlerSidebarActive: {
+    isTrainingHandlerSidebarActive: {
       type: Boolean,
       require: true,
     },

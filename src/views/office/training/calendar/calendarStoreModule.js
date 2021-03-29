@@ -42,29 +42,29 @@ export default {
         .catch(error => reject(error))
       })
     },
-    addEvent (ctx, { event }) {
+    addTraining (ctx, { training }) {
       return new Promise((resolve, reject) => {
         axios
-        .post('/apps/calendar/events', { event })
+        .post('/apps/calendar/trainings', { training })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     },
-    updateEvent (ctx, { event }) {
+    updateTraining (ctx, { training }) {
       return new Promise((resolve, reject) => {
         axios
-        .post(`/apps/calendar/events/${event.id}`, { event })
+        .post(`/apps/calendar/trainings/${training.id}`, { training })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     },
-    removeEvent (ctx, { id }) {
+    removeTraining (ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-        .delete(`/apps/calendar/events/${id}`)
+        .delete(`/apps/calendar/trainings/${id}`)
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
-    },
-  },
+    }
+  }
 }

@@ -15,7 +15,7 @@ export default function useCalendarSidebar() {
     get: () => store.state.calendar.selectedStatuses,
     set: val => {
       store.commit('calendar/SET_SELECTED_STATUSES', val)
-    },
+    }
   })
 
   // ------------------------------------------------
@@ -29,12 +29,12 @@ export default function useCalendarSidebar() {
       } else if (selectedStatuses.value.length === statusOptions.value.length) {
         selectedStatuses.value = []
       }
-    },
+    }
   })
 
   return {
     statusOptions,
     selectedStatuses,
-    checkAll,
+    checkAll
   }
 }

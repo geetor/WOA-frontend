@@ -82,18 +82,18 @@ export default [
     meta: {
       contentClass: 'training-application',
       navActiveLink: 'office-training-statistic',
+    }
+  },
+  {
+    path: '/office/training/calendar/:user',
+    name: 'office-training-calendar-user',
+    component: () => import('@/views/office/training/calendar/Calendar'),
+    meta: {
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-statistic',
     },
-    children: [
-      {
-        path: '/office/training/calendar'
-      },
-      {
-        path: '/office/training/calendar/:userId',
-        name: 'office-training-calendar'
-      }
-    ],
     beforeEnter (to, _, next) {
-      if (!Object.keys(to.params).length || !isNaN(Number(to.params.userId))) {
+      if (!isNaN(Number(to.params.user))) {
         next()
       } else {
         next({ name: 'error-404' })
