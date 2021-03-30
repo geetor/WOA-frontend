@@ -4,8 +4,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const axiosIns = axios.create({
-  // baseURL: 'https://geekhub.fun/apis',
-  baseURL: 'http://49.235.232.63:3180',
+  baseURL: 'https://devhub.work/apis',
   timeout: 1000 * 10,
   headers: { 'X-Custom-Header': 'foobar' }
 })

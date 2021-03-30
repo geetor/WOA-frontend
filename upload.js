@@ -8,10 +8,10 @@ const spinner = ora(chalk.green('正在发布到服务器...'))
 spinner.start()
 
 client.scp('./dist/', {
-  'host': '45.195.155.230',
+  'host': '49.235.232.63',
   'port': '22',
   'username': 'root',
-  'password': 'cloud2021.',
+  'password': 'Tencent2021.',
   'path': '/dist'
 }, err => {
   spinner.stop()

@@ -140,22 +140,9 @@
         <div class="text-nowrap">
 
           <feather-icon
-              :id="`training-row-${data.item.id}-add-icon`"
-              icon="EditIcon"
-              class="cursor-pointer"
-              size="16"
-              @click="$router.push({ name: 'office-training-calendar-user', params: { user: data.item.userId }})"
-          />
-          <b-tooltip
-              title="发布训练"
-              class="cursor-pointer"
-              :target="`training-row-${data.item.id}-add-icon`"
-          />
-
-          <feather-icon
               :id="`training-row-${data.item.id}-calendar-icon`"
               icon="CalendarIcon"
-              class="cursor-pointer mx-1"
+              class="cursor-pointer"
               size="16"
               @click="$router.push({ name: 'office-training-calendar-user', params: { user: data.item.userId }})"
           />
