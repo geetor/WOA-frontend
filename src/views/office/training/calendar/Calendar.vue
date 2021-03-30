@@ -76,7 +76,7 @@ export default {
       addTraining,
       editTraining,
       delTraining,
-      fetchUserTrainings,
+      fetchTrainings,
       refetchTrainings,
       calendarOptions,
 
@@ -84,7 +84,7 @@ export default {
       isTrainingHandlerSidebarActive
     } = useCalendar()
 
-    fetchUserTrainings()
+    fetchTrainings()
 
     return {
       refCalendar,

@@ -220,16 +220,26 @@ export default function userCalendar () {
   // AXIOS: fetchTrainings
   // * This will be called by fullCalendar to fetch trainings. Also this can be used to refetch trainings.
   // --------------------------------------------------------------------------------------------------
-  const fetchUserTrainings = (info, successCallback) => {
+  const fetchTrainings = (info, successCallback) => {
     // If there's no info => Don't make useless API call
     if (!info) return
 
     // Fetch Trainings from API endpoint
+    let requestPath = ''
+    const payload = {}
+    if (router.currentRoute.name === 'office-training-calendar-user') {
+      requestPath = 'calendar/fetchUserTrainings'
+      payload.userId = router.currentRoute.params.user
+      payload.statuses = selectedStatuses.value
+    }
+    if (router.currentRoute.name === 'office-training-calendar-department') {
+      requestPath = 'calendar/fetchDeptsTrainings'
+      payload.department = router.currentRoute.params.department
+      payload.statuses = selectedStatuses.value
+    }
+
     store
-    .dispatch('calendar/fetchUserTrainings', {
-      userId: router.currentRoute.params.user,
-      statuses: selectedStatuses.value
-    })
+    .dispatch(requestPath, payload)
     .then(response => {
       successCallback(response.data)
     })
@@ -262,7 +272,7 @@ export default function userCalendar () {
       day: '日历',
       list: '列表'
     },
-    events: fetchUserTrainings,
+    events: fetchTrainings,
     locale: 'zh-cn',
     // firstDay: 1,
 
@@ -362,7 +372,7 @@ export default function userCalendar () {
     editTraining,
     delTraining,
     refetchTrainings,
-    fetchUserTrainings,
+    fetchTrainings,
 
     // ----- UI ----- //
     isTrainingHandlerSidebarActive

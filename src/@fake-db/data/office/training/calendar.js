@@ -3,6 +3,50 @@ import axiosIns from '@/libs/axios'
 
 const date = new Date()
 
+const fetchDeptsTrainings = async (year, month) => {
+  return await axiosIns.get('training/getDeptsTrainings', {
+    params: {
+      userId: JSON.parse(localStorage.getItem('userData')).userId,
+      year: year,
+      month: month
+    }
+  })
+  .then(response => {
+    if (response.data.status.code === '0000') {
+      const vo = response.data.data
+
+      let departmentTrainings = []
+
+      vo.forEach(departmentTraining => {
+        const department = departmentTraining.deptName
+        let trainings = []
+        departmentTraining.deptTrainings.forEach(training => {
+          const calendarItem = {
+            id: training.trainingId,
+            title: training.trainingContent,
+            start: training.trainingStartTime,
+            end: training.trainingEndTime,
+            extendedProps: {
+              type: training.trainingType,
+              place: training.trainingPlace,
+              status: training.trainingStatus,
+              heads: training.trainingHeads,
+              members: training.trainingMembers
+            }
+          }
+          trainings.push(calendarItem)
+        })
+        departmentTrainings.push({
+          department,
+          trainings
+        })
+      })
+
+      return departmentTrainings
+    }
+  })
+}
+
 const fetchUserTrainings = async (userId, year, month) => {
   return await axiosIns.get('training/getTraining', {
     params: {
@@ -117,7 +161,47 @@ const delTraining = async (trainingId) => {
 }
 
 // ------------------------------------------------
-// GET: Return attendances
+// GET: Return Trainings of Department(s)
+// ------------------------------------------------
+mock.onGet('/office/training/deptsTrainings')
+.reply(config => {
+
+  let {
+    department,
+    year = date.getFullYear(),
+    month = date.getMonth() + 1,
+    statuses
+  } = config.params
+  statuses = statuses.split(',')
+
+  return fetchDeptsTrainings(year, month)
+  .then(departmentTrainings => {
+
+    let trainings = []
+
+    if (department === '所有部门') {
+      departmentTrainings.forEach(departmentTraining => {
+        trainings = trainings.concat(departmentTraining.trainings)
+      })
+
+      // 去重
+      let hash = {}
+      trainings = trainings.reduce(function (item, next) {
+        hash[next.id] ? '' : hash[next.id] = true && item.push({ ...next })
+        return item
+      }, [])
+    } else {
+      const departmentTraining = departmentTrainings.find(departmentTraining => departmentTraining.department === department)
+      trainings = trainings.concat(departmentTraining.trainings)
+    }
+
+    return [200, trainings.filter(training => statuses.includes(training.extendedProps.status))]
+  })
+
+})
+
+// ------------------------------------------------
+// GET: Return Trainings of User
 // ------------------------------------------------
 mock.onGet('/office/training/userTrainings')
 .reply(config => {

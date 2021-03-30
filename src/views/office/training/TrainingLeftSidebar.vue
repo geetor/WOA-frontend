@@ -9,9 +9,9 @@
                 variant="primary"
                 block
                 class="my-1"
-                :to="{ name: 'office-training-calendar'}"
+                :to="{ name: 'office-training-calendar-department', params: { department: currentDepartment }}"
             >
-              训练安排
+              {{ currentDepartment }}训练安排
             </b-button>
           </div>
           <vue-perfect-scrollbar
@@ -55,8 +55,9 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {
   BButton, BListGroup, BListGroupItem, BBadge,
 } from 'bootstrap-vue'
-import { isDynamicRouteActive } from '@core/utils/utils'
+import { isDynamicRouteActive, useRouter } from '@core/utils/utils'
 import Ripple from 'vue-ripple-directive'
+import { computed, watch, ref } from '@vue/composition-api'
 
 export default {
   directives: {
@@ -87,6 +88,28 @@ export default {
     }
   },
   setup () {
+    const {
+      route,
+      router
+    } = useRouter()
+
+    // Route Params
+    const routeParams = computed(() => route.value.params)
+
+    let currentDepartment = ref('')
+    const fetchDepartmentName = () => {
+      if (router.currentRoute.params.department) {
+        currentDepartment.value = router.currentRoute.params.department
+      } else {
+        currentDepartment.value = '所有部门'
+      }
+    }
+    fetchDepartmentName()
+
+    watch(routeParams, () => {
+      fetchDepartmentName()
+    })
+
     const perfectScrollbarSettings = {
       maxScrollbarLength: 60,
     }
@@ -98,6 +121,8 @@ export default {
     }
 
     return {
+      currentDepartment,
+
       // UI
       perfectScrollbarSettings,
       isDynamicRouteActive,

@@ -76,12 +76,19 @@ export default [
     }
   },
   {
-    path: '/office/training/calendar',
-    name: 'office-training-calendar',
+    path: '/office/training/calendar/:department',
+    name: 'office-training-calendar-department',
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
       navActiveLink: 'office-training-statistic',
+    },
+    beforeEnter (to, _, next) {
+      if (['所有部门', '人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     }
   },
   {

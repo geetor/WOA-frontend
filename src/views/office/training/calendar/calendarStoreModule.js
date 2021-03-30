@@ -26,6 +26,22 @@ export default {
     },
   },
   actions: {
+    fetchDeptsTrainings (ctx, {
+      department,
+      statuses
+    }) {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/office/training/deptsTrainings', {
+          params: {
+            department: department,
+            statuses: statuses.join(',')
+          },
+        })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
     fetchUserTrainings (ctx, {
       userId,
       statuses
