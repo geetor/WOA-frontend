@@ -5,7 +5,7 @@ export const isUserLoggedIn = () => {
 export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 
 export const getHomeRouteForLoggedInUser = userRole => {
-  if (userRole === 'admin') return '/'
-  if (userRole === 'user') return { name: 'access-control' }
+  if (userRole === '管理员') return '/'
+  if (userRole === '用户') return { name: 'access-control' }
   return { name: 'auth-login' }
 }

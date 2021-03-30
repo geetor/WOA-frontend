@@ -283,8 +283,8 @@ export default {
           })
         }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
