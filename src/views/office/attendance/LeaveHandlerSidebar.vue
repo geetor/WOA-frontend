@@ -71,7 +71,7 @@
                 <flat-pickr
                     v-model="leaveLocal.startTime"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i'}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
                   {{ validationContext.errors[0] }}
@@ -93,7 +93,7 @@
                 <flat-pickr
                     v-model="leaveLocal.dueTime"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i'}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
                   {{ validationContext.errors[0] }}
@@ -156,6 +156,7 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
+import { Mandarin } from 'flatpickr/dist/l10n/zh.js'
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required } from '@validations'
@@ -252,6 +253,7 @@ export default {
 
       // Filter/Formatter
       avatarText,
+      Mandarin
     }
   },
 }

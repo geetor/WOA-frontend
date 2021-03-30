@@ -2,13 +2,13 @@
   <div class="sidebar-wrapper d-flex justify-content-between flex-column flex-grow-1">
     <div class="p-2">
       <b-button
-        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-        aria-controls="sidebar-add-new-training"
-        :aria-expanded="String(isTrainingHandlerSidebarActive)"
-        variant="primary"
-        block
-        class="my-1"
-        @click="$emit('update:isTrainingHandlerSidebarActive', true)"
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          aria-controls="sidebar-add-new-training"
+          :aria-expanded="String(isTrainingHandlerSidebarActive)"
+          variant="primary"
+          block
+          class="my-1"
+          @click="$emit('update:isTrainingHandlerSidebarActive', true)"
       >
         发布训练任务
       </b-button>
@@ -17,24 +17,24 @@
           <span class="align-middle">训练状态</span>
         </h5>
         <b-form-checkbox
-          v-model="checkAll"
-          class="mb-1"
+            v-model="checkAll"
+            class="mb-1"
         >
           全部
         </b-form-checkbox>
         <b-form-group>
           <b-form-checkbox-group
-            v-model="selectedStatuses"
-            name="event-filter"
-            stacked
+              v-model="selectedStatuses"
+              name="event-filter"
+              stacked
           >
             <b-form-checkbox
-              v-for="status in statusOptions"
-              :key="status.label"
-              name="event-filter"
-              :value="status.label"
-              class="mb-1"
-              :class="`custom-control-${status.color}`"
+                v-for="status in statusOptions"
+                :key="status.label"
+                name="event-filter"
+                :value="status.label"
+                class="mb-1"
+                :class="`custom-control-${status.color}`"
             >
               {{ status.label }}
             </b-form-checkbox>
@@ -54,32 +54,32 @@ import useCalendarSidebar from './useCalendarSidebar'
 
 export default {
   directives: {
-    Ripple,
+    Ripple
   },
   components: {
     BButton,
     BImg,
     BFormCheckbox,
     BFormGroup,
-    BFormCheckboxGroup,
+    BFormCheckboxGroup
   },
   props: {
     isTrainingHandlerSidebarActive: {
       type: Boolean,
-      require: true,
-    },
+      require: true
+    }
   },
-  setup() {
+  setup () {
     const {
       statusOptions,
       selectedStatuses,
-      checkAll,
+      checkAll
     } = useCalendarSidebar()
 
     return {
       statusOptions,
       selectedStatuses,
-      checkAll,
+      checkAll
     }
   },
 }

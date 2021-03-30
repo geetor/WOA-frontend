@@ -3,10 +3,10 @@
     <div class="row no-gutters">
       <!-- Sidebar -->
       <div
-        class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
-        :class="{'show': isCalendarOverlaySidebarActive}"
+          class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
+          :class="{'show': isCalendarOverlaySidebarActive}"
       >
-        <calendar-sidebar :is-training-handler-sidebar-active.sync="isTrainingHandlerSidebarActive" />
+        <calendar-sidebar :is-training-handler-sidebar-active.sync="isTrainingHandlerSidebarActive"/>
       </div>
 
       <!-- Calendar -->
@@ -14,9 +14,9 @@
         <div class="card shadow-none border-0 mb-0 rounded-0">
           <div class="card-body pb-0">
             <full-calendar
-              ref="refCalendar"
-              :options="calendarOptions"
-              class="full-calendar"
+                ref="refCalendar"
+                :options="calendarOptions"
+                class="full-calendar"
             />
           </div>
         </div>
@@ -24,17 +24,18 @@
 
       <!-- Sidebar Overlay -->
       <div
-        class="body-content-overlay"
-        :class="{'show': isCalendarOverlaySidebarActive}"
-        @click="isCalendarOverlaySidebarActive = false"
+          class="body-content-overlay"
+          :class="{'show': isCalendarOverlaySidebarActive}"
+          @click="isCalendarOverlaySidebarActive = false"
       />
       <calendar-training-handler
-        v-model="isTrainingHandlerSidebarActive"
-        :training="training"
-        :clear-training-data="clearTrainingData"
-        @remove-training="removeTraining"
-        @add-training="addTraining"
-        @update-training="updateTraining"
+          v-model="isTrainingHandlerSidebarActive"
+          :training="training"
+          :clear-training-data="clearTrainingData"
+          :lower-users="lowerUsers"
+          @del-training="delTraining"
+          @add-training="addTraining"
+          @edit-training="editTraining"
       />
     </div>
   </div>
@@ -53,9 +54,9 @@ export default {
   components: {
     FullCalendar,
     CalendarSidebar,
-    CalendarTrainingHandler,
+    CalendarTrainingHandler
   },
-  setup() {
+  setup () {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
 
     // Register module
@@ -71,15 +72,16 @@ export default {
       isCalendarOverlaySidebarActive,
       training,
       clearTrainingData,
+      lowerUsers,
       addTraining,
-      updateTraining,
-      removeTraining,
+      editTraining,
+      delTraining,
       fetchUserTrainings,
       refetchTrainings,
       calendarOptions,
 
       // ----- UI ----- //
-      isTrainingHandlerSidebarActive,
+      isTrainingHandlerSidebarActive
     } = useCalendar()
 
     fetchUserTrainings()
@@ -89,16 +91,17 @@ export default {
       isCalendarOverlaySidebarActive,
       training,
       clearTrainingData,
+      lowerUsers,
       addTraining,
-      updateTraining,
-      removeTraining,
+      editTraining,
+      delTraining,
       refetchTrainings,
       calendarOptions,
 
       // ----- UI ----- //
-      isTrainingHandlerSidebarActive,
+      isTrainingHandlerSidebarActive
     }
-  },
+  }
 }
 </script>
 

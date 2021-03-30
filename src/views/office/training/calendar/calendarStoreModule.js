@@ -45,23 +45,31 @@ export default {
     addTraining (ctx, { training }) {
       return new Promise((resolve, reject) => {
         axios
-        .post('/apps/calendar/trainings', { training })
+        .post('/office/training/addTraining', { training })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     },
-    updateTraining (ctx, { training }) {
+    editTraining (ctx, { training }) {
       return new Promise((resolve, reject) => {
         axios
-        .post(`/apps/calendar/trainings/${training.id}`, { training })
+        .post('/office/training/editTraining', { training })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     },
-    removeTraining (ctx, { id }) {
+    delTraining (ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-        .delete(`/apps/calendar/trainings/${id}`)
+        .delete(`/office/training/delTraining/${id}`)
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
+    fetchLowerUsers () {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/office/training/lowerUsers')
         .then(response => resolve(response))
         .catch(error => reject(error))
       })

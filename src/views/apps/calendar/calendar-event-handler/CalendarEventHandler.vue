@@ -294,7 +294,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { required, email, url } from '@validations'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { ref, toRefs } from '@vue/composition-api'
-import useCalendarTrainingHandler from './useCalendarEventHandler'
+import useCalendarEventHandler from './useCalendarEventHandler'
 
 export default {
   components: {
@@ -317,7 +317,7 @@ export default {
   },
   model: {
     prop: 'isEventHandlerSidebarActive',
-    event: 'update:is-event-handler-sidebar-active',
+    event: 'update:is-event-handler-sidebar-active'
   },
   props: {
     isEventHandlerSidebarActive: {

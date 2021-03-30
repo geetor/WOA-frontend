@@ -113,7 +113,7 @@ export default function userCalendar () {
     },
     events: fetchAttendances,
     locale: 'zh-cn',
-    firstDay: 1,
+    // firstDay: 1,
 
     /*
       Enable dragging and resizing event

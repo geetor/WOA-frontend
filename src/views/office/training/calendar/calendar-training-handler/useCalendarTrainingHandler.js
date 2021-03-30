@@ -32,34 +32,17 @@ export default function useCalendarTrainingHandler(props, clearForm, emit) {
 
   const onSubmit = () => {
     const trainingData = JSON.parse(JSON.stringify(trainingLocal))
+    console.log(trainingData)
 
     // * If training has id => Edit Training
-    // Emit training for add/update training
-    if (props.training.value.id) emit('update-training', trainingData.value)
+    // Emit training for add/edit training
+    if (props.training.value.id) emit('edit-training', trainingData.value)
     else emit('add-training', trainingData.value)
 
     // Close sidebar
     emit('update:is-training-handler-sidebar-active', false)
   }
 
-  // *===============================================---*
-  // *--------- UI ---------------------------------------*
-  // *===============================================---*
-
-  // ------------------------------------------------
-  // headsOptions
-  // ------------------------------------------------
-
-  /* eslint-disable global-require */
-  const headsOptions = [
-    { userName: 'Jane Foster' },
-    { userName: 'Donna Frank' },
-    { userName: 'Gabrielle Robertson' },
-    { userName: 'Lori Spears' },
-    { userName: 'Sandy Vega' },
-    { userName: 'Cheryl May' }
-  ]
-  /* eslint-enable global-require */
 
   return {
     trainingLocal,
@@ -67,7 +50,6 @@ export default function useCalendarTrainingHandler(props, clearForm, emit) {
     statusOptions,
 
     // UI
-    headsOptions,
     onSubmit
   }
 }

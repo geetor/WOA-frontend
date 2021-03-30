@@ -22,7 +22,7 @@
                 v-if="trainingLocal.id"
                 icon="TrashIcon"
                 class="cursor-pointer"
-                @click="$emit('remove-training'); hide();"
+                @click="$emit('del-training'); hide();"
             />
             <feather-icon
                 class="ml-1 cursor-pointer"
@@ -45,6 +45,19 @@
               @submit.prevent="handleSubmit(onSubmit)"
               @reset.prevent="resetForm"
           >
+
+            <!-- 训练类型 -->
+            <b-form-group
+                label="训练类型"
+                label-for="training-type"
+            >
+              <b-form-input
+                  id="training-type"
+                  v-model="trainingLocal.extendedProps.type"
+                  autofocus
+                  trim
+              />
+            </b-form-group>
 
             <!-- 训练场地 -->
             <b-form-group
@@ -86,7 +99,7 @@
                 <flat-pickr
                     v-model="trainingLocal.start"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i'}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
                   开始时间无效
@@ -109,7 +122,7 @@
                 <flat-pickr
                     v-model="trainingLocal.end"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i'}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
                   结束时间无效
@@ -127,9 +140,43 @@
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   multiple
                   :close-on-select="false"
-                  :options="headsOptions"
+                  :options="lowerUsers"
                   label="userName"
                   input-id="add-heads"
+              >
+
+                <template #option="{ userName }">
+                  <b-avatar
+                      size="sm"
+                      :text="avatarText(userName)"
+                  />
+                  <span class="ml-50 align-middle"> {{ userName }}</span>
+                </template>
+
+                <template #selected-option="{ userName }">
+                  <b-avatar
+                      size="sm"
+                      class="border"
+                      :text="avatarText(userName)"
+                  />
+                  <span class="ml-50 align-middle"> {{ userName }}</span>
+                </template>
+              </v-select>
+            </b-form-group>
+
+            <!-- 参训人员 -->
+            <b-form-group
+                label="参训人员"
+                label-for="add-members"
+            >
+              <v-select
+                  v-model="trainingLocal.extendedProps.members"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  multiple
+                  :close-on-select="false"
+                  :options="lowerUsers"
+                  label="userName"
+                  input-id="add-members"
               >
 
                 <template #option="{ userName }">
@@ -159,6 +206,7 @@
             >
 
               <b-form-group
+                  v-if="trainingLocal.id"
                   label="训练状态"
                   label-for="training-status"
                   :state="getValidationState(validationContext)"
@@ -192,7 +240,7 @@
                 </v-select>
 
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
-                  {{ validationContext.errors[0] }}
+                  请输入正确格式的训练状态
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>
@@ -228,9 +276,10 @@ import {
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
+import { Mandarin } from 'flatpickr/dist/l10n/zh.js'
 import Ripple from 'vue-ripple-directive'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { required, email } from '@validations'
+import { required } from '@validations'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { ref, toRefs } from '@vue/composition-api'
 import useCalendarTrainingHandler from './useCalendarTrainingHandler'
@@ -250,14 +299,14 @@ export default {
     flatPickr,
     ValidationProvider,
     BFormInvalidFeedback,
-    ValidationObserver,
+    ValidationObserver
   },
   directives: {
-    Ripple,
+    Ripple
   },
   model: {
     prop: 'isTrainingHandlerSidebarActive',
-    training: 'update:is-training-handler-sidebar-active',
+    event: 'update:is-training-handler-sidebar-active'
   },
   props: {
     isTrainingHandlerSidebarActive: {
@@ -271,28 +320,18 @@ export default {
     clearTrainingData: {
       type: Function,
       required: true
+    },
+    lowerUsers: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
-      required,
-      email
+      required
     }
   },
   setup (props, { emit }) {
-    /*
-     ? This is handled quite differently in SFC due to deadlock of `useFormValidation` and this composition function.
-     ? If we don't handle it the way it is being handled then either of two composition function used by this SFC get undefined as one of it's argument.
-     * The Trick:
-
-     * We created reactive property `clearFormData` and set to null so we can get `resetTrainingLocal` from `useCalendarTrainingHandler` composition function.
-     * Once we get `resetTrainingLocal` function which is required by `useFormValidation` we will pass it to `useFormValidation` and in return we will get `clearForm` function which shall be original value of `clearFormData`.
-     * Later we just assign `clearForm` to `clearFormData` and can resolve the deadlock. 😎
-
-     ? Behind The Scene
-     ? When we passed it to `useCalendarTrainingHandler` for first time it will be null but right after it we are getting correct value (which is `clearForm`) and assigning that correct value.
-     ? As `clearFormData` is reactive it is being changed from `null` to corrent value and thanks to reactivity it is also update in `useCalendarTrainingHandler` composition function and it is getting correct value in second time and can work w/o any issues.
-    */
     const clearFormData = ref(null)
 
     const {
@@ -301,8 +340,7 @@ export default {
       statusOptions,
 
       // UI
-      onSubmit,
-      headsOptions
+      onSubmit
     } = useCalendarTrainingHandler(toRefs(props), clearFormData, emit)
 
     const {
@@ -319,16 +357,16 @@ export default {
       trainingLocal,
       statusOptions,
       onSubmit,
-      headsOptions,
 
       // Form Validation
       resetForm,
       refFormObserver,
       getValidationState,
 
-      avatarText
+      avatarText,
+      Mandarin
     }
-  },
+  }
 }
 </script>
 

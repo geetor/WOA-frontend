@@ -24,12 +24,12 @@ const fetchUserTrainings = async (userId, year, month) => {
           title: training.trainingContent,
           start: training.trainingStartTime,
           end: training.trainingEndTime,
-          allDay: false,
           extendedProps: {
             type: training.trainingType,
             place: training.trainingPlace,
             status: training.trainingStatus,
-            heads: training.trainingHeads
+            heads: training.trainingHeads,
+            members: training.trainingMembers
           }
         }
         trainings.push(calendarItem)
@@ -40,11 +40,88 @@ const fetchUserTrainings = async (userId, year, month) => {
   })
 }
 
+const fetchLowerUsers = async () => {
+  return await axiosIns.get('user/getLowerUsers', {
+    params: {
+      userId: JSON.parse(localStorage.getItem('userData')).userId
+    }
+  })
+  .then(response => {
+    if (response.data.status.code === '0000') {
+      const vo = response.data.data
+
+      let lowerUsers = []
+
+      vo.forEach(department => {
+        department.simpleUserVOS.forEach(user => {
+          const userItem = {
+            userId: user.userId,
+            userName: user.userName
+          }
+          lowerUsers.push(userItem)
+        })
+      })
+
+      // 去重
+      let hash = {}
+      lowerUsers = lowerUsers.reduce(function (item, next) {
+        hash[next.userId] ? '' : hash[next.userId] = true && item.push({ ...next })
+        return item
+      }, [])
+
+      return lowerUsers
+    }
+  })
+}
+
+const addTraining = async (trainingData) => {
+  return await axiosIns.post('training/addTraining', {
+    trainingType: trainingData.extendedProps.type,
+    trainingStartTime: new Date(Date.parse(trainingData.start)).toJSON()
+    .substr(0, 19)
+    .replace('T', ' '),
+    trainingEndTime: new Date(Date.parse(trainingData.end)).toJSON()
+    .substr(0, 19)
+    .replace('T', ' '),
+    trainingPlace: trainingData.extendedProps.place,
+    trainingContent: trainingData.title,
+    trainingHeads: trainingData.extendedProps.heads.map(head => head.userId),
+    trainingMembers: trainingData.extendedProps.members.map(member => member.userId)
+  })
+}
+
+const editTraining = async (trainingData) => {
+  return await axiosIns.post('training/editTraining', {
+    trainingId: Number(trainingData.id),
+    trainingType: trainingData.extendedProps.type,
+    trainingStartTime: new Date(Date.parse(trainingData.start)).toJSON()
+    .substr(0, 19)
+    .replace('T', ' '),
+    trainingEndTime: new Date(Date.parse(trainingData.end)).toJSON()
+    .substr(0, 19)
+    .replace('T', ' '),
+    trainingPlace: trainingData.extendedProps.place,
+    trainingContent: trainingData.title,
+    trainingHeads: trainingData.extendedProps.heads.map(head => head.userId),
+    trainingMembers: trainingData.extendedProps.members.map(member => member.userId),
+    trainingStatus: trainingData.extendedProps.status
+  })
+}
+
+const delTraining = async (trainingId) => {
+  return await axiosIns.get('training/delTraining', {
+    params: {
+      trainingId: trainingId
+    }
+  })
+}
+
 // ------------------------------------------------
 // GET: Return attendances
 // ------------------------------------------------
 mock.onGet('/office/training/userTrainings')
 .reply(config => {
+
   let {
     userId,
     year = date.getFullYear(),
@@ -57,4 +134,66 @@ mock.onGet('/office/training/userTrainings')
   .then(trainings => {
     return [200, trainings.filter(training => statuses.includes(training.extendedProps.status))]
   })
+
+})
+
+// ------------------------------------------------
+// GET: Return Lower Rank Users
+// ------------------------------------------------
+mock.onGet('/office/training/lowerUsers')
+.reply(config => {
+
+  return fetchLowerUsers()
+  .then(lowerUsers => {
+    return [200, lowerUsers]
+  })
+
+})
+
+// ------------------------------------------------
+// POST: Add Training
+// ------------------------------------------------
+mock.onPost('/office/training/addTraining')
+.reply(config => {
+
+  const { training } = JSON.parse(config.data)
+
+  return addTraining(training)
+  .then(() => {
+      return [200, { training }]
+    }
+  )
+
+})
+
+// ------------------------------------------------
+// POST: Edit Training
+// ------------------------------------------------
+mock.onPost('/office/training/editTraining')
+.reply(config => {
+
+  const { training } = JSON.parse(config.data)
+
+  return editTraining(training)
+  .then(() => {
+      return [200, { training }]
+    }
+  )
+
+})
+
+// ------------------------------------------------
+// DELETE: Remove Event
+// ------------------------------------------------
+mock.onDelete(/\/office\/training\/delTraining\/\d+/)
+.reply(config => {
+
+  let trainingId = Number(config.url.substring(config.url.lastIndexOf('/') + 1))
+
+  return delTraining(trainingId)
+  .then(() => {
+      return [200]
+    }
+  )
+
 })
