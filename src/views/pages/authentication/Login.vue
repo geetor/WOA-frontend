@@ -154,7 +154,7 @@
 </template>
 
 <script>
-/* eslint-disable global-require */
+
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import VuexyLogo from '@core/layouts/components/Logo.vue'
 import {
@@ -170,7 +170,7 @@ import {
   BForm,
   BButton,
   BAlert,
-  VBTooltip,
+  VBTooltip
 } from 'bootstrap-vue'
 import { required, phone } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
@@ -181,7 +181,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 
 export default {
   directives: {
-    'b-tooltip': VBTooltip,
+    'b-tooltip': VBTooltip
   },
   components: {
     BRow,
@@ -206,7 +206,7 @@ export default {
       status: '',
       userPhone: '15695293608',
       userPassword: 'admin',
-      sideImg: require('@/assets/images/pages/login-v2.svg'),
+      sideImg: require('@/assets/images/pages/login.svg'),
 
       // validation rules
       required,
@@ -220,7 +220,7 @@ export default {
     imgUrl () {
       if (store.state.appConfig.layout.skin === 'dark') {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
+        this.sideImg = require('@/assets/images/pages/login-dark.svg')
         return this.sideImg
       }
       return this.sideImg
@@ -234,7 +234,7 @@ export default {
         if (success) {
           that.axiosIns.post('/user/login', {
             userPhone: that.userPhone,
-            userPassword: that.userPassword,
+            userPassword: that.userPassword
           })
           .then(res => {
             const statusCode = res.data.status.code
@@ -252,7 +252,7 @@ export default {
                     title: `欢迎 ${userData.userName}`,
                     icon: 'CoffeeIcon',
                     variant: 'success',
-                    text: `${userData.userRole} 登录成功!`,
+                    text: `${userData.userRole} 登录成功!`
                   }
                 })
               })
@@ -262,7 +262,7 @@ export default {
                     props: {
                       title: res.data.status.msg,
                       icon: 'DeleteIcon',
-                      variant: 'warning',
+                      variant: 'warning'
                     }
                   },
                   { position: 'bottom-right' }
@@ -275,7 +275,7 @@ export default {
                   props: {
                     title: '错误',
                     icon: 'DeleteIcon',
-                    variant: 'danger',
+                    variant: 'danger'
                   }
                 },
                 { position: 'bottom-right' }
