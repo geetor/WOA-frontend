@@ -76,7 +76,7 @@ export default [
     }
   },
   {
-    path: '/office/training/calendar/:department',
+    path: '/office/training/calendar/department/:department',
     name: 'office-training-calendar-department',
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
@@ -92,7 +92,7 @@ export default [
     }
   },
   {
-    path: '/office/training/calendar/:user',
+    path: '/office/training/calendar/user/:user',
     name: 'office-training-calendar-user',
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {

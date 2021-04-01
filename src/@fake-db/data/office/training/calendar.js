@@ -1,14 +1,12 @@
 import mock from '@/@fake-db/mock'
 import axiosIns from '@/libs/axios'
 
-const date = new Date()
-
-const fetchDeptsTrainings = async (year, month) => {
+const fetchDeptsTrainings = async (startDateStr, endDateStr) => {
   return await axiosIns.get('training/getDeptsTrainings', {
     params: {
       userId: JSON.parse(localStorage.getItem('userData')).userId,
-      year: year,
-      month: month
+      startDateStr: startDateStr,
+      endDateStr: endDateStr
     }
   })
   .then(response => {
@@ -47,13 +45,13 @@ const fetchDeptsTrainings = async (year, month) => {
   })
 }
 
-const fetchUserTrainings = async (userId, year, month) => {
+const fetchUserTrainings = async (user, startDateStr, endDateStr) => {
   return await axiosIns.get('training/getTraining', {
     params: {
       requestUserId: JSON.parse(localStorage.getItem('userData')).userId,
-      userId: userId,
-      year: year,
-      month: month
+      userId: user,
+      startDateStr: startDateStr,
+      endDateStr: endDateStr
     }
   })
   .then(response => {
@@ -168,13 +166,13 @@ mock.onGet('/office/training/deptsTrainings')
 
   let {
     department,
-    year = date.getFullYear(),
-    month = date.getMonth() + 1,
+    startDateStr,
+    endDateStr,
     statuses
   } = config.params
   statuses = statuses.split(',')
 
-  return fetchDeptsTrainings(year, month)
+  return fetchDeptsTrainings(startDateStr, endDateStr)
   .then(departmentTrainings => {
 
     let trainings = []
@@ -207,14 +205,14 @@ mock.onGet('/office/training/userTrainings')
 .reply(config => {
 
   let {
-    userId,
-    year = date.getFullYear(),
-    month = date.getMonth() + 1,
+    user,
+    startDateStr,
+    endDateStr,
     statuses
   } = config.params
   statuses = statuses.split(',')
 
-  return fetchUserTrainings(userId, year, month)
+  return fetchUserTrainings(user, startDateStr, endDateStr)
   .then(trainings => {
     return [200, trainings.filter(training => statuses.includes(training.extendedProps.status))]
   })

@@ -29,22 +29,29 @@ export default {
   },
   getters: {},
   mutations: {
-    SET_SELECTED_TYPES(state, val) {
+    SET_SELECTED_TYPES (state, val) {
       state.selectedTypes = val
     },
   },
   actions: {
-    fetchAttendances(ctx, { userId, types }) {
+    fetchAttendances (ctx, {
+      userId,
+      startDateStr,
+      endDateStr,
+      types
+    }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/office/attendance/attendances', {
-            params: {
-              userId: userId,
-              types: types.join(','),
-            },
-          })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/office/attendance/attendances', {
+          params: {
+            userId: userId,
+            startDateStr: startDateStr,
+            endDateStr: endDateStr,
+            types: types.join(','),
+          },
+        })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     }
   },

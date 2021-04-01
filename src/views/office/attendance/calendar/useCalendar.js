@@ -76,7 +76,9 @@ export default function userCalendar () {
     store
     .dispatch('calendar/fetchAttendances', {
       userId: router.currentRoute.params.userId,
-      types: selectedTypes.value,
+      startDateStr: info.startStr.split('T')[0],
+      endDateStr: info.endStr.split('T')[0],
+      types: selectedTypes.value
     })
     .then(response => {
       successCallback(response.data)
@@ -119,7 +121,7 @@ export default function userCalendar () {
       Enable dragging and resizing event
       ? Docs: https://fullcalendar.io/docs/editable
     */
-    editable: true,
+    editable: false,
 
     /*
       Enable resizing event from start

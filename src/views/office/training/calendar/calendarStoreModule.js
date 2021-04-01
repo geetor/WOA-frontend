@@ -28,6 +28,8 @@ export default {
   actions: {
     fetchDeptsTrainings (ctx, {
       department,
+      startDateStr,
+      endDateStr,
       statuses
     }) {
       return new Promise((resolve, reject) => {
@@ -35,6 +37,8 @@ export default {
         .get('/office/training/deptsTrainings', {
           params: {
             department: department,
+            startDateStr: startDateStr,
+            endDateStr: endDateStr,
             statuses: statuses.join(',')
           },
         })
@@ -43,14 +47,18 @@ export default {
       })
     },
     fetchUserTrainings (ctx, {
-      userId,
+      user,
+      startDateStr,
+      endDateStr,
       statuses
     }) {
       return new Promise((resolve, reject) => {
         axios
         .get('/office/training/userTrainings', {
           params: {
-            userId: userId,
+            user: user,
+            startDateStr: startDateStr,
+            endDateStr: endDateStr,
             statuses: statuses.join(','),
           },
         })

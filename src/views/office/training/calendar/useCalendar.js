@@ -8,7 +8,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-// eslint-disable-next-line object-curly-newline
 import { ref, computed, watch, onMounted } from '@vue/composition-api'
 import store from '@/store'
 import { useRouter } from '@core/utils/utils'
@@ -226,10 +225,13 @@ export default function userCalendar () {
 
     // Fetch Trainings from API endpoint
     let requestPath = ''
-    const payload = {}
+    const payload = {
+      startDateStr: info.startStr.split('T')[0],
+      endDateStr: info.endStr.split('T')[0]
+    }
     if (router.currentRoute.name === 'office-training-calendar-user') {
       requestPath = 'calendar/fetchUserTrainings'
-      payload.userId = router.currentRoute.params.user
+      payload.user = router.currentRoute.params.user
       payload.statuses = selectedStatuses.value
     }
     if (router.currentRoute.name === 'office-training-calendar-department') {
@@ -307,7 +309,6 @@ export default function userCalendar () {
     navLinks: true,
 
     eventClassNames ({ event: calendarTraining }) {
-      // eslint-disable-next-line no-underscore-dangle
       const colorName = refStatusesColor(calendarTraining._def.extendedProps.status)
 
       return [
