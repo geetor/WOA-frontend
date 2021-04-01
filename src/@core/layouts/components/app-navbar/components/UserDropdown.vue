@@ -33,7 +33,7 @@
     >
       <feather-icon
           size="16"
-          icon="SettingsIcon"
+          icon="LockIcon"
           class="mr-50"
       />
       <span>修改密码</span>
