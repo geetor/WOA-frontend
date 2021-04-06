@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useInvoicesList() {
+export default function useUserList() {
   // Use toast
   const toast = useToast()
 
@@ -13,20 +13,18 @@ export default function useInvoicesList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'id', label: '#', sortable: true },
-    { key: 'invoiceStatus', sortable: true },
-    { key: 'client', sortable: true },
-    { key: 'total', sortable: true, formatter: val => `$${val}` },
-    { key: 'issuedDate', sortable: true },
-    { key: 'balance', sortable: true },
-    { key: 'actions' },
+    { key: 'userId', label: '编号', sortable: true },
+    { key: 'userName', label: '姓名', sortable: false },
+    { key: 'userGender', label: '性别', sortable: false },
+    // { key: 'total', sortable: true, formatter: val => `$${val}` },
   ]
+
   const perPage = ref(10)
   const totalInvoices = ref(0)
   const currentPage = ref(1)
   const perPageOptions = [10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('id')
+  const sortBy = ref('userId')
   const isSortDirDesc = ref(true)
   const statusFilter = ref(null)
 
@@ -49,17 +47,17 @@ export default function useInvoicesList() {
 
   const fetchInvoices = (ctx, callback) => {
     store
-      .dispatch('app-invoice/fetchInvoices', {
+      .dispatch('app-invoice/fetchUsers', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
         sortBy: sortBy.value,
         sortDesc: isSortDirDesc.value,
-        status: statusFilter.value,
+        status: statusFilter.value
       })
       .then(response => {
         const { invoices, total } = response.data
-
+        debugger
         callback(invoices)
         totalInvoices.value = total
       })

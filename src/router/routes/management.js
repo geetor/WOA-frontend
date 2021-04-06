@@ -2,14 +2,14 @@ export default [
   {
     path: '/management/user',
     name: 'management-user',
-    component: () => import('@/views/management/user/InvoiceList.vue'),
+    component: () => import('@/views/management/user/User.vue'),
   },
 
   // User
   {
     path: '/management/user',
     name: 'management-user',
-    component: () => import('@/views/management/user/InvoiceList.vue'),
+    component: () => import('@/views/management/user/User.vue'),
   },
 
   // Department
