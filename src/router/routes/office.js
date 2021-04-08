@@ -55,7 +55,7 @@ export default [
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'training-application',
+      contentClass: 'training-application'
     }
   },
   {
@@ -65,7 +65,7 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
+      navActiveLink: 'office-training-statistic'
     },
     beforeEnter (to, _, next) {
       if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
@@ -81,7 +81,7 @@ export default [
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
+      navActiveLink: 'office-training-statistic'
     },
     beforeEnter (to, _, next) {
       if (['所有部门', '人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
@@ -97,7 +97,7 @@ export default [
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
+      navActiveLink: 'office-training-statistic'
     },
     beforeEnter (to, _, next) {
       if (!isNaN(Number(to.params.user))) {

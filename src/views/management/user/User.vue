@@ -2,12 +2,12 @@
   <div style="height: inherit">
     <div
       class="body-content-overlay"
-      :class="{show: mqShallShowLeftSidebar }"
+      :class="{'show': mqShallShowLeftSidebar }"
       @click="mqShallShowLeftSidebar = false"
     />
 
     <!--UserList-->
-    <div class="manage-user-list">
+    <div class="training-list">
       <vue-perfect-scrollbar
         :settings="perfectScrollbarSettings"
         class="training-user-list scroll-area"
@@ -19,10 +19,10 @@
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <user-manage-sidebar
-          :shall-show-training-compose-modal="mqShallShowLeftSidebar"
+          :shall-show-training-compose-modal="shallShowTrainingComposeModal"
           :departments="departments"
           :users-meta="usersMeta"
-          :class="{'show': true}"
+          :class="{'show': mqShallShowLeftSidebar}"
           @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
@@ -119,7 +119,7 @@ export default {
       shallShowTrainingComposeModal,
 
       // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar,
+      mqShallShowLeftSidebar
     }
   }
 }

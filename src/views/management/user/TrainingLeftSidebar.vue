@@ -53,7 +53,7 @@
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {
-  BButton, BListGroup, BListGroupItem, BBadge
+  BButton, BListGroup, BListGroupItem, BBadge,
 } from 'bootstrap-vue'
 import { isDynamicRouteActive, useRouter } from '@core/utils/utils'
 import Ripple from 'vue-ripple-directive'

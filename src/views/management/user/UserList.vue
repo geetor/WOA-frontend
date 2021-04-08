@@ -1,7 +1,8 @@
 <template>
   <!-- Table Container Card -->
-  <b-card no-body>
+  <b-card no-body class="mb-0 rounded-0">
     <div class="m-2">
+
       <!-- Table Top -->
       <b-row>
         <!-- Per Page -->
@@ -47,12 +48,14 @@
           </div>
         </b-col>
       </b-row>
+
     </div>
 
     <b-table
       ref="refInvoiceListTable"
       :items="fetchInvoices"
       responsive
+      hover
       :fields="tableColumns"
       primary-key="id"
       :sort-by.sync="sortBy"

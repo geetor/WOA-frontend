@@ -1,5 +1,4 @@
 <template>
-
   <!-- Table Container Card -->
   <b-card
       no-body

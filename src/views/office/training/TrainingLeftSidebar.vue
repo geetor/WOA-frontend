@@ -53,7 +53,7 @@
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import {
-  BButton, BListGroup, BListGroupItem, BBadge,
+  BButton, BListGroup, BListGroupItem, BBadge
 } from 'bootstrap-vue'
 import { isDynamicRouteActive, useRouter } from '@core/utils/utils'
 import Ripple from 'vue-ripple-directive'
@@ -61,7 +61,7 @@ import { computed, watch, ref } from '@vue/composition-api'
 
 export default {
   directives: {
-    Ripple,
+    Ripple
   },
   components: {
     // BSV
@@ -71,7 +71,7 @@ export default {
     BBadge,
 
     // 3rd Party
-    VuePerfectScrollbar,
+    VuePerfectScrollbar
   },
   props: {
     shallShowTrainingComposeModal: {
@@ -80,11 +80,11 @@ export default {
     },
     departments: {
       type: Array,
-      required: true,
+      required: true
     },
     usersMeta: {
       type: Object,
-      required: true,
+      required: true
     }
   },
   setup () {
@@ -111,7 +111,7 @@ export default {
     })
 
     const perfectScrollbarSettings = {
-      maxScrollbarLength: 60,
+      maxScrollbarLength: 60
     }
 
     const resolveDepartmentBadgeColor = department => {
