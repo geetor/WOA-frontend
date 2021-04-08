@@ -2,7 +2,7 @@
   <div style="height: inherit">
     <div
       class="body-content-overlay"
-      :class="{'show': mqShallShowLeftSidebar }"
+      :class="{show: mqShallShowLeftSidebar }"
       @click="mqShallShowLeftSidebar = false"
     />
 
