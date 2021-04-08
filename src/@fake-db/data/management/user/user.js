@@ -60,7 +60,6 @@ mock.onGet('/manage/user/getAllUsers')
 
     const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
     if (sortDesc) sortedData.reverse()
-    debugger
     return [
       200,
       {

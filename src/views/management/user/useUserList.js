@@ -16,6 +16,13 @@ export default function useUserList() {
     { key: 'userId', label: '编号', sortable: true },
     { key: 'userName', label: '姓名', sortable: false },
     { key: 'userGender', label: '性别', sortable: false },
+    {key:'userRank',label:'等级',sortable:true},
+    {key:'userEmail',label:'电子邮箱',sortable:false},
+    {key:'admin',label:'是否是管理员',sortable:false},
+    {key:'userStatus',label:'状态',sortable:false},
+    {key:'userDepts',label:'所属部门',sortable:false},
+    {key:"actions",label:'操作'}
+    
     // { key: 'total', sortable: true, formatter: val => `$${val}` },
   ]
 
@@ -47,7 +54,7 @@ export default function useUserList() {
 
   const fetchInvoices = (ctx, callback) => {
     store
-      .dispatch('app-invoice/fetchUsers', {
+      .dispatch('manage-user/fetchUsers', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
@@ -57,7 +64,6 @@ export default function useUserList() {
       })
       .then(response => {
         const { invoices, total } = response.data
-        debugger
         callback(invoices)
         totalInvoices.value = total
       })
@@ -77,25 +83,15 @@ export default function useUserList() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const resolveInvoiceStatusVariantAndIcon = status => {
-    if (status === 'Partial Payment') return { variant: 'warning', icon: 'PieChartIcon' }
-    if (status === 'Paid') return { variant: 'success', icon: 'CheckCircleIcon' }
-    if (status === 'Downloaded') return { variant: 'info', icon: 'ArrowDownCircleIcon' }
-    if (status === 'Draft') return { variant: 'primary', icon: 'SaveIcon' }
-    if (status === 'Sent') return { variant: 'secondary', icon: 'SendIcon' }
-    if (status === 'Past Due') return { variant: 'danger', icon: 'InfoIcon' }
-    return { variant: 'secondary', icon: 'XIcon' }
+  const resolveRankColor = rank => {
+    if (rank === 5) return 'secondary'
+    if (rank === 4) return 'primary'
+    if (rank === 3) return 'warning'
+    if (rank === 2) return 'danger'
+    if (rank === 1) return 'info'
+    return 'success'
   }
 
-  const resolveClientAvatarVariant = status => {
-    if (status === 'Partial Payment') return 'primary'
-    if (status === 'Paid') return 'danger'
-    if (status === 'Downloaded') return 'secondary'
-    if (status === 'Draft') return 'warning'
-    if (status === 'Sent') return 'info'
-    if (status === 'Past Due') return 'success'
-    return 'primary'
-  }
 
   return {
     fetchInvoices,
@@ -112,8 +108,7 @@ export default function useUserList() {
 
     statusFilter,
 
-    resolveInvoiceStatusVariantAndIcon,
-    resolveClientAvatarVariant,
+    resolveRankColor,
 
     refetchData,
   }
