@@ -223,11 +223,6 @@ export default [
       //   title: 'Tree',
       //   route: 'extensions-tree',
       // },
-
-      {
-        title: 'I18n',
-        route: 'extensions-i18n',
-      },
     ],
   },
   {
