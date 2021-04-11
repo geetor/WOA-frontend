@@ -60,7 +60,7 @@ export default {
       refCalendar,
       isCalendarOverlaySidebarActive,
       fetchAttendances,
-      refetchEvents,
+      refetchAttendances,
       calendarOptions
     } = useCalendar()
 
@@ -69,7 +69,7 @@ export default {
     return {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      refetchEvents,
+      refetchAttendances,
       calendarOptions
     }
   },

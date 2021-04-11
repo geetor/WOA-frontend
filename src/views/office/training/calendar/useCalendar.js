@@ -8,17 +8,21 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-// eslint-disable-next-line object-curly-newline
 import { ref, computed, watch, onMounted } from '@vue/composition-api'
 import store from '@/store'
+import { useRouter } from '@core/utils/utils'
 
-export default function userCalendar() {
+export default function userCalendar () {
   // Use toast
   const toast = useToast()
   // ------------------------------------------------
   // refCalendar
   // ------------------------------------------------
   const refCalendar = ref(null)
+
+  const {
+    router
+  } = useRouter()
 
   // ------------------------------------------------
   // calendarApi
@@ -29,35 +33,32 @@ export default function userCalendar() {
   })
 
   // ------------------------------------------------
-  // calendars
+  // refStatusesColor
   // ------------------------------------------------
-  const calendarsColor = {
-    Business: 'primary',
-    Holiday: 'success',
-    Personal: 'danger',
-    Family: 'warning',
-    ETC: 'info',
+  const refStatusesColor = trainingStatus => {
+    if (trainingStatus === '待训') return 'danger'
+    if (trainingStatus === '在训') return 'success'
+    if (trainingStatus === '结束') return 'warning'
   }
 
   // ------------------------------------------------
-  // event
+  // training
   // ------------------------------------------------
-  const blankEvent = {
+  const blankTraining = {
     title: '',
     start: '',
     end: '',
-    allDay: false,
-    url: '',
     extendedProps: {
-      calendar: '',
-      guests: [],
-      location: '',
-      description: '',
-    },
+      type: '',
+      place: '',
+      status: '',
+      heads: [],
+      members: []
+    }
   }
-  const event = ref(JSON.parse(JSON.stringify(blankEvent)))
-  const clearEventData = () => {
-    event.value = JSON.parse(JSON.stringify(blankEvent))
+  const training = ref(JSON.parse(JSON.stringify(blankTraining)))
+  const clearTrainingData = () => {
+    training.value = JSON.parse(JSON.stringify(blankTraining))
   }
 
   // *===========================================================================---*
@@ -66,90 +67,73 @@ export default function userCalendar() {
   // *===========================================================================---*
 
   // ------------------------------------------------
-  // (UI) addEventInCalendar
-  // ? This is useless because this just add event in calendar and not in our data
-  // * If we try to call it on new event then callback & try to toggle from calendar we get two events => One from UI and one from data
+  // (UI) editTrainingInCalendar
   // ------------------------------------------------
-  // const addEventInCalendar = eventData => {
-  //   toast({
-  //     component: ToastificationContent,
-  //     position: 'bottom-right',
-  //     props: {
-  //       title: 'Event Added',
-  //       icon: 'CheckIcon',
-  //       variant: 'success',
-  //     },
-  //   })
-  //   calendarApi.addEvent(eventData)
-  // }
-
-  // ------------------------------------------------
-  // (UI) updateEventInCalendar
-  // ------------------------------------------------
-  const updateEventInCalendar = (updatedEventData, propsToUpdate, extendedPropsToUpdate) => {
+  const editTrainingInCalendar = (editedTrainingData, propsToEdit, extendedPropsToEdit) => {
     toast({
       component: ToastificationContent,
       props: {
-        title: 'Event Updated',
+        title: '训练任务已更新',
         icon: 'CheckIcon',
         variant: 'success',
-      },
+      }
     })
 
-    const existingEvent = calendarApi.getEventById(updatedEventData.id)
+    const existingTraining = calendarApi.getEventById(editedTrainingData.id)
 
-    // --- Set event properties except date related ----- //
-    // ? Docs: https://fullcalendar.io/docs/Event-setProp
-    // dateRelatedProps => ['start', 'end', 'allDay']
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < propsToUpdate.length; index++) {
-      const propName = propsToUpdate[index]
-      existingEvent.setProp(propName, updatedEventData[propName])
+    // --- Set training properties except date related ----- //
+    // ? Docs: https://fullcalendar.io/docs/Training-setProp
+    for (let index = 0; index < propsToEdit.length; index++) {
+      const propName = propsToEdit[index]
+      existingTraining.setProp(propName, editedTrainingData[propName])
     }
 
     // --- Set date related props ----- //
-    // ? Docs: https://fullcalendar.io/docs/Event-setDates
-    existingEvent.setDates(updatedEventData.start, updatedEventData.end, { allDay: updatedEventData.allDay })
+    // ? Docs: https://fullcalendar.io/docs/Training-setDates
+    existingTraining.setDates(editedTrainingData.start, editedTrainingData.end)
 
-    // --- Set event's extendedProps ----- //
+    // --- Set training's extendedProps ----- //
     // ? Docs: https://fullcalendar.io/docs/Event-setExtendedProp
     // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < extendedPropsToUpdate.length; index++) {
-      const propName = extendedPropsToUpdate[index]
-      existingEvent.setExtendedProp(propName, updatedEventData.extendedProps[propName])
+    for (let index = 0; index < extendedPropsToEdit.length; index++) {
+      const propName = extendedPropsToEdit[index]
+      existingTraining.setExtendedProp(propName, editedTrainingData.extendedProps[propName])
     }
   }
 
   // ------------------------------------------------
-  // (UI) removeEventInCalendar
+  // (UI) delTrainingInCalendar
   // ------------------------------------------------
-  const removeEventInCalendar = eventId => {
+  const delTrainingInCalendar = trainingId => {
     toast({
       component: ToastificationContent,
       position: 'bottom-right',
       props: {
-        title: 'Event Removed',
+        title: '训练任务已删除',
         icon: 'TrashIcon',
         variant: 'danger',
-      },
+      }
     })
-    calendarApi.getEventById(eventId).remove()
+    calendarApi.getEventById(trainingId)
+    .remove()
   }
 
   // ------------------------------------------------
-  // grabEventDataFromEventApi
-  // ? It will return just event data from fullCalendar's EventApi which is not required for event mutations and other tasks
-  // ! You need to update below function as per your extendedProps
+  // grabTrainingDataFromEventApi
   // ------------------------------------------------
-  const grabEventDataFromEventApi = eventApi => {
+  const grabTrainingDataFromEventApi = eventApi => {
     const {
       id,
       title,
       start,
       end,
-      // eslint-disable-next-line object-curly-newline
-      extendedProps: { calendar, guests, location, description },
-      allDay,
+      extendedProps: {
+        type,
+        place,
+        status,
+        heads,
+        members
+      }
     } = eventApi
 
     return {
@@ -158,91 +142,119 @@ export default function userCalendar() {
       start,
       end,
       extendedProps: {
-        calendar,
-        guests,
-        location,
-        description,
-      },
-      allDay,
+        type,
+        place,
+        status,
+        heads,
+        members
+      }
     }
   }
 
   // ------------------------------------------------
-  // addEvent
+  // addTraining
   // ------------------------------------------------
-  const addEvent = eventData => {
-    store.dispatch('calendar/addEvent', { event: eventData }).then(() => {
-      // eslint-disable-next-line no-use-before-define
-      refetchEvents()
+  const addTraining = trainingData => {
+    store.dispatch('calendar/addTraining', { training: trainingData })
+    .then(() => {
+      refetchTrainings()
     })
   }
 
   // ------------------------------------------------
-  // updateEvent
+  // editTraining
   // ------------------------------------------------
-  const updateEvent = eventData => {
-    store.dispatch('calendar/updateEvent', { event: eventData }).then(response => {
-      const updatedEvent = response.data.event
+  const editTraining = trainingData => {
+    store.dispatch('calendar/editTraining', { training: trainingData })
+    .then(response => {
+      const editedTraining = response.data.training
 
-      const propsToUpdate = ['id', 'title', 'url']
-      const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
+      const propsToEdit = ['id', 'title']
+      const extendedPropsToEdit = ['type', 'place', 'status', 'heads', 'members']
 
-      updateEventInCalendar(updatedEvent, propsToUpdate, extendedPropsToUpdate)
+      editTrainingInCalendar(editedTraining, propsToEdit, extendedPropsToEdit)
     })
   }
 
   // ------------------------------------------------
-  // removeEvent
+  // delTraining
   // ------------------------------------------------
-  const removeEvent = () => {
-    const eventId = event.value.id
-    store.dispatch('calendar/removeEvent', { id: eventId }).then(() => {
-      removeEventInCalendar(eventId)
+  const delTraining = () => {
+    const trainingId = training.value.id
+    store.dispatch('calendar/delTraining', { id: trainingId })
+    .then(() => {
+      delTrainingInCalendar(trainingId)
     })
   }
 
   // ------------------------------------------------
-  // refetchEvents
+  // fetchLowerUsers
   // ------------------------------------------------
-  const refetchEvents = () => {
+  const lowerUsers = ref([])
+  const fetchLowerUsers = () => {
+    store.dispatch('calendar/fetchLowerUsers')
+    .then(response => {
+      lowerUsers.value = response.data
+    })
+  }
+  fetchLowerUsers()
+
+  // ------------------------------------------------
+  // refetchTrainings
+  // ------------------------------------------------
+  const refetchTrainings = () => {
     calendarApi.refetchEvents()
   }
 
   // ------------------------------------------------
-  // selectedCalendars
+  // selectedStatuses
   // ------------------------------------------------
-  const selectedCalendars = computed(() => store.state.calendar.selectedCalendars)
+  const selectedStatuses = computed(() => store.state.calendar.selectedStatuses)
 
-  watch(selectedCalendars, () => {
-    refetchEvents()
+  watch(selectedStatuses, () => {
+    refetchTrainings()
   })
 
   // --------------------------------------------------------------------------------------------------
-  // AXIOS: fetchEvents
-  // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
+  // AXIOS: fetchTrainings
+  // * This will be called by fullCalendar to fetch trainings. Also this can be used to refetch trainings.
   // --------------------------------------------------------------------------------------------------
-  const fetchEvents = (info, successCallback) => {
+  const fetchTrainings = (info, successCallback) => {
     // If there's no info => Don't make useless API call
     if (!info) return
 
-    // Fetch Events from API endpoint
+    // Fetch Trainings from API endpoint
+    let requestPath = ''
+    const payload = {
+      startDateStr: info.startStr.split('T')[0],
+      endDateStr: info.endStr.split('T')[0]
+    }
+    if (router.currentRoute.name === 'office-training-calendar-user') {
+      requestPath = 'calendar/fetchUserTrainings'
+      payload.user = router.currentRoute.params.user
+      payload.statuses = selectedStatuses.value
+    }
+    if (router.currentRoute.name === 'office-training-calendar-department') {
+      requestPath = 'calendar/fetchDeptsTrainings'
+      payload.department = router.currentRoute.params.department
+      payload.statuses = selectedStatuses.value
+    }
+
     store
-      .dispatch('calendar/fetchEvents', {
-        calendars: selectedCalendars.value,
+    .dispatch(requestPath, payload)
+    .then(response => {
+      successCallback(response.data)
+    })
+    .catch(() => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: '错误',
+          icon: 'AlertTriangleIcon',
+          variant: 'danger'
+        }
       })
-      .then(response => {
-        successCallback(response.data)
-      })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Error fetching calendar events',
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    })
   }
 
   // ------------------------------------------------------------------------
@@ -253,7 +265,7 @@ export default function userCalendar() {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
     initialView: 'dayGridMonth',
     headerToolbar: {
-      start: 'sidebarToggle, prev,next, title',
+      start: 'sidebarToggle, prev, title, next',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
     buttonText: {
@@ -262,18 +274,18 @@ export default function userCalendar() {
       day: '日历',
       list: '列表'
     },
-    events: fetchEvents,
+    events: fetchTrainings,
     locale: 'zh-cn',
-    firstDay: 1,
+    // firstDay: 1,
 
     /*
-      Enable dragging and resizing event
+      Enable dragging and resizing training
       ? Docs: https://fullcalendar.io/docs/editable
     */
     editable: true,
 
     /*
-      Enable resizing event from start
+      Enable resizing training from start
       ? Docs: https://fullcalendar.io/docs/eventResizableFromStart
     */
     eventResizableFromStart: true,
@@ -296,68 +308,48 @@ export default function userCalendar() {
     */
     navLinks: true,
 
-    eventClassNames({ event: calendarEvent }) {
-      // eslint-disable-next-line no-underscore-dangle
-      const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
+    eventClassNames ({ event: calendarTraining }) {
+      const colorName = refStatusesColor(calendarTraining._def.extendedProps.status)
 
       return [
         // Background Color
-        `bg-light-${colorName}`,
+        `bg-light-${colorName}`
       ]
     },
-    eventClick({ event: clickedEvent }) {
+    eventClick ({ event: clickedTraining }) {
       // * Only grab required field otherwise it goes in infinity loop
       // ! Always grab all fields rendered by form (even if it get `undefined`) otherwise due to Vue3/Composition API you might get: "object is not extensible"
-      event.value = grabEventDataFromEventApi(clickedEvent)
+      training.value = grabTrainingDataFromEventApi(clickedTraining)
 
-      // eslint-disable-next-line no-use-before-define
-      isEventHandlerSidebarActive.value = true
+      isTrainingHandlerSidebarActive.value = true
     },
 
     customButtons: {
       sidebarToggle: {
-        // --- This dummy text actual icon rendering is handled using SCSS ----- //
         text: 'sidebar',
-        click() {
-          // eslint-disable-next-line no-use-before-define
+        click () {
           isCalendarOverlaySidebarActive.value = !isCalendarOverlaySidebarActive.value
-        },
-      },
+        }
+      }
     },
 
-    dateClick(info) {
-      /*
-        ! Vue3 Change
-        Using Vue.set isn't working for now so we will try to check reactivity in Vue 3 as it can handle this automatically
-        ```
-        event.value.start = info.date
-        ```
-      */
-      event.value = JSON.parse(JSON.stringify(Object.assign(event.value, { start: info.date })))
-      // eslint-disable-next-line no-use-before-define
-      isEventHandlerSidebarActive.value = true
+    dateClick (info) {
+      training.value = JSON.parse(JSON.stringify(Object.assign(training.value, { start: info.date })))
+
+      isTrainingHandlerSidebarActive.value = true
     },
 
-    /*
-      Handle event drop (Also include dragged event)
-      ? Docs: https://fullcalendar.io/docs/eventDrop
-      ? We can use `eventDragStop` but it doesn't return updated event so we have to use `eventDrop` which returns updated event
-    */
-    eventDrop({ event: droppedEvent }) {
-      updateEvent(grabEventDataFromEventApi(droppedEvent))
+    eventDrop ({ event: droppedTraining }) {
+      editTraining(grabTrainingDataFromEventApi(droppedTraining))
     },
 
-    /*
-      Handle event resize
-      ? Docs: https://fullcalendar.io/docs/eventResize
-    */
-    eventResize({ event: resizedEvent }) {
-      updateEvent(grabEventDataFromEventApi(resizedEvent))
+    eventResize ({ event: resizedTraining }) {
+      editTraining(grabTrainingDataFromEventApi(resizedTraining))
     },
 
     // Get direction from app state (store)
     direction: computed(() => (store.state.appConfig.isRTL ? 'rtl' : 'ltr')),
-    rerenderDelay: 350,
+    rerenderDelay: 350
   })
 
   // ------------------------------------------------------------------------
@@ -366,7 +358,7 @@ export default function userCalendar() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const isEventHandlerSidebarActive = ref(false)
+  const isTrainingHandlerSidebarActive = ref(false)
 
   const isCalendarOverlaySidebarActive = ref(false)
 
@@ -374,15 +366,16 @@ export default function userCalendar() {
     refCalendar,
     isCalendarOverlaySidebarActive,
     calendarOptions,
-    event,
-    clearEventData,
-    addEvent,
-    updateEvent,
-    removeEvent,
-    refetchEvents,
-    fetchEvents,
+    training,
+    clearTrainingData,
+    lowerUsers,
+    addTraining,
+    editTraining,
+    delTraining,
+    refetchTrainings,
+    fetchTrainings,
 
     // ----- UI ----- //
-    isEventHandlerSidebarActive,
+    isTrainingHandlerSidebarActive
   }
 }

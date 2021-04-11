@@ -152,7 +152,7 @@ export default {
     const usersMeta = ref({})
 
     const perfectScrollbarSettings = {
-      maxScrollbarLength: 150,
+      maxScrollbarLength: 150
     }
 
     const fetchDepartments = () => {
@@ -190,7 +190,7 @@ export default {
       shallShowAttendanceComposeModal,
 
       // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar,
+      mqShallShowLeftSidebar
     }
   }
 }

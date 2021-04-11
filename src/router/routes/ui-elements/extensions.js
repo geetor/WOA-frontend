@@ -103,23 +103,6 @@ export default [
     },
   },
   {
-    path: '/extensions/i18n',
-    name: 'extensions-i18n',
-    component: () => import('@/views/extensions/i18n/i18n.vue'),
-    meta: {
-      pageTitle: 'I18n',
-      breadcrumb: [
-        {
-          text: 'Extensions',
-        },
-        {
-          text: 'I18n',
-          active: true,
-        },
-      ],
-    },
-  },
-  {
     path: '/extensions/slider',
     name: 'extensions-slider',
     component: () => import('@/views/extensions/slider/Slider.vue'),

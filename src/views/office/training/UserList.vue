@@ -1,5 +1,4 @@
 <template>
-
   <!-- Table Container Card -->
   <b-card
       no-body
@@ -140,42 +139,16 @@
         <div class="text-nowrap">
 
           <feather-icon
-              :id="`training-row-${data.item.id}-add-icon`"
-              icon="EditIcon"
-              class="cursor-pointer"
-              size="16"
-              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
-          />
-          <b-tooltip
-              title="发布训练"
-              class="cursor-pointer"
-              :target="`attendance-row-${data.item.id}-add-icon`"
-          />
-
-          <feather-icon
               :id="`training-row-${data.item.id}-calendar-icon`"
               icon="CalendarIcon"
-              class="cursor-pointer mx-1"
+              class="cursor-pointer"
               size="16"
-              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
+              @click="$router.push({ name: 'office-training-calendar-user', params: { user: data.item.userId }})"
           />
           <b-tooltip
               title="训练安排"
               class="cursor-pointer"
-              :target="`attendance-row-${data.item.id}-calendar-icon`"
-          />
-
-          <feather-icon
-              :id="`training-row-${data.item.id}-delete-icon`"
-              icon="TrashIcon"
-              class="cursor-pointer"
-              size="16"
-              @click="$router.push({ name: 'office-training-calendar', params: { userId: data.item.userId }})"
-          />
-          <b-tooltip
-              title="删除训练"
-              class="cursor-pointer"
-              :target="`attendance-row-${data.item.id}-delete-icon`"
+              :target="`training-row-${data.item.id}-calendar-icon`"
           />
 
         </div>
@@ -235,7 +208,7 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BTooltip,
+  BBadge, BDropdown, BDropdownItem, BPagination, BTooltip
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'

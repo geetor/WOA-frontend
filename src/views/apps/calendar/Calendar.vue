@@ -53,7 +53,7 @@ export default {
   components: {
     FullCalendar, // make the <FullCalendar> tag available
     CalendarSidebar,
-    CalendarEventHandler,
+    CalendarEventHandler
   },
   setup() {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
@@ -79,7 +79,7 @@ export default {
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isEventHandlerSidebarActive
     } = useCalendar()
 
     fetchEvents()
@@ -96,7 +96,7 @@ export default {
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isEventHandlerSidebarActive
     }
   },
 }

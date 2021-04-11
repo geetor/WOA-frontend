@@ -55,8 +55,8 @@ export default [
     component: () => import('@/views/office/training/Training'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'training-application',
-    },
+      contentClass: 'training-application'
+    }
   },
   {
     path: '/office/training/statistic/:department',
@@ -65,20 +65,10 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
-    },
-  },
-  {
-    path: '/office/training/statistic/:status',
-    name: 'office-training-statistic-status',
-    component: () => import('@/views/office/training/Training'),
-    meta: {
-      contentRenderer: 'sidebar-left',
-      contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
+      navActiveLink: 'office-training-statistic'
     },
     beforeEnter (to, _, next) {
-      if (['未开始', '进行中', '已结束'].includes(to.params.status)) {
+      if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
         next()
       } else {
         next({ name: 'error-404' })
@@ -86,12 +76,36 @@ export default [
     }
   },
   {
-    path: '/office/training/calendar',
-    name: 'office-training-calendar',
+    path: '/office/training/calendar/department/:department',
+    name: 'office-training-calendar-department',
     component: () => import('@/views/office/training/calendar/Calendar'),
     meta: {
       contentClass: 'training-application',
-      navActiveLink: 'office-training-statistic',
+      navActiveLink: 'office-training-statistic'
+    },
+    beforeEnter (to, _, next) {
+      if (['所有部门', '人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
     }
   },
+  {
+    path: '/office/training/calendar/user/:user',
+    name: 'office-training-calendar-user',
+    component: () => import('@/views/office/training/calendar/Calendar'),
+    meta: {
+      contentClass: 'training-application',
+      navActiveLink: 'office-training-statistic'
+    },
+    beforeEnter (to, _, next) {
+      if (!isNaN(Number(to.params.user))) {
+        next()
+      } else {
+        next({ name: 'error-404' })
+      }
+    }
+  }
+
 ]

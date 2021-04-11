@@ -21,6 +21,7 @@
             @row-clicked="bulletinClick"
             class="mb-0"
             hover
+            borderless
             responsive
     >
     </b-table>
@@ -88,4 +89,9 @@
       background: $theme-dark-body-bg !important;
     }
   }
+
+  ::v-deep tr:focus {
+    outline: none !important;
+  }
+
 </style>

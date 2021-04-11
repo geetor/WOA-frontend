@@ -17,10 +17,14 @@ import './data/apps/invoice'
 import './data/apps/todo'
 import './data/apps/chat'
 
+// Manage
+import './data/management/user/user'
+
 // Office
 import './data/office/attendance/attendance'
 import './data/office/attendance/calendar'
 import './data/office/training/training'
+import './data/office/training/calendar'
 
 // dashboard
 import './data/dashboard/analytics'

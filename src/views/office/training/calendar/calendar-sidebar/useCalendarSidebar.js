@@ -4,42 +4,37 @@ import { computed } from '@vue/composition-api'
 
 export default function useCalendarSidebar() {
   // ------------------------------------------------
-  // calendarOptions
+  // statusOptions
   // ------------------------------------------------
-  const calendarOptions = computed(() => store.state.calendar.calendarOptions)
+  const statusOptions = computed(() => store.state.calendar.statusOptions)
 
   // ------------------------------------------------
-  // selectedCalendars
+  // selectedStatuses
   // ------------------------------------------------
-  const selectedCalendars = computed({
-    get: () => store.state.calendar.selectedCalendars,
+  const selectedStatuses = computed({
+    get: () => store.state.calendar.selectedStatuses,
     set: val => {
-      store.commit('calendar/SET_SELECTED_EVENTS', val)
-    },
+      store.commit('calendar/SET_SELECTED_STATUSES', val)
+    }
   })
 
   // ------------------------------------------------
   // checkAll
   // ------------------------------------------------
   const checkAll = computed({
-    /*
-      GET: Return boolean `true` => if length of options matches length of selected filters => Length matches when all events are selected
-      SET: If value is `true` => then add all available options in selected filters => Select All
-           Else if => all filters are selected (by checking length of both array) => Empty Selected array  => Deselect All
-    */
-    get: () => selectedCalendars.value.length === calendarOptions.value.length,
+    get: () => selectedStatuses.value.length === statusOptions.value.length,
     set: val => {
       if (val) {
-        selectedCalendars.value = calendarOptions.value.map(i => i.label)
-      } else if (selectedCalendars.value.length === calendarOptions.value.length) {
-        selectedCalendars.value = []
+        selectedStatuses.value = statusOptions.value.map(i => i.label)
+      } else if (selectedStatuses.value.length === statusOptions.value.length) {
+        selectedStatuses.value = []
       }
-    },
+    }
   })
 
   return {
-    calendarOptions,
-    selectedCalendars,
-    checkAll,
+    statusOptions,
+    selectedStatuses,
+    checkAll
   }
 }

@@ -1,15 +1,13 @@
 import mock from '@/@fake-db/mock'
 import axiosIns from '@/libs/axios'
 
-const date = new Date()
-
-const fetchAttendances = async (userId, year, month) => {
+const fetchAttendances = async (userId, startDateStr, endDateStr) => {
   return await axiosIns.get('attendance/getAttendanceCalendar', {
     params: {
       requestUserId: JSON.parse(localStorage.getItem('userData')).userId,
       userId: userId,
-      year: year,
-      month: month
+      startDateStr: startDateStr,
+      endDateStr: endDateStr
     }
   })
   .then(response => {
@@ -43,13 +41,13 @@ mock.onGet('/office/attendance/attendances')
 .reply(config => {
   let {
     userId,
-    year = date.getFullYear(),
-    month = date.getMonth() + 1,
+    startDateStr,
+    endDateStr,
     types
   } = config.params
   types = types.split(',')
 
-  return fetchAttendances(userId, year, month)
+  return fetchAttendances(userId, startDateStr, endDateStr)
   .then(attendances => {
     return [200, attendances.filter(attendance => types.includes(attendance.extendedProps.type))]
   })

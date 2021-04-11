@@ -20,22 +20,6 @@ export default [
     },
   },
   {
-    path: '/pages/authentication/login-v1',
-    name: 'auth-login-v1',
-    component: () => import('@/views/pages/authentication/Login-v1.vue'),
-    meta: {
-      layout: 'full',
-    },
-  },
-  {
-    path: '/pages/authentication/login-v2',
-    name: 'auth-login-v2',
-    component: () => import('@/views/pages/authentication/Login-v2.vue'),
-    meta: {
-      layout: 'full',
-    },
-  },
-  {
     path: '/register',
     name: 'auth-register',
     component: () => import('@/views/pages/authentication/Register.vue'),
@@ -140,19 +124,7 @@ export default [
   {
     path: '/pages/account-setting',
     name: 'pages-account-setting',
-    component: () => import('@/views/pages/account-setting/AccountSetting.vue'),
-    meta: {
-      pageTitle: 'Account Settings',
-      breadcrumb: [
-        {
-          text: 'Pages',
-        },
-        {
-          text: 'Account Settings',
-          active: true,
-        },
-      ],
-    },
+    component: () => import('@/views/pages/account-setting/AccountSetting.vue')
   },
   {
     path: '/pages/profile',

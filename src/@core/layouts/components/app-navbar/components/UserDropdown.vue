@@ -1,8 +1,8 @@
 <template>
   <b-nav-item-dropdown
-    right
-    toggle-class="d-flex align-items-center dropdown-user-link"
-    class="dropdown-user"
+      right
+      toggle-class="d-flex align-items-center dropdown-user-link"
+      class="dropdown-user"
   >
     <template #button-content>
       <div class="d-sm-flex d-none user-nav">
@@ -12,54 +12,43 @@
         <span class="user-status">{{ userData.userRole }}</span>
       </div>
       <b-avatar
-        size="40"
-        :src="userData.userPhoto"
-        variant="light-primary"
-        badge
-        class="badge-minimal"
-        badge-variant="success"
+          size="40"
+          :src="userData.userPhoto"
+          variant="light-primary"
+          badge
+          class="badge-minimal"
+          badge-variant="success"
       >
         <feather-icon
-          v-if="!userData.userName"
-          icon="UserIcon"
-          size="22"
+            v-if="!userData.userName"
+            icon="UserIcon"
+            size="22"
         />
       </b-avatar>
     </template>
 
     <b-dropdown-item
-      :to="{ name: 'pages-profile'}"
-      link-class="d-flex align-items-center"
+        :to="{ name: 'pages-account-setting' }"
+        link-class="d-flex align-items-center"
     >
       <feather-icon
-        size="16"
-        icon="UserIcon"
-        class="mr-50"
+          size="16"
+          icon="LockIcon"
+          class="mr-50"
       />
-      <span>查看信息</span>
+      <span>修改密码</span>
     </b-dropdown-item>
 
-    <b-dropdown-divider />
+    <b-dropdown-divider/>
 
     <b-dropdown-item
-      :to="{ name: 'pages-account-setting' }"
-      link-class="d-flex align-items-center"
+        link-class="d-flex align-items-center"
+        @click="logout"
     >
       <feather-icon
-        size="16"
-        icon="SettingsIcon"
-        class="mr-50"
-      />
-      <span>修改信息</span>
-    </b-dropdown-item>
-    <b-dropdown-item
-      link-class="d-flex align-items-center"
-      @click="logout"
-    >
-      <feather-icon
-        size="16"
-        icon="LogOutIcon"
-        class="mr-50"
+          size="16"
+          icon="LogOutIcon"
+          class="mr-50"
       />
       <span>注销账号</span>
     </b-dropdown-item>

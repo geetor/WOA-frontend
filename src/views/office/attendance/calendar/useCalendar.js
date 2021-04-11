@@ -49,9 +49,9 @@ export default function userCalendar () {
   // *===========================================================================---*
 
   // ------------------------------------------------
-  // refetchEvents
+  // refetchAttendances
   // ------------------------------------------------
-  const refetchEvents = () => {
+  const refetchAttendances = () => {
     calendarApi.refetchEvents()
   }
 
@@ -61,7 +61,7 @@ export default function userCalendar () {
   const selectedTypes = computed(() => store.state.calendar.selectedTypes)
 
   watch(selectedTypes, () => {
-    refetchEvents()
+    refetchAttendances()
   })
 
   // --------------------------------------------------------------------------------------------------
@@ -76,7 +76,9 @@ export default function userCalendar () {
     store
     .dispatch('calendar/fetchAttendances', {
       userId: router.currentRoute.params.userId,
-      types: selectedTypes.value,
+      startDateStr: info.startStr.split('T')[0],
+      endDateStr: info.endStr.split('T')[0],
+      types: selectedTypes.value
     })
     .then(response => {
       successCallback(response.data)
@@ -113,13 +115,13 @@ export default function userCalendar () {
     },
     events: fetchAttendances,
     locale: 'zh-cn',
-    firstDay: 1,
+    // firstDay: 1,
 
     /*
       Enable dragging and resizing event
       ? Docs: https://fullcalendar.io/docs/editable
     */
-    editable: true,
+    editable: false,
 
     /*
       Enable resizing event from start
@@ -172,7 +174,7 @@ export default function userCalendar () {
     refCalendar,
     isCalendarOverlaySidebarActive,
     calendarOptions,
-    refetchEvents,
+    refetchAttendances,
     fetchAttendances
   }
 }

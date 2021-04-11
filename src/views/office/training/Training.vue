@@ -12,9 +12,8 @@
           :settings="perfectScrollbarSettings"
           class="training-user-list scroll-area"
       >
-          <user-list></user-list>
+        <user-list></user-list>
       </vue-perfect-scrollbar>
-
     </div>
 
     <!-- Sidebar -->
@@ -91,7 +90,7 @@ export default {
     const usersMeta = ref({})
 
     const perfectScrollbarSettings = {
-      maxScrollbarLength: 150,
+      maxScrollbarLength: 150
     }
 
     const fetchDepartments = () => {
@@ -121,7 +120,7 @@ export default {
       shallShowTrainingComposeModal,
 
       // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar,
+      mqShallShowLeftSidebar
     }
   }
 }
