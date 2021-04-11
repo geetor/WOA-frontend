@@ -280,4 +280,8 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-blog.scss';
+
+.blog-container{
+  background-color: #fff;
+}
 </style>

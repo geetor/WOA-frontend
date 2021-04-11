@@ -1,8 +1,15 @@
 <template>
-  <div class="container-fluid">
+  <content-with-sidebar class="blog-wrapper">
+
+
+
+
+  <div slot class="container">
 
 <!--    <b-container>-->
       <!-- blogs -->
+
+
       <b-row class="blog-list-wrapper">
 
         <b-col class="col-5 offset-1 blog-list" >
@@ -14,7 +21,7 @@
 
           <!--document list-->
           <ul>
-            <li v-for="(blog,index) in blogList" :key="index" class="doc-item">
+            <li v-for="(blog,index) in publicList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
@@ -57,7 +64,7 @@
             <a class="query-more">更多+</a>
           </div>
           <ul>
-            <li v-for="(blog,index) in blogList" :key="index" class="doc-item">
+            <li v-for="(blog,index) in publicList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
@@ -69,8 +76,24 @@
       </b-row>
 <!--    </b-container>-->
     <!--/ blogs -->
+    <!-- sidebar -->
+
+    <!--/ sidebar -->
+
 
   </div>
+    <div
+        slot="sidebar"
+        class="blog-sidebar py-2 py-lg-0"
+    >
+      aaa
+
+    </div>
+
+
+
+  </content-with-sidebar>
+
 </template>
 
 <script>
@@ -106,30 +129,29 @@ export default {
   data() {
     return {
       search_query: '',
-      blogList: [],
+      publicList: [],
+      departmentList: [],
       blogSidebar: {},
-      currentPage: 1,
-      perPage: 1,
-      rows: 21,
       newsList:[],
       userData:{},
       showItemNumber:7,
     }
   },
   created() {
-    this.$http.get('/blog/list/data').then(res => { this.blogList = res.data })
-    this.$http.get('/blog/list/data/sidebar').then(res => { this.blogSidebar = res.data })
-    this.$http.get('/blog/list/data/news').then(res=>{this.newsList = res.data; this.rows = this.newsList.length})
     this.userData = JSON.parse(localStorage.getItem('userData'))
     axios.get('/document/getPublicDocuments?userId='+this.userData.userId)
         .then(res=>{
-          this.blogList = res.data.data
-          if(this.blogList.length > this.showItemNumber){
-            this.blogList = this.blogList.slice(0,this.showItemNumber);
+          this.publicList = res.data.data
+          console.log(this.userData)
+          if(this.publicList.length > this.showItemNumber){
+            this.publicList = this.publicList.slice(0,this.showItemNumber);
           }
-          console.log(this.blogList)
         })
-
+    axios.get('/user/getUserDepts?userId='+this.userData.userId)
+      .then(res=>{
+        console.log(res.data)
+    })
+    // axios.get('/document/getDeptDocuments?userId='+this.userData.userId)
   },
   methods: {
     kFormatter,
@@ -206,6 +228,16 @@ export default {
   font-size: 16px;
   font-weight: normal;
   color:#999;
+}
+
+.blog-wrapper{
+  background-color: #fff;
+  padding: 50px 0;
+  box-shadow:0 4px 24px 0 rgb(34 41 47 / 10%);
+}
+
+.blog-sidebar{
+  border-left: 2px solid black ;
 }
 
 </style>
