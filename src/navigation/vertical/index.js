@@ -8,4 +8,4 @@ import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 
 // Array of sections
-export default [...home, ...docCenter, ...office, ...management, ...appsAndPages, ...chartsAndMaps, ...uiElements, ...formAndTable]
+export default [...home, ...docCenter, ...office, ...management, ...appsAndPages, ...chartsAndMaps, ...formAndTable]

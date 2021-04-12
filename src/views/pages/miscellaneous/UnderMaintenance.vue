@@ -4,44 +4,29 @@
     <b-link class="brand-logo">
       <vuexy-logo />
 
-      <h2 class="brand-text text-primary ml-1">
-        Vuexy
+      <h2 class="brand-text text-primary">
+        舰队 OA 系统
       </h2>
     </b-link>
 
     <div class="misc-inner p-2 p-sm-3">
       <div class="w-100 text-center">
         <h2 class="mb-1">
-          Under Maintenance 🛠
+          该页面正在维护 🛠
         </h2>
 
-        <p class="mb-3">
-          Sorry for the inconvenience but we're performing some maintenance at the moment
-        </p>
-
-        <b-form
-          inline
-          class="justify-content-center row m-0 mb-2"
-          @submit.prevent
-        >
-          <b-form-input
-            id="notify-email"
-            class="col-12 col-md-5 mb-1 mr-md-2"
-            placeholder="john@example.com"
-          />
-
-          <b-button
+        <b-button
             variant="primary"
-            class="mb-1 btn-sm-block"
-            type="submit"
-          >
-            Notify
-          </b-button>
-        </b-form>
+            class="mb-2 btn-sm-block"
+            :to="{path:'/'}"
+        >
+          返回首页
+        </b-button>
 
         <!-- img -->
         <b-img
           fluid
+          center
           :src="imgUrl"
           alt="Under maintenance page"
         />

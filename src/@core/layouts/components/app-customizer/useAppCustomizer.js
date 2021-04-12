@@ -8,9 +8,8 @@ export default function useAppCustomizer() {
   // Skin
   const skinOptions = [
     { text: '浅色', value: 'light' },
-    { text: '扁平', value: 'bordered' },
     { text: '暗黑', value: 'dark' },
-    { text: '半黑', value: 'semi-dark' },
+    { text: '半黑', value: 'semi-dark' }
   ]
 
   // Router Transition
@@ -20,13 +19,13 @@ export default function useAppCustomizer() {
     { title: '上下', value: 'fade-bottom' },
     { title: '左右', value: 'slide-fade' },
     { title: '飞出', value: 'zoom-out' },
-    { title: '无', value: 'none' },
+    { title: '无', value: 'none' }
   ]
 
   // Router Transition
   const layoutTypeOptions = [
     { text: '侧栏', value: 'vertical' },
-    { text: '顶栏', value: 'horizontal' },
+    { text: '顶栏', value: 'horizontal' }
   ]
 
   // Navbar
@@ -37,14 +36,14 @@ export default function useAppCustomizer() {
     { text: '漂浮', value: 'floating' },
     { text: '固定', value: 'sticky' },
     { text: '静态', value: 'static' },
-    { text: '隐藏', value: 'hidden' },
+    { text: '隐藏', value: 'hidden' }
   ]
 
   // Footer Types
   const footerTypes = [
     { text: '固定', value: 'sticky' },
     { text: '静态', value: 'static' },
-    { text: '隐藏', value: 'hidden' },
+    { text: '隐藏', value: 'hidden' }
   ]
 
   // eslint-disable-next-line object-curly-newline
@@ -57,7 +56,7 @@ export default function useAppCustomizer() {
     isVerticalMenuCollapsed,
     navbarBackgroundColor,
     navbarType,
-    footerType,
+    footerType
   } = useAppConfig()
 
   return {
@@ -93,6 +92,6 @@ export default function useAppCustomizer() {
 
     // Footer
     footerTypes,
-    footerType,
+    footerType
   }
 }

@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Pages',
+    header: '页面',
     icon: 'FileTextIcon',
     children: [
       {
