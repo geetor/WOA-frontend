@@ -20,7 +20,7 @@
 
 
           <!--document list-->
-          <ul>
+          <ul v-if="publicList.length > 0 ">
             <li v-for="(blog,index) in publicList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
@@ -28,34 +28,9 @@
               <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
           </ul>
+          <h2 v-else>暂无公告</h2>
           <!--/document list-->
 
-          <!-- pagination -->
-<!--          <div class="my-2">-->
-<!--            <b-pagination-->
-<!--                v-model="currentPage"-->
-<!--                align="center"-->
-<!--                :total-rows="rows"-->
-<!--                first-number-->
-<!--                last-number-->
-<!--                prev-class="prev-item"-->
-<!--                next-class="next-item"-->
-<!--            >-->
-<!--              <template #prev-text>-->
-<!--                <feather-icon-->
-<!--                    icon="ChevronLeftIcon"-->
-<!--                    size="18"-->
-<!--                />-->
-<!--              </template>-->
-<!--              <template #next-text>-->
-<!--                <feather-icon-->
-<!--                    icon="ChevronRightIcon"-->
-<!--                    size="18"-->
-<!--                />-->
-<!--              </template>-->
-<!--            </b-pagination>-->
-<!--            &lt;!&ndash;/ pagination &ndash;&gt;-->
-<!--          </div>-->
         </b-col>
 
         <b-col cols class="r-side blog-list col-5">
@@ -63,14 +38,15 @@
             <span>部门文档</span>
             <a class="query-more">更多+</a>
           </div>
-          <ul>
-            <li v-for="(blog,index) in publicList" :key="index" class="doc-item">
+          <ul v-if="showList.length > 0">
+            <li v-for="(blog,index) in showList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
               <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
           </ul>
+          <h2 v-else>暂无公告</h2>
         </b-col>
 
       </b-row>
@@ -84,9 +60,21 @@
   </div>
     <div
         slot="sidebar"
-        class="blog-sidebar py-2 py-lg-0"
+        class="blog-sidebar"
     >
-      aaa
+      <div class="btn-sidebar py-2 py-lg-4 px-lg-5">
+        <b-button class="btn-info" @click="publishNewBlog">发布新公告</b-button>
+      </div>
+
+      <div class="classification-sidebar">
+        <b-list-group>
+          <b-list-group-item v-for="(c_class,index) in classifications" :key="c_class">
+            <feather-icon :icon="AnchorIcon"/>
+            <a @click="updateSelect(c_class)">{{c_class}}</a>
+            <b-badge class="float-right">11</b-badge>
+          </b-list-group-item>
+        </b-list-group>
+      </div>
 
     </div>
 
@@ -98,7 +86,8 @@
 
 <script>
 import {
-  BRow, BCol, BCard, BFormInput, BCardText, BCardTitle, BMedia, BAvatar, BMediaAside, BMediaBody, BImg, BCardBody, BLink, BBadge, BFormGroup, BInputGroup, BInputGroupAppend, BPagination,
+  BRow, BCol, BCard, BFormInput, BCardText, BCardTitle, BMedia, BAvatar, BMediaAside, BMediaBody, BImg, BCardBody,
+  BLink, BBadge, BFormGroup, BInputGroup, BInputGroupAppend, BPagination,BButton,BListGroup,BListGroupItem
 } from 'bootstrap-vue'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
@@ -125,6 +114,9 @@ export default {
     BImg,
     BPagination,
     ContentWithSidebar,
+    BButton,
+    BListGroup,
+    BListGroupItem
   },
   data() {
     return {
@@ -135,6 +127,8 @@ export default {
       newsList:[],
       userData:{},
       showItemNumber:7,
+      classifications:['全部公告','校办','Test'],
+      showList:[]
     }
   },
   created() {
@@ -142,15 +136,15 @@ export default {
     axios.get('/document/getPublicDocuments?userId='+this.userData.userId)
         .then(res=>{
           this.publicList = res.data.data
-          console.log(this.userData)
+          console.log(this.publicList)
           if(this.publicList.length > this.showItemNumber){
             this.publicList = this.publicList.slice(0,this.showItemNumber);
           }
         })
-    axios.get('/user/getUserDepts?userId='+this.userData.userId)
-      .then(res=>{
-        console.log(res.data)
-    })
+    // axios.get('/user/getUserDepts?userId='+this.userData.userId)
+    //   .then(res=>{
+    //     console.log(res.data)
+    // })
     // axios.get('/document/getDeptDocuments?userId='+this.userData.userId)
   },
   methods: {
@@ -163,6 +157,19 @@ export default {
       if (tag === 'Food') return 'light-success'
       return 'light-primary'
     },
+    publishNewBlog(){
+      this.$router.push('/doc-center/edit')
+    },
+    updateSelect(c_class){
+      if(c_class == '全部公告'){ this.showList = [...this.publicList]}
+      else{
+        this.showList = []
+        this.publicList.forEach((blog)=>{
+           if(blog.documentSubject == c_class) this.showList.push(blog)
+        })
+      }
+    }
+
   },
   computed: {
     getFormattedDate() {
@@ -237,7 +244,11 @@ export default {
 }
 
 .blog-sidebar{
-  border-left: 2px solid black ;
+  border-left: 1px solid lightgrey;
+}
+
+.btn-sidebar{
+  border-bottom:1px solid lightgrey ;
 }
 
 </style>
