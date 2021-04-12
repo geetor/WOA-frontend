@@ -30,7 +30,6 @@
 <script>
 import { BLink } from 'bootstrap-vue'
 import { resolveHorizontalNavMenuItemComponent } from '@core/layouts/utils'
-import { useUtils as useAclUtils } from '@core/libs/acl'
 import useHorizontalNavMenuHeaderGroup from './useHorizontalNavMenuHeaderGroup'
 import mixinHorizontalNavMenuHeaderGroup from './mixinHorizontalNavMenuHeaderGroup'
 
@@ -58,7 +57,39 @@ export default {
       updateGroupOpen,
     } = useHorizontalNavMenuHeaderGroup(props.item)
 
-    const { canViewHorizontalNavMenuHeaderGroup } = useAclUtils()
+    const canViewHorizontalNavMenuGroup = item => {
+      // ! This same logic is used in canViewHorizontalNavMenuGroup and canViewHorizontalNavMenuHeaderGroup. So make sure to update logic in them as well
+      return item.children.some(i => {
+        let canView = true
+        const adminRoutes = ['management-user', 'management-department', 'management-document']
+        const userData = JSON.parse(localStorage.getItem('userData'))
+        if (userData.userRole === '用户' && adminRoutes.includes(i.route)) {
+          canView = false
+        }
+        return canView
+      })
+    }
+
+    const canViewHorizontalNavMenuLink = item => {
+      let canView = true
+
+      const adminRoutes = ['management-user', 'management-department', 'management-document']
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      if (userData.userRole === '用户' && adminRoutes.includes(item.route)) {
+        canView = false
+      }
+
+      return canView
+    }
+
+    const canViewHorizontalNavMenuHeaderGroup = item => {
+      // ? Same logic as canViewVerticalNavMenuGroup
+      return item.children.some(grpOrItem => {
+        // If it have children => It's grp
+        // Call ACL function based on grp/link
+        return grpOrItem.children ? canViewHorizontalNavMenuGroup(grpOrItem) : canViewHorizontalNavMenuLink(grpOrItem)
+      })
+    }
 
     return {
       isOpen,
