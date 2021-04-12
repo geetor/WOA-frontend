@@ -38,13 +38,11 @@
 <script>
 import { BLink } from 'bootstrap-vue'
 import { resolveHorizontalNavMenuItemComponent as resolveNavItemComponent } from '@core/layouts/utils'
-import { useUtils as useAclUtils } from '@core/libs/acl'
 import HorizontalNavMenuLink from '../horizontal-nav-menu-link/HorizontalNavMenuLink.vue'
 
 // Composition Function
 import useHorizontalNavMenuGroup from './useHorizontalNavMenuGroup'
 import mixinHorizontalNavMenuGroup from './mixinHorizontalNavMenuGroup'
-import { can } from '@core/libs/acl/utils'
 
 export default {
   name: 'HorizontalNavMenuGroup',

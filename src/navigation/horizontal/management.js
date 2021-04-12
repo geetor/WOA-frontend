@@ -16,7 +16,7 @@ export default [
       {
         title: '文档管理',
         route: 'management-document',
-        icon: 'FileTextIcon'
+        icon: 'EditIcon'
       }
     ]
   }

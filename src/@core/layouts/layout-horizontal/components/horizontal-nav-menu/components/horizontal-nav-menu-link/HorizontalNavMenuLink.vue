@@ -21,10 +21,8 @@
 
 <script>
 import { BLink } from 'bootstrap-vue'
-import { useUtils as useAclUtils } from '@core/libs/acl'
 import useHorizontalNavMenuLink from './useHorizontalNavMenuLink'
 import mixinHorizontalNavMenuLink from './mixinHorizontalNavMenuLink'
-import { can } from '@core/libs/acl/utils'
 
 export default {
   components: {
