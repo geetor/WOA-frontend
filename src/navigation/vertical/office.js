@@ -9,7 +9,16 @@ export default [
   },
   {
     title: '考勤系统',
-    route: 'office-attendance',
-    icon: 'CheckSquareIcon'
+    icon: 'PackageIcon',
+    children: [
+      {
+        title: '出勤信息',
+        route: 'office-attendance'
+      },
+      {
+        title: '假期管理',
+        route: 'office-leave'
+      }
+    ]
   }
 ]

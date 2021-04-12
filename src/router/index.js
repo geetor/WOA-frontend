@@ -53,8 +53,19 @@ router.beforeEach((to, _, next) => {
   if (!isLoggedIn) {
     if (to.name !== 'auth-login') return next({ name: 'auth-login' })
   } else {
+    let canNavigate = true
+    const userData = getUserData()
+    const adminRoutes = ['management-user', 'management-department', 'management-document']
+
+    if (userData.userRole === '用户' && adminRoutes.includes(to.name)) {
+      canNavigate = false
+    }
+
+    if (!canNavigate) {
+      next({ name: 'misc-not-authorized' })
+    }
+
     if (to.meta.redirectIfLoggedIn) {
-      const userData = getUserData()
       next(getHomeRouteForLoggedInUser(userData ? userData.userRole : null))
     }
   }

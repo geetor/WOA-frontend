@@ -9,8 +9,8 @@ export default [
     component: () => import('@/views/office/attendance/Attendance.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
-      contentClass: 'attendance-application',
-    },
+      contentClass: 'attendance-application'
+    }
   },
   {
     path: '/office/attendance/:department',
@@ -19,7 +19,7 @@ export default [
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'attendance-application',
-      navActiveLink: 'office-attendance',
+      navActiveLink: 'office-attendance'
     },
     beforeEnter (to, _, next) {
       if (['人事部门', '驾驶部门', '后勤部门', '武装部门', '管理部门'].includes(to.params.department)) {
@@ -35,7 +35,7 @@ export default [
     component: () => import('@/views/office/attendance/calendar/Calendar.vue'),
     meta: {
       contentClass: 'attendance-application',
-      navActiveLink: 'office-attendance',
+      navActiveLink: 'office-attendance'
     },
     beforeEnter (to, _, next) {
       if (!isNaN(Number(to.params.userId))) {
@@ -43,6 +43,18 @@ export default [
       } else {
         next({ name: 'error-404' })
       }
+    }
+  },
+
+  // *===============================================---*
+  // *--------- LEAVE & IT'S FILTERS N LABELS -------------------------------*
+  // *===============================================---*
+  {
+    path: '/office/leave',
+    name: 'office-leave',
+    component: () => import('@/views/pages/miscellaneous/UnderMaintenance.vue'),
+    meta: {
+      layout: 'full'
     }
   },
 
