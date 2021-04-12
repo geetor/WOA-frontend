@@ -20,15 +20,18 @@
 
 
           <!--document list-->
-          <ul v-if="publicList.length > 0 ">
-            <li v-for="(blog,index) in publicList" :key="index" class="doc-item">
+          <ul v-if="showList.length > 0 ">
+            <li v-for="(blog,index) in showList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
               <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
           </ul>
-          <h2 v-else>暂无公告</h2>
+          <div v-else>
+            <h2>暂无公告</h2>
+<!--            <div style="min-height: 336px"></div>-->
+          </div>
           <!--/document list-->
 
         </b-col>
@@ -241,6 +244,7 @@ export default {
   background-color: #fff;
   padding: 50px 0;
   box-shadow:0 4px 24px 0 rgb(34 41 47 / 10%);
+  min-height: 556px;
 }
 
 .blog-sidebar{
