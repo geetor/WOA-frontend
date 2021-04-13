@@ -27,12 +27,6 @@ export default {
         route: { name: 'office-attendance' },
         icon: 'CheckSquareIcon',
         isBookmarked: true
-      },
-      {
-        title: '系统管理',
-        route: { name: 'management-user' },
-        icon: 'SettingsIcon',
-        isBookmarked: true
       }
     ]
   },

@@ -19,8 +19,6 @@
     "deploy": "npm run build && npm run upload"
   },
   "dependencies": {
-    "@casl/ability": "4.1.6",
-    "@casl/vue": "1.1.1",
     "@fullcalendar/daygrid": "5.5.0",
     "@fullcalendar/interaction": "5.5.0",
     "@fullcalendar/list": "5.5.0",

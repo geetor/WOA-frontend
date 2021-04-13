@@ -52,10 +52,7 @@ export default [
   {
     path: '/office/leave',
     name: 'office-leave',
-    component: () => import('@/views/pages/miscellaneous/UnderMaintenance.vue'),
-    meta: {
-      layout: 'full'
-    }
+    component: () => import('@/views/office/leave/LeavesList.vue')
   },
 
   // *===============================================---*
