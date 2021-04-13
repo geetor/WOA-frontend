@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'User Interface',
+    header: '组件',
   },
   {
     title: 'Typography',

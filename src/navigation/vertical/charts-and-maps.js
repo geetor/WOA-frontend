@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Charts & Maps',
+    header: '图表',
   },
   {
     title: 'Charts',

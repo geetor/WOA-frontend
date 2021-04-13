@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Forms & Tables',
+    header: '表单',
     icon: 'EditIcon',
     children: [
       {
