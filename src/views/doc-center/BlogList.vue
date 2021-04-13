@@ -66,13 +66,13 @@
         class="blog-sidebar"
     >
       <div class="btn-sidebar py-2 py-lg-4 px-lg-5">
-        <b-button class="btn-info" @click="publishNewBlog">发布新公告</b-button>
+        <b-button class="btn-info" :to="{ name:'doc-center-edit' }">发布新公告</b-button>
       </div>
 
       <div class="classification-sidebar">
         <b-list-group>
-          <b-list-group-item v-for="(c_class,index) in classifications" :key="c_class">
-            <feather-icon :icon="AnchorIcon"/>
+          <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class==selectedClass}">
+            <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
             <a @click="updateSelect(c_class)">{{c_class}}</a>
             <b-badge class="float-right">11</b-badge>
           </b-list-group-item>
@@ -131,7 +131,8 @@ export default {
       userData:{},
       showItemNumber:7,
       classifications:['全部公告','校办','Test'],
-      showList:[]
+      showList:[],
+      selectedClass:'全部公告'
     }
   },
   created() {
@@ -143,12 +144,9 @@ export default {
           if(this.publicList.length > this.showItemNumber){
             this.publicList = this.publicList.slice(0,this.showItemNumber);
           }
+          this.showList = [...this.publicList]
         })
-    // axios.get('/user/getUserDepts?userId='+this.userData.userId)
-    //   .then(res=>{
-    //     console.log(res.data)
-    // })
-    // axios.get('/document/getDeptDocuments?userId='+this.userData.userId)
+
   },
   methods: {
     kFormatter,
@@ -160,17 +158,15 @@ export default {
       if (tag === 'Food') return 'light-success'
       return 'light-primary'
     },
-    publishNewBlog(){
-      this.$router.push('/doc-center/edit')
-    },
     updateSelect(c_class){
-      if(c_class == '全部公告'){ this.showList = [...this.publicList]}
+      if(c_class == '全部公告'){ this.showList = [...this.publicList];}
       else{
         this.showList = []
         this.publicList.forEach((blog)=>{
            if(blog.documentSubject == c_class) this.showList.push(blog)
         })
       }
+      this.selectedClass = c_class
     }
 
   },
@@ -253,6 +249,13 @@ export default {
 
 .btn-sidebar{
   border-bottom:1px solid lightgrey ;
+}
+
+.active-item{
+  font-weight: bolder;
+  color: #7ab8cc;
+  border-left: 3px solid #7ab8cc;
+  border-radius: 0;
 }
 
 </style>
