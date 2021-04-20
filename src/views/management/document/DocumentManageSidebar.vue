@@ -11,7 +11,7 @@ Sopp:
               block
               class="my-1"
               @click="
-                $emit('update:is-user-add-sidebar-active', true);
+                $emit('update:is-document-add-sidebar-active', true);
                 $emit('close-left-sidebar');
               "
             >

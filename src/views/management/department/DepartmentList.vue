@@ -10,7 +10,6 @@
           md="6"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <label>Entries</label>
           <v-select
             v-model="perPage"
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -26,14 +25,14 @@
             <b-form-input
               v-model="searchQuery"
               class="d-inline-block mr-1"
-              placeholder="搜索成员"
+              placeholder="搜索部门成员"
             />
             <v-select
               v-model="rankFilter"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="rankOptions"
-              class="invoice-filter-select"
-              placeholder="用户等级"
+              class="department-rank-select"
+              placeholder="部门等级"
             >
               <template #selected-option="{ label }">
                 <span class="text-truncate overflow-hidden">
@@ -48,60 +47,39 @@
 
     <b-table
       ref="refInvoiceListTable"
-      :items="fetchInvoices"
+      :items="fetchDepartments"
       responsive
       hover
       :fields="tableColumns"
       primary-key="id"
       :sort-by.sync="sortBy"
       show-empty
-      empty-text="无对应成员"
+      empty-text="无对应部门"
       :sort-desc.sync="isSortDirDesc"
       class="position-relative"
     >
       <!-- Column: 用户 -->
 
-      <template #cell(userName)="data">
+      <template #cell(deptName)="data">
         <b-media vertical-align="center">
           <template #aside>
             <b-avatar
               size="32"
-              :text="avatarText(data.item.userName)"
-              :variant="`light-${resolveRankColor(data.item.userRank)}`"
+              :text="avatarText(data.item.deptName)"
+              :variant="`light-${resolveRankColor(data.item.deptRank)}`"
             />
           </template>
           <span class="font-weight-bold d-block text-nowrap">
-            {{ data.item.userName }}
+            {{ data.item.deptName }}
           </span>
-          <small class="text-muted">{{ data.item.userPhone }}</small>
         </b-media>
       </template>
-      <!-- 部门 -->
-      <template #cell(userDepts)="data">
-        <template v-for="dept in data.item.userDepts">
-          <b-badge
-            pill
-            :variant="`light-${resolveDeptColor(dept)}`"
-            :key="dept"
-          >
-            {{ resolveDept(dept) }}
-          </b-badge>
+      <template #cell(deptUsers)="data">
+        <template v-for="user in data.item.deptUsers">
+          <span pill :key="user">
+            {{ user.userName }}
+          </span>
         </template>
-      </template>
-      <!-- 状态 -->
-      <template #cell(userStatus)="data">
-        <b-badge
-          pill
-          :variant="`light-${resolveStatusColor(data.item.userStatus)}`"
-        >
-          {{ resolveStatus(data.item.userStatus) }}
-        </b-badge>
-      </template>
-      <!-- 管理员 -->
-      <template #cell(admin)="data">
-        <b-badge pill :variant="`light-${resolveAdminColor(data.item.admin)}`">
-          {{ resolveAdmin(data.item.admin) }}
-        </b-badge>
       </template>
       <!-- 操作 -->
       <template #cell(actions)="data">
@@ -120,18 +98,19 @@
                 class="align-middle text-body"
               />
             </template>
+
             <b-dropdown-item
               @click="
                 $emit('close-left-sidebar');
-                $emit('edit-user', data.item);
+                $emit('edit-department', data.item);
               "
             >
               <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
+              <span class="align-middle ml-50">编辑</span>
             </b-dropdown-item>
             <b-dropdown-item @click="confirmDel(data.item)">
               <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
+              <span class="align-middle ml-50">删除</span>
             </b-dropdown-item>
           </b-dropdown>
         </div>
@@ -182,14 +161,14 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BTooltip,
+  BBadge, BDropdown, BDropdownItem, BPagination, BTooltip
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { onUnmounted } from '@vue/composition-api'
 import store from '@/store'
-import useUserList from './useUserList'
-import useStoreModule from './userStoreModule'
+import useDepartmentList from './useDepartmentList'
+import departmentStoreModule from './departmentStoreModule'
 
 export default {
   components: {
@@ -207,35 +186,28 @@ export default {
     BDropdownItem,
     BPagination,
     BTooltip,
-
     vSelect,
   },
   setup() {
-    const USER_MANAGE_SIDEBAR_STORE_MODULE_NAME = 'manage-user'
+    const DEPARTMENT_MANAGE_SIDEBAR_STORE_MODULE_NAME = 'manage-department'
 
     // Register module
-    if (!store.hasModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME)) store.registerModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME, useStoreModule)
+    if (!store.hasModule(DEPARTMENT_MANAGE_SIDEBAR_STORE_MODULE_NAME)) store.registerModule(DEPARTMENT_MANAGE_SIDEBAR_STORE_MODULE_NAME, departmentStoreModule)
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME)) store.unregisterModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME)
+      if (store.hasModule(DEPARTMENT_MANAGE_SIDEBAR_STORE_MODULE_NAME)) store.unregisterModule(DEPARTMENT_MANAGE_SIDEBAR_STORE_MODULE_NAME)
     })
 
-    const rankOptions = [
-      '1级',
-      '2级',
-      '3级',
-      '4级',
-      '5级',
-      '6级',
-      '7级',
-      '8级',
-      '9级',
-      '10级'
+    const statusOptions = [
+      'Downloaded',
+      'Draft',
+      'Paid',
+      'Partial Payment',
+      'Past Due',
     ]
-
     const {
-      fetchInvoices,
+      fetchDepartments,
       tableColumns,
       perPage,
       currentPage,
@@ -247,48 +219,39 @@ export default {
       isSortDirDesc,
       refInvoiceListTable,
       rankFilter,
-      refetchData,
-      resolveDept,
-      resolveDeptColor,
-      resolveAdmin,
-      resolveAdminColor,
-      resolveStatus,
-      resolveStatusColor,
-      resolveRankColor,
-
-    } = useUserList()
-
-    return {
-      fetchInvoices,
-      tableColumns,
-      perPage,
-      currentPage,
-      totalInvoices,
-      dataMeta,
-      perPageOptions,
-      searchQuery,
-      sortBy,
-      isSortDirDesc,
-      refInvoiceListTable,
-      rankFilter,
-      refetchData,
       rankOptions,
-      avatarText,
+      refetchData,
       //rank
       resolveRankColor,
-      //user
-      resolveDept,
-      resolveDeptColor,
-      resolveAdmin,
-      resolveAdminColor,
-      resolveStatus,
-      resolveStatusColor,
+
+
+    } = useDepartmentList()
+
+    return {
+      fetchDepartments,
+      tableColumns,
+      perPage,
+      currentPage,
+      totalInvoices,
+      dataMeta,
+      perPageOptions,
+      searchQuery,
+      sortBy,
+      isSortDirDesc,
+      refInvoiceListTable,
+      refetchData,
+      avatarText,
+      rankOptions,
+      rankFilter,
+      //rank
+      resolveRankColor,
+
     }
   },
   methods: {
     confirmDel(val) {
       this.$swal({
-        title: '确认删除用户?',
+        title: '确认删除此部门?',
         text: "此操作无法撤销",
         icon: 'warning',
         showCancelButton: true,
@@ -300,8 +263,9 @@ export default {
         },
         buttonsStyling: false,
       }).then(result => {
+
         if (result.value) {
-          this.$emit('del-user', val)
+          this.$emit('del-department', val)
         }
       })
     }
@@ -314,7 +278,7 @@ export default {
   width: 90px;
 }
 
-.user-rank-select {
+.department-rank-select {
   min-width: 190px;
 
   ::v-deep .vs__selected-options {

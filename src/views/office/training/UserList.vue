@@ -1,47 +1,38 @@
 <template>
   <!-- Table Container Card -->
-  <b-card
-      no-body
-      class="mb-0 rounded-0"
-  >
-
+  <b-card no-body class="mb-0 rounded-0">
     <div class="m-2">
-
       <!-- Table Top -->
       <b-row>
-
         <!-- Per Page -->
         <b-col
-            cols="12"
-            md="6"
-            class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
+          cols="12"
+          md="6"
+          class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
           <v-select
-              v-model="perPage"
-              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              :options="perPageOptions"
-              :clearable="false"
-              class="per-page-selector d-inline-block ml-50 mr-1"
+            v-model="perPage"
+            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+            :options="perPageOptions"
+            :clearable="false"
+            class="per-page-selector d-inline-block ml-50 mr-1"
           />
         </b-col>
 
         <!-- Search -->
-        <b-col
-            cols="12"
-            md="6"
-        >
+        <b-col cols="12" md="6">
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
-                v-model="searchQuery"
-                class="d-inline-block mr-1"
-                placeholder="搜索部门成员"
+              v-model="searchQuery"
+              class="d-inline-block mr-1"
+              placeholder="搜索部门成员"
             />
             <v-select
-                v-model="rankFilter"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="rankOptions"
-                class="user-rank-select"
-                placeholder="用户等级"
+              v-model="rankFilter"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :options="rankOptions"
+              class="user-rank-select"
+              placeholder="用户等级"
             >
               <template #selected-option="{ label }">
                 <span class="text-truncate overflow-hidden">
@@ -52,30 +43,28 @@
           </div>
         </b-col>
       </b-row>
-
     </div>
 
     <b-table
-        ref="refUserListTable"
-        :items="fetchUsers"
-        responsive
-        hover
-        :fields="tableColumns"
-        :sort-by.sync="sortBy"
-        show-empty
-        empty-text="无对应成员"
-        :sort-desc.sync="isSortDirDesc"
-        class="position-relative"
+      ref="refUserListTable"
+      :items="fetchUsers"
+      responsive
+      hover
+      :fields="tableColumns"
+      :sort-by.sync="sortBy"
+      show-empty
+      empty-text="无对应成员"
+      :sort-desc.sync="isSortDirDesc"
+      class="position-relative"
     >
-
       <!-- Column: 用户 -->
       <template #cell(用户)="data">
         <b-media vertical-align="center">
           <template #aside>
             <b-avatar
-                size="32"
-                :text="avatarText(data.item.userName)"
-                :variant="`light-${resolveRankColor(data.item.userRank)}`"
+              size="32"
+              :text="avatarText(data.item.userName)"
+              :variant="`light-${resolveRankColor(data.item.userRank)}`"
             />
           </template>
           <span class="font-weight-bold d-block text-nowrap">
@@ -116,93 +105,75 @@
       <!-- Column: 今日是否待训 -->
       <template #cell(今日是否待训)="data">
         <template v-if="data.item.hasTraining">
-          <b-badge
-              pill
-              variant="light-success"
-          >
-            是
-          </b-badge>
+          <b-badge pill variant="light-success"> 是 </b-badge>
         </template>
         <template v-else>
-          <b-badge
-              pill
-              variant="light-danger"
-          >
-            否
-          </b-badge>
+          <b-badge pill variant="light-danger"> 否 </b-badge>
         </template>
       </template>
 
       <!-- Column: 操作 -->
       <template #cell(操作)="data">
-
         <div class="text-nowrap">
-
           <feather-icon
-              :id="`training-row-${data.item.id}-calendar-icon`"
-              icon="CalendarIcon"
-              class="cursor-pointer"
-              size="16"
-              @click="$router.push({ name: 'office-training-calendar-user', params: { user: data.item.userId }})"
+            :id="`training-row-${data.item.id}-calendar-icon`"
+            icon="CalendarIcon"
+            class="cursor-pointer"
+            size="16"
+            @click="
+              $router.push({
+                name: 'office-training-calendar-user',
+                params: { user: data.item.userId },
+              })
+            "
           />
           <b-tooltip
-              title="训练安排"
-              class="cursor-pointer"
-              :target="`training-row-${data.item.id}-calendar-icon`"
+            title="训练安排"
+            class="cursor-pointer"
+            :target="`training-row-${data.item.id}-calendar-icon`"
           />
-
         </div>
-
       </template>
-
     </b-table>
     <div class="mx-2 mb-2">
       <b-row>
-
         <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-start"
+          cols="12"
+          sm="6"
+          class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
-          <span class="text-muted">从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共 {{ dataMeta.of }} 名成员</span>
+          <span class="text-muted"
+            >从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共
+            {{ dataMeta.of }} 名成员</span
+          >
         </b-col>
         <!-- Pagination -->
         <b-col
-            cols="12"
-            sm="6"
-            class="d-flex align-items-center justify-content-center justify-content-sm-end"
+          cols="12"
+          sm="6"
+          class="d-flex align-items-center justify-content-center justify-content-sm-end"
         >
-
           <b-pagination
-              v-model="currentPage"
-              :total-rows="totalUsers"
-              :per-page="perPage"
-              first-number
-              last-number
-              class="mb-0 mt-1 mt-sm-0"
-              prev-class="prev-item"
-              next-class="next-item"
+            v-model="currentPage"
+            :total-rows="totalUsers"
+            :per-page="perPage"
+            first-number
+            last-number
+            class="mb-0 mt-1 mt-sm-0"
+            prev-class="prev-item"
+            next-class="next-item"
           >
             <template #prev-text>
-              <feather-icon
-                  icon="ChevronLeftIcon"
-                  size="18"
-              />
+              <feather-icon icon="ChevronLeftIcon" size="18" />
             </template>
             <template #next-text>
-              <feather-icon
-                  icon="ChevronRightIcon"
-                  size="18"
-              />
+              <feather-icon icon="ChevronRightIcon" size="18" />
             </template>
           </b-pagination>
-
         </b-col>
-
       </b-row>
     </div>
   </b-card>
-
 </template>
 
 <script>
@@ -239,7 +210,7 @@ export default {
 
     vSelect,
   },
-  setup () {
+  setup() {
     const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
 
     // Register module
@@ -333,35 +304,35 @@ export default {
 
     const fetchUsers = (ctx, callback) => {
       store
-      .dispatch('office-training-statistic/fetchUsers', {
-        department: router.currentRoute.params.department || '所有部门',
-        q: searchQuery.value,
-        perPage: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
-      })
-      .then(response => {
-        const {
-          users,
-          total
-        } = response.data
+        .dispatch('office-training-statistic/fetchUsers', {
+          department: router.currentRoute.params.department || '所有部门',
+          q: searchQuery.value,
+          perPage: perPage.value,
+          page: currentPage.value,
+          sortBy: sortBy.value,
+          sortDesc: isSortDirDesc.value,
+          rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
+        })
+        .then(response => {
+          const {
+            users,
+            total
+          } = response.data
 
-        callback(users)
-        totalUsers.value = total
-      })
-      .catch(error => {
-        toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
-              },
+          callback(users)
+          totalUsers.value = total
+        })
+        .catch(error => {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: '错误',
+              icon: 'AlertTriangleIcon',
+              variant: 'danger',
             },
+          },
             { position: 'bottom-right' })
-      })
+        })
     }
 
     const resolveRankColor = rank => {
@@ -385,13 +356,9 @@ export default {
       sortBy,
       isSortDirDesc,
       refUserListTable,
-
       rankFilter,
-
       refetchData,
-
       rankOptions,
-
       avatarText,
       resolveRankColor
     }
@@ -418,5 +385,5 @@ export default {
 </style>
 
 <style lang="scss">
-@import '@core/scss/vue/libs/vue-select.scss';
+@import "@core/scss/vue/libs/vue-select.scss";
 </style>

@@ -40,7 +40,6 @@ const fetchData = async () => {
 
       data.users = users
       data.departments = departments
-
       return data
     }
   })
@@ -74,7 +73,7 @@ mock.onGet('/office/training/departments')
     data.departments.forEach(department => {
       usersMeta[department] = data.users.filter(user => user.department === department).length
     })
-
+    debugger
     return [
       200,
       {

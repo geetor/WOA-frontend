@@ -1,51 +1,47 @@
 <template>
   <div style="height: inherit">
-
     <div
-        class="body-content-overlay"
-        :class="{'show': mqShallShowLeftSidebar}"
-        @click="mqShallShowLeftSidebar = false"
+      class="body-content-overlay"
+      :class="{ show: mqShallShowLeftSidebar }"
+      @click="mqShallShowLeftSidebar = false"
     />
-
+    <!-- user-list -->
     <div class="attendance-list">
       <vue-perfect-scrollbar
-          :settings="perfectScrollbarSettings"
-          class="attendance-user-list scroll-area"
+        :settings="perfectScrollbarSettings"
+        class="attendance-user-list scroll-area"
       >
-        <user-list
-            ref="refUserList"
-        />
+        <user-list ref="refUserList" />
       </vue-perfect-scrollbar>
-
     </div>
 
     <!-- Leave Handler -->
     <leave-handler-sidebar
-        v-model="isLeaveHandlerSidebarActive"
-        :leave="leave"
-        :clear-leave-data="clearLeaveData"
-        @ask-for-leave="askForLeave"
+      v-model="isLeaveHandlerSidebarActive"
+      :leave="leave"
+      :clear-leave-data="clearLeaveData"
+      @ask-for-leave="askForLeave"
     />
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <department-list
-          :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
-          :is-leave-handler-sidebar-active.sync="isLeaveHandlerSidebarActive"
-          :departments="departments"
-          :users-meta="usersMeta"
-          :class="{'show': mqShallShowLeftSidebar}"
-          :refetch-user-list="refetchUserList"
-          @close-left-sidebar="mqShallShowLeftSidebar = false"
+        :shall-show-attendance-compose-modal.sync="
+          shallShowAttendanceComposeModal
+        "
+        :is-leave-handler-sidebar-active.sync="isLeaveHandlerSidebarActive"
+        :departments="departments"
+        :users-meta="usersMeta"
+        :class="{ show: mqShallShowLeftSidebar }"
+        :refetch-user-list="refetchUserList"
+        @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
     </portal>
-
   </div>
 </template>
 
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
-
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import DepartmentList from './DepartmentList.vue'
 import UserList from './UserList'
@@ -91,7 +87,7 @@ export default {
     DepartmentList,
     UserList
   },
-  setup () {
+  setup() {
     const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
 
     // Register module
@@ -122,29 +118,29 @@ export default {
 
     const askForLeave = val => {
       store.dispatch('office-attendance/askForLeave', val)
-      .then((response) => {
-        if (response.status === 201) {
-          toast({
-            component: ToastificationContent,
-            props: {
-              title: `请假成功`,
-              icon: 'CoffeeIcon',
-              variant: 'success'
-            }
-          })
-          refetchUserList()
-        } else {
-          toast({
-                component: ToastificationContent,
-                props: {
-                  title: '错误',
-                  icon: 'AlertTriangleIcon',
-                  variant: 'danger',
-                },
+        .then((response) => {
+          if (response.status === 201) {
+            toast({
+              component: ToastificationContent,
+              props: {
+                title: `请假成功`,
+                icon: 'CoffeeIcon',
+                variant: 'success'
+              }
+            })
+            refetchUserList()
+          } else {
+            toast({
+              component: ToastificationContent,
+              props: {
+                title: '错误',
+                icon: 'AlertTriangleIcon',
+                variant: 'danger',
               },
+            },
               { position: 'bottom-right' })
-        }
-      })
+          }
+        })
     }
 
     // Departments & UsersMeta
@@ -157,10 +153,10 @@ export default {
 
     const fetchDepartments = () => {
       store.dispatch('office-attendance/fetchDepartments')
-      .then(response => {
-        departments.value = response.data.departments
-        usersMeta.value = response.data.usersMeta
-      })
+        .then(response => {
+          departments.value = response.data.departments
+          usersMeta.value = response.data.usersMeta
+        })
     }
     fetchDepartments()
 
@@ -197,7 +193,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
 
 <style lang="scss">

@@ -14,7 +14,7 @@ export default [
   {
     path: '/management/department',
     name: 'management-department',
-    component: () => import('@/views/management/department/InvoiceList.vue'),
+    component: () => import('@/views/management/department/Department.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application'
@@ -25,7 +25,7 @@ export default [
   {
     path: '/management/document',
     name: 'management-document',
-    component: () => import('@/views/management/document/InvoiceList.vue'),
+    component: () => import('@/views/management/document/Document.vue'),
     meta: {
       contentRenderer: 'sidebar-left',
       contentClass: 'training-application'
