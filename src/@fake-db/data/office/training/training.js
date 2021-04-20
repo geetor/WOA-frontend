@@ -79,7 +79,7 @@ mock.onGet('/office/training/departments')
       {
         departments,
         usersMeta
-      },
+      }
     ]
   })
 })
@@ -105,7 +105,7 @@ mock.onGet('/office/training/users')
       user =>
         (user.department === department) &&
         (user.userPhone.includes(q) || user.userName.includes(q)) &&
-        (rank ? user.userRank === Number(rank) : true),
+        (rank ? user.userRank === Number(rank) : true)
     )
 
     const sortKeys = [
@@ -125,8 +125,8 @@ mock.onGet('/office/training/users')
       200,
       {
         users: paginateArray(sortedData, perPage, page),
-        total: filteredData.length,
-      },
+        total: filteredData.length
+      }
     ]
   })
 })

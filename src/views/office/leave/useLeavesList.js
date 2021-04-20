@@ -1,12 +1,11 @@
 import { ref, watch, computed } from '@vue/composition-api'
 import store from '@/store'
-import { title } from '@core/utils/filter'
 
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useLeavesList() {
+export default function useLeavesList () {
   // Use toast
   const toast = useToast()
 
@@ -14,12 +13,31 @@ export default function useLeavesList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: '部门', sortable: true },
-    { key: '用户', sortable: true },
-    { key: '请假类型', sortable: true },
-    { key: '离队时间', sortable: true },
-    { key: '状态', sortable: true },
-    { key: '操作' },
+    {
+      key: '部门',
+      sortable: true
+    },
+    {
+      key: '用户',
+      sortable: true
+    },
+    {
+      key: '请假类型',
+      sortable: true
+    },
+    {
+      key: '离队时间',
+      sortable: true
+    },
+    {
+      key: '归队时间',
+      sortable: true
+    },
+    {
+      key: '状态',
+      sortable: true
+    },
+    { key: '操作' }
   ]
   const perPage = ref(10)
   const totalLeaves = ref(0)
@@ -51,32 +69,35 @@ export default function useLeavesList() {
 
   const fetchLeaves = (ctx, callback) => {
     store
-      .dispatch('app-user/fetchUsers', {
-        q: searchQuery.value,
-        perPage: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        role: roleFilter.value,
-        plan: planFilter.value,
-        status: statusFilter.value,
-      })
-      .then(response => {
-        const { users, total } = response.data
+    .dispatch('app-user/fetchUsers', {
+      q: searchQuery.value,
+      perPage: perPage.value,
+      page: currentPage.value,
+      sortBy: sortBy.value,
+      sortDesc: isSortDirDesc.value,
+      role: roleFilter.value,
+      plan: planFilter.value,
+      status: statusFilter.value
+    })
+    .then(response => {
+      const {
+        users,
+        total
+      } = response.data
 
-        callback(users)
-        totalLeaves.value = total
+      callback(users)
+      totalLeaves.value = total
+    })
+    .catch(() => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: 'Error fetching users list',
+          icon: 'AlertTriangleIcon',
+          variant: 'danger'
+        }
       })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Error fetching users list',
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    })
   }
 
   // *===============================================---*
