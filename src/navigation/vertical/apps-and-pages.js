@@ -1,6 +1,6 @@
 export default [
   {
-    header: 'Apps & Pages',
+    header: '应用',
   },
   {
     title: 'Email',
