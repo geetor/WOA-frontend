@@ -219,7 +219,7 @@ export default {
     BPagination,
     BTooltip,
 
-    vSelect,
+    vSelect
   },
   setup() {
     const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
@@ -309,7 +309,7 @@ export default {
       return {
         from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
         to: perPage.value * (currentPage.value - 1) + localItemsCount,
-        of: totalUsers.value,
+        of: totalUsers.value
       }
     })
 
@@ -330,7 +330,7 @@ export default {
           page: currentPage.value,
           sortBy: sortBy.value,
           sortDesc: isSortDirDesc.value,
-          rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+          rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
         })
         .then(response => {
           const {
@@ -347,8 +347,8 @@ export default {
             props: {
               title: '错误',
               icon: 'AlertTriangleIcon',
-              variant: 'danger',
-            },
+              variant: 'danger'
+            }
           },
             { position: 'bottom-right' })
         })

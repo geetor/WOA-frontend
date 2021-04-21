@@ -73,7 +73,7 @@ mock.onGet('/office/training/departments')
     data.departments.forEach(department => {
       usersMeta[department] = data.users.filter(user => user.department === department).length
     })
-    debugger
+
     return [
       200,
       {

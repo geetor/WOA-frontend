@@ -208,7 +208,7 @@ export default {
     BPagination,
     BTooltip,
 
-    vSelect,
+    vSelect
   },
   setup() {
     const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
@@ -290,7 +290,7 @@ export default {
       return {
         from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
         to: perPage.value * (currentPage.value - 1) + localItemsCount,
-        of: totalUsers.value,
+        of: totalUsers.value
       }
     })
 
@@ -328,8 +328,8 @@ export default {
             props: {
               title: '错误',
               icon: 'AlertTriangleIcon',
-              variant: 'danger',
-            },
+              variant: 'danger'
+            }
           },
             { position: 'bottom-right' })
         })

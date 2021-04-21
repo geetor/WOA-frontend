@@ -6,28 +6,44 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchUsers(ctx, queryParams) {
+    fetchUsers (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/apps/user/users', { params: queryParams })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/office/leave/users', { params: queryParams })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     },
-    fetchUser(ctx, { id }) {
+    approveLeave (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`/apps/user/users/${id}`)
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/office/leave/approveLeave', { params: queryParams })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     },
-    addUser(ctx, userData) {
+    rejectLeave (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios
-          .post('/apps/user/users', { user: userData })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/office/leave/rejectLeave', { params: queryParams })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
+    fetchUser (ctx, { id }) {
+      return new Promise((resolve, reject) => {
+        axios
+        .get(`/office/leave/users/${id}`)
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
+    addUser (ctx, userData) {
+      return new Promise((resolve, reject) => {
+        axios
+        .post('/office/leave/users', { user: userData })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     }
   }

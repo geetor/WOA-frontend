@@ -24,6 +24,7 @@ import './data/management/document/document'
 
 // Office
 import './data/office/attendance/attendance'
+import './data/office/attendance/leave'
 import './data/office/attendance/calendar'
 import './data/office/training/training'
 import './data/office/training/calendar'
