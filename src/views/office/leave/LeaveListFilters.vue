@@ -12,14 +12,29 @@
           md="4"
           class="mb-md-0 mb-2"
         >
-          <label>Role</label>
+          <label>部门名称</label>
           <v-select
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="roleFilter"
-            :options="roleOptions"
+            :value="departmentFilter"
+            :options="departments"
             class="w-100"
             :reduce="val => val.value"
-            @input="(val) => $emit('update:roleFilter', val)"
+            @input="(val) => $emit('update:departmentFilter', val)"
+          />
+        </b-col>
+        <b-col
+            cols="12"
+            md="4"
+            class="mb-md-0 mb-2"
+        >
+          <label>请假类型</label>
+          <v-select
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :value="typeFilter"
+              :options="leaveTypes"
+              class="w-100"
+              :reduce="val => val.value"
+              @input="(val) => $emit('update:typeFilter', val)"
           />
         </b-col>
         <b-col
@@ -27,26 +42,11 @@
           md="4"
           class="mb-md-0 mb-2"
         >
-          <label>Plan</label>
-          <v-select
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="planFilter"
-            :options="planOptions"
-            class="w-100"
-            :reduce="val => val.value"
-            @input="(val) => $emit('update:planFilter', val)"
-          />
-        </b-col>
-        <b-col
-          cols="12"
-          md="4"
-          class="mb-md-0 mb-2"
-        >
-          <label>Status</label>
+          <label>审核状态</label>
           <v-select
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
             :value="statusFilter"
-            :options="statusOptions"
+            :options="leaveStatuses"
             class="w-100"
             :reduce="val => val.value"
             @input="(val) => $emit('update:statusFilter', val)"
@@ -73,11 +73,11 @@ export default {
     vSelect
   },
   props: {
-    roleFilter: {
+    departmentFilter: {
       type: [String, null],
       default: null
     },
-    planFilter: {
+    typeFilter: {
       type: [String, null],
       default: null
     },
@@ -85,15 +85,15 @@ export default {
       type: [String, null],
       default: null
     },
-    roleOptions: {
+    departments: {
       type: Array,
       required: true
     },
-    planOptions: {
+    leaveTypes: {
       type: Array,
       required: true
     },
-    statusOptions: {
+    leaveStatuses: {
       type: Array,
       required: true
     }

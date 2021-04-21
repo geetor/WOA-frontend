@@ -194,7 +194,7 @@
               <v-select
                 v-model="userData.role"
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="roleOptions"
+                :options="leaveTypes"
                 :reduce="val => val.value"
                 :clearable="false"
                 input-id="user-role"
@@ -205,24 +205,24 @@
             </b-form-group>
           </validation-provider>
 
-          <!-- Plan -->
+          <!-- Department -->
           <validation-provider
             #default="validationContext"
-            name="Plan"
+            name="Department"
             rules="required"
           >
             <b-form-group
-              label="Plan"
-              label-for="plan"
+              label="Department"
+              label-for="department"
               :state="getValidationState(validationContext)"
             >
               <v-select
-                v-model="userData.currentPlan"
+                v-model="userData.department"
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="planOptions"
+                :options="departments"
                 :reduce="val => val.value"
                 :clearable="false"
-                input-id="plan"
+                input-id="department"
               />
               <b-form-invalid-feedback :state="getValidationState(validationContext)">
                 {{ validationContext.errors[0] }}
@@ -295,14 +295,14 @@ export default {
       type: Boolean,
       required: true
     },
-    roleOptions: {
+    leaveTypes: {
       type: Array,
       required: true
     },
-    planOptions: {
+    departments: {
       type: Array,
       required: true
-    },
+    }
   },
   data() {
     return {
@@ -317,8 +317,8 @@ export default {
       fullName: '',
       username: '',
       email: '',
-      role: null,
-      currentPlan: null,
+      leaveType: null,
+      department: null,
       company: '',
       country: '',
       contact: ''
@@ -351,7 +351,7 @@ export default {
       getValidationState,
       resetForm
     }
-  },
+  }
 }
 </script>
 

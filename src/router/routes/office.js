@@ -52,7 +52,7 @@ export default [
   {
     path: '/office/leave',
     name: 'office-leave',
-    component: () => import('@/views/office/leave/LeavesList.vue')
+    component: () => import('@/views/office/leave/LeaveList.vue')
   },
 
   // *===============================================---*
