@@ -44,7 +44,6 @@
             label="设置查看权限"
             label-for="blog-edit-category"
             class="mb-2"
-            @focus="pInput()"
           >
             <v-select
               id="blog-edit-category"
@@ -185,9 +184,7 @@ export default {
         }
       })
     },
-    pInput(){
-      console.log('Hello world!')
-    }
+
   },
   computed:{
     getCurrentTime(){
@@ -212,5 +209,10 @@ export default {
 
 .sub-btn{
   float: right;
+}
+
+
+.ql-blank{
+  min-height:150px
 }
 </style>

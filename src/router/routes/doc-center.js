@@ -13,6 +13,11 @@ export default [
     path: '/doc-center/detail/:docId',
     name:'doc-center-detail',
     component:()=>import('@/views/doc-center/BlogDetail.vue')
+  },
+  {
+    path:'/doc-center/category/:category',
+    name:'doc-center-category',
+    component:()=>import('@/views/doc-center/BlogCategory.vue')
   }
 
 ]

@@ -15,13 +15,13 @@
         <b-col class="col-5 offset-1 blog-list" >
           <div class="news-title">
             <span>公共文档</span>
-            <a class="query-more">更多+</a>
+            <b-link class="query-more" :to="'/doc-center/category/public'">更多+</b-link>
           </div>
 
 
           <!--document list-->
-          <ul v-if="showList.length > 0 ">
-            <li v-for="(blog,index) in showList" :key="index" class="doc-item">
+          <ul v-if="publicShowList.length > 0 ">
+            <li v-for="(blog,index) in publicShowList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
@@ -39,25 +39,25 @@
         <b-col cols class="r-side blog-list col-5">
           <div class="news-title">
             <span>部门文档</span>
-            <a class="query-more">更多+</a>
+            <b-link class="query-more" :to="'/doc-center/category/department'">更多+</b-link>
+            <div id="dept-select">
+              <v-select label="deptName" class="select-dept" v-model="selectedDept" :options="departments" placeholder="请选择要查询的部门" ></v-select>
+            </div>
           </div>
-          <ul v-if="showList.length > 0">
-            <li v-for="(blog,index) in showList" :key="index" class="doc-item">
+          <ul v-if="departmentShowList.length > 0">
+            <li v-for="(blog,index) in departmentShowList" :key="index" class="doc-item">
               <b-link :to="'/doc-center/detail/'+blog.documentId">
                 >>> {{ blog.documentTitle }}
               </b-link>
               <span class="news-date">{{blog.issuingTime || blog.modifiedTime}}</span>
             </li>
           </ul>
-          <h2 v-else>暂无公告</h2>
+          <h2 v-else>{{ warningState }}</h2>
         </b-col>
 
       </b-row>
 <!--    </b-container>-->
     <!--/ blogs -->
-    <!-- sidebar -->
-
-    <!--/ sidebar -->
 
 
   </div>
@@ -92,6 +92,7 @@ import {
   BRow, BCol, BCard, BFormInput, BCardText, BCardTitle, BMedia, BAvatar, BMediaAside, BMediaBody, BImg, BCardBody,
   BLink, BBadge, BFormGroup, BInputGroup, BInputGroupAppend, BPagination,BButton,BListGroup,BListGroupItem
 } from 'bootstrap-vue'
+import vSelect from 'vue-select'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
 import axios from '@/libs/axios'
@@ -119,20 +120,26 @@ export default {
     ContentWithSidebar,
     BButton,
     BListGroup,
-    BListGroupItem
+    BListGroupItem,
+    vSelect
   },
   data() {
     return {
       search_query: '',
       publicList: [],
+      departmentShowList:[],
       departmentList: [],
+      departmentName:'',
       blogSidebar: {},
       newsList:[],
       userData:{},
       showItemNumber:7,
       classifications:['全部公告','校办','Test'],
-      showList:[],
-      selectedClass:'全部公告'
+      publicShowList:[],
+      selectedClass:'全部公告',
+      departments:[],
+      selectedDept:'',
+      warningState:'暂无公告',
     }
   },
   created() {
@@ -140,12 +147,24 @@ export default {
     axios.get('/document/getPublicDocuments?userId='+this.userData.userId)
         .then(res=>{
           this.publicList = res.data.data
-          console.log(this.publicList)
-          if(this.publicList.length > this.showItemNumber){
-            this.publicList = this.publicList.slice(0,this.showItemNumber);
+          this.publicShowList = [...this.publicList]
+          if(this.publicShowList.length > this.showItemNumber){
+            this.publicShowList = this.publicShowList.slice(0,this.showItemNumber);
           }
-          this.showList = [...this.publicList]
         })
+
+    return new Promise(resolve => {
+      axios.get('/user/getUserDepts?userId=' + this.userData.userId)
+          .then(res => {
+            this.departments = res.data.data
+            resolve()
+          })
+    })
+    // }).then(res=>{
+    //   axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+this.departments[])
+    // })
+
+
 
   },
   methods: {
@@ -159,11 +178,11 @@ export default {
       return 'light-primary'
     },
     updateSelect(c_class){
-      if(c_class == '全部公告'){ this.showList = [...this.publicList];}
+      if(c_class == '全部公告'){ this.publicShowList = [...this.publicList];}
       else{
         this.showList = []
         this.publicList.forEach((blog)=>{
-           if(blog.documentSubject == c_class) this.showList.push(blog)
+           if(blog.documentSubject == c_class) this.publicShowList.push(blog)
         })
       }
       this.selectedClass = c_class
@@ -176,6 +195,22 @@ export default {
       return myDate.getFullYear() + '.' + myDate.getMonth() + '.' + myDate.getDate()
     }
   },
+  watch:{
+    selectedDept(val,oldVal){
+      this.warningState = "正在查询"
+      axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+val.deptId)
+          .then(res=>{
+            this.departmentList = res.data.data
+          })
+      this.warningState = "暂无公告"
+    },
+    departmentList(val,oldVal){
+      this.departmentShowList = [...val];
+      if(this.departmentShowList.length > this.showItemNumber){
+        this.departmentShowList = this.departmentShowList.slice(0,this.showItemNumber)
+      }
+    }
+  }
 }
 </script>
 
@@ -258,4 +293,13 @@ export default {
   border-radius: 0;
 }
 
+.select-dept .vs__search::placeholder,
+.select-dept .vs__dropdown-toggle, {
+  height: 40px;
+  font-size: 16px;
+}
+
+.select-dept .vs__dropdown-menu{
+  font-size: 14px;
+}
 </style>
