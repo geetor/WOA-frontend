@@ -197,17 +197,26 @@ export default {
   },
   watch:{
     selectedDept(val,oldVal){
+      this.departmentList = []
       this.warningState = "正在查询"
-      axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+val.deptId)
-          .then(res=>{
-            this.departmentList = res.data.data
-          })
-      this.warningState = "暂无公告"
+      new Promise(resolve => {
+        axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+val.deptId)
+            .then(res=>{
+              this.departmentList = res.data.data
+              if(this.departmentList == null || this.departmentList.length<1){
+                this.departmentList = []
+                this.warningState = "暂无公告"
+              }
+            })
+      }).catch(reason => {
+        this.warningState = "查询失败，请重试"
+      })
+
     },
     departmentList(val,oldVal){
-      this.departmentShowList = [...val];
-      if(this.departmentShowList.length > this.showItemNumber){
-        this.departmentShowList = this.departmentShowList.slice(0,this.showItemNumber)
+        this.departmentShowList = [...val];
+        if(this.departmentShowList.length > this.showItemNumber){
+          this.departmentShowList = this.departmentShowList.slice(0,this.showItemNumber)
       }
     }
   }
