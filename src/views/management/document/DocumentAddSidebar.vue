@@ -1,15 +1,15 @@
 <template>
   <div>
     <b-sidebar
-      id="sidebar-leave-handler"
+      id="sidebar-add-handler"
       sidebar-class="sidebar-lg"
-      :visible="isLeaveHandlerSidebarActive"
+      :visible="isDocumentAddSidebarActive"
       bg-variant="white"
       shadow
       backdrop
       no-header
       right
-      @change="(val) => $emit('update:is-leave-handler-sidebar-active', val)"
+      @change="(val) => $emit('update:is-document-add-sidebar-active', val)"
       @hidden="clearForm"
     >
       <template #default="{ hide }">
@@ -17,7 +17,7 @@
         <div
           class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
         >
-          <h5 class="mb-0">假单</h5>
+          <h5 class="mb-0">文档</h5>
           <div>
             <feather-icon
               class="ml-1 cursor-pointer"
@@ -36,84 +36,67 @@
             @submit.prevent="handleSubmit(onSubmit)"
             @reset.prevent="resetForm"
           >
-            <!-- 请假类型 -->
-            <b-form-group label="请假类型" label-for="leave-type">
+            <!-- 标题 -->
+            <b-form-group label="标题">
+              <b-form-input
+                v-model="addLocal.documentTitle"
+                placeholder="请输入标题"
+              >
+              </b-form-input>
+            </b-form-group>
+            <!-- 是否开放 -->
+            <b-form-group label="是否开放" label-for="document-open">
               <v-select
-                v-model="leaveLocal.leaveType"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="leaveTypes"
+                v-model="addLocal.open"
+                :options="openTypes"
                 :reduce="(option) => option.value"
-                input-id="leave-type"
+                input-id="open-type"
+              />
+            </b-form-group>
+            <!-- 等级 -->
+            <b-form-group label="等级" label-for="document-rank">
+              <v-select
+                v-model="addLocal.documentRank"
+                :options="rankTypes"
+                :reduce="(option) => option.value"
+                input-id="rank-type"
+              />
+            </b-form-group>
+            <!-- 类型 -->
+            <b-form-group label="类型" label-for="document-type">
+              <v-select
+                v-model="addLocal.documentType"
+                :options="typeOptions"
+                :reduce="(option) => option.value"
+                input-id="type-type"
+              />
+            </b-form-group>
+            <!-- 作者 -->
+            <b-form-group label="作者" label-for="authors">
+              <b-form-checkbox-group
+                id="checkbox-group-1"
+                v-model="addLocal.authors"
+                :options="allUsers"
+                input-id="depts-type"
+              />
+            </b-form-group>
+            <!-- 部门 -->
+            <b-form-group label="部门" label-for="document-depts">
+              <b-form-checkbox-group
+                id="checkbox-group-1"
+                v-model="addLocal.depts"
+                :options="allDepts"
+                input-id="depts-type"
               />
             </b-form-group>
 
-            <!-- 请假开始时间 -->
-            <validation-provider
-              #default="validationContext"
-              name="开始时间"
-              rules="required"
-            >
-              <b-form-group label="开始时间" label-for="start-time">
-                <flat-pickr
-                  v-model="leaveLocal.startTime"
-                  class="form-control"
-                  :config="{
-                    enableTime: true,
-                    dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
-                  }"
-                />
-                <b-form-invalid-feedback
-                  :state="getValidationState(validationContext)"
-                >
-                  {{ validationContext.errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </validation-provider>
-
-            <!-- 请假结束时间 -->
-            <validation-provider
-              #default="validationContext"
-              name="结束时间"
-              rules="required"
-            >
-              <b-form-group label="结束时间" label-for="due-time">
-                <flat-pickr
-                  v-model="leaveLocal.dueTime"
-                  class="form-control"
-                  :config="{
-                    enableTime: true,
-                    dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
-                  }"
-                />
-                <b-form-invalid-feedback
-                  :state="getValidationState(validationContext)"
-                >
-                  {{ validationContext.errors[0] }}
-                </b-form-invalid-feedback>
-              </b-form-group>
-            </validation-provider>
-
-            <!-- 请假原因 -->
-            <b-form-group label="请假原因" label-for="leave-reason">
-              <quill-editor
-                id="quil-content"
-                v-model="leaveLocal.reason"
-                :options="editorOption"
-                class="border-bottom-0"
-              />
-              <div
-                id="quill-toolbar"
-                class="d-flex justify-content-end border-top-0"
+            <!-- 主题 -->
+            <b-form-group label="邮箱">
+              <b-form-input
+                v-model="addLocal.documentSubject"
+                placeholder="请输入主题"
               >
-                <!-- Add a bold button -->
-                <button class="ql-bold" />
-                <button class="ql-italic" />
-                <button class="ql-underline" />
-                <button class="ql-align" />
-                <button class="ql-link" />
-              </div>
+              </b-form-input>
             </b-form-group>
 
             <!-- 表单操作 -->
@@ -124,12 +107,22 @@
                 class="mr-2"
                 type="submit"
               >
-                请假
+                {{ addLocal.isEdit ? "修改" : "新增" }}
               </b-button>
               <b-button
                 v-ripple.400="'rgba(186, 191, 199, 0.15)'"
                 type="reset"
                 variant="outline-secondary"
+                v-if="addLocal.isEdit"
+                @click="$emit('update:is-document-add-sidebar-active', false)"
+              >
+                取消
+              </b-button>
+              <b-button
+                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                type="reset"
+                variant="outline-secondary"
+                v-if="!addLocal.isEdit"
               >
                 重置
               </b-button>
@@ -143,8 +136,10 @@
 
 <script>
 import {
-  BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback,
+  BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback, BFormCheckboxGroup, BFormCheckbox
 } from 'bootstrap-vue'
+
+
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import { Mandarin } from 'flatpickr/dist/l10n/zh.js'
@@ -155,7 +150,7 @@ import { avatarText } from '@core/utils/filter'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { toRefs } from '@vue/composition-api'
 import { quillEditor } from 'vue-quill-editor'
-import useLeaveHandler from './useLeaveHandler'
+import useDocumentAdd from './useDocumentAdd'
 
 export default {
   components: {
@@ -167,7 +162,8 @@ export default {
     BFormInput,
     BAvatar,
     BFormInvalidFeedback,
-
+    BFormCheckbox,
+    BFormCheckboxGroup,
     // 3rd party packages
     vSelect,
     flatPickr,
@@ -181,20 +177,26 @@ export default {
     Ripple,
   },
   model: {
-    prop: 'isLeaveHandlerSidebarActive',
-    event: 'update:is-leave-handler-sidebar-active',
+    prop: 'isDocumentAddSidebarActive',
+    event: 'update:is-document-add-sidebar-active',
   },
   props: {
-    isLeaveHandlerSidebarActive: {
+    isDocumentAddSidebarActive: {
       type: Boolean,
       required: true,
     },
-    leave: {
+    add: {
       type: Object,
       required: true,
     },
-    clearLeaveData: {
+    clearAddData: {
       type: Function,
+      required: true,
+    },
+    allUsers: {
+      required: true,
+    },
+    allDepts: {
       required: true,
     }
   },
@@ -205,20 +207,26 @@ export default {
   },
   setup(props, { emit }) {
     const {
-      leaveLocal,
-      resetLeaveLocal,
-
+      addLocal,
+      resetAddLocal,
       // UI
+      typeTypes,
+      openTypes,
+      typeOptions,
+      statusTypes,
+      rankTypes,
+      deptsTypes,
+      adminTypes,
       onSubmit,
-      leaveTypes
-    } = useLeaveHandler(toRefs(props), emit)
+
+    } = useDocumentAdd(toRefs(props), emit)
 
     const {
       refFormObserver,
       getValidationState,
       resetForm,
       clearForm,
-    } = formValidation(resetLeaveLocal, props.clearLeaveData)
+    } = formValidation(resetAddLocal, props.clearAddData)
 
     const editorOption = {
       modules: {
@@ -229,10 +237,15 @@ export default {
 
     return {
       // Add New
-      leaveLocal,
+      addLocal,
       onSubmit,
-      leaveTypes,
-
+      typeTypes,
+      openTypes,
+      typeOptions,
+      statusTypes,
+      adminTypes,
+      rankTypes,
+      deptsTypes,
       // Form Validation
       resetForm,
       clearForm,
@@ -259,7 +272,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@core/scss/base/bootstrap-extended/include";
 
-.leave-type-selector {
+.add-type-selector {
   ::v-deep .vs__dropdown-toggle {
     padding-left: 0;
   }
@@ -278,3 +291,5 @@ export default {
   }
 }
 </style>
+
+

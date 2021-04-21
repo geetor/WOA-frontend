@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useUserList() {
+export default function useDocumentList() {
   // Use toast
   const toast = useToast()
 
@@ -13,14 +13,16 @@ export default function useUserList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'userId', label: '编号', sortable: true },
-    { key: 'userName', label: '姓名', sortable: false },
-    { key: 'userGender', label: '性别', sortable: false },
-    {key:'userRank',label:'等级',sortable:true},
-    {key:'userEmail',label:'电子邮箱',sortable:false},
-    {key:'admin',label:'管理员',sortable:false},
-    {key:'userStatus',label:'状态',sortable:false},
-    {key:'userDepts',label:'所属部门',sortable:false},
+    { key: 'documentId', label: '编号', sortable: true },
+    { key: 'documentName', label: '标题', sortable: false },
+    { key: 'documentType', label: '类型', sortable: false },
+    { key:'documentRank',label:'等级',sortable:true},
+    { key:'authors',label:'作者',sortable:false},
+    {key:'documentSubject',label:'主题',sortable:false},
+    {key:'open',label:'是否开放',sortable:false},
+    {key:'modifiedTime',label:'修改时间',sortable:false},
+    {key:'issuingTime',label:'发布时间',sortable:false},
+    {key:'depts',label:'所属部门',sortable:false},
     {key:"actions",label:'操作'}
     
     // { key: 'total', sortable: true, formatter: val => `$${val}` },
@@ -31,7 +33,7 @@ export default function useUserList() {
   const currentPage = ref(1)
   const perPageOptions = [10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('userId')
+  const sortBy = ref('documentId')
   const isSortDirDesc = ref(true)
   const rankFilter = ref(null)
 
@@ -54,7 +56,7 @@ export default function useUserList() {
 
   const fetchInvoices = (ctx, callback) => {
     store
-      .dispatch('manage-user/fetchUsers', {
+      .dispatch('manage-document/fetchDocuments', {
         q: searchQuery.value,
         perPage: perPage.value,
         page: currentPage.value,
@@ -63,15 +65,17 @@ export default function useUserList() {
         rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
       })
       .then(response => {
+    
         const { invoices, total } = response.data
         callback(invoices)
         totalInvoices.value = total
       })
       .catch(() => {
+      
         toast({
           component: ToastificationContent,
           props: {
-            title: "获取用户失败",
+            title: "获取文档失败",
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -109,15 +113,15 @@ export default function useUserList() {
     if (dept === 5) return 'success'
     return 'success'
   }
-  const resolveAdmin = admin => {
-    if (admin === false) return '否'
-    if (admin === true) return '是'
+  const resolveOpen = open => {
+    if (open === false) return '否'
+    if (open === true) return '是'
     return ''
   }
 
-  const resolveAdminColor = admin => {
-    if (admin === true) return 'primary'
-    if (admin === false) return 'danger'
+  const resolveOpenColor = open => {
+    if (open === true) return 'primary'
+    if (open === false) return 'danger'
     return 'success'
   }
 
@@ -151,8 +155,8 @@ export default function useUserList() {
     refetchData,
     resolveDept,
     resolveDeptColor, 
-    resolveAdmin,
-    resolveAdminColor, 
+    resolveOpen,
+    resolveOpenColor, 
     resolveStatus,
     resolveStatusColor,
   }

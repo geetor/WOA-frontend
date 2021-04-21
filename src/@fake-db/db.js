@@ -19,6 +19,8 @@ import './data/apps/chat'
 
 // Manage
 import './data/management/user/user'
+import './data/management/department/department'
+import './data/management/document/document'
 
 // Office
 import './data/office/attendance/attendance'

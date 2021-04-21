@@ -26,14 +26,14 @@
             <b-form-input
               v-model="searchQuery"
               class="d-inline-block mr-1"
-              placeholder="搜索成员"
+              placeholder="搜索文档"
             />
             <v-select
               v-model="rankFilter"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="rankOptions"
               class="invoice-filter-select"
-              placeholder="用户等级"
+              placeholder="文档等级"
             >
               <template #selected-option="{ label }">
                 <span class="text-truncate overflow-hidden">
@@ -55,30 +55,30 @@
       primary-key="id"
       :sort-by.sync="sortBy"
       show-empty
-      empty-text="无对应成员"
+      empty-text="无对应文档"
       :sort-desc.sync="isSortDirDesc"
       class="position-relative"
     >
-      <!-- Column: 用户 -->
+      <!-- Column: 文档 -->
 
-      <template #cell(userName)="data">
+      <template #cell(documentName)="data">
         <b-media vertical-align="center">
           <template #aside>
             <b-avatar
               size="32"
-              :text="avatarText(data.item.userName)"
-              :variant="`light-${resolveRankColor(data.item.userRank)}`"
+              :text="avatarText(data.item.documentTitle)"
+              :variant="`light-${resolveRankColor(data.item.documentRank)}`"
             />
           </template>
           <span class="font-weight-bold d-block text-nowrap">
-            {{ data.item.userName }}
+            {{ data.item.documentTitle }}
           </span>
-          <small class="text-muted">{{ data.item.userPhone }}</small>
+          <small class="text-muted">{{ data.item.documentSubject }}</small>
         </b-media>
       </template>
       <!-- 部门 -->
-      <template #cell(userDepts)="data">
-        <template v-for="dept in data.item.userDepts">
+      <template #cell(depts)="data">
+        <template v-for="dept in data.item.depts">
           <b-badge
             pill
             :variant="`light-${resolveDeptColor(dept)}`"
@@ -88,19 +88,11 @@
           </b-badge>
         </template>
       </template>
-      <!-- 状态 -->
-      <template #cell(userStatus)="data">
-        <b-badge
-          pill
-          :variant="`light-${resolveStatusColor(data.item.userStatus)}`"
-        >
-          {{ resolveStatus(data.item.userStatus) }}
-        </b-badge>
-      </template>
-      <!-- 管理员 -->
-      <template #cell(admin)="data">
-        <b-badge pill :variant="`light-${resolveAdminColor(data.item.admin)}`">
-          {{ resolveAdmin(data.item.admin) }}
+
+      <!-- 打开 -->
+      <template #cell(open)="data">
+        <b-badge pill :variant="`light-${resolveOpenColor(data.item.open)}`">
+          {{ resolveOpen(data.item.open) }}
         </b-badge>
       </template>
       <!-- 操作 -->
@@ -123,15 +115,24 @@
             <b-dropdown-item
               @click="
                 $emit('close-left-sidebar');
-                $emit('edit-user', data.item);
+                $emit('edit-document', data.item);
+              "
+            >
+              <feather-icon icon="EyeIcon" />
+              <span class="align-middle ml-50">查看</span>
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="
+                $emit('close-left-sidebar');
+                $emit('edit-document', data.item);
               "
             >
               <feather-icon icon="EditIcon" />
-              <span class="align-middle ml-50">Edit</span>
+              <span class="align-middle ml-50">编辑</span>
             </b-dropdown-item>
             <b-dropdown-item @click="confirmDel(data.item)">
               <feather-icon icon="TrashIcon" />
-              <span class="align-middle ml-50">Delete</span>
+              <span class="align-middle ml-50">删除</span>
             </b-dropdown-item>
           </b-dropdown>
         </div>
@@ -188,8 +189,8 @@ import { avatarText } from '@core/utils/filter'
 import vSelect from 'vue-select'
 import { onUnmounted } from '@vue/composition-api'
 import store from '@/store'
-import useUserList from './useUserList'
-import useStoreModule from './userStoreModule'
+import useDocumentList from './useDocumentList'
+import useStoreModule from './documentStoreModule'
 
 export default {
   components: {
@@ -211,7 +212,7 @@ export default {
     vSelect,
   },
   setup() {
-    const USER_MANAGE_SIDEBAR_STORE_MODULE_NAME = 'manage-user'
+    const USER_MANAGE_SIDEBAR_STORE_MODULE_NAME = 'manage-document'
 
     // Register module
     if (!store.hasModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME)) store.registerModule(USER_MANAGE_SIDEBAR_STORE_MODULE_NAME, useStoreModule)
@@ -250,13 +251,13 @@ export default {
       refetchData,
       resolveDept,
       resolveDeptColor,
-      resolveAdmin,
-      resolveAdminColor,
+      resolveOpen,
+      resolveOpenColor,
       resolveStatus,
       resolveStatusColor,
       resolveRankColor,
 
-    } = useUserList()
+    } = useDocumentList()
 
     return {
       fetchInvoices,
@@ -276,11 +277,11 @@ export default {
       avatarText,
       //rank
       resolveRankColor,
-      //user
+      //document
       resolveDept,
       resolveDeptColor,
-      resolveAdmin,
-      resolveAdminColor,
+      resolveOpen,
+      resolveOpenColor,
       resolveStatus,
       resolveStatusColor,
     }
@@ -288,7 +289,7 @@ export default {
   methods: {
     confirmDel(val) {
       this.$swal({
-        title: '确认删除用户?',
+        title: '确认删除文档?',
         text: "此操作无法撤销",
         icon: 'warning',
         showCancelButton: true,
@@ -301,7 +302,7 @@ export default {
         buttonsStyling: false,
       }).then(result => {
         if (result.value) {
-          this.$emit('del-user', val)
+          this.$emit('del-document', val)
         }
       })
     }
@@ -314,7 +315,7 @@ export default {
   width: 90px;
 }
 
-.user-rank-select {
+.document-rank-select {
   min-width: 190px;
 
   ::v-deep .vs__selected-options {

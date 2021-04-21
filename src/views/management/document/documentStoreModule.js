@@ -8,6 +8,22 @@ export default {
   getters: {},
   mutations: {},
   actions: {
+     fetchUsers(ctx, queryParams) {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/manage/document/getAllUsers')
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
+     fetchDepartments(ctx, queryParams) {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/manage/document/getAllDepts')
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
     fetchDepartments () {
       return new Promise((resolve, reject) => {
         axios
@@ -16,10 +32,11 @@ export default {
         .catch(error => reject(error))
       })
     },
-    fetchUsers(ctx, queryParams) {
+    fetchDocuments(ctx, queryParams) {
+     
       return new Promise((resolve, reject) => {
         axiosIns
-          .get('/manage/user/getAllUsers', {
+          .get('/manage/document/getAllDocuments', {
             params: queryParams
           })
           .then(response => resolve(response))
@@ -29,7 +46,7 @@ export default {
     askForAdd (ctx, addData) {
       return new Promise((resolve, reject) => {
         axios
-        .post('manage/user/askForAdd', { add: addData })
+        .post('manage/document/askForAdd', { add: addData })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
@@ -37,7 +54,7 @@ export default {
     askForEdit(ctx, editData) {
       return new Promise((resolve, reject) => {
         axios
-        .post('manage/user/askForEdit', { edit: editData })
+        .post('manage/document/askForEdit', { edit: editData })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
@@ -45,8 +62,8 @@ export default {
     askForDel(ctx, delData) {
       return new Promise((resolve, reject) => {
         axios
-        .get('manage/user/askForDel', { params: {
-          userId: delData.userId
+        .get('manage/document/askForDel', { params: {
+          documentId: delData.documentId
         } })
         .then(response => resolve(response))
         .catch(error => reject(error))

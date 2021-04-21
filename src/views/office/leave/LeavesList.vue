@@ -130,6 +130,13 @@
           </div>
         </template>
 
+        <!-- Column: 归队时间 -->
+        <template #cell(归队时间)="data">
+          <div class="text-nowrap">
+            <span class="align-text-top">{{ data.item.currentPlan }}</span>
+          </div>
+        </template>
+
         <!-- Column: 状态 -->
         <template #cell(状态)="data">
           <b-badge

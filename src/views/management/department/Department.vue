@@ -6,33 +6,35 @@
       @click="mqShallShowLeftSidebar = false"
     />
 
-    <!--UserList-->
+    <!--DepartmentList-->
     <div class="training-list">
       <vue-perfect-scrollbar
         :settings="perfectScrollbarSettings"
-        class="training-user-list scroll-area"
+        class="training-department-list scroll-area"
       >
-        <user-list
-          ref="refUserList"
-          @edit-user="editUser"
-          @del-user="delUser"
+        <department-list
+          ref="refDepartmentList"
+          @edit-department="editDepartment"
+          @del-department="delDepartment"
           @close-left-sidebar="mqShallShowLeftSidebar = false"
         />
       </vue-perfect-scrollbar>
     </div>
     <!-- Add Handler -->
-    <user-add-sidebar
-      v-model="isUserAddSidebarActive"
+    <department-add-sidebar
+      v-model="isDepartmentAddSidebarActive"
       :add="add"
+      :allUsers="users"
+      :allDepts="depts"
       :clear-add-data="clearAddData"
       @ask-for-add="askForAdd"
       @ask-for-edit="askForEdit"
     />
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
-      <user-manage-sidebar
+      <department-manage-sidebar
         :shall-show-training-compose-modal.sync="shallShowTrainingComposeModal"
-        :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
+        :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
         :class="{ show: mqShallShowLeftSidebar }"
         @close-left-sidebar="mqShallShowLeftSidebar = false"
       />
@@ -43,9 +45,6 @@
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
-import UserManageSidebar from './UserManageSidebar.vue'
-import UserList from './UserList'
-import UserAddSidebar from './UserAddSidebar.vue'
 import {
   BDropdown,
   BDropdownItem,
@@ -63,7 +62,10 @@ import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
-import useStoreModule from './userStoreModule'
+import DepartmentList from './DepartmentList'
+import DepartmentAddSidebar from './DepartmentAddSidebar.vue'
+import departmentStoreModule from './departmentStoreModule'
+import DepartmentManageSidebar from './DepartmentManageSidebar.vue'
 
 export default {
   components: {
@@ -83,43 +85,38 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    UserManageSidebar,
-    UserList,
-    UserAddSidebar
+    DepartmentManageSidebar,
+    DepartmentList,
+    DepartmentAddSidebar,
+    DepartmentManageSidebar
   },
   setup() {
-    const USER_MANAGE_STORE_MODULE_NAME = 'manage-user'
+    const DEPARTMENT_MANAGE_STORE_MODULE_NAME = 'manage-department'
 
     // Register module
-    if (!store.hasModule(USER_MANAGE_STORE_MODULE_NAME)) store.registerModule(USER_MANAGE_STORE_MODULE_NAME, useStoreModule)
+    if (!store.hasModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME)) store.registerModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME, departmentStoreModule)
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(USER_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(USER_MANAGE_STORE_MODULE_NAME)
+      if (store.hasModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME)
     })
 
     const perfectScrollbarSettings = {
       maxScrollbarLength: 150
     }
 
-    const isUserAddSidebarActive = ref(false)
-
+    const isDepartmentAddSidebarActive = ref(false)
     const toast = useToast()
-    const refUserList = ref(null)
-    const refetchUserList = () => {
-      refUserList.value.refetchData()
+    const refDepartmentList = ref(null)
+    const refetchDepartmentList = () => {
+      refDepartmentList.value.refetchData()
     }
 
     const blankAdd = {
-      userName: '',
-      admin: false,
-      userRank: 0,
-      userGender: '',
-      userPhone: '',
-      userEmail: '',
-      userStatus: '',
-      userPassword: '',
-      userDepts: [],
+      deptName: '',
+      deptRank: 0,
+      deptUsers: [],
+      depts: [],
       isEdit: false
     }
 
@@ -129,7 +126,7 @@ export default {
     }
 
     const askForAdd = val => {
-      store.dispatch('manage-user/askForAdd', val)
+      store.dispatch('manage-department/askForAdd', val)
         .then((response) => {
           if (response.status === 201) {
             toast({
@@ -140,7 +137,7 @@ export default {
                 variant: 'success'
               }
             })
-            refetchUserList()
+            refetchDepartmentList()
           } else {
             toast({
               component: ToastificationContent,
@@ -156,7 +153,7 @@ export default {
     }
 
     const askForEdit = val => {
-      store.dispatch('manage-user/askForEdit', val)
+      store.dispatch('manage-department/askForEdit', val)
         .then((response) => {
           if (response.status === 201) {
             toast({
@@ -167,7 +164,7 @@ export default {
                 variant: 'success'
               }
             })
-            refetchUserList()
+            refetchDepartmentList()
           } else {
             toast({
               component: ToastificationContent,
@@ -182,16 +179,15 @@ export default {
         })
     }
 
-    const editUser = val => {
+    const editDepartment = val => {
       shallShowTrainingComposeModal.value = true
-      isUserAddSidebarActive.value = true
+      isDepartmentAddSidebarActive.value = true
       add.value = JSON.parse(JSON.stringify(val))
-      add.value.userPassword = ''
       add.value.isEdit = true
     }
 
-    const delUser = val => {
-      store.dispatch('manage-user/askForDel', val)
+    const delDepartment = val => {
+      store.dispatch('manage-department/askForDel', val)
         .then((response) => {
           if (response.status === 201) {
             toast({
@@ -202,7 +198,7 @@ export default {
                 variant: 'success'
               }
             })
-            refetchUserList()
+            refetchDepartmentList()
           } else {
             toast({
               component: ToastificationContent,
@@ -216,6 +212,21 @@ export default {
           }
         })
     }
+
+    const users = ref([])
+    const fetchUsers = () => {
+      store.dispatch('manage-department/fetchUsers')
+        .then(response => {
+          users.value = response.data.data.users.map(item => {
+            return {
+              text: item.userName,
+              value: item.userId
+            }
+          })
+        })
+    }
+    fetchUsers()
+
 
     // Compose
     const shallShowTrainingComposeModal = ref(false)
@@ -228,13 +239,14 @@ export default {
       askForAdd,
       askForEdit,
       clearAddData,
-      editUser,
-      delUser,
-      refUserList,
+      editDepartment,
+      delDepartment,
+      refDepartmentList,
+      users,
 
       // UI
       perfectScrollbarSettings,
-      isUserAddSidebarActive,
+      isDepartmentAddSidebarActive,
 
       // Compose
       shallShowTrainingComposeModal,

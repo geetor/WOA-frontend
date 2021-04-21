@@ -23,6 +23,38 @@ const fetchData = async () => {
     }
   })
 }
+const askForAdd = async (addData) => {
+  return await axiosIns.post('/user/addUser', {
+    userName:addData.userName,
+    admin:addData.admin,
+    userRank: addData.userRank,
+    userGender:addData.userGender,
+    userPhone:addData.userPhone,
+    userEmail:addData.userEmail,
+    userStatus:addData.userStatus,
+    userPassword:addData.userPassword,
+    userDepts:addData.userDepts
+  })
+}
+
+const askForEdit = async (editData) => {
+  return await axiosIns.post('/user/editUser', {
+    userId:editData.userId,
+    userName:editData.userName,
+    isAdmin:editData.admin,
+    userRank: editData.userRank,
+    userGender:editData.userGender,
+    userPhone:editData.userPhone,
+    userEmail:editData.userEmail,
+    userStatus:editData.userStatus,
+    userPassword:editData.userPassword,
+    userDepts:editData.userDepts
+  })
+}
+
+const askForDel = async (params) => {
+  return await axiosIns.get('/user/delUser?userId=' + params.userId)
+}
 
 // ------------------------------------------------
 // GET: Return Departments
@@ -33,7 +65,6 @@ mock.onGet('/manage/user/getAllUsers')
   .then(data => {
     const { users, total } = data
     const {
-      department = '所有部门',
       q = '',
       perPage = 10,
       page = 1,
@@ -42,9 +73,30 @@ mock.onGet('/manage/user/getAllUsers')
       rank
     } = config.params
 
+    const depts = {
+      '人事部门': 1,
+      '驾驶部门': 2,
+      '后勤部门': 3,
+      '武装部门': 4,
+      '管理部门': 5
+    }
+
+    var dept = null
+    for(var key in depts){
+      if (q == '') {
+        break
+      }
+      if (key.includes(q)) {
+        dept = depts[key]
+        break
+      }
+    }
+
     const filteredData = users.filter(
       user =>
-        (rank ? user.userRank === Number(rank) : true)
+      ((dept ? user.userDepts.some(item => item == dept) : false) ||
+      (user.userPhone.includes(q) || user.userName.includes(q) || user.userEmail.includes(q))) &&
+      (rank ? user.userRank === Number(rank) : true),
     )
 
     const sortKeys = [
@@ -68,4 +120,44 @@ mock.onGet('/manage/user/getAllUsers')
       },
     ]
     })
+})
+// ------------------------------------------------
+// POST: Add new add task
+// ------------------------------------------------
+mock.onPost('manage/user/askForAdd')
+.reply(config => {
+
+  const { add } = JSON.parse(config.data)
+
+  return askForAdd(add)
+  .then(() => {
+      return [201, { add }]
+    }
+  )
+
+})
+
+mock.onPost('manage/user/askForEdit')
+.reply(config => {
+
+  const { edit } = JSON.parse(config.data)
+
+  return askForEdit(edit)
+  .then(() => {
+      return [201, { edit }]
+    }
+  )
+
+})
+
+
+mock.onGet('manage/user/askForDel')
+.reply(config => {
+  const params = config.params
+  return askForDel(params)
+  .then(() => {
+      return [201, { params }]
+    }
+  )
+
 })
