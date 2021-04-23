@@ -101,7 +101,7 @@ const getAllDepts = async (params) => {
       const vo = response.data.data
 
       return {
-        depts: vo.map(item => {return {userId: item.deptId, userName: item.deptName}})
+        depts: vo.map(item => {return {deptId: item.deptId, deptName: item.deptName}})
       }
     }
    })
@@ -135,7 +135,14 @@ mock.onGet('/manage/document/getAllDocuments')
 
     const filteredData = documents.filter(
       document =>
-        (rank ? document.documentRank === Number(rank) : true)
+      (document.authors.some((item) => {
+        return item.userName.includes(q)
+      })||document.depts.some((item) => {
+        return item.deptName.includes(q)
+      })
+      ||document.documentTitle.includes(q)||document.documentTitle.includes(q)||document.documentSubject.includes(q)
+      )&&
+      (rank ? document.documentRank === Number(rank) : true),
     )
 
     const sortKeys = [

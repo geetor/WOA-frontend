@@ -92,23 +92,7 @@ export default function useUserList() {
     return 'success'
   }
 
-  const resolveDept = dept => {
-    if (dept === 1) return '人事'
-    if (dept === 2) return '驾驶'
-    if (dept === 3) return '后勤'
-    if (dept === 4) return '武装'
-    if (dept === 5) return '管理'
-    return ''
-  }
-
-  const resolveDeptColor = dept => {
-    if (dept === 1) return 'warning'
-    if (dept === 2) return 'primary'
-    if (dept === 3) return 'info'
-    if (dept === 4) return 'danger'
-    if (dept === 5) return 'success'
-    return 'success'
-  }
+  
   const resolveAdmin = admin => {
     if (admin === false) return '否'
     if (admin === true) return '是'
@@ -149,8 +133,6 @@ export default function useUserList() {
     rankFilter,
     resolveRankColor,
     refetchData,
-    resolveDept,
-    resolveDeptColor, 
     resolveAdmin,
     resolveAdminColor, 
     resolveStatus,

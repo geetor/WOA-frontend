@@ -79,12 +79,16 @@
       <!-- 部门 -->
       <template #cell(depts)="data">
         <template v-for="dept in data.item.depts">
-          <b-badge
-            pill
-            :variant="`light-${resolveDeptColor(dept)}`"
-            :key="dept"
-          >
-            {{ resolveDept(dept) }}
+          <b-badge pill :variant="`light-${'primary'}`" :key="dept">
+            {{ dept.deptName }}
+          </b-badge>
+        </template>
+      </template>
+      <!-- 作者 -->
+      <template #cell(authors)="data">
+        <template v-for="author in data.item.authors">
+          <b-badge pill :variant="`light-${'primary'}`" :key="author">
+            {{ author.userName }}
           </b-badge>
         </template>
       </template>

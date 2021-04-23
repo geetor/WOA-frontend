@@ -1,4 +1,3 @@
-Sopp:
 <template>
   <div class="sidebar-left">
     <div class="sidebar">

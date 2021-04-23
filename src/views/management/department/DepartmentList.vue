@@ -76,9 +76,9 @@
       </template>
       <template #cell(deptUsers)="data">
         <template v-for="user in data.item.deptUsers">
-          <span pill :key="user">
+          <b-badge pill :variant="`light-${'primary'}`" :key="user">
             {{ user.userName }}
-          </span>
+          </b-badge>
         </template>
       </template>
       <!-- 操作 -->

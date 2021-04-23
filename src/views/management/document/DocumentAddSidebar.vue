@@ -83,7 +83,7 @@
             <!-- 部门 -->
             <b-form-group label="部门" label-for="document-depts">
               <b-form-checkbox-group
-                id="checkbox-group-1"
+                id="checkbox-group-2"
                 v-model="addLocal.depts"
                 :options="allDepts"
                 input-id="depts-type"
@@ -228,13 +228,6 @@ export default {
       clearForm,
     } = formValidation(resetAddLocal, props.clearAddData)
 
-    const editorOption = {
-      modules: {
-        toolbar: '#quill-toolbar',
-      },
-      placeholder: '请输入请假原因',
-    }
-
     return {
       // Add New
       addLocal,
@@ -253,8 +246,6 @@ export default {
       getValidationState,
 
       // UI
-      editorOption,
-
       // Filter/Formatter
       avatarText,
       Mandarin

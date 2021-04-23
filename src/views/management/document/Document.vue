@@ -25,7 +25,7 @@
       v-model="isDocumentAddSidebarActive"
       :add="add"
       :allUsers="users"
-      :alldepartments="departments"
+      :allDepts="departments"
       :clear-add-data="clearAddData"
       @ask-for-add="askForAdd"
       @ask-for-edit="askForEdit"
@@ -33,7 +33,7 @@
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <document-manage-sidebar
-        :shall-show-training-compose-modal.sync="shallShowTrainingComposeModal"
+        :shall-show-training-compose-modal="shallShowTrainingComposeModal"
         :is-document-add-sidebar-active.sync="isDocumentAddSidebarActive"
         :class="{ show: mqShallShowLeftSidebar }"
         @close-left-sidebar="mqShallShowLeftSidebar = false"
@@ -186,6 +186,9 @@ export default {
         })
     }
 
+    // Compose
+    const shallShowTrainingComposeModal = ref(false)
+
     const editDocument = val => {
       shallShowTrainingComposeModal.value = true
       isDocumentAddSidebarActive.value = true
@@ -235,8 +238,8 @@ export default {
     }
     fetchUsers()
     const departments = ref([])
-    const fetchdepartments = () => {
-      store.dispatch('manage-document/fetchdepartments')
+    const fetchDepartments = () => {
+      store.dispatch('manage-document/fetchDepartments')
         .then(response => {
           departments.value = response.data.data.depts.map(item => {
             return {
@@ -246,10 +249,8 @@ export default {
           })
         })
     }
-    fetchdepartments()
+    fetchDepartments()
 
-    // Compose
-    const shallShowTrainingComposeModal = ref(false)
 
     // Left Sidebar Responsiveness
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
