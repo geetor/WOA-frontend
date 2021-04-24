@@ -11,7 +11,7 @@
         icon="MoreVerticalIcon"
         size="18"
         class="cursor-pointer"
-        @click="moreBulletinInfo"
+        @click="moreBulletinInfo(cardTitle)"
       />
     </b-card-header>
     <b-table
@@ -32,6 +32,7 @@
   import {
     BCard, BTable, BAvatar, BImg, BCardHeader, BCardTitle, BButton,BDropdown, BDropdownItem,
   } from 'bootstrap-vue'
+  import axiosIns from "../../libs/axios";
 
   export default {
     components: {
@@ -67,13 +68,10 @@
     },
     methods:{
       bulletinClick(row){
-        this.$http.get('/bulletin/getBulletinById',
-                {params: {bulletinId: row.bulletinId}})
-                .then(response => {
-                  console.log(response.data)});
+        this.$router.push({name:"bulletin-preview",query:{bulletinId:row.bulletinId}})
       },
-      moreBulletinInfo(){
-        //TODO:
+      moreBulletinInfo(bulletinType){
+        this.$router.push({name:"bulletin-page",query:{selectedClass:bulletinType}})
       }
     }
   }

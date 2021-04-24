@@ -16,14 +16,6 @@ export default {
         .catch(error => reject(error))
       })
     },
-     fetchDepartments(ctx, queryParams) {
-      return new Promise((resolve, reject) => {
-        axios
-        .get('/manage/document/getAllDepts')
-        .then(response => resolve(response))
-        .catch(error => reject(error))
-      })
-    },
     fetchDepartments () {
       return new Promise((resolve, reject) => {
         axios
@@ -33,7 +25,7 @@ export default {
       })
     },
     fetchDocuments(ctx, queryParams) {
-     
+
       return new Promise((resolve, reject) => {
         axiosIns
           .get('/manage/document/getAllDocuments', {
@@ -69,6 +61,6 @@ export default {
         .catch(error => reject(error))
       })
     }
-    
+
   },
 }

@@ -14,13 +14,17 @@
       <b-col cols="4">
         <notice-timeline :timeline-data="noticeList"/>
       </b-col>
-
       <b-col>
-          <bulletin-table :table-data="regulationList" :card-title="bulletinTitle[2]"/>
+        <bulletin-table :table-data="regulationList" :card-title="bulletinTitle[2]"/>
       </b-col>
-
       <b-col>
-          <bulletin-table :table-data="activityList" :card-title="bulletinTitle[3]"/>
+        <bulletin-table :table-data="activityList" :card-title="bulletinTitle[3]"/>
+      </b-col>
+    </b-row>
+    <b-row class="match-height">
+      <b-col
+      >
+        <card-statistics-group />
       </b-col>
     </b-row>
     </section>
@@ -33,6 +37,7 @@
     import BulletinTable from "./BulletinTable"
     import NewsSwiper from './NewsPicSwiper.vue'
     import '@core/scss/vue/libs/swiper.scss'
+    import CardStatisticsGroup from './CardStatisticsGroup.vue'
 
     export default {
         components: {
@@ -41,15 +46,16 @@
             NewsSwiper,
             BulletinTable,
             NoticeTimeline,
+            CardStatisticsGroup,
         },
         data() {
             return {
                 data: {},
                 bulletinInfo: {},
-                newsList: {},
-                noticeList: {},
-                regulationList: {},
-                activityList: {},
+                newsList: [],
+                noticeList: [],
+                regulationList: [],
+                activityList: [],
                 bulletinTitle:["相关新闻 ", "通知公告", "规章制度", "活动安排"],
             }
         },
