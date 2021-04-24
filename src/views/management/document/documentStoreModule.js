@@ -24,14 +24,6 @@ export default {
         .catch(error => reject(error))
       })
     },
-    fetchDepartments () {
-      return new Promise((resolve, reject) => {
-        axios
-        .get('/office/training/departments')
-        .then(response => resolve(response))
-        .catch(error => reject(error))
-      })
-    },
     fetchDocuments(ctx, queryParams) {
      
       return new Promise((resolve, reject) => {

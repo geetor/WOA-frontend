@@ -79,12 +79,8 @@
       <!-- 部门 -->
       <template #cell(userDepts)="data">
         <template v-for="dept in data.item.userDepts">
-          <b-badge
-            pill
-            :variant="`light-${resolveDeptColor(dept)}`"
-            :key="dept"
-          >
-            {{ resolveDept(dept) }}
+          <b-badge pill :variant="`light-${'primary'}`" :key="dept">
+            {{ dept.deptName }}
           </b-badge>
         </template>
       </template>
@@ -248,8 +244,6 @@ export default {
       refInvoiceListTable,
       rankFilter,
       refetchData,
-      resolveDept,
-      resolveDeptColor,
       resolveAdmin,
       resolveAdminColor,
       resolveStatus,
@@ -277,8 +271,7 @@ export default {
       //rank
       resolveRankColor,
       //user
-      resolveDept,
-      resolveDeptColor,
+
       resolveAdmin,
       resolveAdminColor,
       resolveStatus,

@@ -60,6 +60,9 @@ router.beforeEach((to, _, next) => {
     if (userData.userRole === '用户' && adminRoutes.includes(to.name)) {
       canNavigate = false
     }
+    if (userData.deptCharger === false && to.name === 'office-leave') {
+      canNavigate = false
+    }
 
     if (!canNavigate) {
       next({ name: 'misc-not-authorized' })

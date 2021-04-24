@@ -23,7 +23,7 @@ export default function useUserAdd(props, emit) {
     }
 
     // Close sidebar
-    emit('update:is-user-add-sidebar-active', false)
+    emit('update:is-document-add-sidebar-active', false)
   }
 
   // *===============================================---*

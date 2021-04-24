@@ -73,28 +73,12 @@ mock.onGet('/manage/user/getAllUsers')
       rank
     } = config.params
 
-    const depts = {
-      '人事部门': 1,
-      '驾驶部门': 2,
-      '后勤部门': 3,
-      '武装部门': 4,
-      '管理部门': 5
-    }
-
-    var dept = null
-    for(var key in depts){
-      if (q == '') {
-        break
-      }
-      if (key.includes(q)) {
-        dept = depts[key]
-        break
-      }
-    }
-
+   
     const filteredData = users.filter(
       user =>
-      ((dept ? user.userDepts.some(item => item == dept) : false) ||
+      (user.userDepts.some((item) => {
+        return item.deptName.includes(q)
+      }) ||
       (user.userPhone.includes(q) || user.userName.includes(q) || user.userEmail.includes(q))) &&
       (rank ? user.userRank === Number(rank) : true),
     )

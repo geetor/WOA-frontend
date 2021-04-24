@@ -2,7 +2,20 @@ import mock from '@/@fake-db/mock'
 import { paginateArray, sortCompare } from '@/@fake-db/utils'
 import axiosIns from '@/libs/axios'
 
-const fetchData = async () => {
+const fetchChargedDepartments = async () => {
+  return await axiosIns.get('/user/getChargeDepts', {
+    params: {
+      userId: JSON.parse(localStorage.getItem('userData')).userId
+    }
+  })
+  .then(response => {
+    if (response.data.status.code === '0000') {
+      return response.data.data
+    }
+  })
+}
+
+const fetchLeaves = async () => {
   return await axiosIns.get('/attendance/getChargeDeptLeaves', {
     params: {
       userId: JSON.parse(localStorage.getItem('userData')).userId
@@ -36,9 +49,22 @@ const rejectLeave = async (userId, leaveId) => {
 }
 
 // ------------------------------------------------
+// GET: Return Charged Departments
+// ------------------------------------------------
+mock.onGet('/office/leave/departments')
+.reply(config => {
+
+  return fetchChargedDepartments()
+  .then(departments => {
+    return [200, departments]
+  })
+
+})
+
+// ------------------------------------------------
 // GET: Return Leaves
 // ------------------------------------------------
-mock.onGet('/office/leave/users')
+mock.onGet('/office/leave/leaves')
 .reply(config => {
 
   const {
@@ -63,13 +89,13 @@ mock.onGet('/office/leave/users')
     }
   ]
 
-  return fetchData()
+  return fetchLeaves()
   .then(deptLeaves => {
       const filteredData = deptLeaves.filter(
         leave =>
           (leave.userName.includes(q) || leave.userPhone.includes(q)) &&
           leave.leaveType === (leaveType || leave.leaveType) &&
-          leave.deptName === (department || leave.deptName) &&
+          (department ? leave.depts.includes(department) : true) &&
           leave.leaveStatus === (leaveStatus || leave.leaveStatus)
       )
 
@@ -121,29 +147,5 @@ mock.onGet('/office/leave/rejectLeave')
   .then(() => {
     return [200]
   })
-
-})
-
-// ------------------------------------------------
-// POST: Add new user
-// ------------------------------------------------
-mock.onPost('/office/leave/users')
-.reply(config => {
-
-  const { user } = JSON.parse(config.data)
-
-  // Assign Status
-  user.status = 'active'
-
-  const { length } = data.users
-  let lastIndex = 0
-  if (length) {
-    lastIndex = data.users[length - 1].id
-  }
-  user.id = lastIndex + 1
-
-  data.users.push(user)
-
-  return [201, { user }]
 
 })

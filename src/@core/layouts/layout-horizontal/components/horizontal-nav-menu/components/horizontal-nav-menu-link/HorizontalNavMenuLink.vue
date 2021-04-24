@@ -26,14 +26,14 @@ import mixinHorizontalNavMenuLink from './mixinHorizontalNavMenuLink'
 
 export default {
   components: {
-    BLink,
+    BLink
   },
   mixins: [mixinHorizontalNavMenuLink],
   props: {
     item: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   setup (props) {
     const {
@@ -48,6 +48,9 @@ export default {
       const adminRoutes = ['management-user', 'management-department', 'management-document']
       const userData = JSON.parse(localStorage.getItem('userData'))
       if (userData.userRole === '用户' && adminRoutes.includes(item.route)) {
+        canView = false
+      }
+      if (userData.deptCharger === false && item.route === 'office-leave') {
         canView = false
       }
 

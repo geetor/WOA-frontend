@@ -2,13 +2,6 @@
 
   <div>
 
-    <leave-list-add-new
-        :is-add-new-leave-sidebar-active.sync="isAddNewLeaveSidebarActive"
-        :leave-types="leaveTypes"
-        :departments="departments"
-        @refetch-data="refetchData"
-    />
-
     <!-- Filters -->
     <leave-list-filters
         :department-filter.sync="departmentFilter"
@@ -56,12 +49,6 @@
                   class="d-inline-block mr-1"
                   placeholder="根据用户姓名或手机搜索..."
               />
-              <b-button
-                  variant="primary"
-                  @click="isAddNewLeaveSidebarActive = true"
-              >
-                <span class="text-nowrap">新增休假</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -82,13 +69,6 @@
           :sort-desc.sync="isSortDirDesc"
       >
 
-        <!-- Column: 部门 -->
-        <template #cell(部门)="data">
-          <div class="text-nowrap">
-            <span class="align-text-top">{{ data.item.deptName }}</span>
-          </div>
-        </template>
-
         <!-- Column: 用户 -->
         <template #cell(用户)="data">
           <b-media vertical-align="center">
@@ -96,7 +76,7 @@
               <b-avatar
                   size="32"
                   :text="avatarText(data.item.userName)"
-                  :variant="`light-${resolveUserRankVariant(data.item.userRank)}`"
+                  :variant="`light-primary`"
                   :to="{ name: 'office-attendance-calendar', params: { userId: data.item.userId } }"
               />
             </template>
@@ -134,6 +114,13 @@
         <template #cell(归队时间)="data">
           <div class="text-nowrap">
             <span class="align-text-top">{{ data.item.leaveEndTime }}</span>
+          </div>
+        </template>
+
+        <!-- Column: 请假原因 -->
+        <template #cell(请假原因)="data">
+          <div class="text-nowrap">
+            <span class="align-text-top">{{ data.item.leaveReason }}</span>
           </div>
         </template>
 
@@ -238,12 +225,10 @@ import { avatarText } from '@core/utils/filter'
 import LeaveListFilters from './LeaveListFilters.vue'
 import useLeaveList from './useLeaveList'
 import leaveStoreModule from './leaveStoreModule'
-import LeaveListAddNew from './LeaveListAddNew.vue'
 
 export default {
   components: {
     LeaveListFilters,
-    LeaveListAddNew,
 
     BCard,
     BRow,
@@ -272,8 +257,6 @@ export default {
       if (store.hasModule(LEAVE_LIST_STORE_MODULE_NAME)) store.unregisterModule(LEAVE_LIST_STORE_MODULE_NAME)
     })
 
-    const isAddNewLeaveSidebarActive = ref(false)
-
     const leaveTypes = [
       {
         label: '病假',
@@ -293,28 +276,7 @@ export default {
       }
     ]
 
-    const departments = [
-      {
-        label: '人事部门',
-        value: '人事部门'
-      },
-      {
-        label: '驾驶部门',
-        value: '驾驶部门'
-      },
-      {
-        label: '后勤部门',
-        value: '后勤部门'
-      },
-      {
-        label: '武装部门',
-        value: '武装部门'
-      },
-      {
-        label: '管理部门',
-        value: '管理部门'
-      }
-    ]
+    const departments = ref([])
 
     const leaveStatuses = [
       {
@@ -330,6 +292,17 @@ export default {
         value: '退回'
       }
     ]
+
+    const fetchDepartments = () => {
+      store.dispatch('office-leave/fetchDepartments')
+      .then(response => {
+        departments.value = response.data.map(item => ({
+          label: item.deptName,
+          value: item.deptName
+        }))
+      })
+    }
+    fetchDepartments()
 
     const {
       fetchLeaves,
@@ -351,7 +324,6 @@ export default {
       resolveLeaveTypeVariant,
       resolveLeaveTypeIcon,
       resolveLeaveStatusVariant,
-      resolveUserRankVariant,
 
       // Extra Filters
       typeFilter,
@@ -360,9 +332,6 @@ export default {
     } = useLeaveList()
 
     return {
-      // Sidebar
-      isAddNewLeaveSidebarActive,
-
       fetchLeaves,
       approveLeave,
       rejectLeave,
@@ -385,7 +354,6 @@ export default {
       resolveLeaveTypeVariant,
       resolveLeaveTypeIcon,
       resolveLeaveStatusVariant,
-      resolveUserRankVariant,
 
       departments,
       leaveTypes,

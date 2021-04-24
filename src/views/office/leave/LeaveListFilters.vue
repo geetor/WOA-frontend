@@ -12,7 +12,7 @@
           md="4"
           class="mb-md-0 mb-2"
         >
-          <label>部门名称</label>
+          <label>所属部门</label>
           <v-select
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
             :value="departmentFilter"

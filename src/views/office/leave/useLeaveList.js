@@ -14,9 +14,6 @@ export default function useLeaveList () {
   // Table Handlers
   const tableColumns = [
     {
-      key: '部门'
-    },
-    {
       key: '用户'
     },
     {
@@ -29,6 +26,9 @@ export default function useLeaveList () {
     {
       key: '归队时间',
       sortable: true
+    },
+    {
+      key: '请假原因'
     },
     {
       key: '状态'
@@ -65,7 +65,7 @@ export default function useLeaveList () {
 
   const fetchLeaves = (ctx, callback) => {
     store
-    .dispatch('office-leave/fetchUsers', {
+    .dispatch('office-leave/fetchLeaves', {
       q: searchQuery.value,
       perPage: perPage.value,
       page: currentPage.value,
@@ -165,11 +165,6 @@ export default function useLeaveList () {
     return 'primary'
   }
 
-  const resolveUserRankVariant = userRank => {
-    if (Number(userRank) > 5) return 'warning'
-    return 'primary'
-  }
-
   return {
     fetchLeaves,
     approveLeave,
@@ -188,7 +183,6 @@ export default function useLeaveList () {
     resolveLeaveTypeVariant,
     resolveLeaveTypeIcon,
     resolveLeaveStatusVariant,
-    resolveUserRankVariant,
     refetchData,
 
     // Extra Filters

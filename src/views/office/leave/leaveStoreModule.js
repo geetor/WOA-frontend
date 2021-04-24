@@ -6,10 +6,18 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchUsers (ctx, queryParams) {
+    fetchDepartments () {
       return new Promise((resolve, reject) => {
         axios
-        .get('/office/leave/users', { params: queryParams })
+        .get('/office/leave/departments')
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
+    fetchLeaves (ctx, queryParams) {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/office/leave/leaves', { params: queryParams })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
@@ -34,14 +42,6 @@ export default {
       return new Promise((resolve, reject) => {
         axios
         .get(`/office/leave/users/${id}`)
-        .then(response => resolve(response))
-        .catch(error => reject(error))
-      })
-    },
-    addUser (ctx, userData) {
-      return new Promise((resolve, reject) => {
-        axios
-        .post('/office/leave/users', { user: userData })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
