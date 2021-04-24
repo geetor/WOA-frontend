@@ -70,7 +70,7 @@ import ToastificationContent from '@core/components/toastification/Toastificatio
 
 export default {
   directives: {
-    Ripple,
+    Ripple
   },
   components: {
     // BSV
@@ -80,7 +80,7 @@ export default {
     BBadge,
 
     // 3rd Party
-    VuePerfectScrollbar,
+    VuePerfectScrollbar
   },
   props: {
     shallShowAttendanceComposeModal: {
@@ -89,20 +89,20 @@ export default {
     },
     departments: {
       type: Array,
-      required: true,
+      required: true
     },
     usersMeta: {
       type: Object,
-      required: true,
+      required: true
     },
     refetchUserList: {
       type: Function,
-      required: true,
+      required: true
     }
   },
-  setup (props) {
+  setup () {
     const perfectScrollbarSettings = {
-      maxScrollbarLength: 60,
+      maxScrollbarLength: 60
     }
 
     const resolveDepartmentBadgeColor = department => {
@@ -161,7 +161,7 @@ export default {
               props: {
                 title: '错误',
                 icon: 'DeleteIcon',
-                variant: 'danger',
+                variant: 'danger'
               }
             },
             { position: 'bottom-right' }

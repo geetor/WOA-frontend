@@ -2,6 +2,19 @@ import mock from '@/@fake-db/mock'
 import { paginateArray, sortCompare } from '@/@fake-db/utils'
 import axiosIns from '@/libs/axios'
 
+const fetchChargedDepartments = async () => {
+  return await axiosIns.get('/user/getChargeDepts', {
+    params: {
+      userId: JSON.parse(localStorage.getItem('userData')).userId
+    }
+  })
+  .then(response => {
+    if (response.data.status.code === '0000') {
+      return response.data.data
+    }
+  })
+}
+
 const fetchLeaves = async () => {
   return await axiosIns.get('/attendance/getChargeDeptLeaves', {
     params: {
@@ -34,6 +47,19 @@ const rejectLeave = async (userId, leaveId) => {
     }
   })
 }
+
+// ------------------------------------------------
+// GET: Return Charged Departments
+// ------------------------------------------------
+mock.onGet('/office/leave/departments')
+.reply(config => {
+
+  return fetchChargedDepartments()
+  .then(departments => {
+    return [200, departments]
+  })
+
+})
 
 // ------------------------------------------------
 // GET: Return Leaves

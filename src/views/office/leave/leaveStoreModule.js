@@ -6,6 +6,14 @@ export default {
   getters: {},
   mutations: {},
   actions: {
+    fetchDepartments () {
+      return new Promise((resolve, reject) => {
+        axios
+        .get('/office/leave/departments')
+        .then(response => resolve(response))
+        .catch(error => reject(error))
+      })
+    },
     fetchLeaves (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios

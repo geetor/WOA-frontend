@@ -286,28 +286,7 @@ export default {
       }
     ]
 
-    const departments = [
-      {
-        label: '人事部门',
-        value: '人事部门'
-      },
-      {
-        label: '驾驶部门',
-        value: '驾驶部门'
-      },
-      {
-        label: '后勤部门',
-        value: '后勤部门'
-      },
-      {
-        label: '武装部门',
-        value: '武装部门'
-      },
-      {
-        label: '管理部门',
-        value: '管理部门'
-      }
-    ]
+    const departments = ref([])
 
     const leaveStatuses = [
       {
@@ -323,6 +302,17 @@ export default {
         value: '退回'
       }
     ]
+
+    const fetchDepartments = () => {
+      store.dispatch('office-leave/fetchDepartments')
+      .then(response => {
+        departments.value = response.data.map(item => ({
+          label: item.deptName,
+          value: item.deptName
+        }))
+      })
+    }
+    fetchDepartments()
 
     const {
       fetchLeaves,
