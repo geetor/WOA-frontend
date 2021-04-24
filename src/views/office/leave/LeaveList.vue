@@ -89,7 +89,7 @@
               <b-avatar
                   size="32"
                   :text="avatarText(data.item.userName)"
-                  :variant="`light-${resolveUserRankVariant(data.item.userRank)}`"
+                  :variant="`light-primary`"
                   :to="{ name: 'office-attendance-calendar', params: { userId: data.item.userId } }"
               />
             </template>
@@ -127,6 +127,13 @@
         <template #cell(归队时间)="data">
           <div class="text-nowrap">
             <span class="align-text-top">{{ data.item.leaveEndTime }}</span>
+          </div>
+        </template>
+
+        <!-- Column: 请假原因 -->
+        <template #cell(请假原因)="data">
+          <div class="text-nowrap">
+            <span class="align-text-top">{{ data.item.leaveReason }}</span>
           </div>
         </template>
 
@@ -308,7 +315,8 @@ export default {
       .then(response => {
         departments.value = response.data.map(item => ({
           label: item.deptName,
-          value: item.deptName
+          value: item.deptName,
+          rank: item.deptId
         }))
       })
     }
@@ -334,7 +342,6 @@ export default {
       resolveLeaveTypeVariant,
       resolveLeaveTypeIcon,
       resolveLeaveStatusVariant,
-      resolveUserRankVariant,
 
       // Extra Filters
       typeFilter,
@@ -368,7 +375,6 @@ export default {
       resolveLeaveTypeVariant,
       resolveLeaveTypeIcon,
       resolveLeaveStatusVariant,
-      resolveUserRankVariant,
 
       departments,
       leaveTypes,

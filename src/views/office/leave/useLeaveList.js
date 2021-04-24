@@ -28,6 +28,9 @@ export default function useLeaveList () {
       sortable: true
     },
     {
+      key: '请假原因'
+    },
+    {
       key: '状态'
     },
     { key: '操作' }
@@ -162,11 +165,6 @@ export default function useLeaveList () {
     return 'primary'
   }
 
-  const resolveUserRankVariant = userRank => {
-    if (Number(userRank) > 5) return 'warning'
-    return 'primary'
-  }
-
   return {
     fetchLeaves,
     approveLeave,
@@ -185,7 +183,6 @@ export default function useLeaveList () {
     resolveLeaveTypeVariant,
     resolveLeaveTypeIcon,
     resolveLeaveStatusVariant,
-    resolveUserRankVariant,
     refetchData,
 
     // Extra Filters

@@ -66,6 +66,9 @@ export default {
         if (userData.userRole === '用户' && adminRoutes.includes(i.route)) {
           canView = false
         }
+        if (userData.deptCharger === false && i.route === 'office-leave') {
+          canView = false
+        }
         return canView
       })
     }
