@@ -6,10 +6,10 @@ export default {
   getters: {},
   mutations: {},
   actions: {
-    fetchUsers (ctx, queryParams) {
+    fetchLeaves (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axios
-        .get('/office/leave/users', { params: queryParams })
+        .get('/office/leave/leaves', { params: queryParams })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })

@@ -82,13 +82,6 @@
           :sort-desc.sync="isSortDirDesc"
       >
 
-        <!-- Column: 部门 -->
-        <template #cell(部门)="data">
-          <div class="text-nowrap">
-            <span class="align-text-top">{{ data.item.deptName }}</span>
-          </div>
-        </template>
-
         <!-- Column: 用户 -->
         <template #cell(用户)="data">
           <b-media vertical-align="center">

@@ -14,9 +14,6 @@ export default function useLeaveList () {
   // Table Handlers
   const tableColumns = [
     {
-      key: '部门'
-    },
-    {
       key: '用户'
     },
     {
@@ -65,7 +62,7 @@ export default function useLeaveList () {
 
   const fetchLeaves = (ctx, callback) => {
     store
-    .dispatch('office-leave/fetchUsers', {
+    .dispatch('office-leave/fetchLeaves', {
       q: searchQuery.value,
       perPage: perPage.value,
       page: currentPage.value,

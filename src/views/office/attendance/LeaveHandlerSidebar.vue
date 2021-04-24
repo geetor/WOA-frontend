@@ -1,29 +1,29 @@
 <template>
   <div>
     <b-sidebar
-      id="sidebar-leave-handler"
-      sidebar-class="sidebar-lg"
-      :visible="isLeaveHandlerSidebarActive"
-      bg-variant="white"
-      shadow
-      backdrop
-      no-header
-      right
-      @change="(val) => $emit('update:is-leave-handler-sidebar-active', val)"
-      @hidden="clearForm"
+        id="sidebar-leave-handler"
+        sidebar-class="sidebar-lg"
+        :visible="isLeaveHandlerSidebarActive"
+        bg-variant="white"
+        shadow
+        backdrop
+        no-header
+        right
+        @change="(val) => $emit('update:is-leave-handler-sidebar-active', val)"
+        @hidden="clearForm"
     >
       <template #default="{ hide }">
         <!-- Header -->
         <div
-          class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
+            class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
         >
           <h5 class="mb-0">假单</h5>
           <div>
             <feather-icon
-              class="ml-1 cursor-pointer"
-              icon="XIcon"
-              size="16"
-              @click="hide"
+                class="ml-1 cursor-pointer"
+                icon="XIcon"
+                size="16"
+                @click="hide"
             />
           </div>
         </div>
@@ -32,39 +32,39 @@
         <validation-observer #default="{ handleSubmit }" ref="refFormObserver">
           <!-- Form -->
           <b-form
-            class="p-2"
-            @submit.prevent="handleSubmit(onSubmit)"
-            @reset.prevent="resetForm"
+              class="p-2"
+              @submit.prevent="handleSubmit(onSubmit)"
+              @reset.prevent="resetForm"
           >
             <!-- 请假类型 -->
             <b-form-group label="请假类型" label-for="leave-type">
               <v-select
-                v-model="leaveLocal.leaveType"
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="leaveTypes"
-                :reduce="(option) => option.value"
-                input-id="leave-type"
+                  v-model="leaveLocal.leaveType"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  :options="leaveTypes"
+                  :reduce="(option) => option.value"
+                  input-id="leave-type"
               />
             </b-form-group>
 
             <!-- 请假开始时间 -->
             <validation-provider
-              #default="validationContext"
-              name="开始时间"
-              rules="required"
+                #default="validationContext"
+                name="开始时间"
+                rules="required"
             >
               <b-form-group label="开始时间" label-for="start-time">
                 <flat-pickr
-                  v-model="leaveLocal.startTime"
-                  class="form-control"
-                  :config="{
+                    v-model="leaveLocal.startTime"
+                    class="form-control"
+                    :config="{
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
                     locale: Mandarin,
                   }"
                 />
                 <b-form-invalid-feedback
-                  :state="getValidationState(validationContext)"
+                    :state="getValidationState(validationContext)"
                 >
                   {{ validationContext.errors[0] }}
                 </b-form-invalid-feedback>
@@ -73,22 +73,22 @@
 
             <!-- 请假结束时间 -->
             <validation-provider
-              #default="validationContext"
-              name="结束时间"
-              rules="required"
+                #default="validationContext"
+                name="结束时间"
+                rules="required"
             >
               <b-form-group label="结束时间" label-for="due-time">
                 <flat-pickr
-                  v-model="leaveLocal.dueTime"
-                  class="form-control"
-                  :config="{
+                    v-model="leaveLocal.dueTime"
+                    class="form-control"
+                    :config="{
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
                     locale: Mandarin,
                   }"
                 />
                 <b-form-invalid-feedback
-                  :state="getValidationState(validationContext)"
+                    :state="getValidationState(validationContext)"
                 >
                   {{ validationContext.errors[0] }}
                 </b-form-invalid-feedback>
@@ -98,38 +98,31 @@
             <!-- 请假原因 -->
             <b-form-group label="请假原因" label-for="leave-reason">
               <quill-editor
-                id="quil-content"
-                v-model="leaveLocal.reason"
-                :options="editorOption"
-                class="border-bottom-0"
+                  id="quil-content"
+                  v-model="leaveLocal.reason"
+                  :options="editorOption"
+                  class="border-bottom-0"
               />
               <div
-                id="quill-toolbar"
-                class="d-flex justify-content-end border-top-0"
-              >
-                <!-- Add a bold button -->
-                <button class="ql-bold" />
-                <button class="ql-italic" />
-                <button class="ql-underline" />
-                <button class="ql-align" />
-                <button class="ql-link" />
-              </div>
+                  id="quill-toolbar"
+                  class="d-flex justify-content-end border-top-0"
+              />
             </b-form-group>
 
             <!-- 表单操作 -->
             <div class="d-flex mt-2">
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="primary"
-                class="mr-2"
-                type="submit"
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  class="mr-2"
+                  type="submit"
               >
                 请假
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
               >
                 重置
               </b-button>
@@ -175,35 +168,35 @@ export default {
 
     // Form Validation
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   directives: {
-    Ripple,
+    Ripple
   },
   model: {
     prop: 'isLeaveHandlerSidebarActive',
-    event: 'update:is-leave-handler-sidebar-active',
+    event: 'update:is-leave-handler-sidebar-active'
   },
   props: {
     isLeaveHandlerSidebarActive: {
       type: Boolean,
-      required: true,
+      required: true
     },
     leave: {
       type: Object,
-      required: true,
+      required: true
     },
     clearLeaveData: {
       type: Function,
-      required: true,
+      required: true
     }
   },
-  data() {
+  data () {
     return {
       required
     }
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const {
       leaveLocal,
       resetLeaveLocal,
@@ -217,14 +210,14 @@ export default {
       refFormObserver,
       getValidationState,
       resetForm,
-      clearForm,
+      clearForm
     } = formValidation(resetLeaveLocal, props.clearLeaveData)
 
     const editorOption = {
       modules: {
-        toolbar: '#quill-toolbar',
+        toolbar: '#quill-toolbar'
       },
-      placeholder: '请输入请假原因',
+      placeholder: '请输入请假原因'
     }
 
     return {
