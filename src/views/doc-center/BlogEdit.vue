@@ -190,7 +190,7 @@ export default {
     getCurrentTime(){
       let myDate = new Date();
       let year = myDate.getFullYear();
-      let month = myDate.getMonth();
+      let month = myDate.getMonth()+1;
       let day = myDate.getDate();
       let Hour = myDate.getHours();
       let Minute = myDate.getMinutes();
