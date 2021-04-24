@@ -149,27 +149,3 @@ mock.onGet('/office/leave/rejectLeave')
   })
 
 })
-
-// ------------------------------------------------
-// POST: Add new user
-// ------------------------------------------------
-mock.onPost('/office/leave/users')
-.reply(config => {
-
-  const { user } = JSON.parse(config.data)
-
-  // Assign Status
-  user.status = 'active'
-
-  const { length } = data.users
-  let lastIndex = 0
-  if (length) {
-    lastIndex = data.users[length - 1].id
-  }
-  user.id = lastIndex + 1
-
-  data.users.push(user)
-
-  return [201, { user }]
-
-})

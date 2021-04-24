@@ -45,14 +45,6 @@ export default {
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
-    },
-    addUser (ctx, userData) {
-      return new Promise((resolve, reject) => {
-        axios
-        .post('/office/leave/users', { user: userData })
-        .then(response => resolve(response))
-        .catch(error => reject(error))
-      })
     }
   }
 }

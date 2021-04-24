@@ -2,13 +2,6 @@
 
   <div>
 
-    <leave-list-add-new
-        :is-add-new-leave-sidebar-active.sync="isAddNewLeaveSidebarActive"
-        :leave-types="leaveTypes"
-        :departments="departments"
-        @refetch-data="refetchData"
-    />
-
     <!-- Filters -->
     <leave-list-filters
         :department-filter.sync="departmentFilter"
@@ -56,12 +49,6 @@
                   class="d-inline-block mr-1"
                   placeholder="根据用户姓名或手机搜索..."
               />
-              <b-button
-                  variant="primary"
-                  @click="isAddNewLeaveSidebarActive = true"
-              >
-                <span class="text-nowrap">新增休假</span>
-              </b-button>
             </div>
           </b-col>
         </b-row>
@@ -238,12 +225,10 @@ import { avatarText } from '@core/utils/filter'
 import LeaveListFilters from './LeaveListFilters.vue'
 import useLeaveList from './useLeaveList'
 import leaveStoreModule from './leaveStoreModule'
-import LeaveListAddNew from './LeaveListAddNew.vue'
 
 export default {
   components: {
     LeaveListFilters,
-    LeaveListAddNew,
 
     BCard,
     BRow,
@@ -271,8 +256,6 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(LEAVE_LIST_STORE_MODULE_NAME)) store.unregisterModule(LEAVE_LIST_STORE_MODULE_NAME)
     })
-
-    const isAddNewLeaveSidebarActive = ref(false)
 
     const leaveTypes = [
       {
@@ -315,8 +298,7 @@ export default {
       .then(response => {
         departments.value = response.data.map(item => ({
           label: item.deptName,
-          value: item.deptName,
-          rank: item.deptId
+          value: item.deptName
         }))
       })
     }
@@ -350,9 +332,6 @@ export default {
     } = useLeaveList()
 
     return {
-      // Sidebar
-      isAddNewLeaveSidebarActive,
-
       fetchLeaves,
       approveLeave,
       rejectLeave,
