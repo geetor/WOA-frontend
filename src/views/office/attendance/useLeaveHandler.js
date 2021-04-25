@@ -1,7 +1,6 @@
 import { ref, watch } from '@vue/composition-api'
 
-
-export default function useLeaveHandler(props, emit) {
+export default function useLeaveHandler (props, emit) {
   // ------------------------------------------------
   // leaveLocal
   // ------------------------------------------------
@@ -27,10 +26,22 @@ export default function useLeaveHandler(props, emit) {
   // *===============================================---*
 
   const leaveTypes = [
-    { label: '病假', value: '病假' },
-    { label: '事假', value: '事假' },
-    { label: '年假', value: '年假' },
-    { label: '调休', value: '调休' }
+    {
+      label: '病假',
+      value: '病假'
+    },
+    {
+      label: '事假',
+      value: '事假'
+    },
+    {
+      label: '年假',
+      value: '年假'
+    },
+    {
+      label: '调休',
+      value: '调休'
+    }
   ]
 
   return {

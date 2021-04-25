@@ -58,15 +58,17 @@
                     v-model="leaveLocal.startTime"
                     class="form-control"
                     :config="{
+                    minDate: new Date(),
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
+                    time_24hr: true,
+                    locale: Mandarin
                   }"
                 />
                 <b-form-invalid-feedback
                     :state="getValidationState(validationContext)"
                 >
-                  {{ validationContext.errors[0] }}
+                  开始时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>
@@ -82,15 +84,17 @@
                     v-model="leaveLocal.dueTime"
                     class="form-control"
                     :config="{
+                    minDate: new Date(),
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
+                    time_24hr: true,
+                    locale: Mandarin
                   }"
                 />
                 <b-form-invalid-feedback
                     :state="getValidationState(validationContext)"
                 >
-                  {{ validationContext.errors[0] }}
+                  结束时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>

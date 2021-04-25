@@ -117,12 +117,13 @@ const fetchLowerUsers = async () => {
 }
 
 const addTraining = async (trainingData) => {
+  const date = new Date()
   return await axiosIns.post('training/addTraining', {
     trainingType: trainingData.extendedProps.type,
-    trainingStartTime: new Date(Date.parse(trainingData.start)).toJSON()
+    trainingStartTime: new Date(Date.parse(trainingData.start) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
-    trainingEndTime: new Date(Date.parse(trainingData.end)).toJSON()
+    trainingEndTime: new Date(Date.parse(trainingData.end) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
     trainingPlace: trainingData.extendedProps.place,
@@ -133,13 +134,14 @@ const addTraining = async (trainingData) => {
 }
 
 const editTraining = async (trainingData) => {
+  const date = new Date()
   return await axiosIns.post('training/editTraining', {
     trainingId: Number(trainingData.id),
     trainingType: trainingData.extendedProps.type,
-    trainingStartTime: new Date(Date.parse(trainingData.start)).toJSON()
+    trainingStartTime: new Date(Date.parse(trainingData.start) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
-    trainingEndTime: new Date(Date.parse(trainingData.end)).toJSON()
+    trainingEndTime: new Date(Date.parse(trainingData.end) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
     trainingPlace: trainingData.extendedProps.place,
