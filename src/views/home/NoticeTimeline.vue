@@ -76,7 +76,7 @@
         },
         methods:{
             moreBulletinInfo(){
-                //TODO:
+                this.$router.push({name:"bulletin-page",query:{selectedClass:'通知公告'}})
             },
             clickedddd(item){
                 console.log(item);
