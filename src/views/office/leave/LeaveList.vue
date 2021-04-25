@@ -47,7 +47,7 @@
               <b-form-input
                   v-model="searchQuery"
                   class="d-inline-block mr-1"
-                  placeholder="根据用户姓名或手机搜索..."
+                  placeholder="根据姓名或手机搜索成员"
               />
             </div>
           </b-col>

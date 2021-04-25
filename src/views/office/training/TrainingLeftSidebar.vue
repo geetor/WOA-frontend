@@ -11,7 +11,7 @@
                 class="my-1"
                 :to="{ name: 'office-training-calendar-department', params: { department: currentDepartment }}"
             >
-              {{ currentDepartment }}训练安排
+              训练安排 - {{ currentDepartment }}
             </b-button>
           </div>
           <vue-perfect-scrollbar
