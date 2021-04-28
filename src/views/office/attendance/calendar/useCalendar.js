@@ -113,6 +113,7 @@ export default function userCalendar () {
       day: '日历',
       list: '列表'
     },
+    allDayText: '全天',
     events: fetchAttendances,
     locale: 'zh-cn',
     // firstDay: 1,
