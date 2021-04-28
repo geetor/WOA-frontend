@@ -266,7 +266,7 @@ export default function userCalendar () {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev, title, next',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     buttonText: {
       month: '月历',

@@ -50,6 +50,6 @@ export default function useLeaveHandler (props, emit) {
 
     // UI
     leaveTypes,
-    onSubmit,
+    onSubmit
   }
 }

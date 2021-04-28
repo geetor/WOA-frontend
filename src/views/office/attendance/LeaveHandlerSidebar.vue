@@ -242,23 +242,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@core/scss/base/bootstrap-extended/include";
-
 .leave-type-selector {
   ::v-deep .vs__dropdown-toggle {
     padding-left: 0;
-  }
-}
-
-#quil-content ::v-deep {
-  > .ql-container {
-    border-bottom: 0;
-  }
-
-  + #quill-toolbar {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
   }
 }
 </style>

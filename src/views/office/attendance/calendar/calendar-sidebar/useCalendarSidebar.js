@@ -15,7 +15,7 @@ export default function useCalendarSidebar() {
     get: () => store.state.calendar.selectedTypes,
     set: val => {
       store.commit('calendar/SET_SELECTED_TYPES', val)
-    },
+    }
   })
 
   // ------------------------------------------------
@@ -35,6 +35,6 @@ export default function useCalendarSidebar() {
   return {
     attendanceTypes,
     selectedTypes,
-    checkAll,
+    checkAll
   }
 }

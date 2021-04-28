@@ -135,8 +135,8 @@ export default {
               props: {
                 title: '错误',
                 icon: 'AlertTriangleIcon',
-                variant: 'danger',
-              },
+                variant: 'danger'
+              }
             },
               { position: 'bottom-right' })
           }

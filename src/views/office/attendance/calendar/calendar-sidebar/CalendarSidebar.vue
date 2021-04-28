@@ -43,26 +43,26 @@ import useCalendarSidebar from './useCalendarSidebar'
 
 export default {
   directives: {
-    Ripple,
+    Ripple
   },
   components: {
     BButton,
     BImg,
     BFormCheckbox,
     BFormGroup,
-    BFormCheckboxGroup,
+    BFormCheckboxGroup
   },
   setup() {
     const {
       attendanceTypes,
       selectedTypes,
-      checkAll,
+      checkAll
     } = useCalendarSidebar()
 
     return {
       attendanceTypes,
       selectedTypes,
-      checkAll,
+      checkAll
     }
   },
 }

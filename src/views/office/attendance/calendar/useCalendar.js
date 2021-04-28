@@ -105,7 +105,7 @@ export default function userCalendar () {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev, title, next',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     buttonText: {
       month: '月历',
@@ -160,7 +160,7 @@ export default function userCalendar () {
 
     // Get direction from app state (store)
     direction: computed(() => (store.state.appConfig.isRTL ? 'rtl' : 'ltr')),
-    rerenderDelay: 350,
+    rerenderDelay: 350
   })
 
   // ------------------------------------------------------------------------
