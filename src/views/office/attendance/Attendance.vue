@@ -26,9 +26,7 @@
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
       <department-list
-        :shall-show-attendance-compose-modal.sync="
-          shallShowAttendanceComposeModal
-        "
+        :shall-show-attendance-compose-modal.sync="shallShowAttendanceComposeModal"
         :is-leave-handler-sidebar-active.sync="isLeaveHandlerSidebarActive"
         :departments="departments"
         :users-meta="usersMeta"

@@ -12,7 +12,7 @@
           :settings="perfectScrollbarSettings"
           class="training-user-list scroll-area"
       >
-        <user-list></user-list>
+        <user-list />
       </vue-perfect-scrollbar>
     </div>
 

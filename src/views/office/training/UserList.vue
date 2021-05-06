@@ -15,7 +15,7 @@
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
             :options="perPageOptions"
             :clearable="false"
-            class="per-page-selector d-inline-block ml-50 mr-1"
+            class="per-page-selector d-inline-block mr-1"
           />
         </b-col>
 
