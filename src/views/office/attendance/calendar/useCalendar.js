@@ -141,6 +141,9 @@ export default function userCalendar () {
       ? Docs: https://fullcalendar.io/docs/dayMaxEvents
     */
     dayMaxEvents: 2,
+    moreLinkContent: (arg) => {
+      arg.text = '+' + arg.num + ' 其它'
+    },
 
     /*
       Determines if day names and week names are clickable
@@ -155,7 +158,17 @@ export default function userCalendar () {
       return [
         // Background Color
         `bg-light-${colorName}`,
+        'text-truncate'
       ]
+    },
+
+    customButtons: {
+      sidebarToggle: {
+        text: 'sidebar',
+        click () {
+          isCalendarOverlaySidebarActive.value = !isCalendarOverlaySidebarActive.value
+        }
+      }
     },
 
     // Get direction from app state (store)

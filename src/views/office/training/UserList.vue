@@ -24,7 +24,7 @@
           <div class="d-flex align-items-center justify-content-end">
             <b-form-input
               v-model="searchQuery"
-              class="d-inline-block mr-1"
+              class="text-truncate d-inline-block mr-1"
               placeholder="根据姓名或手机搜索部门成员"
             />
             <v-select
