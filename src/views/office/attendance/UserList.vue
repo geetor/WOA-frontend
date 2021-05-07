@@ -10,14 +10,25 @@
             md="6"
             class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <v-select
-            v-model=" perPage
-            "
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :options="perPageOptions"
-            :clearable="false"
-            class="per-page-selector d-inline-block mr-1"
+          <div
+              class="sidebar-toggle d-block d-lg-none"
+          >
+            <!-- Toggler -->
+            <feather-icon
+                icon="MenuIcon"
+                size="21"
+                class="cursor-pointer mr-1"
+                @click="$emit('update:mq-shall-show-left-sidebar', true)"
             />
+          </div>
+          <v-select
+              v-model=" perPage
+            "
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :options="perPageOptions"
+              :clearable="false"
+              class="per-page-selector d-inline-block mr-1"
+          />
         </b-col>
 
         <!-- Search -->
@@ -221,6 +232,12 @@ export default {
     BTooltip,
 
     vSelect
+  },
+  props: {
+    mqShallShowLeftSidebar: {
+      type: Boolean,
+      required: true
+    }
   },
   setup () {
     const ATTENDANCE_STORE_MODULE_NAME = 'office-attendance'
