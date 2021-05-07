@@ -9,7 +9,7 @@ export default function usAppConfig() {
     get: () => store.state.verticalMenu.isVerticalMenuCollapsed,
     set: val => {
       store.commit('verticalMenu/UPDATE_VERTICAL_MENU_COLLAPSED', val)
-    },
+    }
   })
 
   // ------------------------------------------------
@@ -19,7 +19,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.isRTL,
     set: val => {
       store.commit('appConfig/TOGGLE_RTL', val)
-    },
+    }
   })
 
   // ------------------------------------------------
@@ -29,7 +29,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.skin,
     set: val => {
       store.commit('appConfig/UPDATE_SKIN', val)
-    },
+    }
   })
 
   const skinClasses = computed(() => {
@@ -48,7 +48,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.routerTransition,
     set: val => {
       store.commit('appConfig/UPDATE_ROUTER_TRANSITION', val)
-    },
+    }
   })
 
   // *===============================================---*
@@ -63,7 +63,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.type,
     set: val => {
       store.commit('appConfig/UPDATE_LAYOUT_TYPE', val)
-    },
+    }
   })
 
   // Reset skin if skin is semi-dark and move to horizontal layout
@@ -78,7 +78,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.menu.hidden,
     set: val => {
       store.commit('appConfig/UPDATE_NAV_MENU_HIDDEN', val)
-    },
+    }
   })
 
   // *===============================================---*
@@ -89,14 +89,14 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.navbar.backgroundColor,
     set: val => {
       store.commit('appConfig/UPDATE_NAVBAR_CONFIG', { backgroundColor: val })
-    },
+    }
   })
 
   const navbarType = computed({
     get: () => store.state.appConfig.layout.navbar.type,
     set: val => {
       store.commit('appConfig/UPDATE_NAVBAR_CONFIG', { type: val })
-    },
+    }
   })
 
   // *===============================================---*
@@ -107,7 +107,7 @@ export default function usAppConfig() {
     get: () => store.state.appConfig.layout.footer.type,
     set: val => {
       store.commit('appConfig/UPDATE_FOOTER_CONFIG', { type: val })
-    },
+    }
   })
 
   return {
@@ -126,6 +126,6 @@ export default function usAppConfig() {
 
     // Layout
     layoutType,
-    isNavMenuHidden,
+    isNavMenuHidden
   }
 }
