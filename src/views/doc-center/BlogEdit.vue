@@ -53,6 +53,48 @@
             />
           </b-form-group>
         </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="6">
+          <b-form-group label="文档类型" label-for="blog-edit-type" class="mb-2">
+            <v-select
+                id="blog-edit-type"
+                v-model="blogEdit.blogType"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="typeOption"
+            />
+          </b-form-group>
+        </b-col>
+
+        <b-col md="6">
+          <b-form-group label="文档主题" label-for="blog-edit-subject" class="mb-2">
+            <v-select
+                id="blog-edit-subject"
+                v-model="blogEdit.blogType"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="subjectOption"
+            />
+          </b-form-group>
+
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col md="6">
+          <b-form-group label="发布部门" label-for="blog-edit-dept" class="mb-2">
+            <v-select
+                id="blog-edit-dept"
+                label="deptName"
+                v-model="blogEdit.blogDept"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                :options="deptOption"
+            />
+          </b-form-group>
+
+        </b-col>
+      </b-row>
+
+      <b-row>
         <b-col cols="12">
           <b-form-group
             label="Content"
@@ -66,12 +108,7 @@
             />
           </b-form-group>
         </b-col>
-        <b-col
-          cols="12"
-          class="mb-2"
-        >
 
-        </b-col>
         <b-col
           cols="12"
           class="mt-50"
@@ -141,13 +178,19 @@ export default {
       snowOption: {
         theme: 'snow',
       },
-      userData:{}
+      userData:{},
+      typeOption:['决议','其他'],
+      subjectOption:['校办','Test'],
+      deptOption:[],
     }
   },
   created() {
     this.$http.get('/blog/list/data/edit').then(res => { this.blogEdit = res.data })
     this.userData = JSON.parse(localStorage.getItem('userData'))
-
+    axios.get('/user/getUserDepts?userId='+this.userData.userId)
+    .then(res=>{
+      this.deptOption = res.data.data
+    })
   },
   setup() {
     const refInputEl = ref(null)
@@ -164,6 +207,10 @@ export default {
   methods:{
     publishBlog(){
       let richText = this.blogEdit.excerpt;
+      let my_depts = [];
+      my_depts.push(this.blogEdit.blogDept.deptId);
+      let my_id = [];
+      my_id.push(this.userData.userId)
       let postBody = {
         open:true,
         documentType:"Test Document",
@@ -173,8 +220,8 @@ export default {
         issuingTime:this.getCurrentTime,
         modifiedTime:this.getCurrentTime,
         documentContent:richText,
-        authors:[7],
-        depts:[1]
+        authors:my_id,
+        depts: my_depts,
       };
       axios.post('/document/addDocument', postBody)
       .then(res=>{

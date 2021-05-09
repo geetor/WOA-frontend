@@ -247,13 +247,12 @@ const data = {
     blogCategories: ['Fashion', 'Gaming'],
     slug: 'the-best-features-coming-to-ios-and-web-design',
     rank: '6',
-    excerpt:`
-    
-    
-    
-    
-    `,
+    excerpt:` `,
     featuredImage: require('@/assets/images/slider/03.jpg'),
+    blogType:'',
+    modifiedTime:'',
+    blogSubject:'',
+    dept:{},
   },
 
   blogNews:[

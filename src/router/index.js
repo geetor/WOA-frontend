@@ -18,7 +18,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL, //在vue下的配置文件中
   scrollBehavior () {
     return {
       x: 0,

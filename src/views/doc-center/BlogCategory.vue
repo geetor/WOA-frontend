@@ -1,7 +1,9 @@
 <template>
   <content-with-sidebar class="blog-wrapper">
     <div slot class="container">
+      <b-row>
 
+      </b-row>
     </div>
 
 
@@ -44,17 +46,21 @@ export default {
       dataList:[],
       type:'',
       userData:'',
-      departments:['教育部','行政部','劳动部']
+      departments:['教育部','行政部','劳动部'],
+      docType:'部门文档',
     }
   },
   created() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
-    console.log(this.userData)
     this.type = this.$route.params.category;
+    if(type=='public'){
+      this.docType = '公共文档'
+    }
     let url = '/document/' + (this.type == "public" ? 'getPublicDocuments' : 'getDeptDocuments') +"?userId=" +this.userData.userId;
     axios.get(url)
       .then(res=>{
         this.dataList = res.data.data
+        console.log(this.dataList)
       })
 
   }
