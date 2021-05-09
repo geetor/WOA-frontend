@@ -1,7 +1,7 @@
 import { ref, computed, watch } from '@vue/composition-api'
 import store from '@/store'
 
-export default function useCalendarTrainingHandler(props, clearForm, emit) {
+export default function useCalendarTrainingHandler (props, clearForm, emit) {
   // ------------------------------------------------
   // trainingLocal
   // ------------------------------------------------
@@ -32,17 +32,18 @@ export default function useCalendarTrainingHandler(props, clearForm, emit) {
 
   const onSubmit = () => {
     const trainingData = JSON.parse(JSON.stringify(trainingLocal))
-    console.log(trainingData)
 
     // * If training has id => Edit Training
     // Emit training for add/edit training
-    if (props.training.value.id) emit('edit-training', trainingData.value)
-    else emit('add-training', trainingData.value)
+    if (props.training.value.id) {
+      emit('edit-training', trainingData.value)
+    } else {
+      emit('add-training', trainingData.value)
+    }
 
     // Close sidebar
     emit('update:is-training-handler-sidebar-active', false)
   }
-
 
   return {
     trainingLocal,

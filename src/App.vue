@@ -37,7 +37,7 @@ export default {
     LayoutVertical,
     LayoutFull,
 
-    ScrollToTop,
+    ScrollToTop
   },
   // ! We can move this computed: layout & contentLayoutType once we get to use Vue 3
   // Currently, router.currentRoute is not reactive and doesn't trigger any change
@@ -48,7 +48,7 @@ export default {
     },
     contentLayoutType() {
       return this.$store.state.appConfig.layout.type
-    },
+    }
   },
   beforeCreate() {
     // Set colors in theme
@@ -87,7 +87,7 @@ export default {
       closeButton: false,
       icon: false,
       timeout: 3000,
-      transition: 'Vue-Toastification__fade',
+      transition: 'Vue-Toastification__fade'
     })
 
     // Set Window Width in store
@@ -99,8 +99,8 @@ export default {
 
     return {
       skinClasses,
-      enableScrollToTop,
+      enableScrollToTop
     }
-  },
+  }
 }
 </script>

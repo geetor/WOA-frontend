@@ -51,7 +51,7 @@ export default function useLeaveList () {
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalLeaves.value,
+      of: totalLeaves.value
     }
   })
 

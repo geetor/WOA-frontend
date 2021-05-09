@@ -6,15 +6,15 @@ export default {
     statusOptions: [
       {
         color: 'danger',
-        label: '待训',
+        label: '待训'
       },
       {
         color: 'success',
-        label: '在训',
+        label: '在训'
       },
       {
         color: 'warning',
-        label: '结束',
+        label: '结束'
       }
     ],
     selectedStatuses: ['待训', '在训', '结束']

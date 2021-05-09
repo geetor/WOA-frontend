@@ -46,13 +46,14 @@ const fetchData = async () => {
 }
 
 const askForLeave = async (leaveData) => {
+  const date = new Date()
   return await axiosIns.post('/attendance/askForLeave', {
     userId: JSON.parse(localStorage.getItem('userData')).userId,
     leaveType: leaveData.leaveType,
-    leaveStartTime: new Date(Date.parse(leaveData.startTime)).toJSON()
+    leaveStartTime: new Date(Date.parse(leaveData.startTime) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
-    leaveEndTime: new Date(Date.parse(leaveData.dueTime)).toJSON()
+    leaveEndTime: new Date(Date.parse(leaveData.dueTime) - (date.getTimezoneOffset() * 60000)).toJSON()
     .substr(0, 19)
     .replace('T', ' '),
     leaveReason: leaveData.reason

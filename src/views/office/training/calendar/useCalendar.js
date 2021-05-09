@@ -266,7 +266,7 @@ export default function userCalendar () {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev, title, next',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     buttonText: {
       month: '月历',
@@ -274,6 +274,7 @@ export default function userCalendar () {
       day: '日历',
       list: '列表'
     },
+    allDayText: '全天',
     events: fetchTrainings,
     locale: 'zh-cn',
     // firstDay: 1,
@@ -301,6 +302,9 @@ export default function userCalendar () {
       ? Docs: https://fullcalendar.io/docs/dayMaxEvents
     */
     dayMaxEvents: 2,
+    moreLinkContent: (arg) => {
+      arg.text = '+' + arg.num + ' 其它'
+    },
 
     /*
       Determines if day names and week names are clickable
@@ -313,7 +317,8 @@ export default function userCalendar () {
 
       return [
         // Background Color
-        `bg-light-${colorName}`
+        `bg-light-${colorName}`,
+        'text-truncate'
       ]
     },
     eventClick ({ event: clickedTraining }) {

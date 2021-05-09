@@ -11,7 +11,7 @@ export default [
       {
         title: '假期管理',
         route: 'office-leave',
-        icon: 'BarChartIcon'
+        icon: 'CalendarIcon'
       }
     ]
   }

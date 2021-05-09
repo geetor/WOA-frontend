@@ -99,10 +99,10 @@
                 <flat-pickr
                     v-model="trainingLocal.start"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', time_24hr: true, locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
-                  开始时间无效
+                  开始时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>
@@ -122,10 +122,10 @@
                 <flat-pickr
                     v-model="trainingLocal.end"
                     class="form-control"
-                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', locale: Mandarin}"
+                    :config="{ enableTime: true, dateFormat: 'Y-m-d H:i', time_24hr: true, locale: Mandarin}"
                 />
                 <b-form-invalid-feedback :state="getValidationState(validationContext)">
-                  结束时间无效
+                  结束时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>

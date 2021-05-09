@@ -58,15 +58,17 @@
                     v-model="leaveLocal.startTime"
                     class="form-control"
                     :config="{
+                    minDate: new Date(),
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
+                    time_24hr: true,
+                    locale: Mandarin
                   }"
                 />
                 <b-form-invalid-feedback
                     :state="getValidationState(validationContext)"
                 >
-                  {{ validationContext.errors[0] }}
+                  开始时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>
@@ -82,30 +84,31 @@
                     v-model="leaveLocal.dueTime"
                     class="form-control"
                     :config="{
+                    minDate: new Date(),
                     enableTime: true,
                     dateFormat: 'Y-m-d H:i',
-                    locale: Mandarin,
+                    time_24hr: true,
+                    locale: Mandarin
                   }"
                 />
                 <b-form-invalid-feedback
                     :state="getValidationState(validationContext)"
                 >
-                  {{ validationContext.errors[0] }}
+                  结束时间格式错误
                 </b-form-invalid-feedback>
               </b-form-group>
             </validation-provider>
 
             <!-- 请假原因 -->
-            <b-form-group label="请假原因" label-for="leave-reason">
-              <quill-editor
-                  id="quil-content"
+            <b-form-group
+                label="请假原因"
+                label-for="leave-reason"
+            >
+              <b-form-textarea
+                  id="leave-reason"
                   v-model="leaveLocal.reason"
-                  :options="editorOption"
-                  class="border-bottom-0"
-              />
-              <div
-                  id="quill-toolbar"
-                  class="d-flex justify-content-end border-top-0"
+                  autofocus
+                  placeholder="请填写去向或原因"
               />
             </b-form-group>
 
@@ -136,7 +139,7 @@
 
 <script>
 import {
-  BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback,
+  BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BFormTextarea, BButton, BFormInvalidFeedback,
 } from 'bootstrap-vue'
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
@@ -147,7 +150,6 @@ import { required } from '@validations'
 import { avatarText } from '@core/utils/filter'
 import formValidation from '@core/comp-functions/forms/form-validation'
 import { toRefs } from '@vue/composition-api'
-import { quillEditor } from 'vue-quill-editor'
 import useLeaveHandler from './useLeaveHandler'
 
 export default {
@@ -158,13 +160,13 @@ export default {
     BForm,
     BFormGroup,
     BFormInput,
+    BFormTextarea,
     BAvatar,
     BFormInvalidFeedback,
 
     // 3rd party packages
     vSelect,
     flatPickr,
-    quillEditor,
 
     // Form Validation
     ValidationProvider,
@@ -213,13 +215,6 @@ export default {
       clearForm
     } = formValidation(resetLeaveLocal, props.clearLeaveData)
 
-    const editorOption = {
-      modules: {
-        toolbar: '#quill-toolbar'
-      },
-      placeholder: '请输入请假原因'
-    }
-
     return {
       // Add New
       leaveLocal,
@@ -232,9 +227,6 @@ export default {
       refFormObserver,
       getValidationState,
 
-      // UI
-      editorOption,
-
       // Filter/Formatter
       avatarText,
       Mandarin
@@ -246,28 +238,13 @@ export default {
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
 @import "@core/scss/vue/libs/vue-flatpicker.scss";
-@import "@core/scss/vue/libs/quill.scss";
 </style>
 
 <style lang="scss" scoped>
 @import "~@core/scss/base/bootstrap-extended/include";
-
 .leave-type-selector {
   ::v-deep .vs__dropdown-toggle {
     padding-left: 0;
-  }
-}
-
-#quil-content ::v-deep {
-  > .ql-container {
-    border-bottom: 0;
-  }
-
-  + #quill-toolbar {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
   }
 }
 </style>

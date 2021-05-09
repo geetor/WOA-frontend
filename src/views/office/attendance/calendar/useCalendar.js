@@ -105,7 +105,7 @@ export default function userCalendar () {
     initialView: 'dayGridMonth',
     headerToolbar: {
       start: 'sidebarToggle, prev, title, next',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
     },
     buttonText: {
       month: '月历',
@@ -113,6 +113,7 @@ export default function userCalendar () {
       day: '日历',
       list: '列表'
     },
+    allDayText: '全天',
     events: fetchAttendances,
     locale: 'zh-cn',
     // firstDay: 1,
@@ -140,6 +141,9 @@ export default function userCalendar () {
       ? Docs: https://fullcalendar.io/docs/dayMaxEvents
     */
     dayMaxEvents: 2,
+    moreLinkContent: (arg) => {
+      arg.text = '+' + arg.num + ' 其它'
+    },
 
     /*
       Determines if day names and week names are clickable
@@ -154,12 +158,22 @@ export default function userCalendar () {
       return [
         // Background Color
         `bg-light-${colorName}`,
+        'text-truncate'
       ]
+    },
+
+    customButtons: {
+      sidebarToggle: {
+        text: 'sidebar',
+        click () {
+          isCalendarOverlaySidebarActive.value = !isCalendarOverlaySidebarActive.value
+        }
+      }
     },
 
     // Get direction from app state (store)
     direction: computed(() => (store.state.appConfig.isRTL ? 'rtl' : 'ltr')),
-    rerenderDelay: 350,
+    rerenderDelay: 350
   })
 
   // ------------------------------------------------------------------------

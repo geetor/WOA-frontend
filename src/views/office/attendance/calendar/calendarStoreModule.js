@@ -47,12 +47,12 @@ export default {
             userId: userId,
             startDateStr: startDateStr,
             endDateStr: endDateStr,
-            types: types.join(','),
+            types: types.join(',')
           },
         })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     }
-  },
+  }
 }
