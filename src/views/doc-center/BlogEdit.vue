@@ -70,7 +70,7 @@
           <b-form-group label="文档主题" label-for="blog-edit-subject" class="mb-2">
             <v-select
                 id="blog-edit-subject"
-                v-model="blogEdit.blogType"
+                v-model="blogEdit.blogSubject"
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                 :options="subjectOption"
             />
@@ -213,9 +213,9 @@ export default {
       my_id.push(this.userData.userId)
       let postBody = {
         open:true,
-        documentType:"Test Document",
+        documentType:this.blogEdit.blogType,
         documentRank:this.blogEdit.rank,
-        documentSubject:"Test",
+        documentSubject:this.blogEdit.blogSubject,
         documentTitle:this.blogEdit.blogTitle,
         issuingTime:this.getCurrentTime,
         modifiedTime:this.getCurrentTime,

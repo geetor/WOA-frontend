@@ -10,4 +10,4 @@ import uiElements from './ui-elements'
 import formAndTable from './forms-and-table'
 
 // Array of sections
-export default [...home, ...training, ...docCenter, ...attendance, ...management]
+export default [...home, ...training, ...docCenter, ...attendance, ...management,...apps,...pages,...chartsAndMaps,...uiElements,...formAndTable]
