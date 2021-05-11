@@ -4,7 +4,7 @@
     <b-link class="brand-logo">
       <vuexy-logo />
       <h2 class="brand-text text-primary">
-        西宁舰综合办公系统
+        西宁舰办公系统
       </h2>
     </b-link>
 
