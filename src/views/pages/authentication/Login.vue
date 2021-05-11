@@ -6,7 +6,7 @@
       <b-link class="brand-logo">
         <vuexy-logo/>
         <h2 class="brand-text text-primary">
-          舰队 OA 系统
+          西宁舰综合办公系统
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -38,32 +38,13 @@
             class="px-xl-2 mx-auto"
         >
           <b-card-title
-              class="mb-1 font-weight-bold"
-              title-tag="h2"
+              class="mb-2 font-weight-bold text-center"
+              title-tag="h3"
           >
-            XX 舰欢迎您! 👋
+            勇气！实干！卓越！👊
           </b-card-title>
 
-          <b-alert
-              variant="primary"
-              show
-          >
-            <div class="alert-body font-small-2">
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">管理: </span>15695293608 | admin</small>
-              </p>
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">用户: </span>15651008277 | user</small>
-              </p>
-            </div>
-            <feather-icon
-                v-b-tooltip.hover.left="'测试账号'"
-                icon="HelpCircleIcon"
-                size="18"
-                class="position-absolute"
-                style="top: 10; right: 10;"
-            />
-          </b-alert>
+          <hr>
 
           <!-- form -->
           <validation-observer
@@ -204,11 +185,11 @@ export default {
   data () {
     return {
       status: '',
-      userPhone: '15695293608',
-      userPassword: 'admin',
+      userPhone: '',
+      userPassword: '',
       sideImg: require('@/assets/images/pages/login.svg'),
 
-      // validation rules
+      // 验证规则
       required,
       phone
     }
@@ -219,7 +200,6 @@ export default {
     },
     imgUrl () {
       if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.sideImg = require('@/assets/images/pages/login-dark.svg')
         return this.sideImg
       }
@@ -269,7 +249,7 @@ export default {
               )
             }
           })
-          .catch(err => {
+          .catch(() => {
             that.$toast({
                   component: ToastificationContent,
                   props: {

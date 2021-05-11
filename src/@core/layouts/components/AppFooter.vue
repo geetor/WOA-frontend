@@ -1,13 +1,13 @@
 <template>
   <p class="clearfix mb-0">
     <span class="float-md-left d-block d-md-inline-block mt-25">
-      COPYRIGHT  © {{ new Date().getFullYear() }}
+      Copyright ©{{ new Date().getFullYear() }}
       <b-link
         class="ml-25"
-        href="https://github.com/Combined-Fleet"
+        href="https://www.nju.edu.cn/"
         target="_blank"
       >南京大学</b-link>
-      <span class="d-none d-sm-inline-block">, All rights Reserved</span>
+      <span class="d-none d-sm-inline-block">， All Rights Reserved.</span>
     </span>
 
   </p>
