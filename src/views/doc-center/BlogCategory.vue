@@ -39,7 +39,11 @@
 
       <div class="classification-sidebar" v-if="type == 'department'">
         <b-list-group>
-          <b-list-group-item class="rounded-0" v-for="dept in departments" :key="dept.deptId">{{dept.deptName}}</b-list-group-item>
+          <b-list-group-item class="rounded-0" v-for="dept in departments" :key="dept.deptId" :class="{'active-item':selectedId==dept.deptId}">
+            <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
+            <a @click="updateSelect(dept.deptId)">{{dept.deptName}}</a>
+            <b-badge class="float-right">11</b-badge>
+          </b-list-group-item>
         </b-list-group>
       </div>
 
@@ -75,7 +79,7 @@ export default {
       rightSideList:[],
       eachColItemNumber:7,
       currentPage:1,
-
+      selectedId:0,
     }
   },
   created() {
@@ -95,6 +99,7 @@ export default {
       let url = '/document/' + (this.type == "public" ? 'getPublicDocuments' : 'getDeptDocuments') +"?userId=" +this.userData.userId;
       if(this.type!='public'){
         url = url + "&deptId="+this.departments[0].deptId;
+        this.selectedId = this.departments[0].deptId;
       }
       axios.get(url)
           .then(res=>{
@@ -134,6 +139,18 @@ export default {
         this.showList = this.dataList.slice(0,2 * this.eachColItemNumber)
       }
     },
+    updateSelect(id){
+      this.selectedId = id
+      new Promise(resolve => {
+        axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+id)
+          .then(res=>{
+            this.dataList = res.data.data;
+            resolve();
+          })
+      }).then(res=>{
+        this.pageInit();
+      })
+    }
   }
 }
 </script>
