@@ -275,6 +275,7 @@ export default function userCalendar () {
       list: '列表'
     },
     allDayText: '全天',
+    noEventsContent: '无训练任务',
     events: fetchTrainings,
     locale: 'zh-cn',
     // firstDay: 1,
