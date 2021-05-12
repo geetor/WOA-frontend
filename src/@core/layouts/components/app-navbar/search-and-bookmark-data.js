@@ -3,7 +3,7 @@ export default {
     key: 'title',
     data: [
       {
-        title: '主页',
+        title: '信息门户',
         route: { name: 'home-homepage' },
         icon: 'HomeIcon',
         isBookmarked: true
@@ -21,7 +21,7 @@ export default {
         isBookmarked: true
       },
       {
-        title: '考勤系统',
+        title: '出勤信息',
         route: { name: 'office-attendance' },
         icon: 'CheckSquareIcon',
         isBookmarked: true
