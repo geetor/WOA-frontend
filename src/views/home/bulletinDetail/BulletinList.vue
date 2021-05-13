@@ -50,6 +50,13 @@
               </b-row>
             </b-list-group-item>
           </b-list-group>
+<!--          <template>-->
+<!--            <b-pagination-->
+<!--                    v-model="currentPage"-->
+<!--                    hide-goto-end-buttons-->
+<!--                    :total-rows="rows"-->
+<!--            />-->
+<!--          </template>-->
         </vue-perfect-scrollbar>
       </div>
 
@@ -88,6 +95,7 @@
       </div>
     </portal>
 
+
   </div>
 </template>
 
@@ -114,6 +122,7 @@ import {
   BButton,
   BCol,
   BRow,
+  BPagination,
 } from 'bootstrap-vue'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
@@ -139,6 +148,7 @@ export default {
     BButton,
     BCol,
     BRow,
+    BPagination,
 
     // 3rd Party
     VuePerfectScrollbar,
@@ -200,10 +210,13 @@ export default {
   data(){
     return{
       classifications: ['相关新闻', '通知公告', '规章制度', '活动安排'],
-      selectedClass: '',
+      selectedClass: '相关新闻',
       showBulletinDetails: false,
       bulletinList: [],
       bulletinViewData: {},
+      currentPage: 1,
+      perPage: 1,
+      rows: 100,
     }
   },
   created(){
@@ -257,4 +270,24 @@ export default {
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
+
+.active-item{
+  font-weight: bolder;
+  color: #7ab8cc;
+  border-left: 3px solid #7ab8cc;
+  border-radius: 0;
+}
+
+.list-group-item{
+  border-radius: 0;
+}
+
+[dir=ltr] .list-group-item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+[dir=ltr] .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+ }
 </style>
