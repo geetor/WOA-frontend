@@ -74,7 +74,6 @@
           <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class==selectedClass}">
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
             <a @click="updateSelect(c_class)">{{c_class}}</a>
-            <b-badge class="float-right">11</b-badge>
           </b-list-group-item>
         </b-list-group>
       </div>
@@ -96,6 +95,7 @@ import vSelect from 'vue-select'
 import { kFormatter } from '@core/utils/filter'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
 import axios from '@/libs/axios'
+import { temp } from '@core/directives/animations'
 
 export default {
   components: {
@@ -148,9 +148,7 @@ export default {
         .then(res=>{
           this.publicList = res.data.data
           this.publicShowList = [...this.publicList]
-          if(this.publicShowList.length > this.showItemNumber){
-            this.publicShowList = this.publicShowList.slice(0,this.showItemNumber);
-          }
+          this.publicShowList = this.cutToFixedNumber(this.publicShowList)
         })
 
     return new Promise(resolve => {
@@ -180,12 +178,19 @@ export default {
     updateSelect(c_class){
       if(c_class == '全部公告'){ this.publicShowList = [...this.publicList];}
       else{
-        this.showList = []
+        this.publicShowList = []
         this.publicList.forEach((blog)=>{
            if(blog.documentSubject == c_class) this.publicShowList.push(blog)
         })
       }
       this.selectedClass = c_class
+      this.publicShowList = this.cutToFixedNumber(this.publicShowList)
+    },
+    cutToFixedNumber(tempList){
+      if(tempList.length>this.showItemNumber){
+        tempList = tempList.slice(0,this.showItemNumber)
+      }
+      return tempList;
     }
 
   },
@@ -218,7 +223,8 @@ export default {
         if(this.departmentShowList.length > this.showItemNumber){
           this.departmentShowList = this.departmentShowList.slice(0,this.showItemNumber)
       }
-    }
+    },
+
   }
 }
 </script>
