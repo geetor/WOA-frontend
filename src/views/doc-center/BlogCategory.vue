@@ -11,7 +11,7 @@
           </b-col>
 
           <b-col md="5">
-            <doc-list :show-list="rightSideList"></doc-list>
+            <doc-list :show-list="leftSideList"></doc-list>
           </b-col>
         </b-row>
 
@@ -42,7 +42,6 @@
           <b-list-group-item class="rounded-0" v-for="dept in departments" :key="dept.deptId" :class="{'active-item':selectedId==dept.deptId}">
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
             <a @click="updateSelect(dept.deptId)">{{dept.deptName}}</a>
-            <b-badge class="float-right">11</b-badge>
           </b-list-group-item>
         </b-list-group>
       </div>
@@ -103,7 +102,7 @@ export default {
       }
       axios.get(url)
           .then(res=>{
-            this.dataList = res.data.data
+            this.dataList = res.data.data.slice()
             this.pageInit();
           })
     })

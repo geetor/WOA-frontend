@@ -2,7 +2,10 @@ export default [
   {
     path:'/doc-center/list',
     name:'doc-center-list',
-    component: ()=>import('@/views/doc-center/BlogList.vue')
+    component: ()=>import('@/views/doc-center/BlogList.vue'),
+    meta:{
+      navActiveLink:'doc-center'
+    }
   },
   {
     path:'/doc-center/edit',
@@ -12,7 +15,10 @@ export default [
   {
     path: '/doc-center/detail/:docId',
     name:'doc-center-detail',
-    component:()=>import('@/views/doc-center/BlogDetail.vue')
+    component:()=>import('@/views/doc-center/BlogDetail.vue'),
+    meta:{
+      navActiveLink:'doc-center'
+    }
   },
   {
     path:'/doc-center/category/:category',
