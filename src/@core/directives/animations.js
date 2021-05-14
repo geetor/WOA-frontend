@@ -1,5 +1,4 @@
 export const heightFade = {
-  /* eslint-disable no-param-reassign */
   inserted(el, binding) {
     const height = `${el.offsetHeight}px`
 
@@ -25,8 +24,7 @@ export const heightFade = {
     el.style.overflow = 'hidden'
     el.style.maxHeight = '0px'
     el.style.opacity = 0
-  },
-  /* eslint-enable no-param-reassign */
+  }
 }
 
 export const temp = 2

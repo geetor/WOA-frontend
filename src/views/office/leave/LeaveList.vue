@@ -34,7 +34,7 @@
                 :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                 :options="perPageOptions"
                 :clearable="false"
-                class="per-page-selector d-inline-block mx-50"
+                class="per-page-selector d-inline-block mr-50"
             />
           </b-col>
 
@@ -46,7 +46,7 @@
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input
                   v-model="searchQuery"
-                  class="d-inline-block mr-1"
+                  class="text-truncate d-inline-block mr-1"
                   placeholder="根据姓名或手机搜索成员"
               />
             </div>

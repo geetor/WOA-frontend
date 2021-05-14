@@ -1,28 +1,40 @@
 <template>
   <section id="homepage-home">
     <b-row class="match-height" >
-      <b-col>
+      <b-col
+              lg="5"
+              md="6">
         <news-swiper />
       </b-col>
 
-      <b-col >
+      <b-col
+              lg="5"
+              md="6">
         <bulletin-table :table-data="newsList" :card-title="bulletinTitle[0]" />
       </b-col>
 
-      <b-col cols="2"
+      <b-col
+             lg="2"
+             md="6"
       >
         <card-statistics-group />
       </b-col>
     </b-row>
 
     <b-row class="match-height">
-      <b-col cols="4">
+      <b-col
+             lg="4"
+             md="6">
         <notice-timeline :timeline-data="noticeList"/>
       </b-col>
-      <b-col>
+      <b-col
+              lg="4"
+              md="6">
         <bulletin-table :table-data="regulationList" :card-title="bulletinTitle[2]"/>
       </b-col>
-      <b-col>
+      <b-col
+              lg="4"
+              md="6">
         <bulletin-table :table-data="activityList" :card-title="bulletinTitle[3]"/>
       </b-col>
     </b-row>

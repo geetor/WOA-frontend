@@ -146,32 +146,33 @@ export default {
       docDetail: {},
       docList:[],
       blogSidebar: {},
-      socialShareIcons: [
-        'GithubIcon',
-        'GitlabIcon',
-        'FacebookIcon',
-        'TwitterIcon',
-        'LinkedinIcon',
-      ],
       userData:{}
     }
   },
   created() {
-    this.$http.get('/blog/list/data/detail')
-        .then(res => {
-          this.docList = res.data
-          let id = Number(this.$route.params.id);
-          if ( id > 1 ) { id = 0 }
-          this.docDetail = this.docList[id]
-        })
+
     this.userData = JSON.parse(localStorage.getItem('userData'));
-    let docId = this.$route.params.docId
-    axios.get('/document/getDocumentById?userId='+this.userData.userId+"&documentId="+docId)
-      .then(res => {
-        let status = res.data.status
-        this.docDetail = res.data.data
-        console.log(this.docDetail)
+
+    new Promise(resolve => {
+      this.$http.get('/blog/list/data/detail')
+          .then(res => {
+            this.docList = res.data
+            let id = Number(this.$route.params.id);
+            if ( id > 1 ) { id = 0 }
+            this.docDetail = this.docList[id]
+          })
+      resolve()
+    }).then(res=>{
+      let docId = this.$route.params.docId
+      axios.get('/document/getDocumentById?userId='+this.userData.userId+"&documentId="+docId)
+          .then(res => {
+            let status = res.data.status
+            this.docDetail = res.data.data
+            console.log(this.docDetail)
+          })
     })
+
+
 
   },
 

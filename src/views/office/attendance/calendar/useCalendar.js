@@ -114,6 +114,7 @@ export default function userCalendar () {
       list: '列表'
     },
     allDayText: '全天',
+    noEventsContent: '无考勤信息',
     events: fetchAttendances,
     locale: 'zh-cn',
     // firstDay: 1,
@@ -141,6 +142,9 @@ export default function userCalendar () {
       ? Docs: https://fullcalendar.io/docs/dayMaxEvents
     */
     dayMaxEvents: 2,
+    moreLinkContent: (arg) => {
+      arg.text = '+' + arg.num + ' 其它'
+    },
 
     /*
       Determines if day names and week names are clickable
@@ -155,7 +159,17 @@ export default function userCalendar () {
       return [
         // Background Color
         `bg-light-${colorName}`,
+        'text-truncate'
       ]
+    },
+
+    customButtons: {
+      sidebarToggle: {
+        text: 'sidebar',
+        click () {
+          isCalendarOverlaySidebarActive.value = !isCalendarOverlaySidebarActive.value
+        }
+      }
     },
 
     // Get direction from app state (store)

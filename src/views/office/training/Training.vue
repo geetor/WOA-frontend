@@ -12,7 +12,7 @@
           :settings="perfectScrollbarSettings"
           class="training-user-list scroll-area"
       >
-        <user-list></user-list>
+        <user-list :mq-shall-show-left-sidebar.sync="mqShallShowLeftSidebar"/>
       </vue-perfect-scrollbar>
     </div>
 
@@ -127,7 +127,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
 
 <style lang="scss">

@@ -32,6 +32,8 @@
     }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+  #carousel-interval ::v-deep .carousel-indicators li {
+    background-color: #7ab8cc !important;
+  }
 </style>

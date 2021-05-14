@@ -19,12 +19,12 @@ import { $themeConfig } from '@themeConfig'
 export default {
   components: {
     LayoutHorizontal,
-    AppCustomizer,
+    AppCustomizer
   },
   data() {
     return {
-      showCustomizer: $themeConfig.layout.customizer,
+      showCustomizer: $themeConfig.layout.customizer
     }
-  },
+  }
 }
 </script>

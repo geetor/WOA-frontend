@@ -7,18 +7,13 @@ import home from './routes/home'
 import docCenter from './routes/doc-center'
 import office from './routes/office'
 import management from './routes/management'
-import apps from './routes/apps'
-import dashboard from './routes/dashboard'
-import uiElements from './routes/ui-elements/index'
 import pages from './routes/pages'
-import chartsMaps from './routes/charts-maps'
-import formsTable from './routes/forms-tables'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.BASE_URL, //在vue下的配置文件中
   scrollBehavior () {
     return {
       x: 0,
@@ -34,15 +29,10 @@ const router = new VueRouter({
     ...docCenter,
     ...office,
     ...management,
-    ...apps,
-    ...dashboard,
     ...pages,
-    ...chartsMaps,
-    ...formsTable,
-    ...uiElements,
     {
       path: '*',
-      redirect: 'error-404',
+      redirect: 'error-404'
     }
   ]
 })

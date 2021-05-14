@@ -7,7 +7,7 @@
         <vuexy-logo />
 
         <h2 class="brand-text text-primary">
-          舰队 OA 系统
+          西宁舰办公系统
         </h2>
       </b-link>
       <!-- /Brand logo-->
