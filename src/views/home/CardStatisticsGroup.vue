@@ -6,14 +6,12 @@
     <b-card-header>
       <b-card-title style="font-weight: bolder">数据统计</b-card-title>
       <b-card-text class="mr-25 mb-0">
-        一个月内
+        近30天
       </b-card-text>
     </b-card-header>
     <b-card-body class="statistics-body">
-      <b-row>
+      <b-row cols="10">
         <b-col
-          md="3"
-          sm="6"
           class="mb-2 mb-md-0"
         >
           <b-media no-body>
@@ -22,7 +20,7 @@
             >
               <b-avatar
                 size="48"
-                variant="light-info"
+                variant="light-danger"
               >
                 <feather-icon
                   size="24"
@@ -40,9 +38,9 @@
             </b-media-body>
           </b-media>
         </b-col>
+      </b-row>
+      <b-row>
         <b-col
-                md="3"
-                sm="6"
                 class="mb-2 mb-md-0"
         >
           <b-media no-body>
@@ -51,7 +49,7 @@
             >
               <b-avatar
                       size="48"
-                      variant="light-info"
+                      variant="light-success"
               >
                 <feather-icon
                         size="24"
@@ -69,9 +67,9 @@
             </b-media-body>
           </b-media>
         </b-col>
+      </b-row>
+      <b-row>
         <b-col
-                md="3"
-                sm="6"
                 class="mb-2 mb-md-0"
         >
           <b-media no-body>
@@ -80,7 +78,7 @@
             >
               <b-avatar
                       size="48"
-                      variant="light-info"
+                      variant="light-primary"
               >
                 <feather-icon
                         size="24"
@@ -98,9 +96,9 @@
             </b-media-body>
           </b-media>
         </b-col>
+      </b-row>
+      <b-row>
         <b-col
-                md="3"
-                sm="6"
                 class="mb-2 mb-md-0"
         >
           <b-media no-body>
@@ -109,7 +107,7 @@
             >
               <b-avatar
                       size="48"
-                      variant="light-info"
+                      variant="light-warning"
               >
                 <feather-icon
                         size="24"
@@ -201,3 +199,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+  [dir] .mb-md-0, [dir] .my-md-0 {
+    margin-bottom: 15% !important;
+  }
+</style>

@@ -7,7 +7,7 @@
         >
           <b-list-group>
             <b-list-group-item class="flex-column align-items-start"
-                               v-for="bulletin in bulletinList"
+                               v-for="bulletin in showList"
                                :key="bulletin.bulletinId">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">
@@ -16,7 +16,6 @@
                 <small class="text-secondary">{{bulletin.issuingTime}}</small>
               </div>
               <b-card-text class="mb-1">
-                {{bulletin.simpleInfo}}
               </b-card-text>
               <b-row>
                 <b-col>
@@ -49,6 +48,38 @@
                 </b-col>
               </b-row>
             </b-list-group-item>
+              <div class="mx-2 mb-2" >
+                <b-row>
+                  <b-col
+                          cols="12"
+                          sm="6"
+                          class="d-flex align-items-center justify-content-center justify-content-sm-start"
+                  >
+          <span class="text-muted"
+          >从 {{ from }} 到 {{ to }} , 共
+            {{ bulletinList.length }} 条记录</span
+          >
+                  </b-col>
+                  <!-- Pagination -->
+                  <b-col
+                          cols="12"
+                          sm="6"
+                          class="d-flex align-items-center justify-content-center justify-content-sm-end"
+                  >
+                    <b-pagination
+                            v-model="currentPage"
+                            first-number
+                            last-number
+                            hide-goto-end-buttons
+                            :per-page="perPage"
+                            :total-rows="bulletinList.length"
+                            :align="'center'"
+                    >
+
+                    </b-pagination>
+                  </b-col>
+                </b-row>
+              </div>
           </b-list-group>
         </vue-perfect-scrollbar>
       </div>
@@ -69,7 +100,7 @@
                         @click="addBulletin"
                 >
                   新增{{selectedClass}}
-                </b-button>
+                </b-button >
               </div>
               <vue-perfect-scrollbar
                       :settings="perfectScrollbarSettings"
@@ -87,6 +118,7 @@
         </div>
       </div>
     </portal>
+
 
   </div>
 </template>
@@ -110,10 +142,12 @@ import {
   BAvatar,
   BListGroup,
   BListGroupItem,
+  BCard,
   BCardText,
   BButton,
   BCol,
   BRow,
+  BPagination,
 } from 'bootstrap-vue'
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
@@ -139,6 +173,7 @@ export default {
     BButton,
     BCol,
     BRow,
+    BPagination,
 
     // 3rd Party
     VuePerfectScrollbar,
@@ -160,14 +195,13 @@ export default {
       maxScrollbarLength: 150
     }
 
-    // Email View
-    const showEmailDetails = ref(false)
 
     // Compose
     const shallShowTrainingComposeModal = ref(false)
 
     // Left Sidebar Responsiveness
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
+    const item = ref()
 
     const canViewHorizontalNavMenuLink = item => {
       let canView = false
@@ -194,16 +228,22 @@ export default {
       // Left Sidebar Responsiveness
       mqShallShowLeftSidebar,
 
-      canViewHorizontalNavMenuLink
+      canViewHorizontalNavMenuLink,
+      item,
     }
   },
   data(){
     return{
       classifications: ['相关新闻', '通知公告', '规章制度', '活动安排'],
-      selectedClass: '',
+      selectedClass: '相关新闻',
       showBulletinDetails: false,
       bulletinList: [],
+      showList: [],
       bulletinViewData: {},
+      currentPage: 1,
+      perPage: 10,
+      from: 0,
+      to: 0,
     }
   },
   created(){
@@ -212,7 +252,23 @@ export default {
     axiosIns.get('/bulletin/getSimpleBulletinsByType',
             {params: {bulletinType: that.selectedClass}})
             .then(response => {
-              that.bulletinList = response.data.data})
+              that.bulletinList = response.data.data
+              that.showList = that.bulletinList.slice(0,that.perPage)
+              this.from = (this.currentPage-1)*this.perPage+1
+              this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length
+              console.log(this.showList)
+            })
+  },
+  watch:{
+    currentPage:{
+      handler(newVal){
+        let tempIndex = this.perPage*(newVal-1)
+        this.showList = this.bulletinList.slice(tempIndex,this.perPage+tempIndex)
+        this.from = (this.currentPage-1)*this.perPage+1
+        this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length
+      },
+      immediate:true,
+    },
   },
   methods:{
     updateSelect(c_class){
@@ -221,7 +277,10 @@ export default {
               {params: {bulletinType: c_class}})
               .then(response => {
                 that.bulletinList = response.data.data
-                that.selectedClass = c_class})
+                that.selectedClass = c_class
+                that.showList = that.bulletinList.slice(0,that.perPage)
+                this.from = (this.currentPage-1)*this.perPage+1
+                this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length})
     },
     // handleClickBulletin(bulletin){
     //   console.log(bulletin);
@@ -250,11 +309,31 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
 
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
+
+.mx-2.mb-2 {
+  margin-top: 1.5rem !important;
+}
+.active-item{
+  font-weight: bolder;
+  color: #7ab8cc;
+  border-left: 3px solid #7ab8cc;
+  border-radius: 0;
+}
+
+.list-group-item{
+  border-radius: 0;
+}
+
+[dir=ltr] .list-group-item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+[dir=ltr] .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+ }
 </style>
