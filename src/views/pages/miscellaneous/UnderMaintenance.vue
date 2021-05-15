@@ -2,7 +2,7 @@
   <!-- Under maintenance-->
   <div class="misc-wrapper">
     <b-link class="brand-logo">
-      <vuexy-logo />
+      <logo/>
 
       <h2 class="brand-text text-primary">
         西宁舰办公系统
@@ -25,23 +25,22 @@
 
         <!-- img -->
         <b-img
-          fluid
-          center
-          :src="imgUrl"
-          alt="Under maintenance page"
+            fluid
+            center
+            :src="imgUrl"
+            alt="Under maintenance page"
         />
       </div>
     </div>
   </div>
-<!-- / Under maintenance-->
+  <!-- / Under maintenance-->
 </template>
 
 <script>
-/* eslint-disable global-require */
 import {
   BLink, BFormInput, BButton, BForm, BImg,
 } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import Logo from '@core/layouts/components/Logo.vue'
 import store from '@/store/index'
 
 export default {
@@ -51,22 +50,21 @@ export default {
     BButton,
     BForm,
     BImg,
-    VuexyLogo,
+    Logo
   },
-  data() {
+  data () {
     return {
-      downImg: require('@/assets/images/pages/under-maintenance.svg'),
+      downImg: require('@/assets/images/pages/under-maintenance.svg')
     }
   },
   computed: {
-    imgUrl() {
+    imgUrl () {
       if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.downImg = require('@/assets/images/pages/under-maintenance-dark.svg')
         return this.downImg
       }
       return this.downImg
-    },
+    }
   },
 }
 </script>

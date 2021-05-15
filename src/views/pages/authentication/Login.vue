@@ -4,7 +4,8 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo/>
+        <logo/>
+
         <h2 class="brand-text text-primary">
           西宁舰办公系统
         </h2>
@@ -73,7 +74,7 @@
                       name="login-phone"
                       placeholder="请输入您的手机号码"
                   />
-                  <small class="text-danger">{{ errors[0] }}</small>
+                  <small class="text-danger" v-if="errors.length > 0">号码格式错误</small>
                 </validation-provider>
               </b-form-group>
 
@@ -109,7 +110,7 @@
                       />
                     </b-input-group-append>
                   </b-input-group>
-                  <small class="text-danger">{{ errors[0] }}</small>
+                  <small class="text-danger" v-if="errors.length > 0">密码强度过低</small>
                 </validation-provider>
               </b-form-group>
 
@@ -137,7 +138,7 @@
 <script>
 
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import Logo from '@core/layouts/components/Logo.vue'
 import {
   BRow,
   BCol,
@@ -177,7 +178,7 @@ export default {
     BForm,
     BButton,
     BAlert,
-    VuexyLogo,
+    Logo,
     ValidationProvider,
     ValidationObserver
   },
@@ -204,7 +205,7 @@ export default {
         return this.sideImg
       }
       return this.sideImg
-    },
+    }
   },
   methods: {
     login () {

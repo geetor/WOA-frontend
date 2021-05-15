@@ -20,7 +20,7 @@
             >
               <b-avatar
                 size="48"
-                variant="light-danger"
+                variant="light-success"
               >
                 <feather-icon
                   size="24"
@@ -49,7 +49,7 @@
             >
               <b-avatar
                       size="48"
-                      variant="light-success"
+                      variant="light-danger"
               >
                 <feather-icon
                         size="24"
@@ -161,37 +161,33 @@ export default {
     return {
       statisticsItems: [
         {
-          icon: 'TrendingUpIcon',
-          color: 'light-primary',
-          title: '230k',
-          subtitle: 'Sales',
-          customClass: 'mb-2 mb-xl-0',
-        },
-        {
-          icon: 'UserIcon',
-          color: 'light-info',
-          title: '8.549k',
-          subtitle: 'Customers',
-          customClass: 'mb-2 mb-xl-0',
-        },
-        {
-          icon: 'BoxIcon',
-          color: 'light-danger',
-          title: '1.423k',
-          subtitle: 'Products',
-          customClass: 'mb-2 mb-sm-0',
-        },
-        {
-          icon: 'DollarSignIcon',
+          icon: 'ThumbsUpIcon',
           color: 'light-success',
-          title: '$9745',
-          subtitle: 'Revenue',
-          customClass: '',
+          title: '230k',
+          subtitle: '正常出勤'
         },
+        {
+          icon: 'ThumbsDownIcon',
+          color: 'light-danger',
+          title: '8.549k',
+          subtitle: '异常出勤'
+        },
+        {
+          icon: 'UserXIcon',
+          color: 'light-primary',
+          title: '1.423k',
+          subtitle: '请假次数'
+        },
+        {
+          icon: 'UsersIcon',
+          color: 'light-warning',
+          title: '$9745',
+          subtitle: '训练次数',
+        }
       ],
       statisticsCategory: {
         countOfNormal: '正常出勤',
-        countOfNormal: '异常出勤',
+        countOfAbnormal: '异常出勤',
         countOfLeaves: '请假次数',
         countOfTrainings: '训练次数',
       }

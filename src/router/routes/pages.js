@@ -30,24 +30,6 @@ export default [
     }
   },
   {
-    path: '/forgot-password',
-    name: 'auth-forgot-password',
-    component: () => import('@/views/pages/authentication/ForgotPassword.vue'),
-    meta: {
-      layout: 'full',
-      resource: 'Auth',
-      redirectIfLoggedIn: true
-    }
-  },
-  {
-    path: '/pages/authentication/reset-password',
-    name: 'auth-reset-password',
-    component: () => import('@/views/pages/authentication/ResetPassword.vue'),
-    meta: {
-      layout: 'full'
-    }
-  },
-  {
     path: '/pages/miscellaneous/coming-soon',
     name: 'misc-coming-soon',
     component: () => import('@/views/pages/miscellaneous/ComingSoon.vue'),
