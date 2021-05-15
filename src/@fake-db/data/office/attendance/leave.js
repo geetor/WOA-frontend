@@ -49,7 +49,7 @@ const rejectLeave = async (userId, leaveId) => {
 }
 
 // ------------------------------------------------
-// GET: Return Charged Departments
+// GET: Return Departments in Charge
 // ------------------------------------------------
 mock.onGet('/office/leave/departments')
 .reply(config => {
@@ -75,7 +75,7 @@ mock.onGet('/office/leave/leaves')
     sortDesc = false,
     leaveType = null,
     department = null,
-    leaveStatus = null,
+    leaveStatus = null
   } = config.params
 
   const sortKeys = [

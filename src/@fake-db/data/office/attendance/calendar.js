@@ -35,7 +35,7 @@ const fetchAttendances = async (userId, startDateStr, endDateStr) => {
 }
 
 // ------------------------------------------------
-// GET: Return attendances
+// GET: Return Attendance Events
 // ------------------------------------------------
 mock.onGet('/office/attendance/attendances')
 .reply(config => {

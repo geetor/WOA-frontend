@@ -9,8 +9,8 @@ export const $themeBreakpoints = {}
 // APP CONFIG
 export const $themeConfig = {
   app: {
-    appName: ' 西宁舰办公系统', // Will update name in navigation menu (Branding)
-    appLogoImage: require('@/assets/images/logo/logo.svg') // Will update logo in navigation menu (Branding)
+    appName: ' 西宁舰办公系统',
+    appLogoImage: require('@/assets/images/logo/logo.svg')
   },
   layout: {
     isRTL: false,

@@ -62,7 +62,7 @@ import {
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import attendanceStoreModule from '@/views/office/attendance/attendanceStoreModule'
-import LeaveHandlerSidebar from '@/views/office/attendance/LeaveHandlerSidebar'
+import LeaveHandlerSidebar from '@/views/office/attendance/leave-asking/LeaveHandlerSidebar'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
@@ -94,7 +94,7 @@ export default {
     // Register module
     if (!store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.registerModule(ATTENDANCE_STORE_MODULE_NAME, attendanceStoreModule)
 
-    // UnRegister on leave
+    // UnRegister on Attendance
     onUnmounted(() => {
       if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
     })
@@ -192,9 +192,6 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
 
 <style lang="scss">
 @import "~@core/scss/base/pages/office-attendance.scss";

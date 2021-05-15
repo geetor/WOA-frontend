@@ -2,7 +2,7 @@
   <!-- Error page-->
   <div class="misc-wrapper">
     <b-link class="brand-logo">
-      <vuexy-logo />
+      <logo />
       <h2 class="brand-text text-primary">
         西宁舰办公系统
       </h2>
@@ -37,33 +37,31 @@
 </template>
 
 <script>
-/* eslint-disable global-require */
 import { BLink, BButton, BImg } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import Logo from '@core/layouts/components/Logo.vue'
 import store from '@/store/index'
 
 export default {
   components: {
-    VuexyLogo,
+    Logo,
     BLink,
     BButton,
-    BImg,
+    BImg
   },
   data() {
     return {
-      downImg: require('@/assets/images/pages/error.svg'),
+      downImg: require('@/assets/images/pages/error.svg')
     }
   },
   computed: {
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.downImg = require('@/assets/images/pages/error-dark.svg')
         return this.downImg
       }
       return this.downImg
-    },
-  },
+    }
+  }
 }
 </script>
 

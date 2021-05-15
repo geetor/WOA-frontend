@@ -2,7 +2,7 @@ import store from '@/store'
 
 import { computed } from '@vue/composition-api'
 
-export default function useCalendarSidebar() {
+export default function useCalendarSidebar () {
   // ------------------------------------------------
   // statusOptions
   // ------------------------------------------------

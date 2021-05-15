@@ -1,11 +1,11 @@
 <template>
   <layout-vertical>
 
-    <router-view />
+    <router-view/>
 
     <app-customizer
-      v-if="showCustomizer"
-      slot="customizer"
+        v-if="showCustomizer"
+        slot="customizer"
     />
 
   </layout-vertical>
@@ -21,7 +21,7 @@ export default {
     AppCustomizer,
     LayoutVertical
   },
-  data() {
+  data () {
     return {
       showCustomizer: $themeConfig.layout.customizer
     }

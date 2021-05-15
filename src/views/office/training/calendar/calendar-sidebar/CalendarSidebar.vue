@@ -81,10 +81,6 @@ export default {
       selectedStatuses,
       checkAll
     }
-  },
+  }
 }
 </script>
-
-<style>
-
-</style>

@@ -62,7 +62,7 @@ export default {
     // Register module
     if (!store.hasModule(CALENDAR_APP_STORE_MODULE_NAME)) store.registerModule(CALENDAR_APP_STORE_MODULE_NAME, calendarStoreModule)
 
-    // UnRegister on leave
+    // UnRegister on Calendar of Training
     onUnmounted(() => {
       if (store.hasModule(CALENDAR_APP_STORE_MODULE_NAME)) store.unregisterModule(CALENDAR_APP_STORE_MODULE_NAME)
     })

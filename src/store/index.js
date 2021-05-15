@@ -12,7 +12,7 @@ export default new Vuex.Store({
   modules: {
     app,
     appConfig,
-    verticalMenu,
+    verticalMenu
   },
-  strict: process.env.DEV,
+  strict: process.env.DEV
 })

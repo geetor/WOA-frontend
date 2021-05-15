@@ -4,7 +4,7 @@
 
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <vuexy-logo />
+        <logo />
 
         <h2 class="brand-text text-primary">
           西宁舰办公系统
@@ -157,9 +157,8 @@
 </template>
 
 <script>
-/* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import Logo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BButton, BForm, BFormGroup, BFormInput, BInputGroup, BInputGroupAppend, BImg, BCardTitle,
 } from 'bootstrap-vue'
@@ -169,7 +168,7 @@ import store from '@/store/index'
 
 export default {
   components: {
-    VuexyLogo,
+    Logo,
     BRow,
     BImg,
     BCol,
@@ -183,7 +182,7 @@ export default {
     BInputGroupAppend,
     // validations
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -195,7 +194,7 @@ export default {
       sideImg: require('@/assets/images/pages/register-v2.svg'),
       // validation
       required,
-      email,
+      email
     }
   },
   computed: {
@@ -204,7 +203,6 @@ export default {
     },
     imgUrl() {
       if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         this.sideImg = require('@/assets/images/pages/register-v2-dark.svg')
         return this.sideImg
       }
@@ -213,10 +211,9 @@ export default {
   },
   methods: {
     register() {
-    },
-  },
+    }
+  }
 }
-/* eslint-disable global-require */
 </script>
 
 <style lang="scss">
