@@ -2,23 +2,37 @@
   <content-with-sidebar class="blog-wrapper">
     <div slot class="container">
         <b-row>
-          <b-col md="2">
+          <b-col md="2" >
             <h2 align="center" class="text-dark">{{ docType }}</h2>
           </b-col>
 
-          <b-col md="5">
-            <doc-list :show-list="leftSideList"></doc-list>
+
+          <b-col md="10">
+
+            <div class="pub-btn" v-if="false">
+              <b-button class="btn-info" :to="{ name:'doc-center-edit' }">发布新公告</b-button>
+            </div>
+
+            <b-row class="blog-list-col">
+
+              <b-col md="6">
+                <doc-list :show-list="leftSideList"></doc-list>
+              </b-col>
+
+               <b-col md="6">
+                  <doc-list :show-list="leftSideList"></doc-list>
+               </b-col>
+
+            </b-row>
           </b-col>
 
-          <b-col md="5">
-            <doc-list :show-list="leftSideList"></doc-list>
-          </b-col>
-        </b-row>
+      </b-row>
 
     </div>
 
 
     <b-pagination
+        id="doc-pagination"
         v-model="currentPage"
         first-number
         last-number
@@ -37,7 +51,7 @@
         <b-button class="btn-info" :to="{ name:'doc-center-edit' }">发布新公告</b-button>
       </div>
 
-      <div class="classification-sidebar" v-if="type == 'department'">
+      <div class="classification-sidebar" v-if="type == 'department'" id="subject-select">
         <b-list-group>
           <b-list-group-item class="rounded-0" v-for="dept in departments" :key="dept.deptId" :class="{'active-item':selectedId==dept.deptId}">
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
@@ -155,6 +169,7 @@ export default {
 </script>
 
 <style scoped>
+@import "./css/keep-light.css";
 .blog-sidebar{
   border-left: 1px solid lightgrey;
 }
@@ -178,14 +193,11 @@ export default {
   position: relative;
 }
 
-/*.page-content{*/
-/*  position: relative;*/
-/*}*/
+.blog-list-col{
+  margin-top: 50px;
+}
 
-/*.pagination-cpn{*/
-/*  position: absolute;*/
-/*  bottom: 100px;*/
-/*  right: 350px;*/
-/*}*/
-
+.pub-btn{
+  margin-left: 40px;
+}
 </style>

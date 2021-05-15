@@ -1,0 +1,14 @@
+#dept-select .select-dept .vs__search::placeholder,
+#dept-select .select-dept .vs__dropdown-toggle,
+#dept-select .select-dept .vs__dropdown-menu{
+    background-color: #fff;
+}
+
+#subject-select .list-group-item{
+    background-color: #fff;
+    color: #5e5873;
+}
+
+#doc-pagination li, #doc-pagination span{
+    background-color: #f3f2f7;
+}

@@ -70,8 +70,13 @@
       </div>
 
       <div class="classification-sidebar">
-        <b-list-group>
-          <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class==selectedClass}">
+        <b-list-group id="subject-select">
+          <b-list-group-item
+              class="rounded-0"
+              v-for="(c_class,index) in classifications"
+              :key="c_class"
+              :class="{'active-item':c_class==selectedClass}"
+          >
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
             <a @click="updateSelect(c_class)">{{c_class}}</a>
           </b-list-group-item>
@@ -155,12 +160,8 @@ export default {
       axios.get('/user/getUserDepts?userId=' + this.userData.userId)
           .then(res => {
             this.departments = res.data.data
-            resolve()
           })
     })
-    // }).then(res=>{
-    //   axios.get('/document/getDeptDocuments?userId='+this.userData.userId+"&deptId="+this.departments[])
-    // })
 
 
 
@@ -230,8 +231,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@core/scss/vue/pages/page-blog.scss';
-
+//@import '@core/scss/vue/pages/page-blog.scss';
+@import "css/keep-light.css";
 
 .doc-item a,.news-list a{
   color: #333;
@@ -241,7 +242,6 @@ export default {
 
 .doc-item{
   list-style: none;
-  //background-color: lightpink;
   padding: 10px 0;
   border-bottom: solid 1px darkgray;
 }
@@ -308,13 +308,13 @@ export default {
   border-radius: 0;
 }
 
-.select-dept .vs__search::placeholder,
-.select-dept .vs__dropdown-toggle, {
+#dept-select .select-dept .vs__search::placeholder,
+#dept-select .select-dept .vs__dropdown-toggle, {
   height: 40px;
   font-size: 16px;
 }
 
-.select-dept .vs__dropdown-menu{
+#dept-select .select-dept .vs__dropdown-menu{
   font-size: 14px;
 }
 </style>

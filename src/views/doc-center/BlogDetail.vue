@@ -47,49 +47,6 @@
             </b-col>
             <!--/ blogs -->
 
-            <!-- blog comment -->
-<!--            <b-col-->
-<!--                id="blogComment"-->
-<!--                cols="12"-->
-<!--                class="mt-2"-->
-<!--            >-->
-<!--              <h6 class="section-label">-->
-<!--                热评-->
-<!--              </h6>-->
-<!--              <b-card-->
-<!--                  v-for="(comment,index) in docDetail.UserComment"-->
-<!--                  :key="index"-->
-<!--              >-->
-<!--                <b-media no-body>-->
-<!--                  <b-media-aside class="mr-75">-->
-<!--                    <b-avatar-->
-<!--                        :src="comment.avatar"-->
-<!--                        size="38"-->
-<!--                    />-->
-<!--                  </b-media-aside>-->
-<!--                  <b-media-body>-->
-<!--                    <h6 class="font-weight-bolder mb-25">-->
-<!--                      {{ comment.fullName }}-->
-<!--                    </h6>-->
-<!--                    <b-card-text>{{ comment.commentedAt }}</b-card-text>-->
-<!--                    <b-card-text>-->
-<!--                      {{ comment.comment }}-->
-<!--                    </b-card-text>-->
-<!--                    <b-link>-->
-<!--                      <div class="d-inline-flex align-items-center">-->
-<!--                        <feather-icon-->
-<!--                            icon="CornerUpLeftIcon"-->
-<!--                            size="18"-->
-<!--                            class="mr-50"-->
-<!--                        />-->
-<!--                        <span>Reply</span>-->
-<!--                      </div>-->
-<!--                    </b-link>-->
-<!--                  </b-media-body>-->
-<!--                </b-media>-->
-<!--              </b-card>-->
-<!--            </b-col>-->
-            <!--/ blog comment -->
           </b-row>
         </div>
       </b-col>
@@ -154,21 +111,11 @@ export default {
     this.userData = JSON.parse(localStorage.getItem('userData'));
 
     new Promise(resolve => {
-      this.$http.get('/blog/list/data/detail')
-          .then(res => {
-            this.docList = res.data
-            let id = Number(this.$route.params.id);
-            if ( id > 1 ) { id = 0 }
-            this.docDetail = this.docList[id]
-          })
-      resolve()
-    }).then(res=>{
       let docId = this.$route.params.docId
       axios.get('/document/getDocumentById?userId='+this.userData.userId+"&documentId="+docId)
           .then(res => {
             let status = res.data.status
             this.docDetail = res.data.data
-            console.log(this.docDetail)
           })
     })
 
@@ -193,8 +140,10 @@ export default {
       return myDate.getFullYear() + '.' + myDate.getMonth() + '.' + myDate.getDate()
     },
     getAuthorNames(){
-      let authorList = this.docDetail.authors;
-      return authorList.join("  ");
+      if(this.docDetail.authors){
+        let authorList = this.docDetail.authors;
+        return authorList.join("  ");
+      }
     }
   },
 }
