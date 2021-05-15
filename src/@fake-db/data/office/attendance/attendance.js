@@ -168,7 +168,7 @@ mock.onGet('/office/attendance/users')
 })
 
 // ------------------------------------------------
-// POST: Add new task
+// POST: Ask for Leave
 // ------------------------------------------------
 mock.onPost('/office/attendance/askForLeave')
 .reply(config => {

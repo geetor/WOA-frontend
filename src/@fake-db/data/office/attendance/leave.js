@@ -49,7 +49,7 @@ const rejectLeave = async (userId, leaveId) => {
 }
 
 // ------------------------------------------------
-// GET: Return Charged Departments
+// GET: Return Departments in Charge
 // ------------------------------------------------
 mock.onGet('/office/leave/departments')
 .reply(config => {

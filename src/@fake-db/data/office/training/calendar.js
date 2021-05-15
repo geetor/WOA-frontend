@@ -267,7 +267,7 @@ mock.onPost('/office/training/editTraining')
 })
 
 // ------------------------------------------------
-// DELETE: Remove Event
+// DELETE: Delete Training
 // ------------------------------------------------
 mock.onDelete(/\/office\/training\/delTraining\/\d+/)
 .reply(config => {
