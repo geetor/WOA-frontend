@@ -245,7 +245,7 @@ export default {
     // Register module
     if (!store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.registerModule(ATTENDANCE_STORE_MODULE_NAME, attendanceStoreModule)
 
-    // UnRegister on leave
+    // UnRegister on Attendance
     onUnmounted(() => {
       if (store.hasModule(ATTENDANCE_STORE_MODULE_NAME)) store.unregisterModule(ATTENDANCE_STORE_MODULE_NAME)
     })

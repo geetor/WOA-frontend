@@ -241,7 +241,8 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-@import "~@core/scss/base/bootstrap-extended/include";
+@import "~@core/scss/base/bootstrap-extended/_include";
+
 .leave-type-selector {
   ::v-deep .vs__dropdown-toggle {
     padding-left: 0;

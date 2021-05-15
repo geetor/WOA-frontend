@@ -227,7 +227,7 @@ export default {
     // Register module
     if (!store.hasModule(TRAINING_STORE_MODULE_NAME)) store.registerModule(TRAINING_STORE_MODULE_NAME, trainingStoreModule)
 
-    // UnRegister on leave
+    // UnRegister on Training
     onUnmounted(() => {
       if (store.hasModule(TRAINING_STORE_MODULE_NAME)) store.unregisterModule(TRAINING_STORE_MODULE_NAME)
     })

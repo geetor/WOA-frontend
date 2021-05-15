@@ -8,18 +8,18 @@
     <b-card-body>
       <b-row>
         <b-col
-          cols="12"
-          md="4"
-          class="mb-md-0 mb-2"
+            cols="12"
+            md="4"
+            class="mb-md-0 mb-2"
         >
           <label>所属部门</label>
           <v-select
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="departmentFilter"
-            :options="departments"
-            class="w-100"
-            :reduce="val => val.value"
-            @input="(val) => $emit('update:departmentFilter', val)"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :value="departmentFilter"
+              :options="departments"
+              class="w-100"
+              :reduce="val => val.value"
+              @input="(val) => $emit('update:departmentFilter', val)"
           />
         </b-col>
         <b-col
@@ -38,18 +38,18 @@
           />
         </b-col>
         <b-col
-          cols="12"
-          md="4"
-          class="mb-md-0 mb-2"
+            cols="12"
+            md="4"
+            class="mb-md-0 mb-2"
         >
           <label>审核状态</label>
           <v-select
-            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-            :value="statusFilter"
-            :options="leaveStatuses"
-            class="w-100"
-            :reduce="val => val.value"
-            @input="(val) => $emit('update:statusFilter', val)"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :value="statusFilter"
+              :options="leaveStatuses"
+              class="w-100"
+              :reduce="val => val.value"
+              @input="(val) => $emit('update:statusFilter', val)"
           />
         </b-col>
       </b-row>

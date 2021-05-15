@@ -252,7 +252,7 @@ export default {
     // Register module
     if (!store.hasModule(LEAVE_LIST_STORE_MODULE_NAME)) store.registerModule(LEAVE_LIST_STORE_MODULE_NAME, leaveStoreModule)
 
-    // UnRegister on leave
+    // UnRegister on Leave
     onUnmounted(() => {
       if (store.hasModule(LEAVE_LIST_STORE_MODULE_NAME)) store.unregisterModule(LEAVE_LIST_STORE_MODULE_NAME)
     })

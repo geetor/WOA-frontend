@@ -75,7 +75,7 @@ mock.onGet('/office/leave/leaves')
     sortDesc = false,
     leaveType = null,
     department = null,
-    leaveStatus = null,
+    leaveStatus = null
   } = config.params
 
   const sortKeys = [

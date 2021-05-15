@@ -6,24 +6,24 @@
           <span class="align-middle">考勤类型</span>
         </h5>
         <b-form-checkbox
-          v-model="checkAll"
-          class="mb-1"
+            v-model="checkAll"
+            class="mb-1"
         >
           全部
         </b-form-checkbox>
         <b-form-group>
           <b-form-checkbox-group
-            v-model="selectedTypes"
-            name="type-filter"
-            stacked
+              v-model="selectedTypes"
+              name="type-filter"
+              stacked
           >
             <b-form-checkbox
-              v-for="item in attendanceTypes"
-              :key="item.label"
-              name="type-filter"
-              :value="item.label"
-              class="mb-1"
-              :class="`custom-control-${item.color}`"
+                v-for="item in attendanceTypes"
+                :key="item.label"
+                name="type-filter"
+                :value="item.label"
+                class="mb-1"
+                :class="`custom-control-${item.color}`"
             >
               {{ item.label }}
             </b-form-checkbox>
@@ -52,7 +52,7 @@ export default {
     BFormGroup,
     BFormCheckboxGroup
   },
-  setup() {
+  setup () {
     const {
       attendanceTypes,
       selectedTypes,
@@ -64,10 +64,6 @@ export default {
       selectedTypes,
       checkAll
     }
-  },
+  }
 }
 </script>
-
-<style>
-
-</style>
