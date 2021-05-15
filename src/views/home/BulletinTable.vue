@@ -59,7 +59,6 @@
     data() {
       return {
         fields: [
-          { key: 'top', label: '置顶' },
           { key: 'bulletinTitle', label: '标题' },
           { key: 'issuingTime', label: '时间' },
           { key: 'simpleInfo', label: '摘要' },

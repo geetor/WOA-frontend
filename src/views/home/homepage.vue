@@ -1,30 +1,41 @@
 <template>
   <section id="homepage-home">
-    <b-row class="match-height">
-      <b-col>
+    <b-row class="match-height" >
+      <b-col
+              lg="5"
+              md="6">
         <news-swiper />
       </b-col>
 
-      <b-col >
+      <b-col
+              lg="5"
+              md="6">
         <bulletin-table :table-data="newsList" :card-title="bulletinTitle[0]" />
+      </b-col>
+
+      <b-col
+             lg="2"
+             md="6"
+      >
+        <card-statistics-group />
       </b-col>
     </b-row>
 
     <b-row class="match-height">
-      <b-col cols="4">
+      <b-col
+             lg="4"
+             md="6">
         <notice-timeline :timeline-data="noticeList"/>
       </b-col>
-      <b-col>
+      <b-col
+              lg="4"
+              md="6">
         <bulletin-table :table-data="regulationList" :card-title="bulletinTitle[2]"/>
       </b-col>
-      <b-col>
-        <bulletin-table :table-data="activityList" :card-title="bulletinTitle[3]"/>
-      </b-col>
-    </b-row>
-    <b-row class="match-height">
       <b-col
-      >
-        <card-statistics-group />
+              lg="4"
+              md="6">
+        <bulletin-table :table-data="activityList" :card-title="bulletinTitle[3]"/>
       </b-col>
     </b-row>
     </section>
@@ -56,7 +67,7 @@
                 noticeList: [],
                 regulationList: [],
                 activityList: [],
-                bulletinTitle:["相关新闻 ", "通知公告", "规章制度", "活动安排"],
+                bulletinTitle:["相关新闻", "通知公告", "规章制度", "活动安排"],
             }
         },
         created() {
@@ -69,7 +80,7 @@
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[0]}})
                 .then(response => {
-                    this.newsList = response.data.data});
+                    this.newsList = response.data.data.slice(0,6);});
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[1]}})
                 .then(response => {
@@ -82,6 +93,18 @@
                 {params: {bulletinType: this.bulletinTitle[3]}})
                 .then(response => {
                     this.activityList = response.data.data});
+
+            this.newsList.sort(sortBulletins);
+            this.regulationList.sort(sortBulletins);
+            this.activityList.sort(sortBulletins);
+
+            function sortBulletins(a,b){
+                if (a.top==true)
+                    return -1;
+                else if (b.top==true)
+                    return 1;
+                return 0;
+            }
         },
         methods: {
             kFormatter,

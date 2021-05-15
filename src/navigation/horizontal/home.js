@@ -1,6 +1,6 @@
 export default [
     {
-        title: '主页',
+        title: '信息门户',
         icon: 'HomeIcon',
         route: 'home-homepage'
     }

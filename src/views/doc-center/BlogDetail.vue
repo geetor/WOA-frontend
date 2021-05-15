@@ -37,7 +37,6 @@
                     v-html="docDetail.documentContent"
                 />
 
-
                 <!-- eslint-enable -->
                 <hr class="my-2">
 
