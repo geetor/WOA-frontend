@@ -76,9 +76,10 @@
               v-for="(c_class,index) in classifications"
               :key="c_class"
               :class="{'active-item':c_class==selectedClass}"
+              @click="updateSelect(c_class)"
           >
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
-            <a @click="updateSelect(c_class)">{{c_class}}</a>
+            <a>{{c_class}}</a>
           </b-list-group-item>
         </b-list-group>
       </div>

@@ -159,7 +159,6 @@ export default {
 }
 
 .blog-content p {
-  color: #333;
   padding: 5px 20px;
 }
 

@@ -9,20 +9,24 @@
 
           <b-col md="10">
 
-            <div class="pub-btn" v-if="false">
-              <b-button class="btn-info" :to="{ name:'doc-center-edit' }">发布新公告</b-button>
+
+            <div class="pub-btn">
+              <b-link to="/doc-center/edit">
+                <feather-icon
+                    :icon="'EditIcon'"
+                    size="24"
+                    class="mr-75"
+                />
+                发布新公告
+              </b-link>
+
             </div>
 
             <b-row class="blog-list-col">
 
-              <b-col md="6">
+              <b-col>
                 <doc-list :show-list="leftSideList"></doc-list>
               </b-col>
-
-               <b-col md="6">
-                  <doc-list :show-list="leftSideList"></doc-list>
-               </b-col>
-
             </b-row>
           </b-col>
 

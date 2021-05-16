@@ -185,7 +185,15 @@ export default {
     }
   },
   created() {
-    this.$http.get('/blog/list/data/edit').then(res => { this.blogEdit = res.data })
+    this.blogEdit = {
+      avatar:null,
+      blogTitle:'',
+      rank:0,
+      blogType:'',
+      blogSubject:'',
+      blogDept:'',
+      excerpt:'',
+    }
     this.userData = JSON.parse(localStorage.getItem('userData'))
     axios.get('/user/getUserDepts?userId='+this.userData.userId)
     .then(res=>{
