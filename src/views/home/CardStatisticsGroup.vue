@@ -1,130 +1,130 @@
 <template>
   <b-card
-    no-body
-    class="card-statistics"
+      no-body
+      class="card-statistics"
   >
     <b-card-header>
       <b-card-title style="font-weight: bolder">数据统计</b-card-title>
-      <b-card-text class="mr-25 mb-0">
+      <b-card-text class="font-small-2 mr-20 mb-0">
         近30天
       </b-card-text>
     </b-card-header>
     <b-card-body class="statistics-body">
-      <b-row cols="10">
-        <b-col
-          class="mb-2 mb-md-0"
+      <b-row class="justify-content-center mt-md-2 mt-sm-1">
+        <div
+            class="mb-1"
         >
           <b-media no-body>
             <b-media-aside
-              class="mr-2"
+                class="mr-2"
             >
               <b-avatar
-                size="48"
-                variant="light-success"
+                  size="48"
+                  variant="light-success"
               >
                 <feather-icon
-                  size="24"
-                  icon="ThumbsUpIcon"
+                    size="24"
+                    icon="ThumbsUpIcon"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{statisticsItems.countOfNormal}}
+                {{ statisticsItems.countOfNormal }}
               </h4>
-              <b-card-text class="font-small-3 mb-0">
+              <b-card-text class="font-small-3 mb-0 text-truncate">
                 正常出勤
               </b-card-text>
             </b-media-body>
           </b-media>
-        </b-col>
+        </div>
       </b-row>
-      <b-row>
-        <b-col
-                class="mb-2 mb-md-0"
+      <b-row class="justify-content-center">
+        <div
+            class="my-1"
         >
           <b-media no-body>
             <b-media-aside
-                    class="mr-2"
+                class="mr-2"
             >
               <b-avatar
-                      size="48"
-                      variant="light-danger"
+                  size="48"
+                  variant="light-danger"
               >
                 <feather-icon
-                        size="24"
-                        icon="ThumbsDownIcon"
+                    size="24"
+                    icon="ThumbsDownIcon"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{statisticsItems.countOfAbnormal}}
+                {{ statisticsItems.countOfAbnormal }}
               </h4>
-              <b-card-text class="font-small-3 mb-0">
+              <b-card-text class="font-small-3 mb-0 text-truncate">
                 异常出勤
               </b-card-text>
             </b-media-body>
           </b-media>
-        </b-col>
+        </div>
       </b-row>
-      <b-row>
-        <b-col
-                class="mb-2 mb-md-0"
+      <b-row class="justify-content-center">
+        <div
+            class="my-1"
         >
           <b-media no-body>
             <b-media-aside
-                    class="mr-2"
+                class="mr-2"
             >
               <b-avatar
-                      size="48"
-                      variant="light-primary"
+                  size="48"
+                  variant="light-primary"
               >
                 <feather-icon
-                        size="24"
-                        icon="UserXIcon"
+                    size="24"
+                    icon="UserXIcon"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{statisticsItems.countOfLeaves}}
+                {{ statisticsItems.countOfLeaves }}
               </h4>
-              <b-card-text class="font-small-3 mb-0">
+              <b-card-text class="font-small-3 mb-0 text-truncate">
                 请假次数
               </b-card-text>
             </b-media-body>
           </b-media>
-        </b-col>
+        </div>
       </b-row>
-      <b-row>
-        <b-col
-                class="mb-2 mb-md-0"
+      <b-row class="justify-content-center">
+        <div
+            class="mt-1"
         >
           <b-media no-body>
             <b-media-aside
-                    class="mr-2"
+                class="mr-2"
             >
               <b-avatar
-                      size="48"
-                      variant="light-warning"
+                  size="48"
+                  variant="light-warning"
               >
                 <feather-icon
-                        size="24"
-                        icon="UsersIcon"
+                    size="24"
+                    icon="UsersIcon"
                 />
               </b-avatar>
             </b-media-aside>
             <b-media-body class="my-auto">
               <h4 class="font-weight-bolder mb-0">
-                {{statisticsItems.countOfTrainings}}
+                {{ statisticsItems.countOfTrainings }}
               </h4>
-              <b-card-text class="font-small-3 mb-0">
+              <b-card-text class="font-small-3 mb-0 text-truncate">
                 训练次数
               </b-card-text>
             </b-media-body>
           </b-media>
-        </b-col>
+        </div>
       </b-row>
     </b-card-body>
   </b-card>
@@ -134,7 +134,7 @@
 import {
   BCard, BCardHeader, BCardTitle, BCardText, BCardBody, BRow, BCol, BMedia, BMediaAside, BAvatar, BMediaBody,
 } from 'bootstrap-vue'
-import axiosIns from "../../libs/axios";
+import axiosIns from '../../libs/axios'
 
 export default {
   components: {
@@ -150,14 +150,14 @@ export default {
     BMediaAside,
     BMediaBody,
   },
-  created(){
+  created () {
     const that = this
     axiosIns.get('/bulletin/getStatistics')
-            .then(response => {
-              that.statisticsItems = response.data.data
-            });
+    .then(response => {
+      that.statisticsItems = response.data.data
+    })
   },
-  data() {
+  data () {
     return {
       statisticsItems: [
         {
@@ -189,15 +189,9 @@ export default {
         countOfNormal: '正常出勤',
         countOfAbnormal: '异常出勤',
         countOfLeaves: '请假次数',
-        countOfTrainings: '训练次数',
+        countOfTrainings: '训练次数'
       }
     }
-  },
+  }
 }
 </script>
-
-<style lang="scss">
-  [dir] .mb-md-0, [dir] .my-md-0 {
-    margin-bottom: 15% !important;
-  }
-</style>

@@ -9,8 +9,8 @@
             <b-list-group-item class="flex-column align-items-start"
                                v-for="bulletin in showList"
                                :key="bulletin.bulletinId">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
+              <div class="d-flex w-100 justify-content-between my-1">
+                <h5>
                   {{bulletin.bulletinTitle}}
                 </h5>
                 <small class="text-secondary">{{bulletin.issuingTime}}</small>
@@ -107,7 +107,7 @@
                       class="sidebar-training-list scroll-area"
               >
                 <b-list-group>
-                  <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class==selectedClass}">
+                  <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class===selectedClass}">
                     <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
                     <a @click="updateSelect(c_class)">{{c_class}}</a>
                   </b-list-group-item>
@@ -320,19 +320,22 @@ export default {
 .active-item{
   font-weight: bolder;
   color: #7ab8cc;
-  border-left: 3px solid #7ab8cc;
+  border-left: 2px solid #7ab8cc !important;
   border-radius: 0;
 }
 
 .list-group-item{
   border-radius: 0;
+  border-top: none;
+  border-right: none;
+  border-left: none;
 }
 
-[dir=ltr] .list-group-item:last-child {
+.list-group-item:last-child {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-[dir=ltr] .list-group-item:first-child {
+.list-group-item:first-child {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
  }
