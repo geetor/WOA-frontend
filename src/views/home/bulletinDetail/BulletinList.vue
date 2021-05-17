@@ -1,90 +1,91 @@
 <template>
-    <div style="height: inherit">
-      <div class="training-list">
-        <vue-perfect-scrollbar
-                :settings="perfectScrollbarSettings"
-                class="training-user-list scroll-area"
-        >
-          <b-list-group>
-            <b-list-group-item class="flex-column align-items-start"
-                               v-for="bulletin in showList"
-                               :key="bulletin.bulletinId">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                  {{bulletin.bulletinTitle}}
-                </h5>
-                <small class="text-secondary">{{bulletin.issuingTime}}</small>
-              </div>
-              <b-card-text class="mb-1">
-              </b-card-text>
+  <div style="height: inherit">
+    <div class="training-list">
+      <vue-perfect-scrollbar
+          :settings="perfectScrollbarSettings"
+          class="training-user-list scroll-area"
+      >
+        <b-list-group>
+          <b-list-group-item class="flex-column align-items-start"
+                             v-for="bulletin in showList"
+                             :key="bulletin.bulletinId"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">
+                {{ bulletin.bulletinTitle }}
+              </h5>
+              <small class="text-secondary">{{ bulletin.issuingTime }}</small>
+            </div>
+            <b-card-text class="mb-1">
+            </b-card-text>
+            <b-row>
+              <b-col>
+                <small class="text-secondary">Donec id elit non mi porta.</small>
+              </b-col>
+              <b-col align="right">
+                <feather-icon
+                    v-if="canViewHorizontalNavMenuLink(item)"
+                    :id="`bulletin-row-${bulletin.id}-edit-icon`"
+                    icon="EditIcon"
+                    size="16"
+                    class="mx-1"
+                    @click="editBulletin(bulletin)"
+                />
+                <feather-icon
+                    v-if="canViewHorizontalNavMenuLink(item)"
+                    :id="`bulletin-row-${bulletin.id}-trash-icon`"
+                    icon="TrashIcon"
+                    size="16"
+                    class="mx-1"
+                    @click="trashBulletin(bulletin)"
+                />
+                <feather-icon
+                    :id="`bulletin-row-${bulletin.id}-preview-icon`"
+                    icon="EyeIcon"
+                    size="16"
+                    class="mx-1"
+                    @click="previewBulletin(bulletin)"
+                />
+              </b-col>
+            </b-row>
+          </b-list-group-item>
+          <div id="bulletin-nav">
+            <div class="mx-2 mb-2">
               <b-row>
-                <b-col>
-                  <small class="text-secondary">Donec id elit non mi porta.</small>
-                </b-col>
-                <b-col align="right">
-                  <feather-icon
-                          v-if="canViewHorizontalNavMenuLink(item)"
-                          :id="`bulletin-row-${bulletin.id}-edit-icon`"
-                          icon="EditIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="editBulletin(bulletin)"
-                  />
-                  <feather-icon
-                          v-if="canViewHorizontalNavMenuLink(item)"
-                          :id="`bulletin-row-${bulletin.id}-trash-icon`"
-                          icon="TrashIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="trashBulletin(bulletin)"
-                  />
-                  <feather-icon
-                          :id="`bulletin-row-${bulletin.id}-preview-icon`"
-                          icon="EyeIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="previewBulletin(bulletin)"
-                  />
-                </b-col>
-              </b-row>
-            </b-list-group-item>
-            <div id="bulletin-nav">
-              <div class="mx-2 mb-2">
-                <b-row>
-                  <b-col
-                          cols="12"
-                          sm="6"
-                          class="d-flex align-items-center justify-content-center justify-content-sm-start"
-                  >
+                <b-col
+                    cols="12"
+                    sm="6"
+                    class="d-flex align-items-center justify-content-center justify-content-sm-start"
+                >
           <span class="text-muted"
           >从 {{ from }} 到 {{ to }} , 共
             {{ bulletinList.length }} 条记录</span
           >
-                  </b-col>
-                  <!-- Pagination -->
-                  <b-col
-                          cols="12"
-                          sm="6"
-                          class="d-flex align-items-center justify-content-center justify-content-sm-end"
+                </b-col>
+                <!-- Pagination -->
+                <b-col
+                    cols="12"
+                    sm="6"
+                    class="d-flex align-items-center justify-content-center justify-content-sm-end"
+                >
+                  <b-pagination
+                      v-model="currentPage"
+                      first-number
+                      last-number
+                      hide-goto-end-buttons
+                      :per-page="perPage"
+                      :total-rows="bulletinList.length"
+                      :align="'center'"
                   >
-                    <b-pagination
-                            v-model="currentPage"
-                            first-number
-                            last-number
-                            hide-goto-end-buttons
-                            :per-page="perPage"
-                            :total-rows="bulletinList.length"
-                            :align="'center'"
-                    >
 
-                    </b-pagination>
-                  </b-col>
-                </b-row>
-              </div>
+                  </b-pagination>
+                </b-col>
+              </b-row>
             </div>
-          </b-list-group>
-        </vue-perfect-scrollbar>
-      </div>
+          </div>
+        </b-list-group>
+      </vue-perfect-scrollbar>
+    </div>
 
     <!-- Sidebar -->
     <portal to="content-renderer-sidebar-left">
@@ -94,28 +95,29 @@
             <div class="training-menu">
               <div class="form-group-compose text-center compose-btn">
                 <b-button
-                        v-if="canViewHorizontalNavMenuLink(item)"
-                        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                        variant="primary"
-                        block
-                        class="my-1"
-                        @click="addBulletin"
+                    v-if="canViewHorizontalNavMenuLink(item)"
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="primary"
+                    block
+                    class="my-1"
+                    @click="addBulletin"
                 >
-                  发布{{selectedClass}}
-                </b-button >
+                  发布{{ selectedClass }}
+                </b-button>
               </div>
               <vue-perfect-scrollbar
-                      :settings="perfectScrollbarSettings"
-                      class="sidebar-training-list scroll-area"
+                  :settings="perfectScrollbarSettings"
+                  class="sidebar-training-list scroll-area"
               >
                 <b-list-group>
                   <b-list-group-item class="rounded-0"
                                      v-for="(c_class,index) in classifications"
                                      :key="c_class"
                                      :class="{'active-item':c_class==selectedClass}"
-                                     @click="updateSelect(c_class)">
+                                     @click="updateSelect(c_class)"
+                  >
                     <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
-                    <a>{{c_class}}</a>
+                    <a>{{ c_class }}</a>
                   </b-list-group-item>
                 </b-list-group>
               </vue-perfect-scrollbar>
@@ -158,7 +160,7 @@ import {
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import trainingStoreModule from '@/views/office/training/trainingStoreModule'
-import axiosIns from "../../../libs/axios";
+import axiosIns from '../../../libs/axios'
 
 export default {
   components: {
@@ -201,7 +203,6 @@ export default {
       maxScrollbarLength: 150
     }
 
-
     // Compose
     const shallShowTrainingComposeModal = ref(false)
 
@@ -238,8 +239,8 @@ export default {
       item,
     }
   },
-  data(){
-    return{
+  data () {
+    return {
       classifications: ['相关新闻', '通知公告', '规章制度', '活动安排'],
       selectedClass: '相关新闻',
       showBulletinDetails: false,
@@ -252,100 +253,117 @@ export default {
       to: 0,
     }
   },
-  created(){
+  created () {
     this.selectedClass = this.$route.query.selectedClass
     const that = this
     axiosIns.get('/bulletin/getSimpleBulletinsByType',
-            {params: {bulletinNum: 10000000,
-              bulletinType: that.selectedClass}})
-            .then(response => {
-              that.bulletinList = response.data.data
-              console.log(that.bulletinList)
-              that.showList = that.bulletinList.slice(0,that.perPage)
-              this.showList.sort(sortBulletins)
-              this.from = (this.currentPage-1)*this.perPage+1
-              this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length
-            })
+        {
+          params: {
+            bulletinNum: 10000000,
+            bulletinType: that.selectedClass
+          }
+        })
+    .then(response => {
+      that.bulletinList = response.data.data
+      console.log(that.bulletinList)
+      that.showList = that.bulletinList.slice(0, that.perPage)
+      this.showList.sort(sortBulletins)
+      this.from = (this.currentPage - 1) * this.perPage + 1
+      this.to = this.from + this.perPage < this.bulletinList.length ? this.from + this.perPage - 1 : this.bulletinList.length
+    })
 
-    function sortBulletins(a,b){
-      if (a.top==true)
-        return -1;
-      else if (b.top==true)
-        return 1;
-      return 0;
+    function sortBulletins (a, b) {
+      if (a.top == true) {
+        return -1
+      } else if (b.top == true) {
+        return 1
+      }
+      return 0
     }
   },
-  watch:{
-    currentPage:{
-      handler(newVal){
-        let tempIndex = this.perPage*(newVal-1)
-        this.showList = this.bulletinList.slice(tempIndex,this.perPage+tempIndex)
+  watch: {
+    currentPage: {
+      handler (newVal) {
+        let tempIndex = this.perPage * (newVal - 1)
+        this.showList = this.bulletinList.slice(tempIndex, this.perPage + tempIndex)
         this.showList.sort(this.sortBulletins)
-        this.from = (this.currentPage-1)*this.perPage+1
-        this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length
+        this.from = (this.currentPage - 1) * this.perPage + 1
+        this.to = this.from + this.perPage < this.bulletinList.length ? this.from + this.perPage - 1 : this.bulletinList.length
       },
-      immediate:true,
+      immediate: true,
     },
   },
-  methods:{
-    updateSelect(c_class){
+  methods: {
+    updateSelect (c_class) {
       const that = this
       axiosIns.get('/bulletin/getSimpleBulletinsByType',
-              {params: {bulletinType: c_class}})
-              .then(response => {
-                that.bulletinList = response.data.data
-                that.selectedClass = c_class
-                this.showList.sort(this.sortBulletins)
-                that.showList = that.bulletinList.slice(0,that.perPage)
-                this.from = (this.currentPage-1)*this.perPage+1
-                this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length})
+          { params: { bulletinType: c_class } })
+      .then(response => {
+        that.bulletinList = response.data.data
+        that.selectedClass = c_class
+        this.showList.sort(this.sortBulletins)
+        that.showList = that.bulletinList.slice(0, that.perPage)
+        this.from = (this.currentPage - 1) * this.perPage + 1
+        this.to = this.from + this.perPage < this.bulletinList.length ? this.from + this.perPage - 1 : this.bulletinList.length
+      })
     },
     // handleClickBulletin(bulletin){
     //   console.log(bulletin);
     // },
-    editBulletin(bulletin){
-      this.$router.push({name:"bulletin-edit",query:{bulletinId: bulletin.bulletinId}})
+    editBulletin (bulletin) {
+      this.$router.push({
+        name: 'bulletin-edit',
+        query: { bulletinId: bulletin.bulletinId }
+      })
     },
-    trashBulletin(bulletin){
-        this.$swal({
-          title: '确认删除该门户信息?',
-          text: "此操作无法撤销",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          customClass: {
-            confirmButton: 'btn btn-primary',
-            cancelButton: 'btn btn-outline-danger ml-1',
-          },
-          buttonsStyling: false,
-        }).then(result => {
-          if (result.value) {
-            axiosIns.get('/bulletin/delBulletin',
-                    {params: {bulletinId: bulletin.bulletinId}})
-                    .then(response => {
-                      if(response.data.status.code='0000'){
-                        alert('删除成功！')
-                        this.updateSelect(this.selectedClass)
-                      }
-                    })
-          }
-        })
-      }
+    trashBulletin (bulletin) {
+      this.$swal({
+        title: '确认删除该门户信息?',
+        text: '此操作无法撤销',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-outline-danger ml-1',
+        },
+        buttonsStyling: false,
+      })
+      .then(result => {
+        if (result.value) {
+          axiosIns.get('/bulletin/delBulletin',
+              { params: { bulletinId: bulletin.bulletinId } })
+          .then(response => {
+            if (response.data.status.code = '0000') {
+              alert('删除成功！')
+              this.updateSelect(this.selectedClass)
+            }
+          })
+        }
+      })
+    }
     ,
-    addBulletin(){
-      this.$router.push({name:"bulletin-edit",query:{bulletinId: -1}})
+    addBulletin () {
+      this.$router.push({
+        name: 'bulletin-edit',
+        query: { bulletinId: -1 }
+      })
     },
-    previewBulletin(bulletin){
+    previewBulletin (bulletin) {
       console.log(bulletin)
-      this.$router.push({name:"bulletin-preview",query:{bulletinId: bulletin.bulletinId}})
+      this.$router.push({
+        name: 'bulletin-preview',
+        query: { bulletinId: bulletin.bulletinId }
+      })
     },
-    sortBulletins(a,b){
-      if (a.top==true)
-        return -1;
-      else if (b.top==true)
-        return 1;
-      return 0;
+    sortBulletins (a, b) {
+      if (a.top == true) {
+        return -1
+      } else if (b.top == true) {
+        return 1
+      }
+      return 0
     }
   }
 }
@@ -356,27 +374,31 @@ export default {
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
 
-#bulletin-nav .row{
+#bulletin-nav .row {
   margin-top: 1.5rem;
 }
 
-.active-item{
+.active-item {
   font-weight: bolder;
   color: #7ab8cc;
-  border-left: 3px solid #7ab8cc;
+  border-left: 2px solid #7ab8cc !important;
   border-radius: 0;
 }
 
-.list-group-item{
+.list-group-item {
   border-radius: 0;
+  border-top: none;
+  border-right: none;
+  border-left: none;
 }
 
-[dir=ltr] .list-group-item:last-child {
+.list-group-item:last-child {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-[dir=ltr] .list-group-item:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
- }
+
+.list-group-item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 </style>
