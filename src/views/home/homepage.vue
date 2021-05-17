@@ -80,19 +80,19 @@
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[0]}})
                 .then(response => {
-                    this.newsList = response.data.data.slice(0,6);});
+                    this.newsList = response.data.data.slice(0,9);});
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[1]}})
                 .then(response => {
-                    this.noticeList = response.data.data});
+                    this.noticeList = response.data.data.slice(0,6)});
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[2]}})
                 .then(response => {
-                    this.regulationList = response.data.data});
+                    this.regulationList = response.data.data.slice(0,6)});
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[3]}})
                 .then(response => {
-                    this.activityList = response.data.data});
+                    this.activityList = response.data.data.slice(0,6)});
 
             this.newsList.sort(sortBulletins);
             this.regulationList.sort(sortBulletins);

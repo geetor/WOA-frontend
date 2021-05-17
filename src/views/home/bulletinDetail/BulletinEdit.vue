@@ -95,7 +95,7 @@
                             class="mr-1 sub-btn"
                             @click="resetBulletin()"
                     >
-                        Reset
+                        重置
                     </b-button>
                 </b-col>
             </b-row>

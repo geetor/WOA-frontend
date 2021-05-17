@@ -9,8 +9,8 @@
             <b-list-group-item class="flex-column align-items-start"
                                v-for="bulletin in showList"
                                :key="bulletin.bulletinId">
-              <div class="d-flex w-100 justify-content-between my-1">
-                <h5>
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
                   {{bulletin.bulletinTitle}}
                 </h5>
                 <small class="text-secondary">{{bulletin.issuingTime}}</small>
@@ -48,7 +48,8 @@
                 </b-col>
               </b-row>
             </b-list-group-item>
-              <div class="mx-2 mb-2" >
+            <div id="bulletin-nav">
+              <div class="mx-2 mb-2">
                 <b-row>
                   <b-col
                           cols="12"
@@ -80,6 +81,7 @@
                   </b-col>
                 </b-row>
               </div>
+            </div>
           </b-list-group>
         </vue-perfect-scrollbar>
       </div>
@@ -99,7 +101,7 @@
                         class="my-1"
                         @click="addBulletin"
                 >
-                  新增{{selectedClass}}
+                  发布{{selectedClass}}
                 </b-button >
               </div>
               <vue-perfect-scrollbar
@@ -107,9 +109,13 @@
                       class="sidebar-training-list scroll-area"
               >
                 <b-list-group>
-                  <b-list-group-item class="rounded-0" v-for="(c_class,index) in classifications" :key="c_class" :class="{'active-item':c_class===selectedClass}">
+                  <b-list-group-item class="rounded-0"
+                                     v-for="(c_class,index) in classifications"
+                                     :key="c_class"
+                                     :class="{'active-item':c_class==selectedClass}"
+                                     @click="updateSelect(c_class)">
                     <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
-                    <a @click="updateSelect(c_class)">{{c_class}}</a>
+                    <a>{{c_class}}</a>
                   </b-list-group-item>
                 </b-list-group>
               </vue-perfect-scrollbar>
@@ -250,22 +256,33 @@ export default {
     this.selectedClass = this.$route.query.selectedClass
     const that = this
     axiosIns.get('/bulletin/getSimpleBulletinsByType',
-            {params: {bulletinType: that.selectedClass}})
+            {params: {bulletinNum: 10000000,
+              bulletinType: that.selectedClass}})
             .then(response => {
               that.bulletinList = response.data.data
+              console.log(that.bulletinList)
               that.showList = that.bulletinList.slice(0,that.perPage)
+              this.showList.sort(sortBulletins)
               this.from = (this.currentPage-1)*this.perPage+1
-              this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length
-              console.log(this.showList)
+              this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length
             })
+
+    function sortBulletins(a,b){
+      if (a.top==true)
+        return -1;
+      else if (b.top==true)
+        return 1;
+      return 0;
+    }
   },
   watch:{
     currentPage:{
       handler(newVal){
         let tempIndex = this.perPage*(newVal-1)
         this.showList = this.bulletinList.slice(tempIndex,this.perPage+tempIndex)
+        this.showList.sort(this.sortBulletins)
         this.from = (this.currentPage-1)*this.perPage+1
-        this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length
+        this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length
       },
       immediate:true,
     },
@@ -278,9 +295,10 @@ export default {
               .then(response => {
                 that.bulletinList = response.data.data
                 that.selectedClass = c_class
+                this.showList.sort(this.sortBulletins)
                 that.showList = that.bulletinList.slice(0,that.perPage)
                 this.from = (this.currentPage-1)*this.perPage+1
-                this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage : this.bulletinList.length})
+                this.to = this.from+this.perPage < this.bulletinList.length ? this.from+this.perPage-1 : this.bulletinList.length})
     },
     // handleClickBulletin(bulletin){
     //   console.log(bulletin);
@@ -289,15 +307,32 @@ export default {
       this.$router.push({name:"bulletin-edit",query:{bulletinId: bulletin.bulletinId}})
     },
     trashBulletin(bulletin){
-      axiosIns.get('/bulletin/delBulletin',
-              {params: {bulletinId: bulletin.bulletinId}})
-              .then(response => {
-                if(response.data.status.code='0000'){
-                  alert('删除成功！')
-                  this.updateSelect(this.selectedClass)
-                }
-                })
-    },
+        this.$swal({
+          title: '确认删除该门户信息?',
+          text: "此操作无法撤销",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1',
+          },
+          buttonsStyling: false,
+        }).then(result => {
+          if (result.value) {
+            axiosIns.get('/bulletin/delBulletin',
+                    {params: {bulletinId: bulletin.bulletinId}})
+                    .then(response => {
+                      if(response.data.status.code='0000'){
+                        alert('删除成功！')
+                        this.updateSelect(this.selectedClass)
+                      }
+                    })
+          }
+        })
+      }
+    ,
     addBulletin(){
       this.$router.push({name:"bulletin-edit",query:{bulletinId: -1}})
     },
@@ -305,6 +340,13 @@ export default {
       console.log(bulletin)
       this.$router.push({name:"bulletin-preview",query:{bulletinId: bulletin.bulletinId}})
     },
+    sortBulletins(a,b){
+      if (a.top==true)
+        return -1;
+      else if (b.top==true)
+        return 1;
+      return 0;
+    }
   }
 }
 </script>
@@ -314,28 +356,26 @@ export default {
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
 
-.mx-2.mb-2 {
-  margin-top: 1.5rem !important;
+#bulletin-nav .row{
+  margin-top: 1.5rem;
 }
+
 .active-item{
   font-weight: bolder;
   color: #7ab8cc;
-  border-left: 2px solid #7ab8cc !important;
+  border-left: 3px solid #7ab8cc;
   border-radius: 0;
 }
 
 .list-group-item{
   border-radius: 0;
-  border-top: none;
-  border-right: none;
-  border-left: none;
 }
 
-.list-group-item:last-child {
+[dir=ltr] .list-group-item:last-child {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.list-group-item:first-child {
+[dir=ltr] .list-group-item:first-child {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
  }

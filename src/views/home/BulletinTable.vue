@@ -17,6 +17,7 @@
     <b-table
             :items="tableData"
             :fields="fields"
+            :show-overflow-tooltip="true"
             thead-tr-class ="d-none"
             @row-clicked="bulletinClick"
             class="mb-0"
@@ -32,7 +33,7 @@
   import {
     BCard, BTable, BAvatar, BImg, BCardHeader, BCardTitle, BButton,BDropdown, BDropdownItem,
   } from 'bootstrap-vue'
-  import axiosIns from "../../libs/axios";
+import { formatDate } from '@/@core/utils/date.js';
 
   export default {
     components: {
@@ -45,6 +46,7 @@
       BButton,
       BDropdown,
       BDropdownItem,
+      formatDate
     },
     props: {
       tableData: {
@@ -56,12 +58,15 @@
         default: () => "",
       },
     },
+
     data() {
       return {
         fields: [
-          { key: 'bulletinTitle', label: '标题' },
-          { key: 'issuingTime', label: '时间' },
-          { key: 'simpleInfo', label: '摘要' },
+          { key: 'bulletinTitle', label: '标题', formatter: function (value) {
+              if(value.length>20) return value.substr(0,20)+'...'
+              return value
+            }},
+          { key: 'issuingTime', label: '时间'},
         ],
       }
     },
@@ -71,7 +76,8 @@
       },
       moreBulletinInfo(bulletinType){
         this.$router.push({name:"bulletin-page",query:{selectedClass:bulletinType}})
-      }
+      },
+
     }
   }
 
