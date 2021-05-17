@@ -9,7 +9,7 @@
         近30天
       </b-card-text>
     </b-card-header>
-    <b-card-body class="statistics-body">
+    <b-card-body class="bulletin-statistics-body" >
       <b-row cols="10">
         <b-col
           class="mb-2 mb-md-0"
@@ -201,7 +201,7 @@ export default {
 </script>
 
 <style lang="scss">
-  [dir] .mb-md-0, [dir] .my-md-0 {
-    margin-bottom: 15% !important;
+  .bulletin-statistics-body .row{
+    margin-bottom: 22% !important;
   }
 </style>
