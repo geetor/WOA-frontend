@@ -14,7 +14,7 @@
         @click="moreBulletinInfo(cardTitle)"
       />
     </b-card-header>
-    <b-table
+    <b-table id="bulletin-info-table"
             :items="tableData"
             :fields="fields"
             :show-overflow-tooltip="true"
@@ -66,7 +66,7 @@ import { formatDate } from '@/@core/utils/date.js';
               if(value.length>20) return value.substr(0,20)+'...'
               return value
             }},
-          { key: 'issuingTime', label: '时间'},
+          { key: 'issuingTime', label: '时间', align: "right"},
         ],
       }
     },
@@ -77,7 +77,15 @@ import { formatDate } from '@/@core/utils/date.js';
       moreBulletinInfo(bulletinType){
         this.$router.push({name:"bulletin-page",query:{selectedClass:bulletinType}})
       },
-
+      cellStyle(row) {
+        if(row.column.label === "时间"){
+          console.log(1111111111)
+          return 'font-family:Montserrat,Helvetica,Arial,serif;'  // 修改的样式
+        }else{
+          console.log(2222)
+          return ''
+        }
+      }
     }
   }
 
@@ -96,5 +104,11 @@ import { formatDate } from '@/@core/utils/date.js';
   ::v-deep tr:focus {
     outline: none !important;
   }
+
+  ::v-deep tr td:last-child {
+    font-family: sans-serif !important;
+    width: 200px;
+  }
+
 
 </style>
