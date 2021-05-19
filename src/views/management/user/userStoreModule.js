@@ -1,7 +1,6 @@
 import axios from '@axios'
 import axiosIns from '@/libs/axios'
 
-
 export default {
   namespaced: true,
   state: {},
@@ -16,14 +15,14 @@ export default {
         .catch(error => reject(error))
       })
     },
-    fetchUsers(ctx, queryParams) {
+    fetchUsers (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axiosIns
-          .get('/manage/user/getAllUsers', {
-            params: queryParams
-          })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/manage/user/getAllUsers', {
+          params: queryParams
+        })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     },
     askForAdd (ctx, addData) {
@@ -34,7 +33,7 @@ export default {
         .catch(error => reject(error))
       })
     },
-    askForEdit(ctx, editData) {
+    askForEdit (ctx, editData) {
       return new Promise((resolve, reject) => {
         axios
         .post('manage/user/askForEdit', { edit: editData })
@@ -42,16 +41,17 @@ export default {
         .catch(error => reject(error))
       })
     },
-    askForDel(ctx, delData) {
+    askForDel (ctx, delData) {
       return new Promise((resolve, reject) => {
         axios
-        .get('manage/user/askForDel', { params: {
-          userId: delData.userId
-        } })
+        .get('manage/user/askForDel', {
+          params: {
+            userId: delData.userId
+          }
+        })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     }
-    
-  },
+  }
 }

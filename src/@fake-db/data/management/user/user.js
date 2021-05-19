@@ -25,30 +25,30 @@ const fetchData = async () => {
 }
 const askForAdd = async (addData) => {
   return await axiosIns.post('/user/addUser', {
-    userName:addData.userName,
-    admin:addData.admin,
+    userName: addData.userName,
+    admin: addData.admin,
     userRank: addData.userRank,
-    userGender:addData.userGender,
-    userPhone:addData.userPhone,
-    userEmail:addData.userEmail,
-    userStatus:addData.userStatus,
-    userPassword:addData.userPassword,
-    userDepts:addData.userDepts
+    userGender: addData.userGender,
+    userPhone: addData.userPhone,
+    userEmail: addData.userEmail,
+    userStatus: addData.userStatus,
+    userPassword: addData.userPassword,
+    userDepts: addData.userDepts
   })
 }
 
 const askForEdit = async (editData) => {
   return await axiosIns.post('/user/editUser', {
-    userId:editData.userId,
-    userName:editData.userName,
-    isAdmin:editData.admin,
+    userId: editData.userId,
+    userName: editData.userName,
+    admin: editData.admin,
     userRank: editData.userRank,
-    userGender:editData.userGender,
-    userPhone:editData.userPhone,
-    userEmail:editData.userEmail,
-    userStatus:editData.userStatus,
-    userPassword:editData.userPassword,
-    userDepts:editData.userDepts
+    userGender: editData.userGender,
+    userPhone: editData.userPhone,
+    userEmail: editData.userEmail,
+    userStatus: editData.userStatus,
+    userPassword: editData.userPassword,
+    userDepts: editData.userDepts
   })
 }
 
@@ -61,9 +61,13 @@ const askForDel = async (params) => {
 // ------------------------------------------------
 mock.onGet('/manage/user/getAllUsers')
 .reply(config => {
+
   return fetchData()
   .then(data => {
-    const { users, total } = data
+    const {
+      users,
+      total
+    } = data
     const {
       q = '',
       perPage = 10,
@@ -73,14 +77,13 @@ mock.onGet('/manage/user/getAllUsers')
       rank
     } = config.params
 
-
     const filteredData = users.filter(
       user =>
-      (user.userDepts.some((item) => {
-        return item.deptName.includes(q)
-      }) ||
-      (user.userPhone.includes(q) || user.userName.includes(q) || user.userEmail.includes(q))) &&
-      (rank ? user.userRank === Number(rank) : true),
+        (user.userDepts.some((item) => {
+            return item.deptName.includes(q)
+          }) ||
+          (user.userPhone.includes(q) || user.userName.includes(q) || user.userEmail.includes(q))) &&
+        (rank ? user.userRank === Number(rank) : true)
     )
 
     const sortKeys = [
@@ -96,10 +99,11 @@ mock.onGet('/manage/user/getAllUsers')
       200,
       {
         invoices: paginateArray(sortedData, perPage, page),
-        total: filteredData.length,
-      },
+        total: filteredData.length
+      }
     ]
-    })
+  })
+
 })
 // ------------------------------------------------
 // POST: Add new add task
@@ -130,10 +134,11 @@ mock.onPost('manage/user/askForEdit')
 
 })
 
-
 mock.onGet('manage/user/askForDel')
 .reply(config => {
+
   const params = config.params
+
   return askForDel(params)
   .then(() => {
       return [201, { params }]

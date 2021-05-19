@@ -1,29 +1,29 @@
 <template>
   <div>
     <b-sidebar
-      id="sidebar-add-handler"
-      sidebar-class="sidebar-lg"
-      :visible="isUserAddSidebarActive"
-      bg-variant="white"
-      shadow
-      backdrop
-      no-header
-      right
-      @change="(val) => $emit('update:is-user-add-sidebar-active', val)"
-      @hidden="clearForm"
+        id="sidebar-add-handler"
+        sidebar-class="sidebar-lg"
+        :visible="isUserAddSidebarActive"
+        bg-variant="white"
+        shadow
+        backdrop
+        no-header
+        right
+        @change="(val) => $emit('update:is-user-add-sidebar-active', val)"
+        @hidden="clearForm"
     >
       <template #default="{ hide }">
         <!-- Header -->
         <div
-          class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
+            class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
         >
-          <h5 class="mb-0">{{ addLocal.isEdit ? "修改人员" : "新增人员"}}</h5>
+          <h5 class="mb-0">{{ addLocal.isEdit ? '修改人员' : '新增人员' }}</h5>
           <div>
             <feather-icon
-              class="ml-1 cursor-pointer"
-              icon="XIcon"
-              size="16"
-              @click="hide"
+                class="ml-1 cursor-pointer"
+                icon="XIcon"
+                size="16"
+                @click="hide"
             />
           </div>
         </div>
@@ -32,50 +32,50 @@
         <validation-observer #default="{ handleSubmit }" ref="refFormObserver">
           <!-- Form -->
           <b-form
-            class="p-2"
-            @submit.prevent="handleSubmit(onSubmit)"
-            @reset.prevent="resetForm"
+              class="p-2"
+              @submit.prevent="handleSubmit(onSubmit)"
+              @reset.prevent="resetForm"
           >
             <!-- 姓名 -->
             <b-form-group label="姓名">
               <b-form-input
-                v-model="addLocal.userName"
-                placeholder="请输入姓名"
+                  v-model="addLocal.userName"
+                  placeholder="请输入姓名"
               >
               </b-form-input>
             </b-form-group>
             <!-- 管理员 -->
             <b-form-group label="管理员" label-for="user-admin">
               <v-select
-                v-model="addLocal.admin"
-                :options="adminTypes"
-                :reduce="(option) => option.value"
-                input-id="admin-type"
+                  v-model="addLocal.admin"
+                  :options="adminTypes"
+                  :reduce="(option) => option.value"
+                  input-id="admin-type"
               />
             </b-form-group>
             <!-- 等级 -->
             <b-form-group label="等级" label-for="user-rank">
               <v-select
-                v-model="addLocal.userRank"
-                :options="rankTypes"
-                :reduce="(option) => option.value"
-                input-id="rank-type"
+                  v-model="addLocal.userRank"
+                  :options="rankTypes"
+                  :reduce="(option) => option.value"
+                  input-id="rank-type"
               />
             </b-form-group>
             <!-- 性别 -->
             <b-form-group label="性别" label-for="user-gender">
               <v-select
-                v-model="addLocal.userGender"
-                :options="genderTypes"
-                :reduce="(option) => option.value"
-                input-id="gender-type"
+                  v-model="addLocal.userGender"
+                  :options="genderTypes"
+                  :reduce="(option) => option.value"
+                  input-id="gender-type"
               />
             </b-form-group>
             <!-- 电话 -->
             <b-form-group label="电话">
               <b-form-input
-                v-model="addLocal.userPhone"
-                placeholder="请输入电话"
+                  v-model="addLocal.userPhone"
+                  placeholder="请输入电话"
               >
               </b-form-input>
             </b-form-group>
@@ -83,8 +83,8 @@
             <!-- 邮箱 -->
             <b-form-group label="邮箱">
               <b-form-input
-                v-model="addLocal.userEmail"
-                placeholder="请输入邮箱"
+                  v-model="addLocal.userEmail"
+                  placeholder="请输入邮箱"
               >
               </b-form-input>
             </b-form-group>
@@ -92,57 +92,57 @@
             <!-- 状态 -->
             <b-form-group label="状态" label-for="user-status">
               <v-select
-                v-model="addLocal.userStatus"
-                :options="statusTypes"
-                :reduce="(option) => option.value"
-                input-id="status-type"
+                  v-model="addLocal.userStatus"
+                  :options="statusTypes"
+                  :reduce="(option) => option.value"
+                  input-id="status-type"
               />
             </b-form-group>
 
             <!-- 密码 -->
             <b-form-group label="密码">
               <b-form-input
-                v-model="addLocal.userPassword"
-                placeholder="请输入密码"
+                  v-model="addLocal.userPassword"
+                  placeholder="请输入密码"
               >
               </b-form-input>
             </b-form-group>
             <!-- 部门 -->
             <b-form-group label="部门" label-for="user-depts">
               <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="addLocal.userDepts"
-                :options="deptsTypes"
-                input-id="depts-type"
+                  id="checkbox-group-1"
+                  v-model="addLocal.userDepts"
+                  :options="deptTypes"
+                  input-id="dept-type"
               />
             </b-form-group>
 
             <!-- 表单操作 -->
             <div class="d-flex mt-2">
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="primary"
-                class="mr-2"
-                type="submit"
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  class="mr-2"
+                  type="submit"
               >
-                {{ addLocal.isEdit ? "修改" : "新增" }} 
+                {{ addLocal.isEdit ? '修改' : '新增' }}
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="addLocal.isEdit"
-                @click="
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="addLocal.isEdit"
+                  @click="
                   $emit('update:is-user-add-sidebar-active', false)
                 "
               >
                 取消
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="!addLocal.isEdit"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="!addLocal.isEdit"
               >
                 重置
               </b-button>
@@ -158,7 +158,6 @@
 import {
   BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback, BFormCheckboxGroup, BFormCheckbox
 } from 'bootstrap-vue'
-
 
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
@@ -191,35 +190,35 @@ export default {
 
     // Form Validation
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   directives: {
-    Ripple,
+    Ripple
   },
   model: {
     prop: 'isUserAddSidebarActive',
-    event: 'update:is-user-add-sidebar-active',
+    event: 'update:is-user-add-sidebar-active'
   },
   props: {
     isUserAddSidebarActive: {
       type: Boolean,
-      required: true,
+      required: true
     },
     add: {
       type: Object,
-      required: true,
+      required: true
     },
     clearAddData: {
       type: Function,
-      required: true,
+      required: true
     }
   },
-  data() {
+  data () {
     return {
       required
     }
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const {
       addLocal,
       resetAddLocal,
@@ -227,10 +226,9 @@ export default {
       genderTypes,
       statusTypes,
       rankTypes,
-      deptsTypes,
+      deptTypes,
       adminTypes,
-      onSubmit,
-
+      onSubmit
     } = useUserAdd(toRefs(props), emit)
 
     const {
@@ -242,9 +240,9 @@ export default {
 
     const editorOption = {
       modules: {
-        toolbar: '#quill-toolbar',
+        toolbar: '#quill-toolbar'
       },
-      placeholder: '请输入请假原因',
+      placeholder: '请输入请假原因'
     }
 
     return {
@@ -255,7 +253,7 @@ export default {
       statusTypes,
       adminTypes,
       rankTypes,
-      deptsTypes,
+      deptTypes,
       // Form Validation
       resetForm,
       clearForm,
@@ -269,7 +267,7 @@ export default {
       avatarText,
       Mandarin
     }
-  },
+  }
 }
 </script>
 

@@ -4,24 +4,24 @@
     <!--UserList-->
     <div class="training-list">
       <vue-perfect-scrollbar
-        :settings="perfectScrollbarSettings"
-        class="training-user-list scroll-area"
+          :settings="perfectScrollbarSettings"
+          class="training-user-list scroll-area"
       >
         <user-list
-          ref="refUserList"
-          :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
-          @edit-user="editUser"
-          @del-user="delUser"
+            ref="refUserList"
+            :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
+            @edit-user="editUser"
+            @del-user="delUser"
         />
       </vue-perfect-scrollbar>
     </div>
     <!-- Add Handler -->
     <user-add-sidebar
-      v-model="isUserAddSidebarActive"
-      :add="add"
-      :clear-add-data="clearAddData"
-      @ask-for-add="askForAdd"
-      @ask-for-edit="askForEdit"
+        v-model="isUserAddSidebarActive"
+        :add="add"
+        :clear-add-data="clearAddData"
+        @ask-for-add="askForAdd"
+        @ask-for-edit="askForEdit"
     />
 
   </div>
@@ -29,8 +29,6 @@
 
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
-import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
-import UserManageSidebar from './UserManageSidebar.vue'
 import UserList from './UserList'
 import UserAddSidebar from './UserAddSidebar.vue'
 import {
@@ -70,11 +68,10 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    UserManageSidebar,
     UserList,
     UserAddSidebar
   },
-  setup() {
+  setup () {
     const USER_MANAGE_STORE_MODULE_NAME = 'manage-user'
 
     // Register module
@@ -117,56 +114,56 @@ export default {
 
     const askForAdd = val => {
       store.dispatch('manage-user/askForAdd', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `新增成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchUserList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `新增成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchUserList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                },
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const askForEdit = val => {
       store.dispatch('manage-user/askForEdit', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `修改成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchUserList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `修改成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchUserList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                },
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const editUser = val => {
@@ -178,29 +175,29 @@ export default {
 
     const delUser = val => {
       store.dispatch('manage-user/askForDel', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `删除成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchUserList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `删除成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchUserList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                },
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     return {
@@ -219,9 +216,6 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
 
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";

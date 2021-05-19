@@ -1,13 +1,13 @@
 import { ref, watch } from '@vue/composition-api'
 
-
-export default function useUserAdd(props, emit) {
+export default function useUserAdd (props, emit) {
   // ------------------------------------------------
   // addLocal
   // ------------------------------------------------
   const addLocal = ref(JSON.parse(JSON.stringify(props.add.value)))
   const resetAddLocal = () => {
     addLocal.value = JSON.parse(JSON.stringify(props.add.value))
+    addLocal.value.userDepts = addLocal.value.userDepts.map(item => item.deptId)
   }
   watch(props.add, () => {
     resetAddLocal()
@@ -31,37 +31,101 @@ export default function useUserAdd(props, emit) {
   // *===============================================---*
 
   const genderTypes = [
-    { label: '男', value: '男' },
-    { label: '女', value: '女' },
+    {
+      label: '男',
+      value: '男'
+    },
+    {
+      label: '女',
+      value: '女'
+    }
   ]
+
   const statusTypes = [
-    { label: '退役', value: '退役' },
-    { label: '现役', value: '现役' },
+    {
+      label: '退役',
+      value: '退役'
+    },
+    {
+      label: '现役',
+      value: '现役'
+    }
   ]
+
   const rankTypes = [
-   
-    { label: '1级', value: 1 },
-    { label: '2级', value: 2 },
-    { label: '3级', value: 3 },
-    { label: '4级', value: 4 },
-    { label: '5级', value: 5 },
-    { label: '6级', value: 6 },
-    { label: '7级', value: 7 },
-    { label: '8级', value: 8 },
-    { label: '9级', value: 9 },
-    { label: '10级', value: 10 },
-   
+    {
+      label: '1级',
+      value: 1
+    },
+    {
+      label: '2级',
+      value: 2
+    },
+    {
+      label: '3级',
+      value: 3
+    },
+    {
+      label: '4级',
+      value: 4
+    },
+    {
+      label: '5级',
+      value: 5
+    },
+    {
+      label: '6级',
+      value: 6
+    },
+    {
+      label: '7级',
+      value: 7
+    },
+    {
+      label: '8级',
+      value: 8
+    },
+    {
+      label: '9级',
+      value: 9
+    },
+    {
+      label: '10级',
+      value: 10
+    }
   ]
   const adminTypes = [
-    { label: '是', value: true },
-    { label: '否', value: false },
+    {
+      label: '是',
+      value: true
+    },
+    {
+      label: '否',
+      value: false
+    }
   ]
-  const deptsTypes = [
-    { text: '人事部门', value: 1 },
-    { text: '驾驶部门', value: 2 },
-    { text: '后勤部门', value: 3 },
-    { text: '武装部门', value: 4 },
-    { text: '管理部门', value: 5 },
+
+  const deptTypes = [
+    {
+      text: '人事部门',
+      value: 1
+    },
+    {
+      text: '驾驶部门',
+      value: 2
+    },
+    {
+      text: '后勤部门',
+      value: 3
+    },
+    {
+      text: '武装部门',
+      value: 4
+    },
+    {
+      text: '管理部门',
+      value: 5
+    }
   ]
 
   return {
@@ -72,8 +136,8 @@ export default function useUserAdd(props, emit) {
     genderTypes,
     statusTypes,
     rankTypes,
-    deptsTypes,
+    deptTypes,
     adminTypes,
-    onSubmit,
+    onSubmit
   }
 }

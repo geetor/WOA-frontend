@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useUserList() {
+export default function useUserList () {
   // Use toast
   const toast = useToast()
 
@@ -13,16 +13,45 @@ export default function useUserList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'userName', label: '姓名', sortable: false },
-    { key: 'userGender', label: '性别', sortable: false },
-    {key:'userRank',label:'等级',sortable:true},
-    {key:'userEmail',label:'电子邮箱',sortable:false},
-    {key:'admin',label:'管理员',sortable:false},
-    {key:'userStatus',label:'状态',sortable:false},
-    {key:'userDepts',label:'所属部门',sortable:false},
-    {key:"actions",label:'操作'}
-
-    // { key: 'total', sortable: true, formatter: val => `$${val}` },
+    {
+      key: 'userName',
+      label: '姓名',
+      sortable: false
+    },
+    {
+      key: 'userGender',
+      label: '性别',
+      sortable: false
+    },
+    {
+      key: 'userRank',
+      label: '等级',
+      sortable: true
+    },
+    {
+      key: 'userEmail',
+      label: '电子邮箱',
+      sortable: false
+    },
+    {
+      key: 'admin',
+      label: '管理员',
+      sortable: false
+    },
+    {
+      key: 'userStatus',
+      label: '状态',
+      sortable: false
+    },
+    {
+      key: 'userDepts',
+      label: '所属部门',
+      sortable: false
+    },
+    {
+      key: 'actions',
+      label: '操作'
+    }
   ]
 
   const perPage = ref(10)
@@ -39,7 +68,7 @@ export default function useUserList() {
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalInvoices.value,
+      of: totalInvoices.value
     }
   })
 
@@ -53,29 +82,32 @@ export default function useUserList() {
 
   const fetchInvoices = (ctx, callback) => {
     store
-      .dispatch('manage-user/fetchUsers', {
-        q: searchQuery.value,
-        perPage: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+    .dispatch('manage-user/fetchUsers', {
+      q: searchQuery.value,
+      perPage: perPage.value,
+      page: currentPage.value,
+      sortBy: sortBy.value,
+      sortDesc: isSortDirDesc.value,
+      rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
+    })
+    .then(response => {
+      const {
+        invoices,
+        total
+      } = response.data
+      callback(invoices)
+      totalInvoices.value = total
+    })
+    .catch(() => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: '获取用户失败',
+          icon: 'AlertTriangleIcon',
+          variant: 'danger'
+        }
       })
-      .then(response => {
-        const { invoices, total } = response.data
-        callback(invoices)
-        totalInvoices.value = total
-      })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: "获取用户失败",
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    })
   }
 
   // *===============================================---*
@@ -91,7 +123,6 @@ export default function useUserList() {
     return 'success'
   }
 
-
   const resolveAdmin = admin => {
     if (admin === false) return '否'
     if (admin === true) return '是'
@@ -104,7 +135,7 @@ export default function useUserList() {
     return 'success'
   }
 
- const resolveStatus = status => {
+  const resolveStatus = status => {
     if (status === '退役') return '退役'
     if (status === '现役') return '现役'
     return ''
@@ -115,7 +146,6 @@ export default function useUserList() {
     if (status === '退役') return 'secondary'
     return 'success'
   }
-
 
   return {
     fetchInvoices,
@@ -135,6 +165,6 @@ export default function useUserList() {
     resolveAdmin,
     resolveAdminColor,
     resolveStatus,
-    resolveStatusColor,
+    resolveStatusColor
   }
 }
