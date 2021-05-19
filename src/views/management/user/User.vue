@@ -1,10 +1,5 @@
 <template>
   <div style="height: inherit">
-    <div
-      class="body-content-overlay"
-      :class="{ show: mqShallShowLeftSidebar }"
-      @click="mqShallShowLeftSidebar = false"
-    />
 
     <!--UserList-->
     <div class="training-list">
@@ -14,9 +9,9 @@
       >
         <user-list
           ref="refUserList"
+          :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
           @edit-user="editUser"
           @del-user="delUser"
-          @close-left-sidebar="mqShallShowLeftSidebar = false"
         />
       </vue-perfect-scrollbar>
     </div>
@@ -28,15 +23,7 @@
       @ask-for-add="askForAdd"
       @ask-for-edit="askForEdit"
     />
-    <!-- Sidebar -->
-    <portal to="content-renderer-sidebar-left">
-      <user-manage-sidebar
-        :shall-show-training-compose-modal.sync="shallShowTrainingComposeModal"
-        :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
-        :class="{ show: mqShallShowLeftSidebar }"
-        @close-left-sidebar="mqShallShowLeftSidebar = false"
-      />
-    </portal>
+
   </div>
 </template>
 
@@ -183,7 +170,6 @@ export default {
     }
 
     const editUser = val => {
-      shallShowTrainingComposeModal.value = true
       isUserAddSidebarActive.value = true
       add.value = JSON.parse(JSON.stringify(val))
       add.value.userPassword = ''
@@ -217,12 +203,6 @@ export default {
         })
     }
 
-    // Compose
-    const shallShowTrainingComposeModal = ref(false)
-
-    // Left Sidebar Responsiveness
-    const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
-
     return {
       add,
       askForAdd,
@@ -234,13 +214,7 @@ export default {
 
       // UI
       perfectScrollbarSettings,
-      isUserAddSidebarActive,
-
-      // Compose
-      shallShowTrainingComposeModal,
-
-      // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar
+      isUserAddSidebarActive
     }
   }
 }

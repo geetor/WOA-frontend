@@ -10,7 +10,6 @@
           md="6"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <label>Entries</label>
           <v-select
             v-model="perPage"
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -32,7 +31,7 @@
               v-model="rankFilter"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="rankOptions"
-              class="invoice-filter-select"
+              class="user-rank-select mr-2"
               placeholder="用户等级"
             >
               <template #selected-option="{ label }">
@@ -41,6 +40,13 @@
                 </span>
               </template>
             </v-select>
+
+            <b-button
+                variant="primary"
+                @click="$emit('update:is-user-add-sidebar-active', true);"
+            >
+              <span class="text-nowrap">新增</span>
+            </b-button>
           </div>
         </b-col>
       </b-row>
@@ -52,7 +58,7 @@
       responsive
       hover
       :fields="tableColumns"
-      primary-key="id"
+      primary-key="userId"
       :sort-by.sync="sortBy"
       show-empty
       empty-text="无对应成员"
@@ -79,7 +85,7 @@
       <!-- 部门 -->
       <template #cell(userDepts)="data">
         <template v-for="dept in data.item.userDepts">
-          <b-badge pill :variant="`light-${'primary'}`" :key="dept">
+          <b-badge pill :variant="`light-${'primary'}`">
             {{ dept.deptName }}
           </b-badge>
         </template>
@@ -142,8 +148,8 @@
           class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
           <span class="text-muted"
-            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-            {{ dataMeta.of }} entries</span
+          >从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共
+            {{ dataMeta.of }} 名成员</span
           >
         </b-col>
         <!-- Pagination -->
@@ -322,4 +328,5 @@ export default {
 
 <style lang="scss">
 @import "@core/scss/vue/libs/vue-select.scss";
+@import '@core/scss/vue/libs/vue-sweetalert.scss';
 </style>

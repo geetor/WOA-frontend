@@ -73,7 +73,7 @@ mock.onGet('/manage/user/getAllUsers')
       rank
     } = config.params
 
-   
+
     const filteredData = users.filter(
       user =>
       (user.userDepts.some((item) => {
@@ -87,10 +87,6 @@ mock.onGet('/manage/user/getAllUsers')
       {
         name: '等级',
         key: 'userRank'
-      },
-      {
-        name: 'userId',
-        key: 'userId'
       }
     ]
 

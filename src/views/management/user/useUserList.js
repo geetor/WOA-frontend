@@ -13,7 +13,6 @@ export default function useUserList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'userId', label: '编号', sortable: true },
     { key: 'userName', label: '姓名', sortable: false },
     { key: 'userGender', label: '性别', sortable: false },
     {key:'userRank',label:'等级',sortable:true},
@@ -22,7 +21,7 @@ export default function useUserList() {
     {key:'userStatus',label:'状态',sortable:false},
     {key:'userDepts',label:'所属部门',sortable:false},
     {key:"actions",label:'操作'}
-    
+
     // { key: 'total', sortable: true, formatter: val => `$${val}` },
   ]
 
@@ -31,7 +30,7 @@ export default function useUserList() {
   const currentPage = ref(1)
   const perPageOptions = [10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('userId')
+  const sortBy = ref('等级')
   const isSortDirDesc = ref(true)
   const rankFilter = ref(null)
 
@@ -92,7 +91,7 @@ export default function useUserList() {
     return 'success'
   }
 
-  
+
   const resolveAdmin = admin => {
     if (admin === false) return '否'
     if (admin === true) return '是'
@@ -134,7 +133,7 @@ export default function useUserList() {
     resolveRankColor,
     refetchData,
     resolveAdmin,
-    resolveAdminColor, 
+    resolveAdminColor,
     resolveStatus,
     resolveStatusColor,
   }

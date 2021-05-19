@@ -5,7 +5,6 @@ export default [
     name: 'management-user',
     component: () => import('@/views/management/user/User.vue'),
     meta: {
-      contentRenderer: 'sidebar-left',
       contentClass: 'training-application'
     }
   },
