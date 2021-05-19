@@ -72,7 +72,7 @@ mock.onGet('/manage/user/getAllUsers')
       q = '',
       perPage = 10,
       page = 1,
-      sortBy = '等级',
+      sortBy = 'userRank',
       sortDesc = false,
       rank
     } = config.params
@@ -86,14 +86,7 @@ mock.onGet('/manage/user/getAllUsers')
         (rank ? user.userRank === Number(rank) : true)
     )
 
-    const sortKeys = [
-      {
-        name: '等级',
-        key: 'userRank'
-      }
-    ]
-
-    const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
+    const sortedData = filteredData.sort(sortCompare(sortBy))
     if (sortDesc) sortedData.reverse()
     return [
       200,

@@ -275,7 +275,6 @@ export default {
       //rank
       resolveRankColor,
       //user
-
       resolveAdmin,
       resolveAdminColor,
       resolveStatus,
