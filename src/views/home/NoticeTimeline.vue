@@ -19,7 +19,7 @@
             <app-timeline>
                 <div v-for="item in timelineData"
                         :key="item.bulletinId">
-                    <app-timeline-item>
+                    <app-timeline-item id="timeline-bulletin">
                         <div class="d-flex flex-sm-row flex-column flex-wrap justify-content-between mb-1 mb-sm-0">
                             <h6>{{item.bulletinTitle}}</h6>
                             <small class="text-muted">{{item.issuingTime}}</small>
@@ -77,10 +77,13 @@
         methods:{
             moreBulletinInfo(){
                 this.$router.push({name:"bulletin-page",query:{selectedClass:'通知公告'}})
-            },
-            clickedddd(item){
-                console.log(item);
             }
         }
     }
 </script>
+
+<style lang="scss">
+    #timeline-bulletin .text-muted{
+        font-family: sans-serif !important;
+    }
+</style>

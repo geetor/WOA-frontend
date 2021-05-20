@@ -5,49 +5,51 @@
           :settings="perfectScrollbarSettings"
           class="training-user-list scroll-area"
       >
-        <b-list-group>
-          <b-list-group-item class="flex-column align-items-start"
+        <b-list-group id="bulletin-list-group">
+          <b-list-group-item
                              v-for="bulletin in showList"
                              :key="bulletin.bulletinId"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">
-                {{ bulletin.bulletinTitle }}
-              </h5>
-              <small class="text-secondary">{{ bulletin.issuingTime }}</small>
+                <b-col align="left">
+                  <h5 id="bulletin-title-text">
+                    {{ bulletin.bulletinTitle }}
+                  </h5>
+                </b-col>
+                <b-col align="right"
+                        lg="2"
+                        md="6">
+                  <small class="text-secondary" style="text-align: right; font-family: sans-serif">{{ bulletin.issuingTime }}</small>
+                </b-col>
+                <b-col  id="operation-icons"
+                        align="right"
+                       lg="1"
+                       md="6">
+                  <feather-icon
+                          v-if="canViewHorizontalNavMenuLink(item)"
+                          :id="`bulletin-row-${bulletin.id}-edit-icon`"
+                          icon="EditIcon"
+                          size="16"
+                          class="mx-1"
+                          @click="editBulletin(bulletin)"
+                  />
+                  <feather-icon
+                          v-if="canViewHorizontalNavMenuLink(item)"
+                          :id="`bulletin-row-${bulletin.id}-trash-icon`"
+                          icon="TrashIcon"
+                          size="16"
+                          class="mx-1"
+                          @click="trashBulletin(bulletin)"
+                  />
+                  <feather-icon
+                          :id="`bulletin-row-${bulletin.id}-preview-icon`"
+                          icon="EyeIcon"
+                          size="16"
+                          class="mx-1"
+                          @click="previewBulletin(bulletin)"
+                  />
+                </b-col>
             </div>
-            <b-card-text class="mb-1">
-            </b-card-text>
-            <b-row>
-              <b-col>
-                <small class="text-secondary">Donec id elit non mi porta.</small>
-              </b-col>
-              <b-col align="right">
-                <feather-icon
-                    v-if="canViewHorizontalNavMenuLink(item)"
-                    :id="`bulletin-row-${bulletin.id}-edit-icon`"
-                    icon="EditIcon"
-                    size="16"
-                    class="mx-1"
-                    @click="editBulletin(bulletin)"
-                />
-                <feather-icon
-                    v-if="canViewHorizontalNavMenuLink(item)"
-                    :id="`bulletin-row-${bulletin.id}-trash-icon`"
-                    icon="TrashIcon"
-                    size="16"
-                    class="mx-1"
-                    @click="trashBulletin(bulletin)"
-                />
-                <feather-icon
-                    :id="`bulletin-row-${bulletin.id}-preview-icon`"
-                    icon="EyeIcon"
-                    size="16"
-                    class="mx-1"
-                    @click="previewBulletin(bulletin)"
-                />
-              </b-col>
-            </b-row>
           </b-list-group-item>
           <div id="bulletin-nav">
             <div class="mx-2 mb-2">
@@ -109,7 +111,7 @@
                   :settings="perfectScrollbarSettings"
                   class="sidebar-training-list scroll-area"
               >
-                <b-list-group>
+                <b-list-group id="bulletin-sidebar">
                   <b-list-group-item class="rounded-0"
                                      v-for="(c_class,index) in classifications"
                                      :key="c_class"
@@ -133,8 +135,9 @@
 
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
-
 import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
+import { useToast } from 'vue-toastification/composition'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 import {
   BDropdown,
@@ -161,6 +164,7 @@ import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import trainingStoreModule from '@/views/office/training/trainingStoreModule'
 import axiosIns from '../../../libs/axios'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
@@ -187,6 +191,9 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
+  },
+  directives: {
+    Ripple,
   },
   setup () {
     const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
@@ -221,6 +228,8 @@ export default {
       return canView
     }
 
+    const toast = useToast()
+
     return {
       // UI
       perfectScrollbarSettings,
@@ -237,6 +246,8 @@ export default {
 
       canViewHorizontalNavMenuLink,
       item,
+
+      toast,
     }
   },
   data () {
@@ -248,7 +259,7 @@ export default {
       showList: [],
       bulletinViewData: {},
       currentPage: 1,
-      perPage: 10,
+      perPage: 20,
       from: 0,
       to: 0,
     }
@@ -265,7 +276,6 @@ export default {
         })
     .then(response => {
       that.bulletinList = response.data.data
-      console.log(that.bulletinList)
       that.showList = that.bulletinList.slice(0, that.perPage)
       this.showList.sort(sortBulletins)
       this.from = (this.currentPage - 1) * this.perPage + 1
@@ -336,7 +346,15 @@ export default {
               { params: { bulletinId: bulletin.bulletinId } })
           .then(response => {
             if (response.data.status.code = '0000') {
-              alert('删除成功！')
+              this.$toast({
+                component: ToastificationContent,
+                position: 'bottom-right',
+                props: {
+                  title: '门户信息已删除',
+                  icon: 'TrashIcon',
+                  variant: 'danger',
+                }
+              })
               this.updateSelect(this.selectedClass)
             }
           })
@@ -351,7 +369,6 @@ export default {
       })
     },
     previewBulletin (bulletin) {
-      console.log(bulletin)
       this.$router.push({
         name: 'bulletin-preview',
         query: { bulletinId: bulletin.bulletinId }
@@ -385,11 +402,15 @@ export default {
   border-radius: 0;
 }
 
-.list-group-item {
+#bulletin-sidebar .list-group-item {
   border-radius: 0;
   border-top: none;
   border-right: none;
   border-left: none;
+}
+
+#bulletin-sidebar .list-group-item .col{
+  width: 200px !important;
 }
 
 .list-group-item:last-child {
@@ -401,4 +422,16 @@ export default {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+  #operation-icons [dir=ltr] .ml-1, [dir=ltr] .mx-1, [dir=ltr] .mr-1, [dir=ltr] .mx-1 {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+
+  #bulletin-title-text{
+    margin-bottom: 0.25rem !important;
+    margin-top: 0.25rem !important;
+  }
+
+
 </style>
