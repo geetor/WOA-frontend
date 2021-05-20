@@ -1,6 +1,5 @@
 <template>
-    <div>
-
+    <div bulletin-detail-card>
         <!-- content -->
         <b-row>
             <b-col class="offset-2" cols="8">
@@ -8,19 +7,9 @@
                     <b-row>
                         <!-- blogs -->
                         <b-col cols="12">
-                            <b-card>
+                            <b-card class="bulletin-content-card">
                                 <h2 class="doc-title">{{emailViewData.bulletinTitle}}</h2>
                                 <b-media no-body>
-                                    <b-media-aside
-                                            vertical-align="center"
-                                            class="mr-50"
-                                    >
-                                        <b-avatar
-                                                href="javascript:void(0)"
-                                                size="24"
-                                                :src="docDetail.avatar"
-                                        />
-                                    </b-media-aside>
                                     <b-media-body>
                                         <small class="text-muted mr-50">来源: </small>
                                         <small>
@@ -28,7 +17,6 @@
                                         </small>
                                         <span class="text-muted ml-75 mr-50">|</span>
                                         <small class="text-muted">{{ emailViewData.issuingTime }}</small>
-
                                     </b-media-body>
                                 </b-media>
                                 <!-- eslint-disable vue/no-v-html -->
@@ -116,6 +104,8 @@
     @import '@core/scss/vue/pages/page-blog.scss';
 
     .doc-title {
+        margin-top: 10px;
+        margin-bottom: 30px;
         text-align: center;
         font-weight: bolder;
         color: black;
@@ -127,14 +117,19 @@
     }
 
     .blog-content{
-        margin-top: 40px;
-        padding: 20px;
+        margin-top: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
     }
 
     .viewed-number{
         text-align: right;
         display: block;
         font-size: 10px;
+    }
+
+    .bulletin-content-card .media{
+        text-align: center;
     }
 
 </style>

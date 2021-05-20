@@ -77,15 +77,6 @@ import { formatDate } from '@/@core/utils/date.js';
       moreBulletinInfo(bulletinType){
         this.$router.push({name:"bulletin-page",query:{selectedClass:bulletinType}})
       },
-      cellStyle(row) {
-        if(row.column.label === "时间"){
-          console.log(1111111111)
-          return 'font-family:Montserrat,Helvetica,Arial,serif;'  // 修改的样式
-        }else{
-          console.log(2222)
-          return ''
-        }
-      }
     }
   }
 

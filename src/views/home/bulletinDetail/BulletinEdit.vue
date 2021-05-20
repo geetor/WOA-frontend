@@ -61,7 +61,7 @@
                 </b-col>
                 <b-col cols="12">
                     <b-form-group
-                            label="Content"
+                            label="内容"
                             label-for="blog-content"
                             class="mb-2"
                     >
@@ -115,6 +115,8 @@
     import { useInputImageRenderer } from '@core/comp-functions/forms/form-utils'
     import { ref } from '@vue/composition-api'
     import axiosIns from "../../../libs/axios";
+    import { useToast } from 'vue-toastification/composition'
+    import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
     export default {
         components: {
@@ -176,6 +178,7 @@
             }
         },
         setup() {
+            const toast = useToast()
             const refInputEl = ref(null)
             const refPreviewEl = ref(null)
 
@@ -204,7 +207,15 @@
                     axiosIns.post('/bulletin/addBulletin', postBody)
                         .then(res=>{
                             if(res.data.status.code='0000'){
-                                alert('发布成功！');
+                                this.$toast({
+                                    component: ToastificationContent,
+                                    position: 'bottom-right',
+                                    props: {
+                                        title: '门户信息已发布',
+                                        icon: 'CheckIcon',
+                                        variant: 'success',
+                                    }
+                                })
                                 this.$router.push({name:"bulletin-page",query:{selectedClass: this.bulletinEdit.bulletinType}})
                             }
                         })
@@ -213,7 +224,15 @@
                     axiosIns.post('/bulletin/editBulletin', postBody)
                         .then(res=>{
                             if(res.data.status.code='0000'){
-                                alert('发布成功！');
+                                this.$toast({
+                                    component: ToastificationContent,
+                                    position: 'bottom-right',
+                                    props: {
+                                        title: '门户信息已修改',
+                                        icon: 'CheckIcon',
+                                        variant: 'success',
+                                    }
+                                })
                                 this.$router.push({name:"bulletin-page",query:{selectedClass: this.bulletinEdit.bulletinType}})
                             }
                         })
