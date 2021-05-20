@@ -103,7 +103,7 @@ $timeline-border-color: $border-color;
 }
 
 .timeline-item {
-  padding-left: 2.5rem;
+  padding-left: 2rem;
   position: relative;
   &:not(:last-of-type) {
     padding-bottom: 2rem;

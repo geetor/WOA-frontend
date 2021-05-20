@@ -20,7 +20,7 @@
                 </b-col>
                 <b-col md="6">
                     <b-form-group
-                            label="发布部门"
+                            label="作者"
                             label-for="blog-edit-publisher"
                             class="mb-2"
                     >
@@ -33,10 +33,9 @@
 
                 <b-col md="6">
                 <b-form-group
-                        label="设置分类"
+                        label="类别"
                         label-for="blog-edit-category"
                         class="mb-2"
-                        @focus="pInput()"
                 >
                     <v-select
                             id="blog-edit-category"
@@ -239,12 +238,7 @@
                 }
             },
             resetBulletin(){
-                console.log(this.bulletinEdit)
                 this.bulletinEdit = JSON.parse(JSON.stringify(this.originalBulletin))
-                console.log(this.bulletinEdit)
-            },
-            pInput(){
-                console.log('Hello world!')
             }
         },
         computed:{

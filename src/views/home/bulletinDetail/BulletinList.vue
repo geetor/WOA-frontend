@@ -7,84 +7,90 @@
       >
         <b-list-group id="bulletin-list-group">
           <b-list-group-item
-                             v-for="bulletin in showList"
-                             :key="bulletin.bulletinId"
+              v-for="bulletin in showList"
+              :key="bulletin.bulletinId"
           >
             <div class="d-flex w-100 justify-content-between">
-                <b-col align="left">
-                  <h5 id="bulletin-title-text">
-                    {{ bulletin.bulletinTitle }}
-                  </h5>
-                </b-col>
-                <b-col align="right"
-                        lg="2"
-                        md="6">
-                  <small class="text-secondary" style="text-align: right; font-family: sans-serif">{{ bulletin.issuingTime }}</small>
-                </b-col>
-                <b-col  id="operation-icons"
-                        align="right"
-                       lg="1"
-                       md="6">
-                  <feather-icon
-                          v-if="canViewHorizontalNavMenuLink(item)"
-                          :id="`bulletin-row-${bulletin.id}-edit-icon`"
-                          icon="EditIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="editBulletin(bulletin)"
-                  />
-                  <feather-icon
-                          v-if="canViewHorizontalNavMenuLink(item)"
-                          :id="`bulletin-row-${bulletin.id}-trash-icon`"
-                          icon="TrashIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="trashBulletin(bulletin)"
-                  />
-                  <feather-icon
-                          :id="`bulletin-row-${bulletin.id}-preview-icon`"
-                          icon="EyeIcon"
-                          size="16"
-                          class="mx-1"
-                          @click="previewBulletin(bulletin)"
-                  />
-                </b-col>
+              <b-col align="left">
+                <h5 id="bulletin-title-text">
+                  {{ bulletin.bulletinTitle }}
+                </h5>
+              </b-col>
+              <b-col align="right"
+                     lg="2"
+                     md="6"
+              >
+                <small class="text-secondary" style="text-align: right; font-family: sans-serif">{{
+                    bulletin.issuingTime
+                  }}</small>
+              </b-col>
+              <b-col id="operation-icons" class="justify-content-end" lg="auto" md="auto">
+                <feather-icon
+                    v-if="canViewHorizontalNavMenuLink()"
+                    :id="`bulletin-row-${bulletin.id}-edit-icon`"
+                    icon="EditIcon"
+                    size="14"
+                    @click="editBulletin(bulletin)"
+                />
+                <feather-icon
+                    :id="`bulletin-row-${bulletin.id}-preview-icon`"
+                    icon="EyeIcon"
+                    size="14"
+                    class="mx-1"
+                    @click="previewBulletin(bulletin)"
+                />
+                <feather-icon
+                    v-if="canViewHorizontalNavMenuLink()"
+                    :id="`bulletin-row-${bulletin.id}-trash-icon`"
+                    icon="TrashIcon"
+                    size="14"
+                    @click="trashBulletin(bulletin)"
+                />
+              </b-col>
             </div>
           </b-list-group-item>
-          <div id="bulletin-nav">
-            <div class="mx-2 mb-2">
-              <b-row>
-                <b-col
-                    cols="12"
-                    sm="6"
-                    class="d-flex align-items-center justify-content-center justify-content-sm-start"
-                >
+
+          <div class="mx-2 mb-2 mt-1">
+            <b-row>
+              <b-col
+                  cols="12"
+                  sm="6"
+                  class="d-flex align-items-center justify-content-center justify-content-sm-start"
+              >
           <span class="text-muted"
           >从 {{ from }} 到 {{ to }} , 共
-            {{ bulletinList.length }} 条记录</span
+            {{ bulletinList.length }} 条公告</span
           >
-                </b-col>
-                <!-- Pagination -->
-                <b-col
-                    cols="12"
-                    sm="6"
-                    class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              </b-col>
+              <!-- Pagination -->
+              <b-col
+                  cols="12"
+                  sm="6"
+                  class="d-flex align-items-center justify-content-center justify-content-sm-end"
+              >
+                <b-pagination
+                    v-model="currentPage"
+                    first-number
+                    last-number
+                    hide-goto-end-buttons
+                    :per-page="perPage"
+                    :total-rows="bulletinList.length"
+                    :align="'center'"
+                    class="mb-0 mt-1 mt-sm-0"
+                    prev-class="prev-item"
+                    next-class="next-item"
                 >
-                  <b-pagination
-                      v-model="currentPage"
-                      first-number
-                      last-number
-                      hide-goto-end-buttons
-                      :per-page="perPage"
-                      :total-rows="bulletinList.length"
-                      :align="'center'"
-                  >
-
-                  </b-pagination>
-                </b-col>
-              </b-row>
-            </div>
+                  <template #prev-text>
+                    <feather-icon icon="ChevronLeftIcon" size="18"/>
+                  </template>
+                  <template #next-text>
+                    <feather-icon icon="ChevronRightIcon" size="18"/>
+                  </template>
+                </b-pagination>
+              </b-col>
+            </b-row>
           </div>
+
         </b-list-group>
       </vue-perfect-scrollbar>
     </div>
@@ -104,7 +110,7 @@
                     class="my-1"
                     @click="addBulletin"
                 >
-                  发布{{ selectedClass }}
+                  发布公告
                 </b-button>
               </div>
               <vue-perfect-scrollbar
@@ -115,7 +121,7 @@
                   <b-list-group-item class="rounded-0"
                                      v-for="(c_class,index) in classifications"
                                      :key="c_class"
-                                     :class="{'active-item':c_class==selectedClass}"
+                                     :class="{'active-item':c_class===selectedClass}"
                                      @click="updateSelect(c_class)"
                   >
                     <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
@@ -188,12 +194,10 @@ export default {
     BPagination,
 
     // 3rd Party
-    VuePerfectScrollbar,
-
-    // App SFC
+    VuePerfectScrollbar
   },
   directives: {
-    Ripple,
+    Ripple
   },
   setup () {
     const TRAINING_STORE_MODULE_NAME = 'office-training-statistic'
@@ -217,7 +221,7 @@ export default {
     const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
     const item = ref()
 
-    const canViewHorizontalNavMenuLink = item => {
+    const canViewHorizontalNavMenuLink = () => {
       let canView = false
 
       const userData = JSON.parse(localStorage.getItem('userData'))
@@ -234,10 +238,6 @@ export default {
       // UI
       perfectScrollbarSettings,
 
-      // Departments & UsersMeta
-      // departments,
-      // usersMeta,
-
       // Compose
       shallShowTrainingComposeModal,
 
@@ -246,8 +246,7 @@ export default {
 
       canViewHorizontalNavMenuLink,
       item,
-
-      toast,
+      toast
     }
   },
   data () {
@@ -317,9 +316,6 @@ export default {
         this.to = this.from + this.perPage < this.bulletinList.length ? this.from + this.perPage - 1 : this.bulletinList.length
       })
     },
-    // handleClickBulletin(bulletin){
-    //   console.log(bulletin);
-    // },
     editBulletin (bulletin) {
       this.$router.push({
         name: 'bulletin-edit',
@@ -386,14 +382,10 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
-
-#bulletin-nav .row {
-  margin-top: 1.5rem;
-}
+@import '~@core/scss/vue/libs/vue-sweetalert.scss';
 
 .active-item {
   font-weight: bolder;
@@ -402,14 +394,15 @@ export default {
   border-radius: 0;
 }
 
-#bulletin-sidebar .list-group-item {
+.list-group-item {
   border-radius: 0;
   border-top: none;
   border-right: none;
   border-left: none;
+  padding: 1rem 0.25rem;
 }
 
-#bulletin-sidebar .list-group-item .col{
+#bulletin-sidebar .list-group-item .col {
   width: 200px !important;
 }
 
@@ -423,15 +416,8 @@ export default {
   border-top-right-radius: 0;
 }
 
-  #operation-icons [dir=ltr] .ml-1, [dir=ltr] .mx-1, [dir=ltr] .mr-1, [dir=ltr] .mx-1 {
-    margin-left: 0.25rem !important;
-    margin-right: 0.25rem !important;
-  }
-
-  #bulletin-title-text{
-    margin-bottom: 0.25rem !important;
-    margin-top: 0.25rem !important;
-  }
-
-
+#bulletin-title-text {
+  margin-bottom: 0.25rem !important;
+  margin-top: 0.25rem !important;
+}
 </style>

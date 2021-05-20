@@ -84,7 +84,11 @@
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[1]}})
                 .then(response => {
-                    this.noticeList = response.data.data.slice(0,6)});
+                  this.noticeList = response.data.data.slice(0,6)
+                  this.noticeList.forEach(notice => {
+                    if(notice.bulletinTitle.length>15) notice.bulletinTitle = notice.bulletinTitle.substr(0,15)+'...'
+                  })
+                });
             this.$http.get('/bulletin/getSimpleBulletinsByType',
                 {params: {bulletinType: this.bulletinTitle[2]}})
                 .then(response => {

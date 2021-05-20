@@ -24,8 +24,7 @@
                             <h6>{{item.bulletinTitle}}</h6>
                             <small class="text-muted">{{item.issuingTime}}</small>
                         </div>
-<!--                        <p>{{item.simpleInfo}}</p>-->
-                        <p>还没有简要信息还没有简要信息</p>
+                        <p>暂无简要信息</p>
                     </app-timeline-item>
                 </div>
             </app-timeline>

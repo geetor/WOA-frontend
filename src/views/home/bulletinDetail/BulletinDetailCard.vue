@@ -90,7 +90,7 @@
                 {params: {bulletinId: this.$route.query.bulletinId}})
                 .then(response => {
                     that.emailViewData = response.data.data
-                    console.log(this.emailViewData)});
+                });
         },
         methods: {
             kFormatter,
