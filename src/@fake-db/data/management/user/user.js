@@ -57,7 +57,7 @@ const askForDel = async (params) => {
 }
 
 // ------------------------------------------------
-// GET: Return Departments
+// GET: Return Users
 // ------------------------------------------------
 mock.onGet('/manage/user/getAllUsers')
 .reply(config => {
@@ -98,8 +98,9 @@ mock.onGet('/manage/user/getAllUsers')
   })
 
 })
+
 // ------------------------------------------------
-// POST: Add new add task
+// POST: Add User
 // ------------------------------------------------
 mock.onPost('manage/user/askForAdd')
 .reply(config => {
@@ -114,6 +115,9 @@ mock.onPost('manage/user/askForAdd')
 
 })
 
+// ------------------------------------------------
+// POST: Edit User
+// ------------------------------------------------
 mock.onPost('manage/user/askForEdit')
 .reply(config => {
 
@@ -127,6 +131,9 @@ mock.onPost('manage/user/askForEdit')
 
 })
 
+// ------------------------------------------------
+// GET: Del User
+// ------------------------------------------------
 mock.onGet('manage/user/askForDel')
 .reply(config => {
 

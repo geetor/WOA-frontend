@@ -38,6 +38,9 @@ require('@core/scss/core.scss')
 // import assets styles
 require('@/assets/scss/style.scss')
 
+// import sweetalert styles
+require('@core/scss/vue/libs/vue-sweetalert.scss')
+
 Vue.config.productionTip = false
 
 new Vue({

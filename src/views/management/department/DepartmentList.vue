@@ -31,7 +31,7 @@
               v-model="rankFilter"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="rankOptions"
-              class="department-rank-select"
+              class="department-rank-select mr-2"
               placeholder="部门等级"
             >
               <template #selected-option="{ label }">
@@ -40,6 +40,13 @@
                 </span>
               </template>
             </v-select>
+
+            <b-button
+                variant="primary"
+                @click="$emit('update:is-department-add-sidebar-active', true);"
+            >
+              <span class="text-nowrap">新增</span>
+            </b-button>
           </div>
         </b-col>
       </b-row>
@@ -51,14 +58,13 @@
       responsive
       hover
       :fields="tableColumns"
-      primary-key="id"
+      primary-key="deptId"
       :sort-by.sync="sortBy"
       show-empty
       empty-text="无对应部门"
       :sort-desc.sync="isSortDirDesc"
       class="position-relative"
     >
-      <!-- Column: 用户 -->
 
       <template #cell(deptName)="data">
         <b-media vertical-align="center">
@@ -76,7 +82,7 @@
       </template>
       <template #cell(deptUsers)="data">
         <template v-for="user in data.item.deptUsers">
-          <b-badge pill :variant="`light-${'primary'}`" :key="user">
+          <b-badge pill :variant="`light-${'primary'}`">
             {{ user.userName }}
           </b-badge>
         </template>
@@ -101,7 +107,6 @@
 
             <b-dropdown-item
               @click="
-                $emit('close-left-sidebar');
                 $emit('edit-department', data.item);
               "
             >
@@ -125,8 +130,8 @@
           class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
           <span class="text-muted"
-            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-            {{ dataMeta.of }} entries</span
+          >从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共
+            {{ dataMeta.of }} 个部门</span
           >
         </b-col>
         <!-- Pagination -->

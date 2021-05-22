@@ -15,7 +15,6 @@ export default [
     name: 'management-department',
     component: () => import('@/views/management/department/Department.vue'),
     meta: {
-      contentRenderer: 'sidebar-left',
       contentClass: 'training-application'
     }
   },

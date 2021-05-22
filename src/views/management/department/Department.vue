@@ -1,10 +1,5 @@
 <template>
   <div style="height: inherit">
-    <div
-      class="body-content-overlay"
-      :class="{ show: mqShallShowLeftSidebar }"
-      @click="mqShallShowLeftSidebar = false"
-    />
 
     <!--DepartmentList-->
     <div class="training-list">
@@ -14,9 +9,9 @@
       >
         <department-list
           ref="refDepartmentList"
+          :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
           @edit-department="editDepartment"
           @del-department="delDepartment"
-          @close-left-sidebar="mqShallShowLeftSidebar = false"
         />
       </vue-perfect-scrollbar>
     </div>
@@ -25,26 +20,16 @@
       v-model="isDepartmentAddSidebarActive"
       :add="add"
       :allUsers="users"
-      :allDepts="depts"
       :clear-add-data="clearAddData"
       @ask-for-add="askForAdd"
       @ask-for-edit="askForEdit"
     />
-    <!-- Sidebar -->
-    <portal to="content-renderer-sidebar-left">
-      <department-manage-sidebar
-        :shall-show-training-compose-modal.sync="shallShowTrainingComposeModal"
-        :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
-        :class="{ show: mqShallShowLeftSidebar }"
-        @close-left-sidebar="mqShallShowLeftSidebar = false"
-      />
-    </portal>
+
   </div>
 </template>
 
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
-import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
 import {
   BDropdown,
   BDropdownItem,
@@ -65,7 +50,6 @@ import store from '@/store'
 import DepartmentList from './DepartmentList'
 import DepartmentAddSidebar from './DepartmentAddSidebar.vue'
 import departmentStoreModule from './departmentStoreModule'
-import DepartmentManageSidebar from './DepartmentManageSidebar.vue'
 
 export default {
   components: {
@@ -85,10 +69,8 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    DepartmentManageSidebar,
     DepartmentList,
-    DepartmentAddSidebar,
-    DepartmentManageSidebar
+    DepartmentAddSidebar
   },
   setup() {
     const DEPARTMENT_MANAGE_STORE_MODULE_NAME = 'manage-department'
@@ -180,7 +162,6 @@ export default {
     }
 
     const editDepartment = val => {
-      shallShowTrainingComposeModal.value = true
       isDepartmentAddSidebarActive.value = true
       add.value = JSON.parse(JSON.stringify(val))
       add.value.isEdit = true
@@ -227,13 +208,6 @@ export default {
     }
     fetchUsers()
 
-
-    // Compose
-    const shallShowTrainingComposeModal = ref(false)
-
-    // Left Sidebar Responsiveness
-    const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
-
     return {
       add,
       askForAdd,
@@ -246,20 +220,11 @@ export default {
 
       // UI
       perfectScrollbarSettings,
-      isDepartmentAddSidebarActive,
-
-      // Compose
-      shallShowTrainingComposeModal,
-
-      // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar
+      isDepartmentAddSidebarActive
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
 
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";

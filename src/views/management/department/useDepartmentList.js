@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useDepartmentList() {
+export default function useDepartmentList () {
   // Use toast
   const toast = useToast()
 
@@ -13,13 +13,25 @@ export default function useDepartmentList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'deptId', label: '编号', sortable: true },
-    { key: 'deptName', label: '名称', sortable: false },
-    {key:'deptRank',label:'等级',sortable:true},
-    {key:'deptUsers',label:'成员',sortable:false},
-    {key:"actions",label:'操作'}
-    
-    // { key: 'total', sortable: true, formatter: val => `$${val}` },
+    {
+      key: 'deptName',
+      label: '名称',
+      sortable: false
+    },
+    {
+      key: 'deptRank',
+      label: '等级',
+      sortable: true
+    },
+    {
+      key: 'deptUsers',
+      label: '成员',
+      sortable: false
+    },
+    {
+      key: 'actions',
+      label: '操作'
+    }
   ]
 
   const perPage = ref(10)
@@ -27,21 +39,21 @@ export default function useDepartmentList() {
   const currentPage = ref(1)
   const perPageOptions = [10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('deptId')
+  const sortBy = ref('deptRank')
   const isSortDirDesc = ref(true)
   const rankFilter = ref(null)
   const rankOptions = [
-        '1级',
-        '2级',
-        '3级',
-        '4级',
-        '5级',
-        '6级',
-        '7级',
-        '8级',
-        '9级',
-        '10级'
-      ]
+    '1级',
+    '2级',
+    '3级',
+    '4级',
+    '5级',
+    '6级',
+    '7级',
+    '8级',
+    '9级',
+    '10级'
+  ]
   const dataMeta = computed(() => {
     const localItemsCount = refInvoiceListTable.value ? refInvoiceListTable.value.localItems.length : 0
     return {
@@ -61,29 +73,32 @@ export default function useDepartmentList() {
 
   const fetchDepartments = (ctx, callback) => {
     store
-      .dispatch('manage-department/fetchDepartments', {
-        q: searchQuery.value,
-        perPage: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+    .dispatch('manage-department/fetchDepartments', {
+      q: searchQuery.value,
+      perPage: perPage.value,
+      page: currentPage.value,
+      sortBy: sortBy.value,
+      sortDesc: isSortDirDesc.value,
+      rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+    })
+    .then(response => {
+      const {
+        invoices,
+        total
+      } = response.data
+      callback(invoices)
+      totalInvoices.value = total
+    })
+    .catch(() => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: '获取部门失败',
+          icon: 'AlertTriangleIcon',
+          variant: 'danger',
+        },
       })
-      .then(response => {
-        const { invoices, total } = response.data
-        callback(invoices)
-        totalInvoices.value = total
-      })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: "获取部门失败",
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    })
   }
 
   // *===============================================---*
@@ -98,7 +113,7 @@ export default function useDepartmentList() {
     if (rank === 1) return 'info'
     return 'success'
   }
-  
+
   return {
     fetchDepartments,
     tableColumns,
@@ -114,6 +129,6 @@ export default function useDepartmentList() {
     refInvoiceListTable,
     rankFilter,
     resolveRankColor,
-    refetchData,
+    refetchData
   }
 }

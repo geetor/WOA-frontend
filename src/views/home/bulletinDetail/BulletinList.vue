@@ -385,7 +385,6 @@ export default {
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";
 @import "~@core/scss/base/pages/app-email.scss";
-@import '~@core/scss/vue/libs/vue-sweetalert.scss';
 
 .active-item {
   font-weight: bolder;

@@ -104,7 +104,6 @@ import {
   BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback, BFormCheckboxGroup, BFormCheckbox
 } from 'bootstrap-vue'
 
-
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
 import { Mandarin } from 'flatpickr/dist/l10n/zh.js'
@@ -136,10 +135,10 @@ export default {
 
     // Form Validation
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   directives: {
-    Ripple,
+    Ripple
   },
   model: {
     prop: 'isDepartmentAddSidebarActive',
@@ -148,18 +147,18 @@ export default {
   props: {
     isDepartmentAddSidebarActive: {
       type: Boolean,
-      required: true,
+      required: true
     },
     add: {
       type: Object,
-      required: true,
+      required: true
     },
     clearAddData: {
       type: Function,
-      required: true,
+      required: true
     },
     allUsers: {
-      required: true,
+      required: true
     }
   },
   data() {
@@ -176,8 +175,7 @@ export default {
       statusTypes,
       rankTypes,
 
-      onSubmit,
-
+      onSubmit
     } = useDepartmentAdd(toRefs(props), emit)
 
     const {

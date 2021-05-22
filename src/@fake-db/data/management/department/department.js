@@ -64,14 +64,19 @@ const getAllUsers = async (params) => {
    })
 }
 
+// ------------------------------------------------
+// GET: Return Users
+// ------------------------------------------------
 mock.onGet('/manage/department/getAllUsers')
 .reply(config => {
+
   return getAllUsers(config).then(data => {
     const users = data
     return [
       200, {data: users}
     ]
   })
+
 })
 
 // ------------------------------------------------
@@ -86,7 +91,7 @@ mock.onGet('/manage/department/getAllDepts')
       q = '',
       perPage = 10,
       page = 1,
-      sortBy = '等级',
+      sortBy = 'userRank',
       sortDesc = false,
       rank
     } = config.params
@@ -96,46 +101,42 @@ mock.onGet('/manage/department/getAllDepts')
         (rank ? department.deptRank === Number(rank) : true)
     )
 
-    const sortKeys = [
-      {
-        name: '等级',
-        key: 'deptRank'
-      },
-      {
-        name: 'deptId',
-        key: 'deptId'
-      }
-    ]
-
-    const sortedData = filteredData.sort(sortCompare(sortKeys.find(sortKey => sortKey.name === sortBy).key))
+    const sortedData = filteredData.sort(sortCompare(sortBy))
     if (sortDesc) sortedData.reverse()
     return [
       200,
       {
         invoices: paginateArray(sortedData, perPage, page),
-        total: filteredData.length,
-      },
+        total: filteredData.length
+      }
     ]
     })
 })
+
 // ------------------------------------------------
-// POST: Add task
+// POST: Add Department
 // ------------------------------------------------
 mock.onPost('manage/department/askForAdd')
 .reply(config => {
+
   const { add } = JSON.parse(config.data)
+
   return askForAdd(add)
   .then(() => {
       return [201, { add }]
     }
   )
+
 })
+
 // ------------------------------------------------
-// POST: Edit task
+// POST: Edit Department
 // ------------------------------------------------
 mock.onPost('manage/department/askForEdit')
 .reply(config => {
+
   const { edit } = JSON.parse(config.data)
+
   return askForEdit(edit)
   .then((response) => {
       const statusCode = response.data.status.code
@@ -148,17 +149,20 @@ mock.onPost('manage/department/askForEdit')
       }
     }
   )
+
 })
 
 // ------------------------------------------------
-// POST: Del task
+// GET: Del Department
 // ------------------------------------------------
 mock.onGet('manage/department/askForDel')
 .reply(config => {
+
   const params = config.params
   return askForDel(params)
   .then(() => {
       return [201, { params }]
     }
   )
+
 })

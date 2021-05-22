@@ -9,123 +9,125 @@
         近30天
       </b-card-text>
     </b-card-header>
-    <b-card-body class="statistics-body">
-      <b-row class="justify-content-center mt-md-2 mt-sm-1">
-        <div
-            class="mb-1"
-        >
-          <b-media no-body>
-            <b-media-aside
-                class="mr-2"
-            >
-              <b-avatar
-                  size="48"
-                  variant="light-success"
+    <b-card-body class="d-flex align-items-center justify-content-center statistics-body">
+      <div>
+        <b-row>
+          <div
+              class="mb-1"
+          >
+            <b-media no-body>
+              <b-media-aside
+                  class="mr-2"
               >
-                <feather-icon
-                    size="24"
-                    icon="ThumbsUpIcon"
-                />
-              </b-avatar>
-            </b-media-aside>
-            <b-media-body class="my-auto">
-              <h4 class="font-weight-bolder mb-0">
-                {{ statisticsItems.countOfNormal }}
-              </h4>
-              <b-card-text class="font-small-3 mb-0 text-truncate">
-                正常出勤
-              </b-card-text>
-            </b-media-body>
-          </b-media>
-        </div>
-      </b-row>
-      <b-row class="justify-content-center">
-        <div
-            class="my-1"
-        >
-          <b-media no-body>
-            <b-media-aside
-                class="mr-2"
-            >
-              <b-avatar
-                  size="48"
-                  variant="light-danger"
+                <b-avatar
+                    size="48"
+                    variant="light-success"
+                >
+                  <feather-icon
+                      size="24"
+                      icon="ThumbsUpIcon"
+                  />
+                </b-avatar>
+              </b-media-aside>
+              <b-media-body class="my-auto">
+                <h4 class="font-weight-bolder mb-0">
+                  {{ statisticsItems.countOfNormal }}
+                </h4>
+                <b-card-text class="font-small-3 mb-0 text-truncate">
+                  正常出勤
+                </b-card-text>
+              </b-media-body>
+            </b-media>
+          </div>
+        </b-row>
+        <b-row>
+          <div
+              class="my-1"
+          >
+            <b-media no-body>
+              <b-media-aside
+                  class="mr-2"
               >
-                <feather-icon
-                    size="24"
-                    icon="ThumbsDownIcon"
-                />
-              </b-avatar>
-            </b-media-aside>
-            <b-media-body class="my-auto">
-              <h4 class="font-weight-bolder mb-0">
-                {{ statisticsItems.countOfAbnormal }}
-              </h4>
-              <b-card-text class="font-small-3 mb-0 text-truncate">
-                异常出勤
-              </b-card-text>
-            </b-media-body>
-          </b-media>
-        </div>
-      </b-row>
-      <b-row class="justify-content-center">
-        <div
-            class="my-1"
-        >
-          <b-media no-body>
-            <b-media-aside
-                class="mr-2"
-            >
-              <b-avatar
-                  size="48"
-                  variant="light-primary"
+                <b-avatar
+                    size="48"
+                    variant="light-danger"
+                >
+                  <feather-icon
+                      size="24"
+                      icon="ThumbsDownIcon"
+                  />
+                </b-avatar>
+              </b-media-aside>
+              <b-media-body class="my-auto">
+                <h4 class="font-weight-bolder mb-0">
+                  {{ statisticsItems.countOfAbnormal }}
+                </h4>
+                <b-card-text class="font-small-3 mb-0 text-truncate">
+                  异常出勤
+                </b-card-text>
+              </b-media-body>
+            </b-media>
+          </div>
+        </b-row>
+        <b-row>
+          <div
+              class="my-1"
+          >
+            <b-media no-body>
+              <b-media-aside
+                  class="mr-2"
               >
-                <feather-icon
-                    size="24"
-                    icon="UserXIcon"
-                />
-              </b-avatar>
-            </b-media-aside>
-            <b-media-body class="my-auto">
-              <h4 class="font-weight-bolder mb-0">
-                {{ statisticsItems.countOfLeaves }}
-              </h4>
-              <b-card-text class="font-small-3 mb-0 text-truncate">
-                请假次数
-              </b-card-text>
-            </b-media-body>
-          </b-media>
-        </div>
-      </b-row>
-      <b-row class="justify-content-center">
-        <div
-            class="mt-1"
-        >
-          <b-media no-body>
-            <b-media-aside
-                class="mr-2"
-            >
-              <b-avatar
-                  size="48"
-                  variant="light-warning"
+                <b-avatar
+                    size="48"
+                    variant="light-primary"
+                >
+                  <feather-icon
+                      size="24"
+                      icon="UserXIcon"
+                  />
+                </b-avatar>
+              </b-media-aside>
+              <b-media-body class="my-auto">
+                <h4 class="font-weight-bolder mb-0">
+                  {{ statisticsItems.countOfLeaves }}
+                </h4>
+                <b-card-text class="font-small-3 mb-0 text-truncate">
+                  请假次数
+                </b-card-text>
+              </b-media-body>
+            </b-media>
+          </div>
+        </b-row>
+        <b-row>
+          <div
+              class="mt-1"
+          >
+            <b-media no-body>
+              <b-media-aside
+                  class="mr-2"
               >
-                <feather-icon
-                    size="24"
-                    icon="UsersIcon"
-                />
-              </b-avatar>
-            </b-media-aside>
-            <b-media-body class="my-auto">
-              <h4 class="font-weight-bolder mb-0">
-                {{ statisticsItems.countOfTrainings }}
-              </h4>
-              <b-card-text class="font-small-3 mb-0 text-truncate">
-                训练次数
-              </b-card-text>
-            </b-media-body>
-          </b-media>
-        </div>
-      </b-row>
+                <b-avatar
+                    size="48"
+                    variant="light-warning"
+                >
+                  <feather-icon
+                      size="24"
+                      icon="UsersIcon"
+                  />
+                </b-avatar>
+              </b-media-aside>
+              <b-media-body class="my-auto">
+                <h4 class="font-weight-bolder mb-0">
+                  {{ statisticsItems.countOfTrainings }}
+                </h4>
+                <b-card-text class="font-small-3 mb-0 text-truncate">
+                  训练次数
+                </b-card-text>
+              </b-media-body>
+            </b-media>
+          </div>
+        </b-row>
+      </div>
     </b-card-body>
   </b-card>
 </template>
