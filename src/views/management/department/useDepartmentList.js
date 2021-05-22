@@ -59,7 +59,7 @@ export default function useDepartmentList () {
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalInvoices.value,
+      of: totalInvoices.value
     }
   })
 
@@ -79,7 +79,7 @@ export default function useDepartmentList () {
       page: currentPage.value,
       sortBy: sortBy.value,
       sortDesc: isSortDirDesc.value,
-      rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+      rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
     })
     .then(response => {
       const {
@@ -95,8 +95,8 @@ export default function useDepartmentList () {
         props: {
           title: '获取部门失败',
           icon: 'AlertTriangleIcon',
-          variant: 'danger',
-        },
+          variant: 'danger'
+        }
       })
     })
   }

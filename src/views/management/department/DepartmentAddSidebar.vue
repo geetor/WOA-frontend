@@ -1,29 +1,29 @@
 <template>
   <div>
     <b-sidebar
-      id="sidebar-add-handler"
-      sidebar-class="sidebar-lg"
-      :visible="isDepartmentAddSidebarActive"
-      bg-variant="white"
-      shadow
-      backdrop
-      no-header
-      right
-      @change="(val) => $emit('update:is-department-add-sidebar-active', val)"
-      @hidden="clearForm"
+        id="sidebar-add-handler"
+        sidebar-class="sidebar-lg"
+        :visible="isDepartmentAddSidebarActive"
+        bg-variant="white"
+        shadow
+        backdrop
+        no-header
+        right
+        @change="(val) => $emit('update:is-department-add-sidebar-active', val)"
+        @hidden="clearForm"
     >
       <template #default="{ hide }">
         <!-- Header -->
         <div
-          class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
+            class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
         >
-          <h5 class="mb-0">{{ addLocal.isEdit ? "修改部门" : "新增部门"}}</h5>
+          <h5 class="mb-0">{{ addLocal.isEdit ? '修改部门' : '新增部门' }}</h5>
           <div>
             <feather-icon
-              class="ml-1 cursor-pointer"
-              icon="XIcon"
-              size="16"
-              @click="hide"
+                class="ml-1 cursor-pointer"
+                icon="XIcon"
+                size="16"
+                @click="hide"
             />
           </div>
         </div>
@@ -32,62 +32,62 @@
         <validation-observer #default="{ handleSubmit }" ref="refFormObserver">
           <!-- Form -->
           <b-form
-            class="p-2"
-            @submit.prevent="handleSubmit(onSubmit)"
-            @reset.prevent="resetForm"
+              class="p-2"
+              @submit.prevent="handleSubmit(onSubmit)"
+              @reset.prevent="resetForm"
           >
             <!-- 名称 -->
             <b-form-group label="名称">
               <b-form-input
-                v-model="addLocal.deptName"
-                placeholder="请输入部门名称"
+                  v-model="addLocal.deptName"
+                  placeholder="请输入部门名称"
               >
               </b-form-input>
             </b-form-group>
             <!-- 等级 -->
             <b-form-group label="等级" label-for="department-rank">
               <v-select
-                v-model="addLocal.deptRank"
-                :options="rankTypes"
-                :reduce="(option) => option.value"
-                input-id="rank-type"
+                  v-model="addLocal.deptRank"
+                  :options="rankTypes"
+                  :reduce="(option) => option.value"
+                  input-id="rank-type"
               />
             </b-form-group>
 
             <!-- 部门 -->
             <b-form-group label="部门人员" label-for="department-depts">
               <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="addLocal.deptUsers"
-                :options="allUsers"
-                input-id="depts-type"
+                  id="checkbox-group-1"
+                  v-model="addLocal.deptUsers"
+                  :options="allUsers"
+                  input-id="depts-type"
               />
             </b-form-group>
 
             <!-- 表单操作 -->
             <div class="d-flex mt-2">
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="primary"
-                class="mr-2"
-                type="submit"
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  class="mr-2"
+                  type="submit"
               >
-                {{ addLocal.isEdit ? "修改" : "新增" }}
+                {{ addLocal.isEdit ? '修改' : '新增' }}
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="addLocal.isEdit"
-                @click="$emit('update:is-department-add-sidebar-active', false)"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="addLocal.isEdit"
+                  @click="$emit('update:is-department-add-sidebar-active', false)"
               >
                 取消
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="!addLocal.isEdit"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="!addLocal.isEdit"
               >
                 重置
               </b-button>
@@ -142,7 +142,7 @@ export default {
   },
   model: {
     prop: 'isDepartmentAddSidebarActive',
-    event: 'update:is-department-add-sidebar-active',
+    event: 'update:is-department-add-sidebar-active'
   },
   props: {
     isDepartmentAddSidebarActive: {
@@ -161,12 +161,12 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       required
     }
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const {
       addLocal,
       resetAddLocal,
@@ -182,14 +182,14 @@ export default {
       refFormObserver,
       getValidationState,
       resetForm,
-      clearForm,
+      clearForm
     } = formValidation(resetAddLocal, props.clearAddData)
 
     const editorOption = {
       modules: {
-        toolbar: '#quill-toolbar',
+        toolbar: '#quill-toolbar'
       },
-      placeholder: '请输入请假原因',
+      placeholder: '请输入请假原因'
     }
 
     return {
@@ -213,7 +213,7 @@ export default {
       avatarText,
       Mandarin
     }
-  },
+  }
 }
 </script>
 
@@ -245,5 +245,3 @@ export default {
   }
 }
 </style>
-
-

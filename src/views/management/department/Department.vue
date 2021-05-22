@@ -4,25 +4,25 @@
     <!--DepartmentList-->
     <div class="training-list">
       <vue-perfect-scrollbar
-        :settings="perfectScrollbarSettings"
-        class="training-department-list scroll-area"
+          :settings="perfectScrollbarSettings"
+          class="training-department-list scroll-area"
       >
         <department-list
-          ref="refDepartmentList"
-          :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
-          @edit-department="editDepartment"
-          @del-department="delDepartment"
+            ref="refDepartmentList"
+            :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
+            @edit-department="editDepartment"
+            @del-department="delDepartment"
         />
       </vue-perfect-scrollbar>
     </div>
     <!-- Add Handler -->
     <department-add-sidebar
-      v-model="isDepartmentAddSidebarActive"
-      :add="add"
-      :allUsers="users"
-      :clear-add-data="clearAddData"
-      @ask-for-add="askForAdd"
-      @ask-for-edit="askForEdit"
+        v-model="isDepartmentAddSidebarActive"
+        :add="add"
+        :allUsers="users"
+        :clear-add-data="clearAddData"
+        @ask-for-add="askForAdd"
+        @ask-for-edit="askForEdit"
     />
 
   </div>
@@ -72,7 +72,7 @@ export default {
     DepartmentList,
     DepartmentAddSidebar
   },
-  setup() {
+  setup () {
     const DEPARTMENT_MANAGE_STORE_MODULE_NAME = 'manage-department'
 
     // Register module
@@ -109,56 +109,56 @@ export default {
 
     const askForAdd = val => {
       store.dispatch('manage-department/askForAdd', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `新增成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDepartmentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `新增成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDepartmentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const askForEdit = val => {
       store.dispatch('manage-department/askForEdit', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `修改成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDepartmentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `修改成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDepartmentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const editDepartment = val => {
@@ -169,42 +169,42 @@ export default {
 
     const delDepartment = val => {
       store.dispatch('manage-department/askForDel', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `删除成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDepartmentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `删除成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDepartmentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const users = ref([])
     const fetchUsers = () => {
       store.dispatch('manage-department/fetchUsers')
-        .then(response => {
-          users.value = response.data.data.users.map(item => {
-            return {
-              text: item.userName,
-              value: item.userId
-            }
-          })
+      .then(response => {
+        users.value = response.data.data.users.map(item => {
+          return {
+            text: item.userName,
+            value: item.userId
+          }
         })
+      })
     }
     fetchUsers()
 

@@ -21,6 +21,7 @@ const fetchData = async () => {
     }
   })
 }
+
 const askForAdd = async (addData) => {
   return await axiosIns.post('/document/addDocument', {
     documentName: addData.documentName,
@@ -54,7 +55,6 @@ const askForDel = async (params) => {
   return await axiosIns.get('/document/delDocument?documentId=' + params.documentId)
 }
 
-//user
 const getAllUsers = async (params) => {
   return await axiosIns.get(
     '/user/getAllUsers',
@@ -122,6 +122,7 @@ const getAllDepts = async () => {
 
 mock.onGet('/manage/document/getAllDepts')
 .reply(config => {
+
   return getAllDepts(config)
   .then(data => {
     const depts = data
@@ -129,6 +130,7 @@ mock.onGet('/manage/document/getAllDepts')
       200, { data: depts }
     ]
   })
+
 })
 
 // ------------------------------------------------

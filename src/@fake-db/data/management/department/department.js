@@ -3,8 +3,6 @@ import mock from '@/@fake-db/mock'
 import { paginateArray, sortCompare } from '@/@fake-db/utils'
 
 const fetchData = async () => {
-  const data = {}
-
   return await axiosIns.get('/dept/getAllDepts', {
     params: {
       userId: JSON.parse(localStorage.getItem('userData')).userId
@@ -91,6 +89,7 @@ mock.onGet('/manage/department/getAllUsers')
 // ------------------------------------------------
 mock.onGet('/manage/department/getAllDepts')
 .reply(config => {
+
   return fetchData()
   .then(data => {
     const {
@@ -122,6 +121,7 @@ mock.onGet('/manage/department/getAllDepts')
       }
     ]
   })
+
 })
 
 // ------------------------------------------------

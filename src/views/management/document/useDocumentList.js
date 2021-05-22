@@ -101,7 +101,6 @@ export default function useDocumentList () {
       rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
     })
     .then(response => {
-
       const {
         invoices,
         total
