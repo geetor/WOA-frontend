@@ -25,7 +25,7 @@
             <b-form-input
               v-model="searchQuery"
               class="d-inline-block mr-1"
-              placeholder="搜索部门成员"
+              placeholder="搜索部门"
             />
             <v-select
               v-model="rankFilter"

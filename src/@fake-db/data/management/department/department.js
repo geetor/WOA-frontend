@@ -49,19 +49,25 @@ const getAllUsers = async (params) => {
     '/user/getAllUsers',
     {
       params: {
-      userId: JSON.parse(localStorage.getItem('userData')).userId
+        userId: JSON.parse(localStorage.getItem('userData')).userId
       }
-   }).then(response => {
+    })
+  .then(response => {
     const statusCode = response.data.status.code
 
     if (statusCode === '0000') {
       const vo = response.data.data
 
       return {
-        users: vo.map(item => {return {userId: item.userId, userName: item.userName}})
+        users: vo.map(item => {
+          return {
+            userId: item.userId,
+            userName: item.userName
+          }
+        })
       }
     }
-   })
+  })
 }
 
 // ------------------------------------------------
@@ -70,10 +76,11 @@ const getAllUsers = async (params) => {
 mock.onGet('/manage/department/getAllUsers')
 .reply(config => {
 
-  return getAllUsers(config).then(data => {
+  return getAllUsers(config)
+  .then(data => {
     const users = data
     return [
-      200, {data: users}
+      200, { data: users }
     ]
   })
 
@@ -86,7 +93,10 @@ mock.onGet('/manage/department/getAllDepts')
 .reply(config => {
   return fetchData()
   .then(data => {
-    const { depts, total } = data
+    const {
+      depts,
+      total
+    } = data
     const {
       q = '',
       perPage = 10,
@@ -98,6 +108,7 @@ mock.onGet('/manage/department/getAllDepts')
 
     const filteredData = depts.filter(
       department =>
+        department.deptName.includes(q) &&
         (rank ? department.deptRank === Number(rank) : true)
     )
 
@@ -110,7 +121,7 @@ mock.onGet('/manage/department/getAllDepts')
         total: filteredData.length
       }
     ]
-    })
+  })
 })
 
 // ------------------------------------------------
@@ -143,8 +154,7 @@ mock.onPost('manage/department/askForEdit')
 
       if (statusCode === '0000') {
         return [201, { edit }]
-      }
-      else {
+      } else {
         return [404, { edit }]
       }
     }
