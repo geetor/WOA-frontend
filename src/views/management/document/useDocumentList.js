@@ -5,7 +5,7 @@ import store from '@/store'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
-export default function useDocumentList() {
+export default function useDocumentList () {
   // Use toast
   const toast = useToast()
 
@@ -13,19 +13,55 @@ export default function useDocumentList() {
 
   // Table Handlers
   const tableColumns = [
-    { key: 'documentId', label: '编号', sortable: true },
-    { key: 'documentName', label: '标题', sortable: false },
-    { key: 'documentType', label: '类型', sortable: false },
-    { key:'documentRank',label:'等级',sortable:true},
-    { key:'authors',label:'作者',sortable:false},
-    {key:'documentSubject',label:'主题',sortable:false},
-    {key:'open',label:'是否开放',sortable:false},
-    {key:'modifiedTime',label:'修改时间',sortable:false},
-    {key:'issuingTime',label:'发布时间',sortable:false},
-    {key:'depts',label:'所属部门',sortable:false},
-    {key:"actions",label:'操作'}
-    
-    // { key: 'total', sortable: true, formatter: val => `$${val}` },
+    {
+      key: 'documentName',
+      label: '标题',
+      sortable: false
+    },
+    {
+      key: 'documentType',
+      label: '类型',
+      sortable: false
+    },
+    {
+      key: 'documentRank',
+      label: '等级',
+      sortable: true
+    },
+    {
+      key: 'authors',
+      label: '作者',
+      sortable: false
+    },
+    {
+      key: 'documentSubject',
+      label: '主题',
+      sortable: false
+    },
+    {
+      key: 'open',
+      label: '是否开放',
+      sortable: false
+    },
+    {
+      key: 'modifiedTime',
+      label: '修改时间',
+      sortable: true
+    },
+    {
+      key: 'issuingTime',
+      label: '发布时间',
+      sortable: true
+    },
+    {
+      key: 'depts',
+      label: '所属部门',
+      sortable: false
+    },
+    {
+      key: 'actions',
+      label: '操作'
+    }
   ]
 
   const perPage = ref(10)
@@ -33,7 +69,7 @@ export default function useDocumentList() {
   const currentPage = ref(1)
   const perPageOptions = [10, 25, 50, 100]
   const searchQuery = ref('')
-  const sortBy = ref('documentId')
+  const sortBy = ref('documentRank')
   const isSortDirDesc = ref(true)
   const rankFilter = ref(null)
 
@@ -42,7 +78,7 @@ export default function useDocumentList() {
     return {
       from: perPage.value * (currentPage.value - 1) + (localItemsCount ? 1 : 0),
       to: perPage.value * (currentPage.value - 1) + localItemsCount,
-      of: totalInvoices.value,
+      of: totalInvoices.value
     }
   })
 
@@ -56,31 +92,33 @@ export default function useDocumentList() {
 
   const fetchInvoices = (ctx, callback) => {
     store
-      .dispatch('manage-document/fetchDocuments', {
-        q: searchQuery.value,
-        perPage: perPage.value,
-        page: currentPage.value,
-        sortBy: sortBy.value,
-        sortDesc: isSortDirDesc.value,
-        rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null,
+    .dispatch('manage-document/fetchDocuments', {
+      q: searchQuery.value,
+      perPage: perPage.value,
+      page: currentPage.value,
+      sortBy: sortBy.value,
+      sortDesc: isSortDirDesc.value,
+      rank: rankFilter.value ? rankFilter.value.match(/(\S*)级/)[1] : null
+    })
+    .then(response => {
+
+      const {
+        invoices,
+        total
+      } = response.data
+      callback(invoices)
+      totalInvoices.value = total
+    })
+    .catch(() => {
+      toast({
+        component: ToastificationContent,
+        props: {
+          title: '获取文档失败',
+          icon: 'AlertTriangleIcon',
+          variant: 'danger'
+        }
       })
-      .then(response => {
-    
-        const { invoices, total } = response.data
-        callback(invoices)
-        totalInvoices.value = total
-      })
-      .catch(() => {
-      
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: "获取文档失败",
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    })
   }
 
   // *===============================================---*
@@ -125,7 +163,7 @@ export default function useDocumentList() {
     return 'success'
   }
 
- const resolveStatus = status => {
+  const resolveStatus = status => {
     if (status === '退役') return '退役'
     if (status === '现役') return '现役'
     return ''
@@ -136,7 +174,6 @@ export default function useDocumentList() {
     if (status === '退役') return 'secondary'
     return 'success'
   }
-
 
   return {
     fetchInvoices,
@@ -154,10 +191,10 @@ export default function useDocumentList() {
     resolveRankColor,
     refetchData,
     resolveDept,
-    resolveDeptColor, 
+    resolveDeptColor,
     resolveOpen,
-    resolveOpenColor, 
+    resolveOpenColor,
     resolveStatus,
-    resolveStatusColor,
+    resolveStatusColor
   }
 }

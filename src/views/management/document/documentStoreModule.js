@@ -1,14 +1,13 @@
 import axios from '@axios'
 import axiosIns from '@/libs/axios'
 
-
 export default {
   namespaced: true,
   state: {},
   getters: {},
   mutations: {},
   actions: {
-     fetchUsers(ctx, queryParams) {
+    fetchUsers () {
       return new Promise((resolve, reject) => {
         axios
         .get('/manage/document/getAllUsers')
@@ -16,7 +15,7 @@ export default {
         .catch(error => reject(error))
       })
     },
-     fetchDepartments(ctx, queryParams) {
+    fetchDepartments () {
       return new Promise((resolve, reject) => {
         axios
         .get('/manage/document/getAllDepts')
@@ -24,15 +23,14 @@ export default {
         .catch(error => reject(error))
       })
     },
-    fetchDocuments(ctx, queryParams) {
-     
+    fetchDocuments (ctx, queryParams) {
       return new Promise((resolve, reject) => {
         axiosIns
-          .get('/manage/document/getAllDocuments', {
-            params: queryParams
-          })
-          .then(response => resolve(response))
-          .catch(error => reject(error))
+        .get('/manage/document/getAllDocuments', {
+          params: queryParams
+        })
+        .then(response => resolve(response))
+        .catch(error => reject(error))
       })
     },
     askForAdd (ctx, addData) {
@@ -43,7 +41,7 @@ export default {
         .catch(error => reject(error))
       })
     },
-    askForEdit(ctx, editData) {
+    askForEdit (ctx, editData) {
       return new Promise((resolve, reject) => {
         axios
         .post('manage/document/askForEdit', { edit: editData })
@@ -51,16 +49,17 @@ export default {
         .catch(error => reject(error))
       })
     },
-    askForDel(ctx, delData) {
+    askForDel (ctx, delData) {
       return new Promise((resolve, reject) => {
         axios
-        .get('manage/document/askForDel', { params: {
-          documentId: delData.documentId
-        } })
+        .get('manage/document/askForDel', {
+          params: {
+            documentId: delData.documentId
+          }
+        })
         .then(response => resolve(response))
         .catch(error => reject(error))
       })
     }
-    
   },
 }

@@ -25,7 +25,6 @@ export default [
     name: 'management-document',
     component: () => import('@/views/management/document/Document.vue'),
     meta: {
-      contentRenderer: 'sidebar-left',
       contentClass: 'training-application'
     }
   }

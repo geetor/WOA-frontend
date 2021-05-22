@@ -2,7 +2,7 @@ export default [
     {
         path: '/',
         name: 'home-homepage',
-        component: () => import('@/views/home/Homepage.vue'),
+        component: () => import('@/views/home/Homepage.vue')
     },
     {
         path: '/bulletins',

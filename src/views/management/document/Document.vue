@@ -1,10 +1,5 @@
 <template>
   <div style="height: inherit">
-    <div
-      class="body-content-overlay"
-      :class="{ show: mqShallShowLeftSidebar }"
-      @click="mqShallShowLeftSidebar = false"
-    />
 
     <!--DocumentList-->
     <div class="training-list">
@@ -14,6 +9,7 @@
       >
         <document-list
           ref="refDocumentList"
+          :is-document-add-sidebar-active.sync="isDocumentAddSidebarActive"
           @edit-document="editDocument"
           @del-document="delDocument"
           @close-left-sidebar="mqShallShowLeftSidebar = false"
@@ -30,22 +26,11 @@
       @ask-for-add="askForAdd"
       @ask-for-edit="askForEdit"
     />
-    <!-- Sidebar -->
-    <portal to="content-renderer-sidebar-left">
-      <document-manage-sidebar
-        :shall-show-training-compose-modal="shallShowTrainingComposeModal"
-        :is-document-add-sidebar-active.sync="isDocumentAddSidebarActive"
-        :class="{ show: mqShallShowLeftSidebar }"
-        @close-left-sidebar="mqShallShowLeftSidebar = false"
-      />
-    </portal>
   </div>
 </template>
 
 <script>
 import { onUnmounted, ref } from '@vue/composition-api'
-import { useResponsiveAppLeftSidebarVisibility } from '@core/comp-functions/ui/app'
-import DocumentManageSidebar from './DocumentManageSidebar.vue'
 import DocumentList from './DocumentList'
 import DocumentAddSidebar from './DocumentAddSidebar.vue'
 import {
@@ -85,19 +70,18 @@ export default {
     VuePerfectScrollbar,
 
     // App SFC
-    DocumentManageSidebar,
     DocumentList,
     DocumentAddSidebar
   },
   setup() {
-    const DUCUMENT_MANAGE_STORE_MODULE_NAME = 'manage-document'
+    const DOCUMENT_MANAGE_STORE_MODULE_NAME = 'manage-document'
 
     // Register module
-    if (!store.hasModule(DUCUMENT_MANAGE_STORE_MODULE_NAME)) store.registerModule(DUCUMENT_MANAGE_STORE_MODULE_NAME, documentStoreModule)
+    if (!store.hasModule(DOCUMENT_MANAGE_STORE_MODULE_NAME)) store.registerModule(DOCUMENT_MANAGE_STORE_MODULE_NAME, documentStoreModule)
 
     // UnRegister on leave
     onUnmounted(() => {
-      if (store.hasModule(DUCUMENT_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(DUCUMENT_MANAGE_STORE_MODULE_NAME)
+      if (store.hasModule(DOCUMENT_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(DOCUMENT_MANAGE_STORE_MODULE_NAME)
     })
 
     const perfectScrollbarSettings = {
@@ -186,11 +170,7 @@ export default {
         })
     }
 
-    // Compose
-    const shallShowTrainingComposeModal = ref(false)
-
     const editDocument = val => {
-      shallShowTrainingComposeModal.value = true
       isDocumentAddSidebarActive.value = true
       add.value = JSON.parse(JSON.stringify(val))
       add.value.documentPassword = ''
@@ -198,7 +178,6 @@ export default {
     }
 
     const delDocument = val => {
-      alert("hjgjh")
       store.dispatch('manage-document/askForDel', val)
         .then((response) => {
           if (response.status === 201) {
@@ -251,10 +230,6 @@ export default {
     }
     fetchDepartments()
 
-
-    // Left Sidebar Responsiveness
-    const { mqShallShowLeftSidebar } = useResponsiveAppLeftSidebarVisibility()
-
     return {
       add,
       askForAdd,
@@ -268,19 +243,11 @@ export default {
       departments,
       // UI
       perfectScrollbarSettings,
-      isDocumentAddSidebarActive,
-
-      // Compose
-      shallShowTrainingComposeModal,
-      // Left Sidebar Responsiveness
-      mqShallShowLeftSidebar
+      isDocumentAddSidebarActive
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
 
 <style lang="scss">
 @import "~@core/scss/base/pages/office-training.scss";

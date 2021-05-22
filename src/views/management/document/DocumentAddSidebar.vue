@@ -1,29 +1,29 @@
 <template>
   <div>
     <b-sidebar
-      id="sidebar-add-handler"
-      sidebar-class="sidebar-lg"
-      :visible="isDocumentAddSidebarActive"
-      bg-variant="white"
-      shadow
-      backdrop
-      no-header
-      right
-      @change="(val) => $emit('update:is-document-add-sidebar-active', val)"
-      @hidden="clearForm"
+        id="sidebar-add-handler"
+        sidebar-class="sidebar-lg"
+        :visible="isDocumentAddSidebarActive"
+        bg-variant="white"
+        shadow
+        backdrop
+        no-header
+        right
+        @change="(val) => $emit('update:is-document-add-sidebar-active', val)"
+        @hidden="clearForm"
     >
       <template #default="{ hide }">
         <!-- Header -->
         <div
-          class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
+            class="d-flex justify-content-between align-items-center content-sidebar-header px-2 py-1"
         >
           <h5 class="mb-0">文档</h5>
           <div>
             <feather-icon
-              class="ml-1 cursor-pointer"
-              icon="XIcon"
-              size="16"
-              @click="hide"
+                class="ml-1 cursor-pointer"
+                icon="XIcon"
+                size="16"
+                @click="hide"
             />
           </div>
         </div>
@@ -32,69 +32,69 @@
         <validation-observer #default="{ handleSubmit }" ref="refFormObserver">
           <!-- Form -->
           <b-form
-            class="p-2"
-            @submit.prevent="handleSubmit(onSubmit)"
-            @reset.prevent="resetForm"
+              class="p-2"
+              @submit.prevent="handleSubmit(onSubmit)"
+              @reset.prevent="resetForm"
           >
             <!-- 标题 -->
             <b-form-group label="标题">
               <b-form-input
-                v-model="addLocal.documentTitle"
-                placeholder="请输入标题"
+                  v-model="addLocal.documentTitle"
+                  placeholder="请输入标题"
               >
               </b-form-input>
             </b-form-group>
             <!-- 是否开放 -->
             <b-form-group label="是否开放" label-for="document-open">
               <v-select
-                v-model="addLocal.open"
-                :options="openTypes"
-                :reduce="(option) => option.value"
-                input-id="open-type"
+                  v-model="addLocal.open"
+                  :options="openTypes"
+                  :reduce="(option) => option.value"
+                  input-id="open-type"
               />
             </b-form-group>
             <!-- 等级 -->
             <b-form-group label="等级" label-for="document-rank">
               <v-select
-                v-model="addLocal.documentRank"
-                :options="rankTypes"
-                :reduce="(option) => option.value"
-                input-id="rank-type"
+                  v-model="addLocal.documentRank"
+                  :options="rankTypes"
+                  :reduce="(option) => option.value"
+                  input-id="rank-type"
               />
             </b-form-group>
             <!-- 类型 -->
             <b-form-group label="类型" label-for="document-type">
               <v-select
-                v-model="addLocal.documentType"
-                :options="typeOptions"
-                :reduce="(option) => option.value"
-                input-id="type-type"
+                  v-model="addLocal.documentType"
+                  :options="typeOptions"
+                  :reduce="(option) => option.value"
+                  input-id="type-type"
               />
             </b-form-group>
             <!-- 作者 -->
             <b-form-group label="作者" label-for="authors">
               <b-form-checkbox-group
-                id="checkbox-group-1"
-                v-model="addLocal.authors"
-                :options="allUsers"
-                input-id="depts-type"
+                  id="checkbox-group-1"
+                  v-model="addLocal.authors"
+                  :options="allUsers"
+                  input-id="depts-type"
               />
             </b-form-group>
             <!-- 部门 -->
             <b-form-group label="部门" label-for="document-depts">
               <b-form-checkbox-group
-                id="checkbox-group-2"
-                v-model="addLocal.depts"
-                :options="allDepts"
-                input-id="depts-type"
+                  id="checkbox-group-2"
+                  v-model="addLocal.depts"
+                  :options="allDepts"
+                  input-id="depts-type"
               />
             </b-form-group>
 
             <!-- 主题 -->
             <b-form-group label="邮箱">
               <b-form-input
-                v-model="addLocal.documentSubject"
-                placeholder="请输入主题"
+                  v-model="addLocal.documentSubject"
+                  placeholder="请输入主题"
               >
               </b-form-input>
             </b-form-group>
@@ -102,27 +102,27 @@
             <!-- 表单操作 -->
             <div class="d-flex mt-2">
               <b-button
-                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                variant="primary"
-                class="mr-2"
-                type="submit"
+                  v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  variant="primary"
+                  class="mr-2"
+                  type="submit"
               >
-                {{ addLocal.isEdit ? "修改" : "新增" }}
+                {{ addLocal.isEdit ? '修改' : '新增' }}
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="addLocal.isEdit"
-                @click="$emit('update:is-document-add-sidebar-active', false)"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="addLocal.isEdit"
+                  @click="$emit('update:is-document-add-sidebar-active', false)"
               >
                 取消
               </b-button>
               <b-button
-                v-ripple.400="'rgba(186, 191, 199, 0.15)'"
-                type="reset"
-                variant="outline-secondary"
-                v-if="!addLocal.isEdit"
+                  v-ripple.400="'rgba(186, 191, 199, 0.15)'"
+                  type="reset"
+                  variant="outline-secondary"
+                  v-if="!addLocal.isEdit"
               >
                 重置
               </b-button>
@@ -138,7 +138,6 @@
 import {
   BSidebar, BForm, BFormGroup, BFormInput, BAvatar, BButton, BFormInvalidFeedback, BFormCheckboxGroup, BFormCheckbox
 } from 'bootstrap-vue'
-
 
 import vSelect from 'vue-select'
 import flatPickr from 'vue-flatpickr-component'
@@ -171,41 +170,41 @@ export default {
 
     // Form Validation
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   directives: {
-    Ripple,
+    Ripple
   },
   model: {
     prop: 'isDocumentAddSidebarActive',
-    event: 'update:is-document-add-sidebar-active',
+    event: 'update:is-document-add-sidebar-active'
   },
   props: {
     isDocumentAddSidebarActive: {
       type: Boolean,
-      required: true,
+      required: true
     },
     add: {
       type: Object,
-      required: true,
+      required: true
     },
     clearAddData: {
       type: Function,
-      required: true,
+      required: true
     },
     allUsers: {
-      required: true,
+      required: true
     },
     allDepts: {
-      required: true,
+      required: true
     }
   },
-  data() {
+  data () {
     return {
       required
     }
   },
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const {
       addLocal,
       resetAddLocal,
@@ -217,15 +216,14 @@ export default {
       rankTypes,
       deptsTypes,
       adminTypes,
-      onSubmit,
-
+      onSubmit
     } = useDocumentAdd(toRefs(props), emit)
 
     const {
       refFormObserver,
       getValidationState,
       resetForm,
-      clearForm,
+      clearForm
     } = formValidation(resetAddLocal, props.clearAddData)
 
     return {
@@ -250,7 +248,7 @@ export default {
       avatarText,
       Mandarin
     }
-  },
+  }
 }
 </script>
 

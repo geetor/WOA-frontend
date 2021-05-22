@@ -134,7 +134,7 @@
               @click="
               $router.push({
                 name: 'office-training-calendar-user',
-                params: { user: data.item.userId },
+                params: { user: data.item.userId }
               })
             "
           />

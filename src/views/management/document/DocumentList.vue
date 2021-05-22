@@ -10,7 +10,6 @@
           md="6"
           class="d-flex align-items-center justify-content-start mb-1 mb-md-0"
         >
-          <label>Entries</label>
           <v-select
             v-model="perPage"
             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
@@ -32,7 +31,7 @@
               v-model="rankFilter"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="rankOptions"
-              class="invoice-filter-select"
+              class="document-rank-select mr-2"
               placeholder="文档等级"
             >
               <template #selected-option="{ label }">
@@ -41,6 +40,13 @@
                 </span>
               </template>
             </v-select>
+
+            <b-button
+                variant="primary"
+                @click="$emit('update:is-document-add-sidebar-active', true);"
+            >
+              <span class="text-nowrap">新增</span>
+            </b-button>
           </div>
         </b-col>
       </b-row>
@@ -52,7 +58,7 @@
       responsive
       hover
       :fields="tableColumns"
-      primary-key="id"
+      primary-key="documentId"
       :sort-by.sync="sortBy"
       show-empty
       empty-text="无对应文档"
@@ -79,7 +85,7 @@
       <!-- 部门 -->
       <template #cell(depts)="data">
         <template v-for="dept in data.item.depts">
-          <b-badge pill :variant="`light-${'primary'}`" :key="dept">
+          <b-badge pill :variant="`light-${'primary'}`">
             {{ dept.deptName }}
           </b-badge>
         </template>
@@ -87,7 +93,7 @@
       <!-- 作者 -->
       <template #cell(authors)="data">
         <template v-for="author in data.item.authors">
-          <b-badge pill :variant="`light-${'primary'}`" :key="author">
+          <b-badge pill :variant="`light-${'primary'}`">
             {{ author.userName }}
           </b-badge>
         </template>
@@ -118,8 +124,10 @@
             </template>
             <b-dropdown-item
               @click="
-                $emit('close-left-sidebar');
-                $emit('edit-document', data.item);
+              $router.push({
+                name: 'doc-center-detail',
+                params: { docId: data.item.documentId },
+              })
               "
             >
               <feather-icon icon="EyeIcon" />
@@ -127,7 +135,6 @@
             </b-dropdown-item>
             <b-dropdown-item
               @click="
-                $emit('close-left-sidebar');
                 $emit('edit-document', data.item);
               "
             >
@@ -151,8 +158,8 @@
           class="d-flex align-items-center justify-content-center justify-content-sm-start"
         >
           <span class="text-muted"
-            >Showing {{ dataMeta.from }} to {{ dataMeta.to }} of
-            {{ dataMeta.of }} entries</span
+          >从 {{ dataMeta.from }} 到 {{ dataMeta.to }} , 共
+            {{ dataMeta.of }} 篇文档</span
           >
         </b-col>
         <!-- Pagination -->
@@ -213,7 +220,7 @@ export default {
     BPagination,
     BTooltip,
 
-    vSelect,
+    vSelect
   },
   setup() {
     const USER_MANAGE_SIDEBAR_STORE_MODULE_NAME = 'manage-document'
@@ -259,8 +266,7 @@ export default {
       resolveOpenColor,
       resolveStatus,
       resolveStatusColor,
-      resolveRankColor,
-
+      resolveRankColor
     } = useDocumentList()
 
     return {
@@ -287,7 +293,7 @@ export default {
       resolveOpen,
       resolveOpenColor,
       resolveStatus,
-      resolveStatusColor,
+      resolveStatusColor
     }
   },
   methods: {

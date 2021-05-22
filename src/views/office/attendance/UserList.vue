@@ -146,7 +146,7 @@
               @click="
               $router.push({
                 name: 'office-attendance-calendar',
-                params: { userId: data.item.userId },
+                params: { userId: data.item.userId }
               })
             "
           />
