@@ -97,17 +97,16 @@ export default {
     }
 
     const blankAdd = {
-      documentId: '',
       documentTitle: '',
       open: false,
-      documentRank: 0,
+      documentRank: 1,
       documentType: '',
       authors: [],
       depts: [],
       documentSubject: '',
       documentContent: '',
       issuingTime: '',
-      modifiedTime: [],
+      modifiedTime: '',
       isEdit: false,
     }
 

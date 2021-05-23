@@ -24,30 +24,30 @@ const fetchData = async () => {
 
 const askForAdd = async (addData) => {
   return await axiosIns.post('/document/addDocument', {
-    documentName: addData.documentName,
-    admin: addData.admin,
+    documentTitle: addData.documentTitle,
+    open: addData.open,
     documentRank: addData.documentRank,
-    documentGender: addData.documentGender,
-    documentPhone: addData.documentPhone,
-    documentEmail: addData.documentEmail,
-    documentStatus: addData.documentStatus,
-    documentPassword: addData.documentPassword,
-    documentDepts: addData.documentDepts
+    documentSubject: addData.documentSubject,
+    DocumentType: addData.DocumentType,
+    issuingTime: addData.issuingTime,
+    modifiedTime: addData.modifiedTime,
+    authors: addData.authors,
+    depts: addData.depts
   })
 }
 
 const askForEdit = async (editData) => {
   return await axiosIns.post('/document/editDocument', {
-    documentId: editData.documentId,
-    documentName: editData.documentName,
-    isAdmin: editData.admin,
+    documentId:editData.documentId,
+    documentTitle: editData.documentTitle,
+    open: editData.open,
     documentRank: editData.documentRank,
-    documentGender: editData.documentGender,
-    documentPhone: editData.documentPhone,
-    documentEmail: editData.documentEmail,
-    documentStatus: editData.documentStatus,
-    documentPassword: editData.documentPassword,
-    documentDepts: editData.documentDepts
+    documentSubject: editData.documentSubject,
+    DocumentType: editData.DocumentType,
+    issuingTime: editData.issuingTime,
+    modifiedTime: editData.modifiedTime,
+    authors: editData.authors,
+    depts: editData.depts
   })
 }
 

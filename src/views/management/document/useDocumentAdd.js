@@ -4,11 +4,22 @@ export default function useUserAdd (props, emit) {
   // ------------------------------------------------
   // addLocal
   // ------------------------------------------------
+   const getCurrentTime=()=>{
+        let myDate = new Date();
+        let year = myDate.getFullYear();
+        let month = myDate.getMonth()+1;
+        let day = myDate.getDate();
+        let Hour = myDate.getHours();
+        let Minute = myDate.getMinutes();
+        let Second = myDate.getSeconds();
+        return year+"-"+month+"-"+day+" "+Hour+":"+Minute+":"+Second;
+  }
   const addLocal = ref(JSON.parse(JSON.stringify(props.add.value)))
   const resetAddLocal = () => {
     addLocal.value = JSON.parse(JSON.stringify(props.add.value))
     addLocal.value.authors = addLocal.value.authors.map(item => item.userId)
     addLocal.value.depts = addLocal.value.depts.map(item => item.deptId)
+    addLocal.value.isEdit=true
   }
   watch(props.add, () => {
     resetAddLocal()
@@ -16,13 +27,16 @@ export default function useUserAdd (props, emit) {
 
   const onSubmit = () => {
     const addData = JSON.parse(JSON.stringify(addLocal))
-
     if (addData.value.isEdit) {
+      
+      addData.value.modifiedTime=getCurrentTime()
       emit('ask-for-edit', addData.value)
     } else {
+      addData.value.issuingTime=getCurrentTime()
+      addData.value.modifiedTime=getCurrentTime()
       emit('ask-for-add', addData.value)
     }
-
+ 
     // Close sidebar
     emit('update:is-document-add-sidebar-active', false)
   }
@@ -31,16 +45,7 @@ export default function useUserAdd (props, emit) {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const typeOptions = [
-    {
-      label: '男',
-      value: '男'
-    },
-    {
-      label: '女',
-      value: '女'
-    }
-  ]
+  
   const statusTypes = [
     {
       label: '退役',
@@ -132,7 +137,6 @@ export default function useUserAdd (props, emit) {
 
     // UI
     openTypes,
-    typeOptions,
     statusTypes,
     rankTypes,
     deptsTypes,

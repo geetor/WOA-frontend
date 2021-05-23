@@ -37,7 +37,7 @@
               @reset.prevent="resetForm"
           >
             <!-- 标题 -->
-            <b-form-group label="标题">
+            <b-form-group label="标题" label-for="document-title">
               <b-form-input
                   v-model="addLocal.documentTitle"
                   placeholder="请输入标题"
@@ -64,12 +64,19 @@
             </b-form-group>
             <!-- 类型 -->
             <b-form-group label="类型" label-for="document-type">
-              <v-select
+             <b-form-input
                   v-model="addLocal.documentType"
-                  :options="typeOptions"
-                  :reduce="(option) => option.value"
-                  input-id="type-type"
-              />
+                  placeholder="请输入类型"
+              >
+              </b-form-input>
+            </b-form-group>
+            <!-- 主题 -->
+            <b-form-group label="主题" label-for="document-subject">
+              <b-form-input
+                  v-model="addLocal.documentSubject"
+                  placeholder="请输入主题"
+              >
+            </b-form-input>
             </b-form-group>
             <!-- 作者 -->
             <b-form-group label="作者" label-for="authors">
@@ -89,15 +96,18 @@
                   input-id="depts-type"
               />
             </b-form-group>
-
-            <!-- 主题 -->
-            <b-form-group label="邮箱">
-              <b-form-input
-                  v-model="addLocal.documentSubject"
-                  placeholder="请输入主题"
-              >
-              </b-form-input>
-            </b-form-group>
+             <!-- 文本编辑 -->
+            <b-form-group
+            label="Content"
+            label-for="blog-content"
+            class="mb-2"
+          >
+            <quill-editor
+              id="blog-content"
+              v-model="addLocal.documentContent"
+            />
+          </b-form-group>
+            
 
             <!-- 表单操作 -->
             <div class="d-flex mt-2">
@@ -211,7 +221,6 @@ export default {
       // UI
       typeTypes,
       openTypes,
-      typeOptions,
       statusTypes,
       rankTypes,
       deptsTypes,
@@ -232,7 +241,6 @@ export default {
       onSubmit,
       typeTypes,
       openTypes,
-      typeOptions,
       statusTypes,
       adminTypes,
       rankTypes,
