@@ -1,6 +1,6 @@
 <template>
   <b-card no-body>
-    <b-card-body class="d-flex align-items-center">
+    <b-card-body class="d-flex align-items-center justify-content-center">
       <b-carousel
           id="carousel-interval"
           no-hover-pause
