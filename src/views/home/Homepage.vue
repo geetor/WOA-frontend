@@ -1,6 +1,6 @@
 <template>
   <section id="homepage-home">
-    <b-row class="match-height" >
+    <b-row class="match-height">
       <b-col
               lg="5"
               md="6">
@@ -108,7 +108,7 @@
             }
         },
         methods: {
-            kFormatter,
-        },
+            kFormatter
+        }
     }
 </script>
