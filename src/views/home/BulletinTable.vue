@@ -20,7 +20,7 @@
             :show-overflow-tooltip="true"
             thead-tr-class ="d-none"
             @row-clicked="bulletinClick"
-            class="mb-0"
+            class="mb-1"
             hover
             borderless
             responsive
@@ -100,6 +100,4 @@ import { formatDate } from '@/@core/utils/date.js';
     font-family: sans-serif !important;
     width: 200px;
   }
-
-
 </style>
