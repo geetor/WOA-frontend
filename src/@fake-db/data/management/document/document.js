@@ -28,7 +28,8 @@ const askForAdd = async (addData) => {
     open: addData.open,
     documentRank: addData.documentRank,
     documentSubject: addData.documentSubject,
-    DocumentType: addData.DocumentType,
+    documentType: addData.documentType,
+    documentContent: addData.documentContent,
     issuingTime: addData.issuingTime,
     modifiedTime: addData.modifiedTime,
     authors: addData.authors,
@@ -38,12 +39,13 @@ const askForAdd = async (addData) => {
 
 const askForEdit = async (editData) => {
   return await axiosIns.post('/document/editDocument', {
-    documentId:editData.documentId,
+    documentId: editData.documentId,
     documentTitle: editData.documentTitle,
     open: editData.open,
     documentRank: editData.documentRank,
     documentSubject: editData.documentSubject,
-    DocumentType: editData.DocumentType,
+    documentType: editData.documentType,
+    documentContent: editData.documentContent,
     issuingTime: editData.issuingTime,
     modifiedTime: editData.modifiedTime,
     authors: editData.authors,
