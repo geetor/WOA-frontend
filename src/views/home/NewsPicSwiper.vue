@@ -8,8 +8,8 @@
         :interval="5000"
         height="3000"
     >
-      <b-carousel-slide :img-src="require('@/assets/images/naval-fleet/0.png')"/>
-      <b-carousel-slide :img-src="require('@/assets/images/naval-fleet/1.jpeg')"/>
+      <b-carousel-slide :img-src="require('@/assets/images/naval-fleet/0.jpg')"/>
+      <b-carousel-slide :img-src="require('@/assets/images/naval-fleet/1.jpg')"/>
       <b-carousel-slide :img-src="require('@/assets/images/naval-fleet/2.jpg')"/>
     </b-carousel>
   </b-card>
@@ -27,9 +27,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-#carousel-interval ::v-deep .carousel-indicators li {
-  background-color: #7ab8cc !important;
-}
-</style>
