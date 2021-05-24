@@ -13,9 +13,11 @@
       <b-row class="blog-list-wrapper">
 
         <b-col class="col-6 blog-list" >
-          <div class="news-title">
-            <span class="doc-type">公共文档</span>
-            <b-link class="query-more" :to="'/doc-center/category/public'">更多+</b-link>
+          <div class="news-title d-flex align-items-center">
+            <span class="doc-type doc-title-pub">公共文档</span>
+            <b-col class="justify-content-end">
+              <b-link class="query-more" :to="'/doc-center/category/public'">更多+</b-link>
+            </b-col>
           </div>
 
 
@@ -42,7 +44,9 @@
             <div id="dept-select">
               <v-select label="deptName" class="select-dept" v-model="selectedDept" :options="departments" placeholder="请选择要查询的部门" ></v-select>
             </div>
-            <b-link class="query-more" :to="'/doc-center/category/department'">更多+</b-link>
+            <b-col class="justify-content-end">
+              <b-link class="query-more" :to="'/doc-center/category/department'">更多+</b-link>
+            </b-col>
           </div>
           <ul v-if="departmentShowList.length > 0">
             <li v-for="(blog,index) in departmentShowList" :key="index" class="doc-item">
@@ -161,7 +165,10 @@ export default {
       axios.get('/user/getUserDepts?userId=' + this.userData.userId)
           .then(res => {
             this.departments = res.data.data
+            resolve(this.departments[0])
           })
+    }).then(res=>{
+      this.selectedDept = res
     })
 
 
@@ -266,14 +273,19 @@ export default {
 
 .news-title{
   color: #1b2337;
-  border-left: 5px solid #ddd;
-  padding: 2px 8px;
   margin:8px 0;
 }
 
 .doc-type {
   font-weight: bold;
   font-size: 24px;
+  border-left: 5px solid #ddd;
+  padding: 2px 8px;
+  margin-left: 14px;
+}
+
+.doc-title-pub {
+  margin-left: 40px;
 }
 
 .news-date{

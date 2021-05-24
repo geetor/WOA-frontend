@@ -2,15 +2,17 @@
   <content-with-sidebar class="blog-wrapper">
     <div slot class="container">
         <b-row>
-          <b-col md="2" >
-            <h2 align="center" class="text-dark">{{ docType }}</h2>
+          <b-col md="1" >
+            <h2 v-if="false" align="center" class="text-dark">{{ docType }}</h2>
           </b-col>
 
 
           <b-col md="10">
 
 
-            <div class="pub-btn">
+            <h2 class="doc-type-title">{{docType}}</h2>
+
+            <div class="pub-btn" v-if="false">
               <b-link to="/doc-center/edit">
                 <feather-icon
                     :icon="'EditIcon'"
@@ -204,4 +206,9 @@ export default {
 .pub-btn{
   margin-left: 40px;
 }
+
+.doc-type-title{
+  padding-left: 40px;
+}
+
 </style>
