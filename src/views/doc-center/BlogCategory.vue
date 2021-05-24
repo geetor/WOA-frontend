@@ -7,7 +7,7 @@
           </b-col>
 
 
-          <b-col md="10">
+          <b-col md="10" class="mb-2">
 
 
             <h2 class="doc-type-title">{{docType}}</h2>
@@ -45,8 +45,17 @@
         :per-page="eachColItemNumber*2"
         :total-rows="dataList.length"
         :align="'center'"
+        prev-class="prev-item"
+        next-class="next-item"
     >
+      <template #prev-text>
+        <feather-icon icon="ChevronLeftIcon" size="18"/>
+      </template>
+      <template #next-text>
+        <feather-icon icon="ChevronRightIcon" size="18"/>
+      </template>
     </b-pagination>
+
 
 <!--  sidebar  -->
     <div
