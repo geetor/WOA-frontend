@@ -22,8 +22,7 @@
             />
           </div>
           <v-select
-              v-model=" perPage
-            "
+              v-model="perPage"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="perPageOptions"
               :clearable="false"

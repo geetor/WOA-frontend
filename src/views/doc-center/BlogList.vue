@@ -12,9 +12,9 @@
 
       <b-row class="blog-list-wrapper">
 
-        <b-col class="col-5 offset-1 blog-list" >
+        <b-col class="col-6 blog-list" >
           <div class="news-title">
-            <span>公共文档</span>
+            <span class="doc-type">公共文档</span>
             <b-link class="query-more" :to="'/doc-center/category/public'">更多+</b-link>
           </div>
 
@@ -36,13 +36,13 @@
 
         </b-col>
 
-        <b-col cols class="r-side blog-list col-5">
-          <div class="news-title">
-            <span>部门文档</span>
-            <b-link class="query-more" :to="'/doc-center/category/department'">更多+</b-link>
+        <b-col class="r-side blog-list col-6">
+          <div class="news-title d-flex align-items-center">
+            <span class="doc-type mr-2">部门文档</span>
             <div id="dept-select">
               <v-select label="deptName" class="select-dept" v-model="selectedDept" :options="departments" placeholder="请选择要查询的部门" ></v-select>
             </div>
+            <b-link class="query-more" :to="'/doc-center/category/department'">更多+</b-link>
           </div>
           <ul v-if="departmentShowList.length > 0">
             <li v-for="(blog,index) in departmentShowList" :key="index" class="doc-item">
@@ -75,7 +75,7 @@
               class="rounded-0"
               v-for="(c_class,index) in classifications"
               :key="c_class"
-              :class="{'active-item':c_class==selectedClass}"
+              :class="{'active-item':c_class===selectedClass}"
               @click="updateSelect(c_class)"
           >
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
@@ -266,11 +266,14 @@ export default {
 
 .news-title{
   color: #1b2337;
-  font-weight: bold;
-  font-size: 24px;
   border-left: 5px solid #ddd;
   padding: 2px 8px;
   margin:8px 0;
+}
+
+.doc-type {
+  font-weight: bold;
+  font-size: 24px;
 }
 
 .news-date{
@@ -305,7 +308,7 @@ export default {
 .active-item{
   font-weight: bolder;
   color: #7ab8cc;
-  border-left: 3px solid #7ab8cc;
+  border-left: 2px solid #7ab8cc;
   border-radius: 0;
 }
 
@@ -317,5 +320,17 @@ export default {
 
 #dept-select .select-dept .vs__dropdown-menu{
   font-size: 14px;
+}
+
+.select-dept {
+  min-width: 200px;
+
+  ::v-deep .vs__selected-options {
+    flex-wrap: nowrap;
+  }
+
+  ::v-deep .vs__selected {
+    width: 100px;
+  }
 }
 </style>
