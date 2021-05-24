@@ -66,11 +66,11 @@
         <b-button class="btn-info" :to="{ name:'doc-center-edit' }">发布新公告</b-button>
       </div>
 
-      <div class="classification-sidebar" v-if="type == 'department'" id="subject-select">
+      <div class="classification-sidebar" id="subject-select">
         <b-list-group>
-          <b-list-group-item class="rounded-0" v-for="dept in departments" :key="dept.deptId" :class="{'active-item':selectedId==dept.deptId}">
+          <b-list-group-item class="rounded-0" v-for="subject in subjects" :key="subject" :class="{'active-item':selectedSubject==subject}">
             <feather-icon :icon="'AnchorIcon'" size="18" class="mr-75"/>
-            <a @click="updateSelect(dept.deptId)">{{dept.deptName}}</a>
+            <a @click="updateSelect(subject)">{{subject}}</a>
           </b-list-group-item>
         </b-list-group>
       </div>
@@ -87,7 +87,7 @@ import {
 } from 'bootstrap-vue'
 import ContentWithSidebar from '@core/layouts/components/content-with-sidebar/ContentWithSidebar.vue'
 import axios from '@/libs/axios'
-import DocList from './components/DocList'
+import DocList from './list-components/DocList'
 
 
 export default {
@@ -107,7 +107,8 @@ export default {
       rightSideList:[],
       eachColItemNumber:7,
       currentPage:1,
-      selectedId:0,
+      selectedSubject:0,
+      subjects:['全部文档','校办','团委','国务院','Test'],
     }
   },
   created() {
@@ -155,7 +156,6 @@ export default {
       //eachColItemNumber 乘2之后才是一个页面展示的数量
       let start = (newVal - 1) * this.eachColItemNumber * 2;
       let end = (start + 2 * this.eachColItemNumber) >= this.dataList.length ? this.dataList.length : (2 * this.eachColItemNumber + start);
-      console.log(end)
     }
   },
   methods:{
@@ -218,6 +218,7 @@ export default {
 
 .doc-type-title{
   padding-left: 40px;
+  font-weight: bolder;
 }
 
 </style>

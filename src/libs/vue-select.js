@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import vSelect from 'vue-select'
 
-// Set the components prop default to return our fresh components
+// Set the list-components prop default to return our fresh list-components
 vSelect.props.components.default = () => ({
   Deselect: {
     render: h => h('feather-icon', {

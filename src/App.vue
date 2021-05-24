@@ -79,7 +79,7 @@ export default {
     if (skin.value === 'dark') document.body.classList.add('dark-layout')
 
     // Provide toast for Composition API usage
-    // This for those apps/components which uses composition API
+    // This for those apps/list-components which uses composition API
     // Demos will still use Options API for ease
     provideToast({
       hideProgressBar: true,
