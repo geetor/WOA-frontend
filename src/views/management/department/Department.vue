@@ -1,20 +1,14 @@
 <template>
   <div style="height: inherit">
 
-    <!--DepartmentList-->
-    <div class="training-list">
-      <vue-perfect-scrollbar
-          :settings="perfectScrollbarSettings"
-          class="training-department-list scroll-area"
-      >
-        <department-list
-            ref="refDepartmentList"
-            :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
-            @edit-department="editDepartment"
-            @del-department="delDepartment"
-        />
-      </vue-perfect-scrollbar>
-    </div>
+    <!-- Department List -->
+    <department-list
+        ref="refDepartmentList"
+        :is-department-add-sidebar-active.sync="isDepartmentAddSidebarActive"
+        @edit-department="editDepartment"
+        @del-department="delDepartment"
+    />
+
     <!-- Add Handler -->
     <department-add-sidebar
         v-model="isDepartmentAddSidebarActive"
@@ -45,7 +39,6 @@ import {
 } from 'bootstrap-vue'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import DepartmentList from './DepartmentList'
 import DepartmentAddSidebar from './DepartmentAddSidebar.vue'
@@ -65,9 +58,6 @@ export default {
     BBadge,
     BAvatar,
 
-    // 3rd Party
-    VuePerfectScrollbar,
-
     // App SFC
     DepartmentList,
     DepartmentAddSidebar
@@ -82,10 +72,6 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(DEPARTMENT_MANAGE_STORE_MODULE_NAME)
     })
-
-    const perfectScrollbarSettings = {
-      maxScrollbarLength: 150
-    }
 
     const isDepartmentAddSidebarActive = ref(false)
     const toast = useToast()
@@ -219,13 +205,8 @@ export default {
       users,
 
       // UI
-      perfectScrollbarSettings,
       isDepartmentAddSidebarActive
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import "~@core/scss/base/pages/office-training.scss";
-</style>

@@ -9,7 +9,7 @@
     <div class="attendance-list">
       <vue-perfect-scrollbar
           :settings="perfectScrollbarSettings"
-          class="attendance-user-list scroll-area"
+          class="attendance-user-list"
       >
         <user-list
             ref="refUserList"

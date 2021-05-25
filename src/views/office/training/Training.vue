@@ -10,7 +10,7 @@
     <div class="training-list">
       <vue-perfect-scrollbar
           :settings="perfectScrollbarSettings"
-          class="training-user-list scroll-area"
+          class="training-user-list"
       >
         <user-list :mq-shall-show-left-sidebar.sync="mqShallShowLeftSidebar"/>
       </vue-perfect-scrollbar>

@@ -1,20 +1,14 @@
 <template>
   <div style="height: inherit">
 
-    <!--UserList-->
-    <div class="training-list">
-      <vue-perfect-scrollbar
-          :settings="perfectScrollbarSettings"
-          class="training-user-list scroll-area"
-      >
-        <user-list
-            ref="refUserList"
-            :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
-            @edit-user="editUser"
-            @del-user="delUser"
-        />
-      </vue-perfect-scrollbar>
-    </div>
+    <!-- User List -->
+    <user-list
+        ref="refUserList"
+        :is-user-add-sidebar-active.sync="isUserAddSidebarActive"
+        @edit-user="editUser"
+        @del-user="delUser"
+    />
+
     <!-- Add Handler -->
     <user-add-sidebar
         v-model="isUserAddSidebarActive"
@@ -46,7 +40,6 @@ import {
 } from 'bootstrap-vue'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import useStoreModule from './userStoreModule'
 
@@ -64,9 +57,6 @@ export default {
     BBadge,
     BAvatar,
 
-    // 3rd Party
-    VuePerfectScrollbar,
-
     // App SFC
     UserList,
     UserAddSidebar
@@ -81,10 +71,6 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(USER_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(USER_MANAGE_STORE_MODULE_NAME)
     })
-
-    const perfectScrollbarSettings = {
-      maxScrollbarLength: 150
-    }
 
     const isUserAddSidebarActive = ref(false)
 
@@ -132,7 +118,7 @@ export default {
                   title: '错误',
                   icon: 'AlertTriangleIcon',
                   variant: 'danger'
-                },
+                }
               },
               { position: 'bottom-right' })
         }
@@ -159,7 +145,7 @@ export default {
                   title: '错误',
                   icon: 'AlertTriangleIcon',
                   variant: 'danger'
-                },
+                }
               },
               { position: 'bottom-right' })
         }
@@ -193,7 +179,7 @@ export default {
                   title: '错误',
                   icon: 'AlertTriangleIcon',
                   variant: 'danger'
-                },
+                }
               },
               { position: 'bottom-right' })
         }
@@ -210,13 +196,8 @@ export default {
       refUserList,
 
       // UI
-      perfectScrollbarSettings,
       isUserAddSidebarActive
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import "~@core/scss/base/pages/office-training.scss";
-</style>

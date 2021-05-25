@@ -1,31 +1,26 @@
 <template>
   <div style="height: inherit">
 
-    <!--DocumentList-->
-    <div class="training-list">
-      <vue-perfect-scrollbar
-        :settings="perfectScrollbarSettings"
-        class="training-document-list scroll-area"
-      >
-        <document-list
-          ref="refDocumentList"
-          :is-document-add-sidebar-active.sync="isDocumentAddSidebarActive"
-          @edit-document="editDocument"
-          @del-document="delDocument"
-          @close-left-sidebar="mqShallShowLeftSidebar = false"
-        />
-      </vue-perfect-scrollbar>
-    </div>
+    <!-- Document List -->
+    <document-list
+        ref="refDocumentList"
+        :is-document-add-sidebar-active.sync="isDocumentAddSidebarActive"
+        @edit-document="editDocument"
+        @del-document="delDocument"
+        @close-left-sidebar="mqShallShowLeftSidebar = false"
+    />
+
     <!-- Add Handler -->
     <document-add-sidebar
-      v-model="isDocumentAddSidebarActive"
-      :add="add"
-      :allUsers="users"
-      :allDepts="departments"
-      :clear-add-data="clearAddData"
-      @ask-for-add="askForAdd"
-      @ask-for-edit="askForEdit"
+        v-model="isDocumentAddSidebarActive"
+        :add="add"
+        :allUsers="users"
+        :allDepts="departments"
+        :clear-add-data="clearAddData"
+        @ask-for-add="askForAdd"
+        @ask-for-edit="askForEdit"
     />
+
   </div>
 </template>
 
@@ -48,7 +43,6 @@ import {
 } from 'bootstrap-vue'
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import store from '@/store'
 import documentStoreModule from './documentStoreModule'
 
@@ -66,14 +60,11 @@ export default {
     BBadge,
     BAvatar,
 
-    // 3rd Party
-    VuePerfectScrollbar,
-
     // App SFC
     DocumentList,
     DocumentAddSidebar
   },
-  setup() {
+  setup () {
     const DOCUMENT_MANAGE_STORE_MODULE_NAME = 'manage-document'
 
     // Register module
@@ -83,10 +74,6 @@ export default {
     onUnmounted(() => {
       if (store.hasModule(DOCUMENT_MANAGE_STORE_MODULE_NAME)) store.unregisterModule(DOCUMENT_MANAGE_STORE_MODULE_NAME)
     })
-
-    const perfectScrollbarSettings = {
-      maxScrollbarLength: 150
-    }
 
     const isDocumentAddSidebarActive = ref(false)
 
@@ -117,56 +104,56 @@ export default {
 
     const askForAdd = val => {
       store.dispatch('manage-document/askForAdd', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `新增成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDocumentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `新增成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDocumentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger',
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const askForEdit = val => {
       store.dispatch('manage-document/askForEdit', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `修改成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDocumentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `修改成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDocumentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
 
     const editDocument = val => {
@@ -178,54 +165,54 @@ export default {
 
     const delDocument = val => {
       store.dispatch('manage-document/askForDel', val)
-        .then((response) => {
-          if (response.status === 201) {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: `删除成功`,
-                icon: 'CoffeeIcon',
-                variant: 'success'
-              }
-            })
-            refetchDocumentList()
-          } else {
-            toast({
-              component: ToastificationContent,
-              props: {
-                title: '错误',
-                icon: 'AlertTriangleIcon',
-                variant: 'danger',
+      .then((response) => {
+        if (response.status === 201) {
+          toast({
+            component: ToastificationContent,
+            props: {
+              title: `删除成功`,
+              icon: 'CoffeeIcon',
+              variant: 'success'
+            }
+          })
+          refetchDocumentList()
+        } else {
+          toast({
+                component: ToastificationContent,
+                props: {
+                  title: '错误',
+                  icon: 'AlertTriangleIcon',
+                  variant: 'danger'
+                }
               },
-            },
               { position: 'bottom-right' })
-          }
-        })
+        }
+      })
     }
     const users = ref([])
     const fetchUsers = () => {
       store.dispatch('manage-document/fetchUsers')
-        .then(response => {
-          users.value = response.data.data.users.map(item => {
-            return {
-              text: item.userName,
-              value: item.userId
-            }
-          })
+      .then(response => {
+        users.value = response.data.data.users.map(item => {
+          return {
+            text: item.userName,
+            value: item.userId
+          }
         })
+      })
     }
     fetchUsers()
     const departments = ref([])
     const fetchDepartments = () => {
       store.dispatch('manage-document/fetchDepartments')
-        .then(response => {
-          departments.value = response.data.data.depts.map(item => {
-            return {
-              text: item.deptName,
-              value: item.deptId
-            }
-          })
+      .then(response => {
+        departments.value = response.data.data.depts.map(item => {
+          return {
+            text: item.deptName,
+            value: item.deptId
+          }
         })
+      })
     }
     fetchDepartments()
 
@@ -240,14 +227,10 @@ export default {
       refDocumentList,
       users,
       departments,
+
       // UI
-      perfectScrollbarSettings,
       isDocumentAddSidebarActive
     }
   }
 }
 </script>
-
-<style lang="scss">
-@import "~@core/scss/base/pages/office-training.scss";
-</style>
